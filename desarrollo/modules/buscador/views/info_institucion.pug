@@ -1,0 +1,152 @@
+doctype html
+html(lang="es")
+    
+    head
+        meta(charset="utf-8")
+        meta(name="description", content="Herramienta de visualización, gestión y análisis de información georreferenciada relativa al sistema educativo a nivel local, regional y provincial")
+        meta(name="author", content="Dirección de Estadística y Evaluación Educativa del Ministerio de Educación del Gobierno del Chubut")
+        meta(name="viewport", content="width=device-width, initial-scale=1")
+        link(rel="stylesheet", type="text/css", href="css/leaflet.css")
+        link(rel="stylesheet", type="text/css", href="css/mapa.css")
+        link(rel="stylesheet", type="text/css", href="css/leaflet.legend.css")
+        link(rel="stylesheet", type="text/css", href="css/bootstrap.min.css")
+        link(rel="stylesheet", type="text/css", href="css/Control.FullScreen.css")
+        link(rel="stylesheet", type="text/css", href="css/easy-button.css")
+        link(rel="stylesheet", type="text/css", href="css/iconLayers.css")
+        link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js")
+        script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous")
+        script(src="/js/xlsx.full.min.js")
+        script(src="/js/filesaver.js")
+        script(src="/js/leaflet.js")
+        script(src="/js/leaflet.browser.print.js")
+        script(src="/utilities/js/info_loader.js")
+        
+
+
+    body
+        <div id="InfoAdicional">
+            <div class="container">
+                <h4 id="fnainfoadicional" class="m-3" style="color:#0d6efd"></h4>
+                <div class="row ">
+                    h1#cabecera ESTABLECIMIENTO EDUCATIVO N°: 
+                    <div class="col m-2 ">
+                        <div class="card h-100">
+                            <div class="card-header card-header-custom">
+                                <div class="d-flex">
+                                    <div>Datos Institucionales</div>
+                                    <div class="ms-auto"><i class="bi bi-pin-angle"></i></div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <label for="cueanexoinfoadicional" class="text-black fw-bold" >CUE-Anexo:</label>
+                                <p id="cueanexoinfoadicional" class="card-text card-text-custom"></p>
+                                <label for="funinfoadicional" class="text-black fw-bold" >Funcion:</label>
+                                <p id="funinfoadicional" class="card-text card-text-custom"></p>
+                                <label for="Regioninfoadicional" class="text-black fw-bold" >Región:</label>
+                                <p id="Regioninfoadicional" class="card-text card-text-custom"></p>
+                                <label for="departamentoinfoadicional" class="text-black fw-bold" >Departamento:</label>
+                                <p id="departamentoinfoadicional" class="card-text card-text-custom"></p>
+                                <label for="Localidadinfoadicional" class="text-black fw-bold" >Localidad:</label>
+                                <p id="Localidadinfoadicional" class="card-text card-text-custom"></p>
+                                <label for="calleinfoadicional" class="text-black fw-bold" >Domicilio:</label>
+                                <p id="calleinfoadicional" class="card-text card-text-custom"></p>
+                                <label for="cod_postalinfoadicional" class="text-black fw-bold" >Codigo postal:</label>
+                                <p id="cod_postalinfoadicional" class="card-text card-text-custom"></p>
+                                <label for="amginfoadicional" class="text-black fw-bold" >Ambito:</label>
+                                <p id="amginfoadicional" class="card-text card-text-custom"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col m-2">
+                        <div class="card h-100">
+                            <div class="card-header card-header-custom">
+                                <div class="d-flex">
+                                    <div>Datos de Contacto</div>
+                                    <div class="ms-auto"><i class="bi bi-chat-square-text"></i></div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <label for="telefonoinfoadicional" class="text-black fw-bold" >Telefono del Establecimiento:</label>
+                                <p id="telefonoinfoadicional" class="card-text card-text-custom"></p>
+                                <label for="emailinfoadicional" class="text-black fw-bold" >Email:</label>
+                                <p id="emailinfoadicional" class="card-text card-text-custom"></p>
+                                <label for="sitio_webinfoadicional" class="text-black fw-bold" >Sitio Web:</label>
+                                <p id="sitio_webinfoadicional" class="card-text card-text-custom"></p>
+                                <label for="resp_respnsableinfoadicional" class="text-black fw-bold" >Director:</label>
+                                <p id="resp_respnsableinfoadicional" class="card-text card-text-custom"></p>
+                                <label for="resp_telresponsableinfoadicional" class="text-black fw-bold" >Telefono del Director:</label>
+                                <p id="resp_telresponsableinfoadicional" class="card-text card-text-custom"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col m-2">
+                        <div class="h-100">
+                            <div class="card">
+                                <div class="card-header card-header-custom">
+                                    <div class="d-flex">
+                                        <div>Oferta Educativa</div>
+                                        <div class="ms-auto"><i class="bi bi-pencil-square"></i></div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <p id="Modalidadinfoadicional" class="card-text card-text-custom"></p>
+                                    <p id="Nivelesinfoadicional" class="card-text card-text-custom"></p>
+                                    <p id="Ofertainfoadicional" class="card-text card-text-custom"></p>
+                                </div>
+                            </div>
+                            <div class="card mt-2">
+                                <div class="card-header card-header-custom">
+                                    <div class="d-flex">
+                                        <div>Funcionamiento</div>
+                                        <div class="ms-auto"><i class="bi bi-stopwatch"></i></div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <p id="jornadainfoadicional" class="card-text card-text-custom"><b>Jornada extendida/completa: </b>No se registra</p>
+                                    <p id="turnoinfoadicional" class="card-text card-text-custom"><b>Turno: </b>No se registra</p>
+                                    <p id="gesinfoadicional" class="card-text card-text-custom"></p>
+                                    <p id="Dependenciinfoadicional" class="card-text card-text-custom"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col m-2">
+                        <div class="card h-100">
+                            <div class="card-header card-header-custom">
+                                <div class="d-flex">
+                                    <div>Equipamiento, Tecnología y Pedagogía</div>
+                                    <div class="ms-auto"><i class="bi bi-building"></i></div>
+                                </div> 
+                            </div>
+                            <div class="card-body">
+                                <p id="bibliotecainfoadicional" class="card-text card-text-custom"><b>Biblioteca escolar/Espacio físico: </b>No se registra </p>
+                                <p id="laboratorioinfoadicional" class="card-text card-text-custom"><b>Laboratorio de informática/Espacio físico: </b>No se registra </p>
+                                <p id="internetinfoadicional" class="card-text card-text-custom"><b>Conexión a internet/Tipo de conexión: </b>No se registra </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col m-2">
+                        <div class="card h-100">
+                            <div class="card-header card-header-custom">
+                                <div class="d-flex">
+                                    <div>Infraestructura</div>
+                                    <div class="ms-auto"><i class="bi bi-tools"></i></div>
+                                </div> 
+                            </div>
+                            <div class="card-body">	
+                                <p id="aguainfoadicional" class="card-text card-text-custom"><b>Agua potable: </b>No se registra </p>
+                                <p id="energiainfoadicional" class="card-text card-text-custom"><b>Energía eléctrica: </b>No se registra</p>
+                                <p id="fuentenergiainfoadicional" class="card-text card-text-custom"><b>Fuentes de energía eléctrica: </b>No se registra</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
+                    <button type="button" class="btn btn-outline-info btn-sm" id="exportarinfoadicional" >Exportar a excel</button>
+                    <a class='btn btn-outline-primary btn-sm' onclick='nomostrarInfoAdicional()'>Volver al mapa</a>
+                </div>
+            </div>
+        </div>

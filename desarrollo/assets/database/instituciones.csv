@@ -1,0 +1,849 @@
+ id_departamento;id_localidad;numero;cue;anexo;funcion;region;domicilio;cp;ambito;web;email_inst;nombre;tel
+14;81;1;2600398;0;Activo;6;Hipólito Irigoyen 748, Centro ;(U9000);Urbano;No posee;ep1patagoniaargentina@gmail.com;Patagonia Argentina;4464038
+14;81;2;2600006;0;Activo;6;Huergo 1545, Pietrobelli ;(U9000);Urbano;No posee;direscuela2@yahoo.com.ar;FRANCISCO PIETROBELLI;4465172
+11;66;3;2600413;0;Activo;4;Alfredo García 1345, Los Teros ;(U9100);Rural Disperso;No posee;escuela3tw@gmail.com;Almirante Marcos A. Zar;4443800
+11;63;4;2600309;0;Activo;4;Alejandro Maíz 150, Centro ;(U9103);Urbano;No posee;escuelacuatro_rawson@yahoo.com.ar;General José De San Martín;4481986
+11;66;5;2600057;0;Activo;4;28 de Julio 19, Centro ;(U9100);Urbano;No posee;trencito403@gmail.com;Domingo Faustino Sarmiento;4427539
+8;58;6;2600251;0;Activo;4;Ruta Provincial Nº 25 ;(U9207);Rural Disperso;No posee;docentesescuela6@hotmail.com;Simon De Alcazaba Y Sotomayor;4499002
+3;27;8;2600363;0;Activo;3;Pasteur 1230, Buenos Aires ;(U9200);Urbano;No posee;escuela844@gmail.com;Manuel Belgrano;450008
+15;11;9;2600124;0;Activo;1;Rosa Mosqueta 443, Zona del Lago ;(U9211);Rural Disperso;No posee;maitenaescuela9@gmail.com;Mariano Moreno;499064
+2;21;10;2600357;0;Activo;3;Escuela N° 10 ;(U9201);Rural Aglomerado;No posee;escuela10.carrenleufu@gmail.com;Martín Miguel De Güemes;490746
+14;83;12;2600340;0;Activo;6;Fragata Hércules 29;(U9001);Urbano;No posee;escuela12rt@gmail.com;Almirante Guillermo Brown;4451101
+14;81;13;2600035;0;Activo;6;Artigas 650, José Fuchs ;(U9000);Urbano;No posee;escuela13.chubut@gmail.com;Libertador General José De San Martín;4462561
+13;77;14;2600352;0;Activo;5;Ruta Provincial N° 20;(U9020);Rural Disperso;No posee;esc.14.piopio.sto@gmail.com;Escuela Provincial Nº 14;4896729
+8;59;15;2600295;0;Activo;4;Avda. Strobel;(U9207);Rural Aglomerado;No posee;escuela15pasodeindios@gmail.com;Provincia De La Pampa;4497265
+7;44;16;2600319;0;Activo;4;Justo José de Urquiza 42;(U9111);Rural Aglomerado;No posee;esc16chubut@yahoo.com.ar;Justo José De Urquiza;4963096
+2;40;17;2600029;0;Activo;3;Avda. San Martín;(U9201);Rural Aglomerado;No posee;sin informacion;Padre José Parolini;493050
+11;63;20;2600142;0;Activo;4;Avda. 25 de Mayo 55;(U9103);Urbano;No posee;esc20rw@hotmail.com;Maestro Ricardo J. Berwyn;4481688
+11;66;21;2600186;0;Activo;4;Colombia , Centro ;(U9100);Urbano;No posee;escuela.21@hotmail.com.ar;Lewis Jones;4427662
+15;8;22;2600161;0;Activo;1;Pasaje Santa Cruz;(U9210);Urbano;No posee;brunothomae@gmail.com;Bruno Thomae;495137
+14;81;23;2600315;0;Activo;6;Juan José Paso 1449, Próspero Palazzo ;(U9000);Urbano;No posee;escuela23@hotmail.com.ar;Dr. Carlos Madariaga;4548229
+3;27;24;2600185;0;Activo;3;Avda. Presidente Perón 1351, Bella Vista ;(U9200);Urbano;No posee;escuela24esquel@hotmail.com;Coronel Luis Jorge Fontana;450003
+3;32;25;2600183;0;Activo;3;Primeros Pobladores;(U9201);Rural Disperso;No posee;escuela25futaleufquen@yahoo.com.ar;Delia Medici De Chayep;471042
+14;81;26;2600007;0;Activo;6;Avda. Rivadavia 2190, Jorge Newbery ;(U9000);Urbano;No posee;escuela26institucional@gmail.com;Ejército Argentino;4462534
+14;81;27;2600370;0;Activo;6;Bogotá 845, Laprida ;(U9000);Urbano;No posee;escuela27_frayluisbeltran@yahoo.com.ar;Fray Luis Beltran;4560069
+13;79;28;2600280;0;Activo;5;Alberdi 750, Centro ;(U9020);Urbano;No posee;independenciaescuela@yahoo.com;Independencia;4893187
+6;54;30;2600091;0;Activo;4;Avda. Yanquetrùz;(U9121);Rural Aglomerado;No posee;escuela30gastre@hotmail.com;Islas Malvinas;4490520
+8;45;31;2600253;0;Activo;4;Cerro Cóndor- A 58 Km.a Paso de Indios por Ruta Provincial Nº12 ;(U9207);Rural Disperso;No posee;escuela57riflerosdelchubut@hotmail.com;Rifleros Del Chubut;4490011
+14;81;32;2600063;0;Activo;6;Canadá 2650, Pueyrredón ;(U9000);Urbano;No posee;escuela32chubut@gmail.com;Repùblica Argentina;4483860/ 4486788
+9;53;33;2600133;0;Activo;4;San Martín;(U9121);Rural Aglomerado;No posee;escuela33gangan@live.com.ar;Maestros Argentinos;4490406- 4490458
+14;81;34;2600127;0;Activo;6;Granaderos , La Floresta ;(U9000);Urbano;No posee;escuela34comodoro@gmail.com;Ciudad De Comodoro Rivadavia;4462116
+4;29;35;2600188;0;Activo;3;Avda. Julio Argentino Roca;(U9223);Rural Aglomerado;No posee;escuela35gdorcosta@hotmail.com;Provincia De Corrientes;491018
+12;78;36;2600224;0;Activo;5;Sarmiento 767, Centro ;(U9030);Rural Aglomerado;No posee;escuela36riomayo@gmail.com;Maestro Manuel A. Reyes Ayllán;420302
+3;41;37;2600115;0;Activo;3;Avda. San Martín , 25 de Noviembre ;(U9203);Rural Aglomerado;No posee;escuela37jc@gmail.com;Pedro Luis Sánchez;480175
+15;4;38;2600084;0;Activo;1;Avda. del Libertador;(U9211);Rural Aglomerado;No posee;escuela38cushamen@gmail.com;Policía Federal Argentina;470751
+14;81;39;2600392;0;Activo;6;Santa Cruz 370, 9 de Julio ;(U9000);Urbano;No posee;escuelaprov39@live.com.ar;Sgto. Juan Bautista Cabral;4461054
+11;66;40;2600169;0;Activo;4;Corrientes , Malvinas Argentinas ;(U9100);Urbano;No posee;sin informacion;Eluned Morgan;4420649
+15;13;41;2600012;0;Activo;1;Camino de la Cruz;(U9211);Rural Aglomerado;No posee;escuelalasgolondrinas41@gmail.com;Las Golondrinas;4473106/ 4471859
+1;17;42;2600395;0;Activo;2;25 de Mayo 1090, Villa del Parque ;(U9120);Urbano;No posee;escuela42luispb@gmail.com;Comandante Luis Piedrabuena;4451276
+14;81;43;2600376;0;Activo;6;Pampa del Castillo 250, Belgrano Viejo ;(U9005);Urbano;No posee;ingenieroluis43@hotmail.com;Ingeniero Luis Augusto Huergo;4550690
+14;81;44;2600206;0;Activo;6;Fortín Chacabuco- Km.11 ;(U9000);Urbano;No posee;escuela44km11.cr@gmail.com;Coronel Félix De Olazábal;4548865
+1;17;46;2600201;0;Activo;2;Juan Muzzio 70;(U9120);Urbano;No posee;sin informacion;Territorio Nacional De La Tierra del Fuego e Islas Del Atlántico Sud;4451523
+11;63;47;2600256;0;Activo;4;O´Donnell , Área 12 ;(U9103);Urbano;No posee;escu47rawson@gmail.com;Provincia De Santa Fe;4481920
+1;17;49;2600326;0;Activo;2;Comodoro Martín Rivadavia , Julio Argentino Roca ;(U9120);Urbano;No posee;escuelafpm@gmail.com;Francisco Pascasio Moreno;4451070
+11;66;50;2600401;0;Activo;4;Simón de Alcazaba , Corradi ;(U9100);Urbano;No posee;escuela50_tw@yahoo.com.ar;Capitán Antonio Oneto;4421913
+4;39;51;2600191;0;Activo;3;Avda. San Martín;(U9225);Rural Aglomerado;No posee;escuelariopico@hotmail.com;Maestra Muriel Inés Rivas De Acevedo;492090
+14;81;52;2600045;0;Activo;6;Av. Kennedy 1800, Ceferino Namucurá ;(U9000);Urbano;No posee;escprov52@gmail.com;Ciudad De Buenos Aires;4462627
+11;66;53;2600145;0;Activo;4;Pecoraro 1794, San José ;(U9100);Urbano;No posee;esc53_re@hotmail.com;Reverendo Padre Raúl Entraigas;4427673
+3;27;54;2600151;0;Activo;3;Almafuerte 1557, Jorge Newbery ;(U9200);Urbano;No posee;escuela54esquel@gmail.com;Nicolás Avellaneda;450609
+11;66;55;2600411;0;Activo;4;Chacra 193A -Ex Ruta Nacional N° 25;(U9100);Rural Disperso;No posee;esc55treorcky@hotmail.com;Teniente De Fragata Daniel Enrique Miguel;154592409
+7;51;56;2600263;0;Activo;4;10 de Julio;(U9101);Rural Aglomerado;No posee;esc56diqueameghino@hotmail.com;Florentino Ameghino;4490302
+3;41;57;2600116;0;Activo;3;Molino Viejo;(U9203);Urbano;No posee;escuela57riflerosdelchubut@hotmail.com;Rifleros Del Chubut;480681
+15;6;58;2600013;0;Activo;1;Ruta Provincial Nº 70- Km. 8;(U9211);Rural Disperso;No posee;escuela58elcoihue@gmail.com;Santa Rosa De Lima;499167
+15;10;59;2600014;0;Activo;1;Ruta Provincial Nº 35 , Aldea Escolar- Escuela Nº59 ;(U9711);Rural Disperso;No posee;fofocahuel59@gmail.com;Padre Mario Luis Migone;470901-470901
+15;16;60;2600313;0;Activo;1;Ruta Provincial Nº 4 y Camino Vecinal;(U9211);Rural Disperso;No posee;escuela60ranquilhuao@gmail.com;Ranquil Huao;478100
+5;52;61;2600293;0;Activo;4;Ruta Provincial Nº 7-Chacra N° 188;(U9105);Rural Disperso;No posee;escuela61.bgchubut@gmail.com;Abraham Matthews;678479
+6;68;62;2600092;0;Activo;4;Ruta Provincial Nº 50- a 32 km. de Lagunita Salada y a 56 Km. de El Escorial;(U9121);Rural Disperso;No posee;sin informacion;Nahuelquir Chiquichano;4499500
+9;46;63;2600095;0;Activo;4;Ruta Provincial Nº 11;(U9121);Rural Disperso;No posee;esc63chacay@gmail.com;General Juan Galo Lavalle;4490150
+11;66;64;2600329;0;Activo;4;Chacra N° 140;(U9100);Rural Disperso;No posee;sin informacion;Loma Grande;4435108
+11;66;66;2600330;0;Activo;4;Ruta Provincial Nº 7 y Camino Vecinal;(U9100);Rural Disperso;No posee;escuela66@hotmail.com.ar;John Carrog Jones;154678057
+15;15;67;2600200;0;Activo;1;Ruta Provincial N° 35;(U9211);Rural Disperso;No posee;dirección67sur@gmail.com;Escuela Nº 67;154419893
+4;29;68;2600187;0;Activo;3;Florentino Ameghino;(U9223);;No posee;escuelasesentayocho@yahoo.com.ar;Rosario Rodríguez De Magallanes;491059
+15;4;69;2600199;0;Activo;1;ruta 4;(U9211);Rural Disperso;No posee;sin informacion;MiguelL Ñamcuche Nahuelquir;15549496
+12;75;70;2600217;0;Activo;5;Avda. San Martín;(U9031);Rural Disperso;No posee;escuela70.facundo@hotmail.com - facundoescuela@gmail.com;Capitán Carlos María Moyano;490311
+12;70;71;2600226;0;Activo;5;Ruta Provincial N° 74;(U9037);Rural Disperso;No posee;escuela38cushamen@gmail.com;Policía Federal Argentina;490157
+12;78;72;2600225;0;Activo;5;25 de Mayo 849, Centro ;(U9030);Urbano;No posee;escuelan72@gmail.com;Constancio C. Vigil;420473
+12;74;73;2600227;0;Activo;5;Escalada;(U9035);Rural Disperso;No posee;escuela73ricardorojas@gmail.com;Policía Del Chubut;490236-490251
+15;30;74;2600420;0;Activo;1;Doctor Benito Fernández , Matadero ;(U9201);Rural Aglomerado;No posee;escuela74gualjaina@yahoo.com.ar;Wolf Schcolnik;479154
+15;5;75;2600337;0;Activo;1;Ruta Provincial Nº 71;(U9217);Rural Disperso;No posee;escvicentecalderon@gmail.com;Vicente Calderón;498146
+3;27;76;2600175;0;Activo;3;Avda. Alvear 108;(U9200);Urbano;No posee;escuela76esquel@hotmail.es;María Luisa Pieruzzini De Morelli;451234
+10;56;77;2600254;0;Activo;4;Avda. San Martn;(U9101);Rural Disperso;No posee;sin informacion;Francisco Narciso Laprida;4490839
+11;66;78;2600381;0;Activo;4;Oris de Roa;(U9100);Rural Disperso;No posee;uem78trelew@hotmail.com;Puente Hendre;154677358
+2;23;79;2600031;0;Activo;3;Ruta Provincial N° 62;(U9201);Rural Disperso;No posee;escuela79.colanconhué@chubut.gov.ar;31 De Octubre;470540
+15;2;80;2600338;0;Activo;1;Callejon Mosqueta 1007, Zona de Chacra ;(U9217);Rural Aglomerado;No posee;escuela80@gmail.com;Escuela Nº 80;498044
+15;7;81;2600387;0;Activo;1;Ruta Nacional N°40- KM 1898- El Pedregoso;(U9211);Rural Aglomerado;No posee;escuela81elhoyo@gmail.com;Escuela Nº 81;471599
+13;79;82;2600277;0;Activo;5;Perito Moreno 435, Centro ;(U9020);Urbano;No posee;escuela82.sarmiento@hotmail.com;Juan María Gutierrez;4893030
+14;81;83;2600385;0;Activo;6;Rivadavia 751, Centro ;(U9000);Urbano;No posee;comodoro_escuela83@hotmail.com;Tte. Gral. Julio A. Roca;4464798
+1;17;84;2600267;0;Activo;2;Sarmiento 26;(U9120);Urbano;No posee;escuela844@gmail.com;Manuel Belgrano;4451815
+11;66;85;2600139;0;Activo;4;Martín Fierro 51, Padre Juan Muzzio ;(U9100);Urbano;No posee;escuela85leonardodavinci@hotmail.com;Leonardo Da Vinci;4427562
+1;18;87;2600333;0;Activo;2;Avda. Las Ballenas 69;(U9121);Rural Aglomerado;No posee;escuela87chubut@gmail.com;Comodoro Luís Py;4495022
+4;31;88;2600353;0;Activo;3;Sarmiento 57;(U9220);Rural Aglomerado;No posee;escuela882013@yahoo.com.ar;Escuela Nº 88;496002
+15;9;89;2600047;0;Activo;1;Avda. Los Cóndores;(U9211);Rural Aglomerado;No posee;escuela89epuyen@gmail.com;José María Serrano;499063
+15;14;90;2600015;0;Activo;1;Ex Ruta Provincial Nº 40;(U9213);Rural Disperso;No posee;escuelaleleque90@gmail.com;Escuela Nº 90;
+14;81;91;2600375;0;Activo;6;ARGELINO SULUAGA , Sarmiento ;(U9000);Urbano;No posee;esc91_vallec@yahoo.com.ar;Gabina Del Carmen Suarez De Magallanes;4557018
+9;64;92;2600097;0;Activo;4;Ruta provincial Nº 4- 15 Km. por Acceso Vecinal- Aldea Sepaucal;(U9121);Rural Disperso;No posee;sin informacion;Pichi Che Ruka;4499220
+15;84;93;2600068;0;Activo;1;Ruta Provincial Nº 70 a 5 Km. de El Maitén , Buenos Aires Chico ;(U9210);Rural;No posee;escuela93bsaschico@gmail.com;Lucio V. Mansilla;495395
+12;76;94;2600228;0;Activo;5;José Manuel Quilchamal;(U9039);Rural Disperso;No posee;esc.942018@gmail.com;Tte. Benjamín Matienzo;490435
+9;65;95;2600096;0;Activo;4;San Martín;(U9121);Rural Aglomerado;No posee;escuela95telsen@hotmail.com;Rodolfo Ragucci;4499344
+3;20;96;2600076;0;Activo;3;González;(U9203);Rural Aglomerado;No posee;escuela96@yahoo.com.ar;Los Rápidos;478301
+4;28;97;2600118;0;Activo;3;Los Pioneros;(U9225);Rural Disperso;No posee;97escuela@gmail.com;Advertano Lucio Castro;479400
+3;34;98;2600364;0;Activo;3;;(U9203);Rural Disperso;No posee;escuelaloscipreses@gmail.com;Ingeniero Emilio Frey;479702
+15;26;99;2600174;0;Activo;1;próximo a Ruta Provincial Nº 12- Cruzando el Río Lepá ;(U9201);Rural Disperso;No posee;escuela99_lepa@hotmail.com;Manuel Y Zenón Antieco;479143
+5;52;100;2600248;0;Activo;4;Eugenio Tello 84;(U9105);Urbano;No posee;esc100bm@hotmail.com;Bartolomé Mitre;4491012
+5;48;101;2600235;0;Activo;4;Rivadavia 25;(U9107);Urbano;No posee;sin informacion;Bernardino Rivadavia;4492017
+13;72;102;2600218;0;Activo;5;San Martín;(U9023);Rural Aglomerado;No posee;escuela102.buenpastoregiov@gmail.com;Escuela Nº 102;470301
+15;2;103;2600245;0;Activo;1;Ruta Provincial Nº 71;(U9217);Rural Aglomerado;No posee;escuelacientotres@gmail.com;Gauchos De Güemes;478801
+14;81;104;2600207;0;Activo;6;Punta Novales 450, Caleta Córdoba ;(U9003);Urbano;Uem Francisco Segui (facebook);escuelan104cc@hotmail.com;FRANCISCO JOSÉ SEGUÍ;4590142
+14;81;105;2600034;0;Activo;6;Jornada 2326, Roca ;(U9000);Urbano;No posee;escuela105comodoro@hotmail.com;BANDERA NACIONAL;4474067
+12;71;106;2600316;0;Activo;5;Víctoria Gutierrez;(U9033);Rural Aglomerado;No posee;escuela106senguer@hotmail.com;CIUDAD DE ROSARIO;497002
+3;35;107;2600026;0;Activo;3;Ruta Nacional Nº 40- a 20 km. de Esquel;(U9200);Rural Disperso;No posee;escuela107np@gmail.com;ISABEL NAHUELPAN;15650350
+15;12;108;2600246;0;Activo;1;Remigio Nogués , Planta Urbana ;(U9211);Urbano;https://www.facebook.com/Escuela-108-156074145096316/;108portaldelosandes@gmail.com;PORTAL DE LOS ANDES;4499013
+15;12;109;2600247;0;Activo;1;Ruta Provincial N° 16;(U9211);Rural Aglomerado;No posee;escuela109entrerios@gmail.com;ENTRE RÍOS;4499050
+1;17;110;2600024;0;Activo;2;Avda. Gales 1050, Padilla ;(U9120);Urbano;http://facebook.com/escuela110/;miescuelita110@hotmail.com.ar;JOSÉ MANUEL ESTRADA;4451200
+14;81;111;2600406;0;Activo;6;Margarita Galetto de Abad 351, Presidente Ortiz- Km. 5 ;(U9000);Urbano;No posee;direccionmarargentino@gmail.com;MAR ARGENTINO;4558014
+3;27;112;2600075;0;Activo;3;Almafuerte 621, Ceferino Namucurá ;(U9200);Urbano;No posee;escuela112.esquel@gmail.com;ALEJANDRO ABEL CONESA;451140
+3;22;113;2600361;0;Activo;3;Próximo a Ruta Provincial Nº 17 ;(U9201);Rural Disperso;No posee;escuela113cerrocentinela@gmail.com;ANTONIO ÑANCULEF;494149
+3;33;114;2600359;0;Activo;3;;(U9203);Rural Disperso;No posee;escuela114@yahoo.com.ar;MANUEL MILLAGUALA;479301
+14;81;115;2600211;0;Activo;6;Lago Argentino 445, Diadema Argentina ;(U9009);Urbano;No posee;sin informacion;13 DE DICIEMBRE;4843098
+6;55;117;2600093;0;Activo;4;Comparte edificio con EAS Nº 191 ;(U9121);Rural Disperso;No posee;escuelalagunita117@hotmail.com;MAESTRO RURAL CESAR A. RUBIO;4490720
+10;50;118;2600252;0;Activo;4;Los Tamariscos;(U9101);Rural Disperso;No posee;elmirasol.escuela@gmail.com;CANAL DE BEAGLE;4490930
+14;81;119;2600286;0;Activo;6;San Martín 1451, Centro ;(U9000);Urbano;No posee;escuela119nicolasavellaneda@hotmail.com;NICOLAS AVELLANEDA;4462514
+15;2;121;2600106;0;Activo;1;Ruta Provincial Nº 15- Km. 29;(U9217);Rural Disperso;No posee;escuela121elcajon@gmail.com;ESCUELA Nº 121;644026
+11;66;122;2600122;0;Activo;4;Lewis Jones 412, Alberdi ;(U9100);Urbano;No posee;escuela122_tw@yahoo.com.ar;JUAN BAUTISTA ALBERDI;4421022
+11;66;123;2600146;0;Activo;4;Edison 385, Democracia Argentina ;(U9100);Urbano;No posee;escuelatw123@gmail.com;CTE. LUIS JORGE FONTANA;4427378
+1;17;124;2600193;0;Activo;2;Domecq García 20;(U9120);Urbano;No posee;escuela.tomasespora@gmail.com;TOMÁS ESPORA;451919
+5;52;125;2600236;0;Activo;4;Ruta Provincial Nº 7;(U9105);Rural Disperso;No posee;escuela.sanjuanbosco@gmail.com;SAN JUAN BOSCO;4492205
+14;81;126;2600272;0;Activo;6;Avda. Alejandro Maíz , Don Bosco- Km. 8 ;(U9003);Urbano;No posee;escuela126@yahoo.com.ar;A.R.A. PUNTA MEDANOS;4535655
+12;69;127;2600231;0;Activo;5;Escuela Nº 127 ;(U9033);Rural Disperso;No posee;escuelaapeleg@gmail.com;PAULINO LUIS BARZOLA;497176
+6;43;128;2600094;0;Activo;4;ALDEA ESCOLAR BLANCUNTRE ;(U9121);Rural Disperso;No posee;escuela128_albergue5001@hotmail.com;ESCUELA Nº 128;4499810
+2;19;129;2600072;0;Activo;3;Mariano Epulef;(U9201);Rural Disperso;No posee;sin informacion;DOS LAGUNAS;490141
+5;52;130;2600305;0;Activo;4;chacra Nº 204 B- Ruta Provincial Nº 9;(U9105);Rural Aglomerado;No posee;escuela130angostura@yahoo.com.ar/escuela130angostura@hotmail.com;ESCUELA Nº 130;4491528/4264375
+15;1;132;2600163;0;Activo;1;Ruta provincial 45 , PARQUE INDUSTRIAL ;(U9211);Rural Aglomerado;No posee;escuela132cr@gamil.com;CENTENARIO DE LAS MISIONES SALESIANAS;4499036
+14;81;133;2600345;0;Activo;6;Dorrego 1620, Loma ;(U9000);Urbano;No posee;escuelanumero133@hotmail.com;ANTÁRTIDA ARGENTINA;4462364
+2;36;134;2600171;0;Activo;3;Ruta Provincial N° 12;(U9201);Rural Disperso;No posee;sin informacion;MARCELO ELISEO DUFLÓS;479937
+13;73;135;2600527;0;Activo;5;Ruta Provincial N° 20;(U9020);Rural Aglomerado;No posee;escuela135josefa@gmail.com;SAN IGNACIO DE LOYOLA;4898701
+15;25;137;2600172;0;Activo;1;Costa del Chubut- Margen derecho del rio a 18 Km. de Gauljaina ;(U9201);Rural Disperso;No posee;escuela137costadelchubut@hotmail.com.ar;ISABEL K. DE STAUDT;470620
+11;66;138;2600009;0;Activo;4;Juan Manuel de Rosas 1175, Los Olmos ;(U9100);Urbano;No posee;sin informacion;NICOLÁS ORTIZ;4421115
+5;42;139;2600306;0;Activo;4;Ruta Provincial N°10 , Chacra N° 339 ;(U9107);Rural Aglomerado;No posee;escuelachacra139@gmail.com;VALLE DE INMIGRANTES;4492235
+5;42;140;2600262;0;Activo;4;Calle Vecinal , Chacra N° 332 ;(U9107);Rural Disperso;No posee;escuelaprov140@gmail.com;MICHAEL DAVIES JONES;154642263
+14;81;143;2600085;0;Activo;6;San José de Jachel 950, Pueyrredón ;(U9000);Urbano;No posee;sin informacion;PETRÓLEO ARGENTINO;4483324
+14;81;146;2600017;0;Activo;6;Mariano de Vedia 884, Bernardino Rivadavia ;(U9005);Urbano;No posee;escuela_146@hotmail.com;GRAL. ENRIQUE MOSCONI;4550057
+14;81;147;2600214;0;Activo;6;Balbuena 137, Astra- Km. 20 ;(U9000);Urbano;No posee;sin informacion;LEONARDO AGUSTÍN MUÑÓZ;4863067
+12;78;148;2600282;0;Activo;5;Avda. Ejército Argentino;(U9030);Urbano;No posee;escuela_148@hotmail.com;25 DE MAYO;420486
+1;17;150;2600270;0;Activo;2;Avda. Fuerte San José 115, Inmigrantes ;(U9120);Urbano;No posee;esc150peninsulavaldes@hotmail.com;Península Valdes;4451019
+11;66;151;2600412;0;Activo;4;Fuerte Viejo 371, Juan Manuel de Rosas ;(U9100);Urbano;LEERESCRECER.BLOG.SPOTS;escuela151@gmail.com;DE LA AMISTAD;4443180
+1;17;152;2600271;0;Activo;2;La Pampa 579, Gobernador Fontana ;(U9120);Urbano;No posee;escuela152madryn@gmail.com;ARMADA ARGENTINA;4451510
+14;81;153;2600086;0;Activo;6;San Cayetano , Quirno Costa ;(U9000);Urbano;No posee;isidro153@msn.com;ISIDRO QUIROGA;4467344
+14;81;154;2600039;0;Activo;6;La Razón 1650, Pueyrredón ;(U9000);Urbano;No posee;escuelaprovincial154@gmail.com;OSCAR VICENTE HERRERA;4483406
+14;81;155;2600079;0;Activo;6;Avda. Chile , 30 de Octubre ;(U9000);Urbano;No posee;escuelamaximofernandezcoria@yahoo.com.ar;MÁXIMO FERNÁNDEZ CORIA;4482299
+11;66;156;2600298;0;Activo;4;Feldman Josín 8, Armada Argentina ;(U9100);Urbano;156rbd@gmail.com;156rbd@gmail.com;RAÚL B. DÍAZ;4426120
+11;66;157;2600379;0;Activo;4;Gobernador Lezana 1650, Villa Italia ;(U9100);Urbano;No posee;escuela157galina_trelew@yahoo.com;"Escuela N° 157 ""GOBERNADOR JORGE JOSÉ GALINA""";4421181
+1;17;158;2600396;0;Activo;2;Avda. Julio Argentino Roca 1750, Desembarco ;(U9120);Urbano;No posee;escuela158juanmuzio@gmail.com;PADRE JUAN MUZIO;4451829
+3;27;159;2600173;0;Activo;3;Pasaje Isaías Vera , 28 de Julio ;(U9200);Urbano;No posee;escuela159esquel@hotmail.com.ar;MAESTRO ISAIAS VERA;451446
+14;81;160;2600130;0;Activo;6;Ignacio Rucci 1850, Máximo Abásolo ;(U9000);Urbano;No posee;escuela160cr@gmail.com;PIONERO MARIANO RODRÍGUEZ;4472886
+14;81;161;2600215;0;Activo;6;Constitución , Ciudadela ;(U9000);Urbano;No posee;esc161cr@gmail.com;JOSÉ HERNÁNDEZ;4548870
+1;17;162;2600403;0;Activo;2;Juan XXIII 1000, Perito Moreno ;(U9120);Urbano;No posee;rosadecorea_162@hotmail.com;ROSA DE COREA;4451412
+13;79;163;2600219;0;Activo;5;Quiroga 1152, Intersección de Barrios ;(U9020);Urbano;No posee;dir_esc163@hotmail.com;NILDA VALLE;4895030
+11;66;164;2600394;0;Activo;4;Fuerte San José 1149, Los Aromos ;(U9100);Urbano;No posee;escuela164tw@gmail.com;CENTENARIO DE LA CIUDAD DE TRELEW;4427565
+11;66;165;2600367;0;Activo;4;Escuela Nº 165 ;(U9100);Urbano;No posee;escuela_165@outlook.com;CONSTITUCIÓN DE LA PROVINCIA DEL CHUBUT;4426571
+3;41;166;2600180;0;Activo;3;Ap. Iwan 83;(U9203);Urbano;No posee;escuela166trevelin@hotmail.com;MAESTRO JUAN SIAS;480051
+11;63;167;2600258;0;Activo;4;Ramón y Cajal , CO.VI.RA. I ;(U9103);Urbano;No posee;esc167rw@yahoo.com.ar;CRUCERO A.R.A. GENERAL MANUEL BELGRANO;4482367
+1;17;168;2600202;0;Activo;2;Santa Cruz 1155, Gobernador Fontana ;(U9120);Urbano;No posee;escuela168maestrospatagonicos@hotmail.com;MAESTROS PATAGÓNICOS;4450436
+14;81;169;2600289;0;Activo;6;Marcial Riadigós 785, Stella Maris ;(U9000);Urbano;No posee;ESCUELA169@hotmail.com;ESTRELLA DE MAR;4482696
+1;17;170;2600268;0;Activo;2;Juan Muzzio 70;(U9120);Urbano;No posee;valentins170@hotmail.com;CACIQUE VALENTIN SAYHUEQUE;4457166
+14;81;171;2600273;0;Activo;6;Enrique Hermitte 246, Gobernador Fontana- Km. 8 ;(U9003);Urbano;No posee;escuela171carreros@hotmail.com;CARREROS PATAGÓNICOS;4535170
+14;81;172;2600087;0;Activo;6;Crónica 1070, San Isidro Labrador ;(U9000);Urbano;No posee;esc172pcentral@hotmail.com;PATAGONIA CENTRAL;4474594
+11;66;173;2600300;0;Activo;4;Pablo Neruda , Guaira ;(U9100);Urbano;No posee;escuela173tw@hotmail.com;AYELEN RUKA;4426125
+11;66;174;2600402;0;Activo;4;Pascual Daleoso 3670, Mario Abel Amaya ;(U9100);Urbano;No posee;amayaescuela174@gmail.com;CACIQUE CASIMIRO BIGÜA;4446570
+11;66;175;2600321;0;Activo;4;Monseñor Fagnano , Tiro Federal ;(U9100);Urbano;No posee;sin informacion;RUCA ANAI;4426494
+1;17;177;2600205;0;Activo;2;Luis María Campos , 299 viviendas ;(U9120);Urbano;No posee;sin informacion;FRANCA AUSTRAL;4451864
+11;63;178;2600303;0;Activo;4;Carlos Gardel 100, Juan Manuel de Rosas ;(U9103);Urbano;No posee;escuelasuyayhue178@gmail.com;SUYAY HUE;4484130
+3;27;179;2600356;0;Activo;3;Roque Saenz Peña 2352, Malvinas Argentinas ;(U9200);Urbano;No posee;escuela_179@outlook.es;SOFIA KRAISELBURD;451413
+13;79;180;2600281;0;Activo;5;Nicanor Ålvarez 1150, Progreso ;(U9020);Urbano;escuelaprovincial180@gmail.com correo electrónico;carmen_di_giano@hayoo.com.ar;TENIENTE CORONEL MARCELO ARCE;4896114
+1;17;181;2600060;0;Activo;2;Dorrego 1152, COVITRE I ;(U9120);Urbano;No posee;escuela181pm@hotmail.com;CONSTITUYENTES PROV. DEL 57;4453057
+11;66;182;2600296;0;Activo;4;Moreno Norte , Unión ;(U9100);Urbano;No posee;escuelaer82@gmail.com/escuelaer182@gmail.com;EDWIN ROBERTS;4427597
+14;81;183;2600038;0;Activo;6;Tres Sargentos 3255, Juan XXIII ;(U9000);Urbano;No posee;escuela.183@hotmail.com;GOLFO SAN JORGE;4484514
+14;81;184;2600131;0;Activo;6;Los Jazmínes , San Martín ;(U9000);Urbano;No posee;esc184jdp@hotmail.com;PRESIDENTE JUAN DOMINGO PERÓN;4470452
+11;63;185;2600260;0;Activo;4;Federicci 780, San Pablo ;(U9103);Urbano;No posee;escuela185@hotmail.com;AYLLÚ PIUQUÉ;4481109/4482859
+3;38;188;2600027;0;Activo;3;Escuela Multinivel Nº 188 ;(U9200);Rural Disperso;No posee;uem188riopercy@gmail.com;ESCUELA Nº 188;455338
+11;66;189;2600046;0;Activo;4;Scalabrini Ortíz 1750, Etchepare ;(U9100);Urbano;No posee;escuela189ch@gmail.com;MAESTRO ALEJANDRO DEL VALLE;4420748
+11;60;190;2600324;0;Activo;4;Machuca González 151, Playa Unión ;(U9103);Urbano;No posee;sin informacion;PUERTAS AL MAR;4498151
+3;24;191;2600419;0;Activo;3;Ricardo Balbín , 54 viviendas ;(U9201);Rural Aglomerado;No posee;191escuela@gmail.com;ESCUELA Nº 191;494098
+1;17;192;2600372;0;Activo;2;Malaspina , VEPAM ;(U9120);Urbano;No posee;escuela192malaspina@gmail.com;MANUEL DEL VILLAR;4455349
+1;17;193;2600393;0;Activo;2;San Martín 1904, Luis Piedrabuena ;(U9120);Urbano;No posee;veleromimosa193@hotmail.com;VELERO MIMOSA;4454818
+15;12;194;2600020;0;Activo;1;callejon de pozas;(U9211);Rural Aglomerado;No posee;sin informacion;ESCUELA Nº 194;4499085
+11;66;195;2600322;0;Activo;4;Saavedra 69, San Martín ;(U9100);Urbano;No posee;escuela195heroesargentinos@hotmail.com;HÉROES DE MALVINAS;4426585
+11;66;196;2600320;0;Activo;4;Gobernador Eugenio Tello 985, Luz y Fuerza ;(U9100);Urbano;No posee;escuela196@gmail.com;13 DE JULIO;4420525
+14;81;197;2600407;0;Activo;6;Dr. Manuel Sueiro 1166, Divina Providencia ;(U9000);Urbano;No posee;escuela197cr@yahoo.com.ar;CENTINELA DE LA PATRIA;4550707
+14;81;198;2600003;0;Activo;6;Clarín 834, Pueyrredón ;(U9000);Urbano;No posee;esc198@gmail.com;LÍA GEORGINA LÓPEZ;4460709
+11;66;199;2600156;0;Activo;4;Mitre 121, Centro ;(U9100);Urbano;No posee;cientonoventaynueve@yahoo.com.ar;LUIS FELDMAN JOSÍN;4423596
+3;27;200;2600448;0;Activo;3;Don Bosco 1450, Winther ;(U9200);Urbano;No posee;rucachill200@yahoo.com.ar;RUCA CHILLKATUN;454581
+11;66;201;2600339;0;Activo;4;Los Cipreses 878, Los Aromos ;(U9100);Urbano;No posee;escuela201trelew@hotmail.com;DR. ATILIO O. VIGLIONES Nº 201;4426809
+11;63;202;2600325;0;Activo;4;Ernesto Laporte 305, 490 viviendas sector norte- Área 25 ;(U9103);Urbano;No posee;escuela202@gmail.com;JULIAN MURGA;4481099
+14;81;203;2600449;0;Activo;6;Rubén Darío 320, Restinga Alí ;(U9003);Urbano;No posee;escuela203chubut@gmail.com;PROF. JOSÉ MANUEL ESTRADA;4535596
+14;81;204;2600428;0;Activo;6;Francina Girardez , Centro ;(U9000);Urbano;No posee;escuelaperitomoreno204@hotmail.com;PERITO MORENO;4470392
+3;27;205;2600423;0;Activo;3;Alsina 1047, Don Bosco ;(U9200);Urbano;No posee;costarica_205@hotmail.com;REPÚBLICA DE COSTA RICA;452310
+11;66;206;2600426;0;Activo;4;Pellegrini 390, Centro ;(U9100);Urbano;No posee;escmariacurie@hotmail.com;MARIA CURIE;4426785
+11;66;207;2600494;0;Activo;4;Mamel 4266, I.N.T.A. ;(U9100);Urbano;No posee;escuela.207@hotmail.com;ESCUELA Nº 207;4446410
+3;41;208;2600495;1;Activo;3;Lote Nº 19- Sector J;(U9203);Rural Disperso;No posee;escuelaparalavida@hotmail.com;ANEXO ESCUELA 208;15418662
+3;41;208;2600495;0;Activo;3;Lote Nº 19- Sector J;(U9203);Rural Disperso;No posee;escuelaparalavida@hotmail.com;ESCUELA PARA LA VIDA;15418662
+14;81;209;2600512;0;Activo;6;Calle N° 552 al) , San Cayetano (U9000);(U9000);Urbano;No posee;escuela209@yahoo.com.ar;SAN CAYETANO;4473118
+3;27;210;2600518;0;Activo;3;Avda. Holdich 1051, Badén ;(U9200);Urbano;No posee;escuela210@yahoo.com.ar;ESCUELA Nº 210;454400
+14;81;211;2600519;0;Activo;6;Rementería 2810, Isidro Quiroga ;(U9000);Urbano;No posee;escuela.211@hotmail.com;ESCUELA Nº 211;4481802
+6;49;212;2600520;0;Activo;4;Lote Nº14- Frac.B- Secc.I-I ;(U9121);Rural Disperso;No posee;esc212escorial@hotmail.com;ESCUELA Nº 212;
+1;17;213;2600521;0;Activo;2;Santiago del Estero 1051, Gobernador Fontana ;(U9120);Urbano;No posee;escuela_213@hotmail.com;MARI MARI CANAI;4454748
+11;66;216;2600565;0;Activo;4;Mamel 4286, INTA ;(U9100);Urbano;No posee;escuela216tw@hotmail.com;ESCUELA Nº 216;4446660
+14;83;217;2600584;0;Activo;6;Onas 175;(U9001);Urbano;No posee;escuela217radatilly@gmail.com;CIUDAD DE RADA TILLY;4451295
+14;81;218;2600628;0;Activo;6;Andrés Chazarreta 1340, Máximo Abásolo ;(U9000);Urbano;No posee;escuelaevaperon218@gmail.com;EVA PERÓN;4466664
+1;17;219;2600663;0;Activo;2;Río Mayo 1325, Pujol II ;(U9120);Urbano;No posee;escuela219ptomadryn@hotmail.com;ESCUELA Nº 219;4454038
+11;66;220;2600676;0;Activo;4;Cacique Nahuelquir 1150, Belgrano ;(U9100);Urbano;No posee;escuela220@hotmail.com;ESCUELA Nº 220;4423030
+14;81;221;2600722;0;Activo;6;Laguna Blanca 320, Standart Norte ;(U9000);Urbano;No posee;escuela221@yahoo.com.ar;ESCUELA Nº 221;4535350
+1;17;222;2600734;0;Activo;2;Albarracín , Presidente Perón ;(U9120);Urbano;No posee;escuela222pm@yahoo.com;ESCUELA PROVINCIAL Nº 222;4945165
+15;7;223;2600741;0;Activo;1;Los Duraznos 220, Cumehue ;(U8431);Urbano;No posee;escuela223@gmail.com;ESCUELA Nº 223;4471317
+11;66;224;2600754;0;Activo;4;Jhon Murray Thomas 1366, Santa Catalina ;(U9100);Urbano;No posee;esc224jornadacompleta@gmail.com;Escuela Nº 224;4775108
+14;81;301;2600244;0;Activo;6;Santa Cruz 370, 9 de Julio ;(U9000);Urbano;No posee;eschosp301@hotmail.com - escuelahospitalaria301@gmail.com;"ESCUELA HOSPITALARIA Y DOMICILIARIA ""DR. RICARDO GUTIÉRREZ""";4482339
+14;81;302;2600069;0;Activo;6;Ramón Lista 2150, General Mosconi- Km. 3 ;(U9005);Urbano;No posee;ehyd302@gmail.com;"ESCUELA HOSPITALARIA Y DOMICILIARIA ""DR. ATILIO REBELLO""";4550297
+11;66;303;2600103;0;Activo;4;Avda. Colombia , Centro ;(U9100);Urbano;No posee;esc303hdom@yahoo.com.ar;ESCUELA HOSPITALARIA Y DOMICILIARIA Nº 303;4428987
+3;27;304;2600181;0;Activo;3;25 de Mayo 150, Jorge Newbery ;(U9200);Urbano;No posee;escuela_304@yahoo.com.ar;ESCUELA HOSPITALARIA Y DOMICILIARIA Nº 304;453428
+1;17;305;2600203;0;Activo;2;Roberto Gómez 383, Don Bosco ;(U9120);Urbano;No posee;escuela305@gmail.com;"ESCUELA HOSPITALARIA Y DOMICILIARIA ""DR. ANDRÉS ISOLA""";4453238/4455792
+11;63;306;2600450;0;Activo;4;Avda. Teniente Coronel Julián Murga , 2 de Abril ;(U9103);Urbano;www.chubut.edu.ar/instituciones/306;escuela306@yahoo.com.ar;ESCUELA HOSPITALARIA Y DOMICILIARIA Nº 306;4484553
+13;79;307;2600496;0;Activo;5;Fontana 555, Centro ;(U9020);Urbano;No posee;escuelahyd307@yahoo.com.ar;ESCUELA HOSPITALARIA Y DOMICILIARIA Nº 307;4898351
+15;12;308;2600775;0;Activo;1;Camino De La cruz , Las Golondrinas ;(U9211);Urbano;No posee;escuela308@gmail.com;ESCUELA DOMICILIARIA Y HOSPITALARIA Nº 308;4473127
+11;63;401;2600098;0;Activo;4;Gregorio Mayo 253, Centro ;(U9103);Urbano;No posee;escueladenivelinicial401@yahoo.com.ar;ROSARIO VERA PEÑALOZA;4481679
+11;63;401;2600098;2;Activo;4;Rivadavia 755, Centro ;(U9103);Urbano;No posee;escueladenivelinicial401@yahoo.com.ar;Anexo Escuela Nº 401;4482357
+14;81;402;2600053;0;Activo;6;Santa Lucía , General Mosconi ;(U9005);Urbano;No posee;juanamanso402@gmail.com;JUANA MANSO;4557971
+14;81;403;2600384;0;Activo;6;Rivadavia 560, Centro ;(U9000);Urbano;No posee;trencito403@gmail.com;DOMINGO FAUSTINO SARMIENTO;4464047
+11;63;404;2600259;0;Activo;4;Av. Tte. Cnel. Julian Murga , 490 viviendas sector norte ;(U9103);Urbano;No posee;escueladenivelinicial404@hotmail.es;HUENNIHUEN;4485138
+11;63;404;2600259;2;Activo;4;Congreso Nacional , área 16 ;(U9103);Urbano;No posee;escueladenivelinicial404@hotmail.es;ESCUELA DE NIVEL INICIAL N 404HUENNIHUEN;4484005
+11;63;404;2600259;1;Activo;4;Payró , CO.VI.RA. ;(U9103);Urbano;No posee;escueladenivelinicial404@hotmail.es;HUENNIHUEN;4483992
+11;66;405;2600302;0;Activo;4;Carlos Gardel , San Martín ;(U9100);Urbano;jardin405@hotmail.com;jardin405@hotmail.com;Escuela de Nivel Inicial Nº 405;4421002
+11;66;405;2600302;2;Activo;4;Avellaneda , San Martín ;(U9100);Urbano;No posee;jardin405@hotmail.com;ESCUELA DE NIVEL INICIAL N° 405;4438575
+14;81;406;2600310;0;Activo;6;Salta 365, 9 de Julio ;(U9000);Urbano;No posee;peumayen_406@hotmail.com;PEUMAYEN;4440931
+14;83;407;2600243;0;Activo;6;Fragata Hércules 37;(U9001);Urbano;No posee;jardin407@gmail.com;Escuela de Nivel Inicial Nº 407;4452557
+14;81;408;2600212;0;Activo;6;Juan José Paso 351, Próspero Palazzo ;(U9000);Urbano;No posee;jardin_408@live.com.ar;RUKA AIFIÑ;4548814
+3;27;409;2600074;0;Activo;3;Roggero , Malvinas Argentinas ;(U9200);Urbano;No posee;jardin409esquel@gmail.com;ESCUELA DE NIVEL INICIAL Nº 409;453953
+1;17;410;2600421;0;Activo;2;Bartolomé Mitre 581, Centro ;(U9120);Urbano;No posee;jardin410@hotmail.com;WOLF SCHOLNIK;4457764
+13;79;411;2600278;0;Activo;5;ALBERDI 145, CENTRO ;(U9020);Urbano;No posee;escueladenivelinicial411@outlook.com;ESCUELA DE NIVEL INICIAL Nº 411;4893799
+11;66;412;2600008;0;Activo;4;México 787, Malvinas Argentinas ;(U9100);Urbano;No posee;jardin4122013@gmail.com;ESCUELA DE NIVEL INICIAL Nº 412;4431554 - 4421814
+11;66;412;2600008;2;Activo;4;Cacique Nahuelquir 1240, Manuel Belgrano ;(U9100);Urbano;No posee;jardin4122013@gmail.com;ANEXO ESCUELA Nº 412;4431554/4426437
+14;81;413;2600016;0;Activo;6;José Rementeria , Isidro Quiroga ;(U9000);Urbano;No posee;jardin413@gmail.com;Escuela de Nivel Inicial Nº 413;4481857
+3;27;414;2600073;0;Activo;3;Bartolomé Mitre 146, Matadero ;(U9200);Urbano;No posee;sin informacion;PATRICIA RAQUEL ÁLVAREZ;455504
+5;52;415;2600294;0;Activo;4;Azopardo 224, Gaiman Nuevo ;(U9105);Urbano;No posee;escueladenivelinicial415@hotmail.com;MAIR AP IWAN DE ROBERTS;4491160
+14;81;416;2600327;0;Activo;6;Avenida Gutierrez 601, Presidente Ortiz KM 5 ;(U9001);Urbano;No posee;e416.chubut@gmail.com;ESCUELA DE NIVEL INICIAL Nº 416;4559231
+14;81;417;2600328;0;Activo;6;El Salvador , Laprida ;(U9001);Urbano;No posee;eni417heroesdeargentina@hotmail.com;ESCUELA DE NIVEL INICIAL Nº 417;4560465
+12;71;418;2600232;0;Activo;5;FONTANA 24;(U9033);Rural Aglomerado;No posee;escni418ars@hotmail.com;"""MONICA MAIN"" Nº 418";497134
+12;78;419;2600229;0;Activo;5;Hipólito Irigoyen 14;(U9030);Urbano;No posee;jardin419riomayo@gmail.com;"""ANTU KALEW"" Nº 419";420250
+15;84;420;2600021;1;Activo;1;Ruta Provincial Nº 70;(U9210);Rural;No posee;jardin420.elmaiten@gmail.com;ESCUELA DE NIVEL INICIAL Nº 420;495395
+15;8;420;2600021;0;Activo;1;Pasaje Río Negro;(U9210);Rural;No posee;jardin420.elmaiten@gmail.com;ESCUELA DE NIVEL INICIAL Nº 420;495446
+14;81;421;2600088;0;Activo;6;Doctor Tejo 855, Pueyrredón ;(U9000);Urbano;No posee;jardin421@hotmail.com;ESCUELA DE NIVEL INICIAL Nº 421;4483560
+3;41;422;2600179;0;Activo;3;Domingo Faustino Sarmiento 58;(U9203);Urbano;No posee;jardin422@hotmail.com.ar;MARTHA SALOTTI;480467
+11;66;423;2600391;0;Activo;4;Nicaragua , Primera Junta ;(U9100);Urbano;No posee;jardin423tw@hotmail.com;ESCUELA DE NIVEL INICIAL Nº 423;4426579
+14;81;424;2600066;0;Activo;6;Código 478 342, Abel Amaya ;(U9000);Urbano;No posee;e424.chubut@gmail.com;ESCUELA DE NIVEL INICIAL Nº 424;4482391 - 4487667
+11;66;425;2600101;0;Activo;4;Love Parry 438, Villa Italia ;(U9100);Urbano;No posee;jardin425@hotmail.com;ESCUELA DE NIVEL INICIAL Nº 425;4427865
+14;81;426;2600090;0;Activo;6;Huergo 3800, San Martín ;(U9000);Urbano;No posee;eni426-chubut@hotmail.com / e426-chubut@gmail.com;"ESCUELA DE NIVEL INICIAL N°426 ""HUELLITAS SUREÑAS""";4441820/4473712
+11;66;427;2600331;0;Activo;4;Além 240, Alberdi ;(U9100);Urbano;No posee;jaukantu@yahoo.com.ar;427 Aukantü;4425493-4425135
+14;81;428;2600287;0;Activo;6;Alvear 945, Centro ;(U9000);Urbano;No posee;eni428@hotmail.com;ESCUELA DE NIVEL INICIAL Nº 428;4472362
+11;66;429;2600297;0;Activo;4;Gobernador Tello , Luz y Fuerza ;(U9100);Urbano;No posee;sin informacion;KIMIL AYELEN;4427534
+11;66;429;2600297;1;Activo;4;Lezana Norte , Tiro Federal ;(U9100);Urbano;No posee;jardin429@hotmail.com;ANEXO ESCUELA Nº 429;4422092
+1;17;430;2600371;0;Activo;2;Comodoro Martín Rivadavia , Roca ;(U9120);Urbano;No posee;jardin430@hotmail.com;ESCUELA DE NIVEL INICIAL Nº 430;4454501
+11;66;431;2600382;0;Activo;4;Marconi 1324, San José ;(U9100);Urbano;No posee;jardin431@gmail.com;MAPU PEÑI;4429428
+5;48;432;2600261;0;Activo;4;J.J. Williams;(U9107);Urbano;No posee;escuelanivelinicial432@hotmail.com;VUELTA DEL RIO;4492042/4492054
+5;42;432;2600261;1;Activo;4;Ruta Provincial Nº10- Chacra Nº139;(U9107);Urbano;No posee;escuelanivelinicial432@hotmail.com;ANEXO ESCUELA Nº 432;4492042/4492054
+11;66;433;2600299;0;Activo;4;Cacique Foyel 380, Patagonia Norte ;(U9100);Urbano;No posee;escuela433@hotmail.com;AMUYEN;154727528
+11;66;433;2600299;1;Activo;4;Pablo Neruda , Planta de gas ;(U9100);Urbano;No posee;escuela433@hotmail.com;AMUYEN;4433735
+1;17;434;2600422;0;Activo;2;Santiago del Estero 1051, Roque González ;(U9120);Urbano;No posee;jardin434puertomadryn@yahoo.com.ar;PEWMA WE;4454499
+14;81;435;2600089;0;Activo;6;Providencia 1571, Quirno Costa ;(U9000);Urbano;No posee;e.n.i.435@hotmail.com.ar;ESCUELA DE NIVEL INICIAL Nº 435;4476511- 4476708
+3;27;436;2600424;0;Activo;3;Don Bosco 170, Buenos Aires ;(U9200);Urbano;No posee;nivelinicial436@gmail.com;ESCUELA DE NIVEL INICIAL N° 436;452786
+11;66;437;2600427;0;Activo;4;Carlos Pellegrini 390, Centro ;(U9100);Urbano;No posee;escmariacurie@hotmail.com;MARIA CURIE;4425003
+11;66;437;2600427;1;Activo;4;28 de Julio 19, Centro ;(U9100);Urbano;No posee;jardin437@live.com;"ANEXO ESCUELA Nº 437 ""MARIA CURIE""";4424679
+14;81;438;2600487;0;Activo;6;Saturnino López , Stella Maris ;(U9000);Urbano;No posee;escuelanivelinicial438@hotmail.com;ESCUELA DE NIVEL INICIAL Nº 438;4485268
+14;81;439;2600488;3;Activo;6;Rubén Darío 320, Restinga Alí ;(U9000);Urbano;No posee;mijardin439@gmail.com;ANEXO JARDÍN DE INFANTES N° 439;4535596
+14;81;439;2600488;0;Activo;6;Rita Barrera , Parque Km. 8 ;(U9000);Urbano;No posee;mijardin439@gmail.com;ESCUELA DE NIVEL INICIAL Nº 439;4535602
+14;81;440;2600492;0;Activo;6;Rivadavia 2190, Jorge Newbery ;(U9000);Urbano;No posee;eni440.chubut@gmail.com;PUERTA DEL SOL;4478460
+11;63;441;2600497;0;Activo;4;Guillermo Federicci 780, San Pablo ;(U9103);Urbano;No posee;eni441maternal@gmail.com;ESCUELA DE NIVEL INICIAL Nº 441;4485446
+11;66;442;2600498;0;Activo;4;Capitán Elsgood 52, Corradi ;(U9100);Urbano;No posee;jardin442@hotmail.com;ESCUELA DE NIVEL INICIAL Nº 442;4426839
+11;66;443;2600493;0;Activo;4;Pascual Daleoso 3566, Abel Amaya ;(U9100);Urbano;No posee;escuelanivelinicial443@yahoo.com.ar;ESCUELA DE NIVEL INICIAL Nº 443;4446222
+11;66;443;2600493;1;Activo;4;Pascual Daleoso 3670, Abel Amaya ;(U9100);Urbano;No posee;escueladenivelinicial443@yahoo.com.ar;ANEXO ESCUELA Nº 443;4446112
+3;27;444;2600489;0;Activo;3;Avda. Holdich 770, Badén ;(U9200);Urbano;No posee;jardin_444@hotmail.com.ar;ESCUELA DE NIVEL INICIAL Nº 444;456662
+15;2;445;2600499;0;Activo;1;Los Maitenes;(U9217);Rural Aglomerado;No posee;jardin445cholila@gmail.com;ESCUELA DE NIVEL INICIAL Nº 445;498035
+15;12;446;2600500;2;Activo;1;Paraje La Isla , La Isla ;(U9211);Rural Disperso;No posee;jardin446lpuelo@yahoo.com.ar;ANEXO ESCUELA Nº 446;4499185
+15;12;446;2600500;1;Activo;1;Ruta Nº 16 - Paraje Entre Ríos;(U8431);Rural Disperso;No posee;jardin446lpuelo@yahoo.com.ar;ANEXO ESCUELA Nº 446;4499173
+15;12;446;2600500;0;Activo;1;Remigio Nogues , Centro ;(U9211);Rural Disperso;No posee;sin informacion;"""BOSQUE DORADO"" N° 446";4499007
+14;81;447;2600513;0;Activo;6;Avda. Polónia 2100, San Cayetano ;(U9000);Urbano;No posee;escueladenivelinicial447@hotmail.com;ESCUELA DE NIVEL INICIAL Nº 447;4473109
+1;17;448;2600522;0;Activo;2;Domeq García 645, Inmigrantes ;(U9120);Urbano;No posee;esc448pc@yahoo.com.ar;PICHI PIUQUE;4451631
+1;17;449;2600523;0;Activo;2;Necochea , V.E.P.A.M. ;(U9120);Urbano;No posee;escuela449@hotmail.com.ar;WEÑIHUE;4471575
+3;27;450;2600524;0;Activo;3;Los Ángeles , Badén I ;(U9200);Urbano;No posee;escuela450@hotmail.com.ar;ESCUELA DE NIVEL INICIAL Nº 450;450132
+11;66;451;2600525;0;Activo;4;Pascual Daleoso 4319, Inta ;(U9100);Urbano;No posee;jardin451@hotmail.com;ESCUELA DE NIVEL INICIAL Nº 451;4446823
+11;66;451;2600525;1;Activo;4;Trevelin Norte 736, Inta ;(U9100);Urbano;No posee;jardin451@hotmail.com;ANEXO ESCUELA Nº451;4446300
+11;66;452;2600526;0;Activo;4;Teniente García 1419, Etchepare ;(U9100);Urbano;No posee;escuela452liwen@hotmail.com;LIWEN;4425772-4423330
+15;7;453;2600536;0;Activo;1;Paseo Frutillas;(U9211);Rural Disperso;No posee;escuelani453@hotmail.com;ESCUELA DE NIVEL INICIAL Nº 453;4471109
+3;24;454;2600543;0;Activo;3;Hipólito Irigoyen , 30 Viviendas ;(U9204);Rural Aglomerado;No posee;sin informacion;"""LOS CONDORES"" N° 454";494005
+3;27;455;2600547;0;Activo;3;Pasaje Santa Cruz , Ceferino Namuncurá ;(U9200);Urbano;No posee;escuela455ceferino@gmail.com;ESCUELA DE NIVEL INICIAL N° 455;451620
+4;29;456;2600548;0;Activo;3;Domingo Faustino Sarmiento;(U9223);Urbano;No posee;escdenivelinicial456@gmail.com;VALLE DEL GENOA;491134
+1;17;457;2600544;1;Activo;2;Tierra del Fuego , Gobernador Fontana ;(U9120);Urbano;No posee;pm_jardin457@hotmail.com;ANEXO ESCUELA Nº 457;4457923
+1;17;457;2600544;0;Activo;2;Rosales 61;(U9120);Urbano;No posee;pm_jardin457@hotmail.com;ESCUELA DE NIVEL INICIAL N° 457;4455196
+4;31;458;2600587;0;Activo;3;Domingo Faustino Sarmiento 68;(U9220);Rural;No posee;escni_458_jsm@hotmail.com;ESCUELA DE NIVEL INICIAL Nº 458;496246
+11;63;459;2600592;0;Activo;4;Los Álamos 171, 3 de Abril ;(U9103);Urbano;No posee;eni459@hotmail.com /eljardindegweneira459@gmail.com;EL JARDIN DE GWENEIRA;4496314
+13;79;460;2600619;0;Activo;5;Angel Gilabet 245, De Los pioneros ;(U9020);Urbano;No posee;enitutumaramba460@hotmail.com;TUTÚ MARAMBA;4896260
+13;79;460;2600619;1;Activo;5;Nicanor Alvarez 1150, B° Progreso ;(U9020);Urbano;No posee;enitutumaramba460@hotmail.com;ANEXO ESC. DE NIVEL INICIAL Nº 460;4896260
+1;17;461;2600625;0;Activo;2;Dorrego 1152, Gobernador Galina TRE) (U9120);(U9120);Urbano;No posee;escueladenivelinicial461@gmail.com;ESCUELA DE NIVEL INICIAL Nº 461;4457933
+1;17;462;2600632;0;Activo;2;San Martín 1904, Luis Piedrabuena ;(U9120);Urbano;No posee;esc_462_madryn@yahoo.com.ar;ESTRELLITAS DEL SUR;4458498
+14;81;463;2600633;0;Activo;6;Punta Borjas 300, Standart Centro- KM 8 ;(U9005);Urbano;No posee;jardin463@gmail.com;ESCUELA DE NIVEL INICIAL Nº 463;4536537
+1;17;464;2600634;0;Activo;2;Trevelín 1285, Pujol II ;(U9120);Urbano;jardin464@hotmail.com.ar;jardin464@hotmail.com.ar;ESCUELA DE NIVEL INICIAL Nº 464;4470940
+14;81;465;2600635;0;Activo;6;Avda. Pieregnoli 1450, Máximo Abásolo ;(U9000);Urbano;No posee;sin informacion;ESCUELADE NIVEL INICIAL Nº 465;4474901
+2;40;466;2600662;0;Activo;3;Avda. San Martín;(U9201);Rural Aglomerado;No posee;escuelanivelinicial466@gmail.com;ESCUELA DE NIVEL INICIAL Nº 466;493110
+14;81;467;2600664;0;Activo;6;Perito Moreno , Centro ;(U9000);Urbano;No posee;escueladenivelinicial467@gmail.com;ESCUELA DE NIVEL INICIAL Nº 467;4479301
+11;66;468;2600665;0;Activo;4;Colombia , Centro ;(U9100);Urbano;No posee;enijardin468@hotmail.com;ESCUELA DE NIVEL INICIAL Nº 468;4435987
+11;66;468;2600665;1;Activo;4;Moreno Norte , Don Bosco ;(U9100);Urbano;No posee;enijardin468@hotmail.com;ESCUELA DE NIVEL INICIAL Nº 468;4428806
+3;27;469;2600680;0;Activo;3;Libertad , Malvinas Argentinas ;(U9200);Urbano;No posee;escuela469esquel@gmail.com;ESCUELA DE NIVEL INICIAL Nº469;451423
+3;27;470;2600681;0;Activo;3;Gaffetti , 28 de Junio ;(U9200);Urbano;No posee;escuela470esquel@hotmail.com;ESCUELA DE NIVEL INICIAL Nº 470;453439
+11;66;471;2600682;0;Activo;4;25 de mayo 946, Democracia Argentina ;(U9200);Urbano;No posee;escuela471trelew@hotmail.com;ESCUELA DE NIVEL INICIAL Nº 471;4428175
+14;81;472;2600687;1;Activo;6;Tres Sargentos 3255, Juan XXIII ;(U9000);Urbano;No posee;eni_472@outlook.com;ANEXO ESCUELA Nº 472;4482172
+14;81;472;2600687;0;Activo;6;Crónica 1070, San Isidro Labrador ;(U9000);Urbano;No posee;eni472@outlook.com;ESCUELA DE NIVEL INICIAL Nº 472;4441085
+7;44;473;2600707;0;Activo;4;Sarmiento;(U9111);Rural Aglomerado;No posee;jardin473@hotmail.es;ESCUELA DE NIVEL INICIAL Nº 473;4963031
+14;81;474;2600708;0;Activo;6;Funciona detras de la Escuela Nº 44 ;(U9000);Urbano;No posee;e474.chubut@gmail.com;ESCUELA DE NIVEL INICIAL Nº 474;4549182
+1;17;475;2600726;0;Activo;2;Domecq García Norte 385, Barrancas del Golfo ;(U9120);Urbano;No posee;jardin-475@hotmail.com;ESCUELA DE NIVEL INICIAL Nº 475;4456210
+15;9;476;2600727;0;Activo;1;Avda. Los Cóndores 1610, Alto ;(U9211);Rural Aglomerado;No posee;eni476@yahoo.com.ar;ESCUELA DE NIVEL INICIAL Nº 476;499543
+8;59;477;2600728;0;Activo;4;11 de Diciembre;(U9207);Rural Aglomerado;No posee;jardin4772017@gmail.com;ESCUELA DE NIVEL INICIAL Nº 477;4497219
+3;41;478;2600733;0;Activo;3;Roggero 5;(U9203);Urbano;No posee;escuelani478trevelin@yahoo.com- escuelanivelinicial478@gmail.com;ESCUELA DE NIVEL INICIAL Nº 478;480816
+11;66;479;2600740;0;Activo;4;2 de Abril , Santa Catalina ;(U9100);Urbano;Jardin cuatro siete nueve Facebook;escueladenivelinicial479@outlook.com;ESCUELA DE NIVEL INICIAL Nº 479;4775186
+1;17;480;2600761;0;Activo;2;Santa Cruz , Gobernador Fontana ;(U9120);Urbano;No posee;escuela480pm@hotmail.com;ESCUELA DE NIVEL INICIAL Nº480;4454533
+14;81;481;2600767;0;Activo;6;;;Urbano;No posee;escuela481.chubut@gmail.com;ESCUELA DE NIVEL INICIAL Nº481;4440996
+1;17;482;2600780;0;Activo;2;Patricias Argentinas 986, Ruca Hue ;(U9120);Urbano;No posee;Enivelinicial482@yahoo.com - escuelanivelinicial482@gmail.com;CRECER JUNTOS Nº 482;4456198
+14;81;483;2600781;0;Activo;6;IGNACIO RUCCI 1581, MAXIMO ABASOLO ;(U9000);Urbano;No posee;eni489tw@gmail.com;ESCUELA DE NIVEL INICIAL;4440372
+15;1;484;2600791;0;Activo;1;Ruta Provincial 16, CERRO RADAL ;(U9211);Rural;No posee;eni489tw@gmail.com;ESCUELA DE NIVEL INICIAL;499179
+14;81;485;2600792;0;Activo;6;Independencia y Boulevar Ameghino , Ciudadela ;(U9000);Urbano;e.485.chubut@gmail.com;e.485.chubut@gmail.com;ESCUELA DE NIVEL INICIAL Nº485;4549353
+1;17;486;2600793;0;Activo;2;Villarino y San Luis 987, Bahía Nueva ;(U9120);Urbano;No posee;eni489tw@gmail.com;ESCUELA DE NIVEL INICIAL;775120
+1;17;487;2600794;0;Activo;2;Capitan Marzullo 971, Presidente Perón ;(U9120);Urbano;No posee;sin informacion;ESCUELA DE NIVEL INICIAL AYÜN;4220214
+14;81;488;2600795;0;Activo;6;La Razón 1650, Pueyrredón ;(U9000);Urbano;No posee;eni489tw@gmail.com;ESCUELA DE NIVEL INICIAL;4485259
+11;66;489;2600796;0;Activo;4;Las Araucarias , Los Aromos ;(U9100);Urbano;No posee;eni489tw@gmail.com;ESCUELA DE NIVEL INICIAL;4426658
+11;66;490;2600797;0;Activo;4;Pellegrini y San Martin;(U9100);Urbano;No posee;eni489tw@gmail.com;ESCUELA DE NIVEL INICIAL;4425003
+11;66;490;2600797;1;Activo;4;Rio Senguer, Entre Paso , Abel Maya ;(U9100);Urbano;No posee;eni490vespertinotrelew@gmail.com;ESCUELA DE NIVEL INICIAL N°490;4425003
+14;81;491;2600798;0;Activo;6;Margarita C. de Abad , Pte. Ortiz - Km.5 ;(U9000);Urbano;No posee;eni489tw@gmail.com;ESCUELA DE NIVEL INICIAL;4559501
+11;66;492;2600804;0;Activo;4;Marconi y Fuerte Viejo , Los Sauces ;(U9100);Urbano;No posee;492jardin@gmail.com;ESCUELA DE NIVEL INICIAL N° 492;4590976
+14;81;493;2600805;0;Activo;6;Entre Ríos y Arminda Lobos , Valle C ;(U9000);Urbano;No posee;sin informacion;"""JUGANDO CON EL VIENTO"" N° 493";4551305
+13;79;494;2600806;0;Activo;5;Alberdi 75;(U9020);Urbano;No posee;eni494sarmiento@outlook.com;ESCUELA DE NIVEL INICIAL N° 494;156246569
+1;17;495;2600809;0;Activo;2;Pasaje América;(U9120);Urbano;No posee;sin informacion;ESCUELA DE NIVEL INICIAL N° 495;4457245
+14;81;496;2600810;0;Activo;6;Islas Orcadas y Artigas , Jose Fuchs ;(U9000);Urbano;ENI 496 Jose Fuch Com.Riv;e.496.chubut@gmail.com;ESCUELA DE NIVEL INICIAL N° 496;4464151
+14;81;497;2600811;0;Activo;6;Kennedy 1800, Ceferino Namuncura ;(U9000);Urbano;No posee;eni497comodoro@gmail.com;ESCUELA DE NIVEL INICIAL N° 497;4441139
+1;17;498;2600814;0;Activo;2;Rosales 61;(U9120);Urbano;No posee;sin informacion;"ESCUELA DE NIVEL INICIAL ""SUEÑOS DE LUNA""";4455196
+14;81;499;2600815;0;Activo;6;Tres Sargentos 325;(U9000);Urbano;No posee;eni499.chubut@gmail.com;ESCUELA DE NIVEL INICIAL N° 499;4482172 - 4484052
+14;81;501;2600052;0;Activo;6;Avda. Hipólito Irigoyen , Centro ;(U9000);Urbano;No posee;esc501cr@gmail.com;"ESCUELA ESPECIAL Nº 501 ""REMEDIOS DE ESCALADA DE SAN MARTÍN""";4464387
+3;27;502;2600184;0;Activo;3;Avda. Alvear 2340, Malvinas Argentinas ;(U9200);Urbano;No posee;escuela502@live.com;ESCUELA ESPECIAL Nº 502;451412
+11;66;503;2600378;0;Activo;4;Mariano Moreno 2116, 12 de Octubre ;(U9100);Urbano;No posee;sin informacion;"ESCUELA ESPECIAL Nº 503 ""PROVINCIA DE TUCUMÁN""";4443287
+11;63;504;2600255;0;Activo;4;Avda. Teniente Coronel Julián Murga;(U9103);Urbano;No posee;escuela504rw@outlook.com;ESCUELA ESPECIAL Nº 504;4482177
+11;66;506;2600104;0;Activo;4;José Hernández 160, Padre Juan Muzio ;(U9100);Urbano;No posee;escuela506tw@gmail.com;ESCUELA ESPECIAL DE FORMACIÓN Y CAPACITACIÓN LABORAL Nº 506;4443661
+13;79;508;2600216;0;Activo;5;Rivadavia , Centro ;(U9020);Urbano;No posee;escuela508@live.com;ESCUELA ESPECIAL Nº 508;4893717
+11;63;509;2600514;0;Activo;4;Ernesto Laporte;(U9103);Urbano;No posee;escuela509@hotmail.com;ESCUELA ESPECIAL DE FORMACIÓN LABORAL INTEGRAL Nº 509;4482002
+3;27;510;2600152;0;Activo;3;Libertad 836, Malvinas Argentinas ;(U9200);Urbano;No posee;escuelanro510@hotmail.com;ESCUELA ESPECIAL DE FORMACIÓN LABORAL INTEGRAL Nº 510;451105
+11;66;511;2600390;0;Activo;4;ALEM 360, ALBERDI ;(U9100);Urbano;No posee;escuela511trelew@yahoo.com.ar;MAESTRO JOSE LORENZO GONZALEZ;4424705
+11;66;512;2600159;0;Activo;4;Italia 462, Alberdi ;(U9100);Urbano;No posee;escuelan512@yahoo.com.ar;ESCUELA ESPECIAL PARA SORDOS E HIPOACUSICOS Nº 512;4423456/4428439
+5;52;513;2600290;0;Activo;4;Belgrano 24;(U9105);Urbano;No posee;escuelagaiman513@yahoo.com.ar;ESCUELA ESPECIAL Nº 513;4491142
+14;81;514;2600054;0;Activo;6;Avda. Figueroa Alcorta 51, 13 de Diciembre ;(U9000);Urbano;No posee;escuela514@hotmail.com;"ESCUELA ESPECIAL PARA ALUMNOS CON COMPROMISOS PSICOMOTORES Nº 514 ""ALICIA DEFOREL""";4445620
+14;81;515;2600335;0;Activo;6;San Martín 712, Centro ;(U9000);Urbano;No posee;escue515cr@hotmail.com;ESCUELA ESPECIAL PARA CIEGOS Y DISMINUIDOS VISUALES Nº 515;4463004
+1;17;516;2600198;0;Activo;2;José Podestá 168, Don Bosco ;(U9120);Urbano;No posee;escuela516@hotmail.com;ESCUELA ESPECIAL DE SORDOS E HIPOACÚSICOS Nº 516;4453467/4457934
+14;81;517;2600237;0;Activo;6;Juana Azurduy 1369, Isidro Quiroga ;(U9000);Urbano;No posee;esc517@gmail.com;ESCUELA ESPECIAL PARA SORDOS E HIPOACÚSICOS Nº 517;4482339
+3;27;518;2600170;0;Activo;3;Sarmiento;(U9200);Urbano;No posee;escuela518@gmail.com;ESCUELA ESPECIAL DE SORDOS E HIPOACÚSICOS Nº 518;453470
+14;81;519;2600018;0;Activo;6;Juan Ramón Balcarce 7980, General Mosconi- Km. 3 ;(U9005);Urbano;No posee;escuela519@outlook.com.ar;"ESCUELA ESPECIAL Nº 519 ""GRAL. ENRIQUE MOSCONI""";4558360
+1;17;520;2600195;0;Activo;2;Roberto Gómez 75, Don Bosco ;(U9120);Urbano;No posee;escuela_520@hotmail.com.ar;"ESCUELA ESPECIAL Nº 520 ""ANTARTIDA ARGENTINA""";4451068
+14;81;521;2600238;0;Activo;6;Pasaje Hernandarias 159, La Loma ;(U9000);Urbano;No posee;escuela521@gmail.com;"ESCUELA ESPECIAL DE FORMACIÓN INTEGRAL Nº 521 ""CDRO. MARTÍN RIVADAVIA""";4460497
+15;12;522;2600022;0;Activo;1;Callejón de la Cruz;(U8431);Rural Disperso;No posee;escuelaespecial522@gmail.com;ESCUELA ESPECIAL PARA SORDOS E HIPOACÚSICOS Nº 522;4471924-4473107
+3;27;523;2600451;0;Activo;3;Ruta Nacional Nº 259- Km.3,5;(U9200);Urbano;No posee;escuela523@hotmail.com.ar;ESCUELA ESPECIAL PARA IRREGULARES MOTORES Nº 523;15460173
+1;17;524;2600472;0;Activo;2;Espora 50;(U9120);Urbano;No posee;escuela524@hotmail.com;ESCUELA ESPECIAL PARA CIEGOS Y DISMINUIDOS VISUALES;4453508
+11;63;525;2600501;0;Activo;4;Goycochea 30;(U9103);Urbano;No posee;escuela525@hotmail.com;ESCUELA ESPECIAL SENSORIAL Nº 525;4483761
+1;17;526;2600515;0;Activo;2;Thomas Espora Norte 333, Don Bosco ;(U9120);Urbano;No posee;escuela_526@hotmail.com;"ESCUELA ESPECIAL PARA IRREGULARES MOTORES Nº 526 ""MADRE TERESA DE CALCUTA""";4456456
+3;27;527;2600555;0;Activo;3;Roggero 2273, Malvinas Argentinas ;(U9200);Urbano;No posee;escuela527@hotmail.com.ar;ESCUELA ESPECIAL PARA CIEGOS Y DISMINUIDOS VISUALES Nº 527;455615
+1;17;528;2600569;0;Activo;2;Roberto Gomez 7;(U9120);Urbano;No posee;escuela528@speedy.com.ar;ESCUELA ESPECIAL DE FORMACIÓN Y CAPACITACIÓN LABORAL Nº 528;4455291
+11;66;529;2600579;0;Activo;4;Estados Árabes 370, Constitución ;(U9100);Urbano;No posee;escuelaespecialpeumapoun@gmail.com;"ESCUELA ESPECIAL Nº 529 ""PEUMA POUN""";4435962
+15;8;530;2600585;0;Activo;1;Avda. San Martín;(U9210);Urbano;No posee;esc530elmaiten@gmail.com;"ESCUELA ESPECIAL Nº 530 ""AYUTUN-HUE""";495475
+3;41;531;2600606;0;Activo;3;Ap Iwan 1697, Alborada ;(U9203);Urbano;No posee;sin informacion;ESCUELA ESPECIAL DE FORMACIÓN Y CAPACITACIÓN LABORAL Nº 531;480922
+15;8;532;2600855;0;Activo;1;AVENIDA SAN MARTIN;(U9210);;No posee;sin informacion;ESCUELA DE FORMACIÓN INTEGRAL Nº 532;xxxxxx
+3;27;551;2600551;0;Activo;3;Vuelta de Obligado , Bella Vista ;(U9200);Urbano;No posee;csac_551@hotmail.com;CTRO. DE SERV. ALTER. Y COMPL. Nº 551;451163
+11;63;552;2600556;0;Activo;4;Ernesto Laporte 38;(U9103);Urbano;No posee;escuela552@hotmail.com.ar;CTRO. DE SERV. ALTER. Y COMPL. Nº 552;4485505
+11;66;553;2600557;0;Activo;4;ITALIA 462, ALBERDI ;(U9100);Urbano;No posee;centro553tw@gmail.com;CTRO. DE SERV. ALTER. Y COMPL. Nº 553;4429435
+14;81;554;2600558;0;Activo;6;25 de Mayo 381, Centro ;(U9000);Urbano;No posee;sin informacion;CTRO. DE SERV. ALTER. Y COMPL. Nº 554;4444703
+5;52;555;2600552;0;Activo;4;Rivadavia 24;(U9105);Urbano;No posee;centro555@gmail.com;Centro de Servicios Alternativos y Complementarios Nº 555;4491754
+1;17;556;2600553;0;Activo;2;Albarracín 2;(U9120);Urbano;No posee;centro556@hotmail.com;CTRO. DE SERV. ALTER. Y COMPL. Nº 556;4456803
+3;41;557;2600554;0;Activo;3;Molino Viejo 362, Centro ;(U9203);Rural Aglomerado;No posee;sin informacion;CTRO. DE SERV. ALTER. Y COMPL. Nº 557;480081
+13;79;558;2600604;0;Activo;5;Ormachea 86, Centro ;(U9020);Urbano;No posee;centro558@hotmail.com;CTRO. DE SERV. ALTER. Y COMPL. Nº 558;4892171
+4;29;559;2600603;0;Activo;3;28 de Febrero;(U9223);Urbano;No posee;csac-559@hotmail.com;CTRO. DE SERV. ALTER. Y COMPL. Nº 559;491175
+3;27;560;2600602;0;Activo;3;Owen Jones 1255, Buenos Aires ;(U9200);Urbano;No posee;centro560@hotmail.com;CTRO. DE SERV. ALTER. Y COMPL. Nº 560;457062
+11;66;561;2600677;0;Activo;4;Hipólito Yrigoyen , Padre Juan Muzzio ;(U9100);Urbano;No posee;escuela561trelew@outlook.com.ar;CTRO. DE SERV. ALTER. Y COMPL. Nº 561;4438900
+15;2;562;2600746;0;Activo;1;;;Rural;No posee;csac526cholila@gmail.com;CTRO. DE SERV. ALTER. Y COMPL. Nº 562;498174
+15;13;563;2600748;0;Activo;1;;;Rural;No posee;sin informacion;CTRO. DE SERV. ALTER. Y COMPL. 563;
+15;4;564;2600749;0;Activo;1;;;Urbano;No posee;sin informacion;CTRO. DE SERV. ALTER. Y COMPL. 564;
+5;48;565;2600750;0;Activo;4;SOBERANIA ARGENTINA 6, ALBORADA ;(U9107);Urbano;No posee;csayc.565@yahoo.com;CTRO. DE SERV. ALTER. Y COMPL. 565;4492241/4492009
+12;78;566;2600770;0;Activo;5;;;Rural;No posee;csayc566@gmail.com;CENTRO DE SERVICIOS ALTERNATIVO Y COMPLEMENTARIO;3420369
+11;63;567;2600777;0;Activo;4;Laporte 38;(U9103);Urbano;No posee;centro567rw@outlook.com;CENTRO DE SERVICIOS ALTERNATIVO Y COMPLEMENTARIO N° 567 Atención Nivel Secundario;4482803
+3;24;568;2600801;0;Activo;3;;;Rural;No posee;sin informacion;CTRO. DE SERV. ALTER. Y COMPL.N°568;494028
+1;17;569;2600831;0;Activo;2;Calle Thomas Espora 333, Pujol Norte ;(U9120);Urbano;No posee;csecundario569@gmail.com;CTRO. DE SERV. ALTER. Y COMPL.N°569;456456
+3;41;601;2600078;0;Activo;3;Ap. Iwan 83;(U9203);Urbano;No posee;epja601@gmail.com;AGUSTÍN IGNACIO DE JESÚS PONCE;480895
+3;27;602;2600112;0;Activo;3;Avda. Alvear 108;(U9200);Urbano;No posee;edja602@hotmail.com;MAESTRO ALFREDO ÁNGEL PILATTI;451234
+11;63;603;2600266;0;Activo;4;Avda. 25 de Mayo 55;(U9103);Urbano;No posee;escuela603rw@gmail.com;MAESTRA ADELAIDA MERCEDES BECERRA;4484830
+15;8;604;2600166;0;Activo;1;Pasaje Santa Cruz , Centro ;(U9210);Urbano;No posee;escuela604elmaiten@gmail.com;ESCUELA PARA JÓVENES Y ADULTOS Nº 604;495137
+1;17;607;2600312;0;Activo;2;Sarmiento 268, Centro ;(U9120);Urbano;No posee;epja607@gmail.com;ESCUELA PARA JÓVENES Y ADULTOS Nº 607;4457578
+11;66;608;2600168;0;Activo;4;Edison 385, Democracia Argentina ;(U9100);Urbano;No posee;escuelaadultos608@gmail.com;MAESTRO DANIEL ARCE;4423791
+5;48;609;2600264;0;Activo;4;Rivadavia 25;(U9107);Urbano;No posee;escueladeadultos609@gmail.com;ESCUELA PARA JÓVENES Y ADULTOS Nº 609;4492017
+14;81;610;2600334;0;Activo;6;Rivadavia 751, Centro ;(U9000);Urbano;No posee;escadultos610@gmail.com;ESCUELA PARA JÓVENES Y ADULTOS Nº 610;4440177
+14;81;611;2600208;0;Activo;6;Ruta Provincial Nº 1 , Don Bosco- Km. 8 ;(U9003);Urbano;No posee;escuelaja611@yahoo.com.ar;ESCUELA PARA JÓVENES Y ADULTOS Nº 611;4535381
+13;79;612;2600220;0;Activo;5;Quiroga 115;(U9020);Urbano;No posee;patrymtorres@yahoo.com.ar;ESCUELA PARA JÓVENES Y ADULTOS Nº 612;4895036
+14;81;613;2600002;0;Activo;6;MARTÍN FIERRO 1800, CEFERINO ;(U9000);Urbano;No posee;escadultos613@yahoo.com.ar;ESCUELA PARA JÓVENES Y ADULTOS Nº 613;4469449
+14;81;614;2600284;0;Activo;6;Dorrego 1620, La Loma ;(U9000);Urbano;No posee;epja614@hotmail.com;ESCUELA PARA JÓVENES Y ADULTOS Nº 614;4473200
+11;66;615;2600081;0;Activo;4;Lewis Jones 412, Alberdi ;(U9100);Urbano;No posee;escuela615@yahoo.com.ar;DONALD BORSELLA;4427559
+1;17;617;2600204;0;Activo;2;Avda. Fuerte San José 115, Inmigrantes ;(U9120);Urbano;No posee;escuela617pm@gmail.com;ESCUELA PARA JÓVENES Y ADULTOS Nº 617;4457607
+11;66;618;2600437;0;Activo;4;Estados Árabes , Constitución ;(U9100);Urbano;No posee;escuela618@yahoo.com.ar;JUANA EVANGELISTA ADARO DE ZÁRATE;4427377
+12;78;624;2600223;0;Activo;5;25 de Mayo;(U9030);Urbano;No posee;enzoludea@yahoo.com.ar;ESCUELA PARA JÓVENES Y ADULTOS Nº 624;420513
+11;63;650;2600516;0;Activo;4;Pasaje Burmeister , Vialidad Provincial ;(U9103);Urbano;No posee;cfp650@gmail.com;C.F.P. Nº 650;4483999
+1;17;651;2600457;1;Activo;2;COMODORO MARTÍN RIVADAVIA 750, ROCA ;(U9120);Urbano;No posee;cfp651@hotmail.com;ANEXO Nº1 GASTRONOMIA Y HOTELERIA;457396
+1;17;651;2600457;0;Activo;2;Rosales 695, Gobernador Galina ;(U9120);Urbano;www.cfp651.edu.ar;cfp651@hotmail.com;C.F.P. Nº 651;4455204
+14;81;652;2600458;0;Activo;6;San José de Jachal , Pueyrredón ;(U9000);Urbano;No posee;cfp652@hotmail.com/cfpsarmiento@yahoo.com.ar;C.F.P. Nº 652;4550726
+14;81;652;2600458;1;Activo;6;Antártida Argentina 68, General Mosconi ;(U9000);Urbano;No posee;cfp652@hotmail.com/cfpsarmiento@yahoo.com.ar;C.F.P. Nº 652;4550726
+11;66;653;2600459;0;Activo;4;Rivadavia Norte 192, Presidente Perón ;(U9100);Urbano;No posee;cfp653@hotmail.com;C.F.P. Nº 653;4427665
+5;52;654;2600460;0;Activo;4;Julio Argentino Roca 284, La Loma ;(U9105);Urbano;No posee;sin informacion;C.F.P. Nº 654;4491622
+5;48;654;2600460;1;Activo;4;AVENIDA 28 DE JULIO 34;(U9107);Urbano;No posee;sin informacion;C.F.P. Nº 654 ANEXO DOLAVON;492128
+3;27;655;2600461;0;Activo;3;Chacabuco 103;(U9200);Urbano;cfp655esquel.edu.ar;centro655@cfp655esquel.edu.ar;C.F.P. Nº 655;455740
+3;27;655;2600461;1;Activo;3;Avenida Ameghino 201;(U9200);Urbano;cfp655esquel.edu.ar;centro655@cfp655esquel.edu.ar;C.F.P. Nº 655;455740
+15;4;656;2600671;3;Activo;1;AV. ISLA MALVINAS;(U9211);;No posee;sin informacion;C.F.P. Nº 656 ANEXO CUSHAMEN;15404958
+15;8;656;2600671;1;Activo;1;Sarmiento;(U9210);;No posee;centro656@hotmail.com;C.F.P. Nº 656;495020
+15;9;656;2600671;0;Activo;1;Avda. Los Pinos;(U9211);;No posee;centro656@hotmail.com;C.F.P. Nº 656;499417
+15;7;657;2600463;4;Activo;1;FUNCIONA EN ESCUELA N° 81 ;(U9210);Urbano;www.cfp657.edu.ar;cfp657@gmail.com;C.F.P. Nº 657 ANEXO EL HOYO;499311
+15;2;657;2600463;2;Activo;1;15 de diciembre , Centro ;(U9210);Urbano;www.cfp657.edu.ar;cfp657@gmail.com;C.F.P. Nº 657 ANEXO CHOLILA;499311
+15;12;657;2600463;0;Activo;1;PARAJE LA ISLA ;(U9210);Urbano;www.cfp657.edu.ar;cfp657@gmail.com;C.F.P. Nº 657;4499311/4499508
+12;78;658;2600771;0;Activo;5;;;Urbano;No posee;cfp658riomayo@hotmail.com;C.F.P. Nº658;1
+4;31;659;2600772;0;Activo;3;;;Urbano;No posee;cfp659jsm@gmail.com;C.F.P.Nº 659;496052
+3;41;660;2600773;0;Activo;3;Roggero;(U9203);Urbano;No posee;sin informacion;CENTRO DE FORMACION PROFESIONAL;15404494
+13;79;661;2600776;0;Activo;5;Gral. Roca 76;(U9020);Urbano;No posee;cfp661@gmal.com.ar;C.F.P.Nº 661;4894089
+11;63;662;2600785;0;Activo;4;9 de Julio 2;(U9103);Urbano;No posee;cfp662@gmail.com;C.F.P. Nº 662;481299
+11;63;662;2600785;7;Activo;4;AVENIDA 9 DE JULIO 2;(U9103);Urbano;No posee;sin informacion;C.F.P. Nº 662 (Anexo Aula Taller Móvil Nº 7 Gastronomía);481299
+11;63;662;2600785;6;Activo;4;AVENIDA 9 DE JULIO 2;(U9103);Urbano;No posee;cfp662@gmail.com;C.F.P. Nº 662 (Anexo Aula Taller Móvil Nº 6 Soldadura);481299
+11;63;662;2600785;5;Activo;4;AVENIDA 9 DE JULIO 2;(U9103);Urbano;No posee;cfp662@gmail.com;C.F.P. Nº 662 (Anexo Aula Taller Móvil Nº 5 Mecánica);4481299
+11;63;662;2600785;4;Activo;4;9 de Julio 2;(U9103);Urbano;No posee;cfp662@gmail.com;C.F.P. Nº 662 (Anexo Aula Taller Móvil Nº 4 Refrigeración);4481299
+11;63;662;2600785;3;Activo;4;9 de Julio 2;(U9103);Urbano;No posee;cfp662@gmail.com;C.F.P. Nº 662 (Anexo Aula Taller Móvil Nº 3 Instalaciones Domiciliarias);4481299
+11;63;662;2600785;2;Activo;4;9 de Julio 2;(U9103);Urbano;No posee;cfp662@gmail.com;C.F.P. Nº 662 (Anexo Aula Taller Móvil Nº 2 Instalaciones Domiciliarias);4481299
+11;63;662;2600785;1;Activo;4;Av. 9 de Julio 2;(U9103);Urbano;No posee;cfp662@gmail.com;C.F.P. Nº 662 (Anexo Aula Taller Móvil Nº 1 Informática);481299
+11;63;663;2600829;0;Activo;4;PEDRO MARTINEZ 25;(U9103);;No posee;cfp663chubut@gmail.com;C.F.P. POLICIA DEL CHUBUT;4484088
+1;17;664;2600842;0;Activo;2;ROSALES 69;(U9120);Urbano;No posee;sin informacion;CENTRO DE FORMACION PROFESIONAL N°664;4455204
+3;27;701;2600418;0;Activo;3;Owen Jones 790, General San Martín ;(U9200);Urbano;No posee;colegio701@gmail.com;FRANCISCO EDUARDO GILARDONI;451393
+11;63;702;2600141;0;Activo;4;Avda. Antártida Argentina 45;(U9103);Urbano;No posee;poli702@yahoo.com.ar;DR. GUILLERMO RAWSON;4481351
+1;17;703;2600464;0;Activo;2;Villegas 451, Santa María del Mar ;(U9120);Urbano;www.politecnica703.com.ar;e.s.e.t.p703@gmail.com;JOSÉ TOSCHKE;4451950
+14;81;704;2600055;0;Activo;6;Warnes , Moreno- Km.3 ;(U9005);Urbano;No posee;colegiobiomarina704@gmail.com;PREFECTURA NAVAL ARGENTINA;4550528
+3;41;705;2600465;0;Activo;3;Río Corintos;(U9203);Urbano;No posee;sin informacion;NÉSTOR GONZÁLEZ SALVATIERRA;480113
+12;78;706;2600230;0;Activo;5;Fontana 69;(U9030);Rural;No posee;lcparedes2003@yahoo.com.ar;GREGORIO MAYO;420455
+12;69;706;2600230;7;Activo;5;;(U9033);Rural;No posee;nb.mendez@hotmail.com;UEM-ES N° 127 ALDEA APELEG;497176
+12;76;706;2600230;5;Activo;5;Quilchamal;(U9039);Rural;No posee;esc.942018@gmail.com;UEM-ES N° 94 LAGO BLANCO;420455
+12;74;706;2600230;4;Activo;5;Escalada;(U9035);Rural;No posee;elchanguito_barreto@hotmail.com;UEM-ES N° 73 RICARDO ROJAS;490236
+12;70;706;2600230;3;Activo;5;Ruta Provincial N° 7;(U9037);Rural;No posee;lcparedes2003@yahoo.com.ar;UEM-ES N° 71 ALDEA BELEIRO;420455
+12;75;706;2600230;2;Activo;5;San Martin;(U9031);Rural;No posee;escuela70.facundo@hotmail.com;UEM-ES N° 70 FACUNDO;490311
+12;78;706;2600230;1;Activo;5;Fontana 69;(U9030);Rural;No posee;lcparedes2003@yahoo.com.ar;GREGORIO MAYO;420455
+13;72;706;2600230;6;Activo;5;San Martin N° 0;(U9023);Rural;No posee;lcparedes2003@yahoo.com.ar;UEM-ES N° 102 BUEN PASTO;420455
+14;81;707;2600274;0;Activo;6;Base Matienzo 900, Km. 8 ;(U9003);Urbano;No posee;colegio_707@hotmail.com;"COLEGIO TÉCNICO Nº 707 ""CIUDAD DE YAPEYU""";4535441
+3;27;708;2600178;0;Activo;3;Owen Jones 790, General San Martín ;(U9200);Urbano;campuscolegio708.jindo.com;escuela708malvinasargentinas@gmail.com;MALVINAS ARGENTINAS;452337- 451393
+4;31;709;2600190;0;Activo;3;Urquiza;(U9220);Rural Aglomerado;No posee;col709jsm@yahoo.com.ar;GENDARMERÍA NACIONAL;496003
+1;17;710;2600061;0;Activo;2;Gobernador Galina;(U9120);Urbano;No posee;colegio710@hotmail.com;HERMANA MARÍA SARA CARBAJAL;4451500
+14;81;711;2600001;0;Activo;6;San Francisco de Asís 834, Pueyrredón ;(U9000);Urbano;escuela711.com/aula;colegio711@gmail.com;FEDERICO BRANDSEN;4461595/4461100
+11;66;712;2600153;0;Activo;4;Avda. Gales 270, Centro ;(U9100);Urbano;No posee;lasietedoce712@gmail.com;DON SANTIAGO ESTRADA;4427580
+3;27;713;2600417;0;Activo;3;Alsina 225;(U9200);Urbano;No posee;sin informacion;JUAN ABDALA CHAYEP;451395
+11;66;714;2600154;0;Activo;4;Rawson 351, Centro ;(U9100);Urbano;colegio714.edu.ar;escuela714@gmail.com/colegio714@gmail.com;JULIO CORTAZAR;4426563
+12;71;716;2600233;0;Activo;5;Sarmiento;(U9033);Rural Aglomerado;No posee;escuela_716@yahoo.com.ar/direccionescuela716@gmail.com;ESCUELA AGROTÉCNICA CASIMIRO SZLÁPELIS;497105
+15;12;717;2600167;0;Activo;1;Escuela Agrotécnica Nº 717- Paraje Cerro Radal ;(U9211);Rural Aglomerado;No posee;agrotecnica717@gmail.com;ESCUELA AGROTÉCNICA Nº 717;4499030
+14;83;718;2600399;1;Activo;6;Avda. Moyano 237;(U9001);Urbano;No posee;colegio718@gmail.com;LIBERTAD;4452059
+14;83;718;2600399;0;Activo;6;Avda. Moyano 237;(U9001);Urbano;No posee;colegio718@gmail.com;LIBERTAD;4452059
+4;29;719;2600189;0;Activo;3;Estrada;(U9223);Rural;No posee;colegio719gobcosta@hotmail.com;ESCUELA AGROPECUARIA PEÑIHUE;491001
+4;29;719;2600189;2;Activo;3;Los Pioneros;(U9225);Rural;No posee;colegio719gobcosta@hotmail.com;UEM-ES N° 97 ALDEA VIGLIONE;491001
+4;29;719;2600189;1;Activo;3;Estrada;(U9223);Rural;No posee;colegio719gobcosta@hotmail.com;ESCUELA AGROTÉCNICA PEÑIHUE;491001
+11;66;720;2600400;0;Activo;4;Estados Árabes 370, Constitución ;(U9100);Urbano;ESCUELA720OFICIAL2018;trelewescuela@yahoo.com.ar;ESCUELA Nº 720;4427660 - 4425572
+7;44;721;2600250;1;Activo;4;Justo José de Urquiza 42;(U9111);Rural Aglomerado;www.colegio721.com;colegio721@gmail.com;CALETA HORNO;4963055
+7;44;721;2600250;0;Activo;4;Justo José de Urquiza 42;(U9111);Rural Aglomerado;www.colegio721.com;colegio721@gmail.com;CALETA HORNO;4963055
+14;81;722;2600276;1;Activo;6;Juan José Paso 2135, Próspero Palazzo ;(U9000);Urbano;colegioprovincial722.blogspot.com.ar;escuela722@gmail.com;PRÓSPERO PALAZZO;4548070
+14;81;722;2600276;0;Activo;6;Juan José Paso 2135, Próspero Palazzo ;(U9003);Urbano;colegioprovincial722.blogspot.com.ar;escuela722@gmail.com;PRÓSPERO PALAZZO;4548070
+14;81;723;2600037;0;Activo;6;Avda. Lisandro de la Torre 3440, Juan XXIII ;(U9000);Urbano;No posee;723escuela@gmail.com;PUERTO ARGENTINO;4482570
+11;66;724;2600137;0;Activo;4;David Lloyd Jones , Padre Juan Muzio ;(U9100);Urbano;colegio724.wordpress.com;colegio724tw@hotmail.com;PRESIDENTE DE LA NACIÓN DR. ARTURO UMBERTO ILLIA;4427629
+13;79;725;2600279;0;Activo;5;Ruta Nacional Nº 26;(U9020);Urbano;No posee;escuelaagraria725@gmail.com;ESCUELA AGROPECUARIA;4893184
+15;8;726;2600143;0;Activo;1;General Güemes , Hospital ;(U9210);Urbano;No posee;colegio726maiten@gmail.com;PADRE URBANO SALORT;495153
+15;2;727;2600164;3;Activo;1;;;Rural Disperso;No posee;escuelacientotres@gmail.com;UEM-ES N° 103 LAGO RIVADAVIA;
+15;14;727;2600164;2;Activo;1;Ex Ruta Provincial 4;(U9213);Rural Disperso;No posee;escuelaleleque90@gmail.com;UEM-ES Nº 90 LELEQUE;48080
+15;2;727;2600164;0;Activo;1;Avda. Independencia 45;(U9217);Rural Disperso;No posee;colegio727decholila@hotmail.com;ESCUELA Nº 727;498089
+1;17;728;2600389;0;Activo;2;Roberts 61, El Desembarco ;(U9120);Urbano;www.colegio728.edu.ar;direccion@colegio728.edu.ar/secretaria@colegio728.edu.ar;ALFONSINA STORNI;4454464
+11;63;729;2600162;0;Activo;4;Güemes 71;(U9103);Urbano;escuela729rawson.wordpress.com;escuela729@gmail.com/escuela729@yahoo.com.ar;DR. SALVADOR MAZZA;4484134
+11;66;730;2600409;0;Activo;4;Belgrano 2200, Juan Manuel de Rosas ;(U9100);Urbano;colegio730trelew.blogspot.com.ar;colegio_730@yahoo.com.ar/colegio_730@yahoo.com;Pla. VALDÉS PATRIMONIO NATURAL DE LA HUMANIDAD;4443672
+14;81;731;2600044;0;Activo;6;Alvear 1100, Pietrobelli ;(U9000);Urbano;No posee;sin informacion;GRAN MALVINA;4478865
+14;81;732;2600408;1;Activo;6;Paysandú 375, Laprida ;(U9000);Urbano;No posee;colegio732pik@hotmail.com;PBRO. IGNACIO SALOMON KOENING;4560218
+14;81;732;2600408;0;Activo;6;Paysandú 375, Laprida ;(U9000);Urbano;No posee;colegio732pik@hotmail.com;PBRO. IGNACIO SALOMON KOENING;4560218
+5;52;733;2600292;0;Activo;4;Ruta Provincial Nº 7;(U9105);Rural Disperso;www.agro733.edu.ar;agro733@hotmail.com;ESCUELA AGROTÉCNICA Nº 733 BENITO OWEN;4491073 - 2804009376
+15;7;734;2600165;0;Activo;1;Amancay , Cume-Hue ;(U9211);Rural Aglomerado;No posee;esc734@gmail.com;CÓNDOR ANDINO;471899
+3;27;735;2600120;0;Activo;3;Libertad 952, Malvinas Argentinas ;(U9200);Urbano;No posee;colegio735@gmail.com;COLEGIO Nº 735;451436
+1;17;736;2600194;0;Activo;2;Agustín Pujol 251, Don Bosco ;(U9120);Urbano;Aviadores Malvinas;colegio736@outlook.com;AVIADORES DE MALVINAS;4451676
+14;81;737;2600126;0;Activo;6;Avda. Roca 1351, Isidro Quiroga ;(U9000);Urbano;No posee;colegio.prov.737@gmail.com;SOLDADO MARIO ALMONACID;4484090
+14;81;738;2600132;1;Activo;6;Kaiken 2135, San Cayetano ;(U9000);Urbano;No posee;colegio738@gmail.com;DR. PASTOR SCHNEIDER;4475405
+14;81;738;2600132;0;Activo;6;Kaiken 2135, San Cayetano ;(U9000);Urbano;No posee;colegio738@gmail.com;DR. PASTOR SCHNEIDER;4475405
+13;79;739;2600221;0;Activo;5;Avda. Regimiento de Infantería Mecánica Nº25 32, Centro ;(U9020);Urbano;No posee;escuela739@gmail.com;DRA. BEATRIZ JOSEFA TORRES;4892172/4892196
+3;41;740;2600030;0;Activo;3;Ruta Nacional Nº 259;(U9203);Rural Disperso;http://ESCUELA-SECUNDARIA-740.WEBNODE.COM/;colegioagro740@hotmail.com;ESCUELA AGROTÉCNICA Nº 740 EMETA;478310
+1;17;741;2600388;0;Activo;2;Moreno 142, Villa del Parque ;(U9120);Urbano;https://alejandraaguilar10.wixsite.com/escuela741;direccion741@gmail.com;CABO BOMBERO VOLUNTARIO JUAN MANUEL PASSERINNI;4453500
+14;81;742;2600377;0;Activo;6;Pedro Granzon , Las Orquideas ;(U9000);Urbano;No posee;colegioprovincial742@hotmail.com;CIUDAD DEL PETRÓLEO;4559386
+14;81;743;2600065;0;Activo;6;Avda. Callao 851, Pueyrredón ;(U9000);Urbano;No posee;colegiop743@gmail.com;PARQUE EÓLICO ANTONIO MORÁN;4483056/4481488
+11;66;744;2600410;0;Activo;4;Berwin 1785, 8 de Diciembre ;(U9100);Urbano;No posee;escuela744@gmail.com;ERNESTO SÁBATO;4426853/ 4423450
+14;81;745;2600064;0;Activo;6;Isla de los Estados 233, José Fuchs ;(U9000);Urbano;facebook: ESCUELA PROVINCIAL 745 JOSE FUCHS (http://www.facebook.com/groups/626361074597490/requests/);colegiopcial745@gmail.com secretariaesc745@gmail.com;JOSÉ FUCHS;4443621
+14;81;746;2600051;0;Activo;6;Clara Mizrahí / Ángel Solari , Centro ;(U9000);Urbano;No posee;escueladearte746@gmail.com;COLEGIO Nº 746;4444387
+11;66;747;2600121;0;Activo;4;25 de Mayo 390, Centro ;(U9100);Urbano;No posee;secretaria@colegionacionaldetrelew.edu.ar/ escuela747@colegionacionaldetrelew.edu.ar;COLEGIO NACIONAL DE TRELEW;4427602
+11;66;748;2600048;0;Activo;4;Pecoraro 441, Centro ;(U9100);Urbano;www.ept748.edu.ar;equipoesetp748@gmail.com;TTE. CNEL. DE MARINA LUIS PIEDRABUENA;4427491
+14;81;749;2600397;0;Activo;6;GRECIA Y CROACIA , CÍVICO ;(U9000);Urbano;No posee;cpt749@yahoo.com.ar;GRAL. ING. ALONSO BALDRICH;4462663
+1;17;750;2600071;1;Activo;2;Avda. Gales 89;(U9120);Urbano;No posee;colegio750@gmail.com;LEANDRO N. ALEM- ADULTO;4451908
+1;17;750;2600071;0;Activo;2;AVDA. GALES 89;(U9120);Urbano;No posee;colegio750@gmail.com;LEANDRO N. ALEM;4451908
+11;66;751;2600042;0;Activo;4;Ramón y Cajal 350, Democracia Argentina ;(U9100);Urbano;No posee;colegio751@yahoo.com.ar;DR. LUIS F. LELOIR;4427671
+11;63;752;2600308;0;Activo;4;Mitre 764, Centro ;(U9103);Urbano;No posee;colegio752@yahoo.com.ar;RAQUEL CHATTAH DE BEC;4484112
+11;63;753;2600100;0;Activo;4;Mitre 764, Centro ;(U9103);Urbano;No posee;escuelajovenesyadultos753@gmail.com;ESCUELA N° 753;154609756
+14;81;754;2600242;0;Activo;6;Velez Sarsfield 1277, Centro ;(U9000);Urbano;www.colegio754.com;colegio_754@hotmail.com;ESCUELA N° 754;4471034
+14;81;755;2600275;0;Activo;6;Constitución , Ciudadela ;(U9000);Urbano;No posee;escuela755@desdeintar.net;MARÍA EVA DUARTE;4548560/4548870
+13;79;756;2600222;0;Activo;5;Avda. Regimiento de Infantería Mecánica Nº 25 32, Centro ;(U9020);Urbano;No posee;enmedio756@gmail.com;ESCUELA N° 756;4892174
+14;81;757;2600136;0;Activo;6;Petrolero San Lorenzo , General Mosconi ;(U9005);Urbano;No posee;colegiohi757@yahoo.com.ar;PTE. HIPÓLITO YRIGOYEN;4550307
+3;27;758;2600355;0;Activo;3;O'Higgins 1522, Lennard Englund ;(U9200);Urbano;No posee;sin informacion;COLEGIO N° 758;451919
+11;66;759;2600158;0;Activo;4;Gobernador Roque González 451, La Laguna ;(U9100);Urbano;No posee;escueladearte759@gmail.com;"ESCUELA DE ARTE N° 759 ""FLORENCIO MOLINA CAMPOS""";4427584
+14;81;760;2600049;0;Activo;6;9 de Julio 670, Centro ;(U9000);Urbano;http://ept760.esc.edu.ar/;ept760@gmail.com;GUARDACOSTAS RÍO IGUAZÚ;4463903
+5;52;761;2600249;0;Activo;4;VIRGILIO ZAMPINI 47;(U9105);Urbano;No posee;colegio761@hotmail.com;ESCUELA N° 761;4998400
+11;66;762;2600160;0;Activo;4;Colombia 152, Centro ;(U9100);Urbano;No posee;direccioncolegio762@hotmail.com;DR. RENÉ GERÓNIMO FAVALORO;4423366
+11;66;763;2600466;0;Activo;4;MICHAEL JONES 1232, SAN JOSE ;(U9100);Urbano;No posee;sin informacion;COLEGIO Nº 763;4427491
+14;81;764;2600365;0;Activo;6;Avda. Lisandro de la Torre , Juan XXIII ;(U9000);Urbano;No posee;epja764@hotmail.com;ROBERTO NESTOR ESTEVEZ;4482135
+15;12;765;2600467;0;Activo;1;Remigio Nogues;(U9211);Urbano;No posee;colegio765@gmail.com;ROCA DEL TIEMPO;4499309
+14;81;766;2600429;1;Activo;6;Perito Moreno , Centro ;(U9000);Urbano;No posee;colegio766@hotmail.com;PERITO FRANCISCO MORENO;4460264
+14;81;766;2600429;0;Activo;6;Perito Moreno , Centro ;(U9000);Urbano;No posee;colegio766@hotmail.com;PERITO FRANCISCO MORENO;4466138
+3;27;767;2600425;0;Activo;3;25 de Mayo 959, Don Bosco ;(U9200);Urbano;No posee;sin informacion;DR. JULIAN RIPA;451232
+1;17;768;2600468;0;Activo;2;Gallina , Centro ;(U9120);Urbano;Escuela 768 Ernestro Che Guevara (Facebook);escuelaprovincial768@gmail.com;ERNESTO CHE GUEVARA;4471869
+14;81;769;2600469;0;Activo;6;San Francisco de Asís 834, Pueyrredón ;(U9000);Urbano;No posee;esc769@gmail.com;CIUDAD DEL VIENTO;4461595
+14;81;770;2600470;0;Activo;6;Avda. Del Libertador , General Mosconi ;(U9005);Urbano;No posee;colegio_770@yahoo.com.ar;COLEGIO Nº 770;4559359-4551035
+11;66;771;2600503;0;Activo;4;Colombia 152, Centro ;(U9100);Urbano;No posee;escuela771tw@gmail.com;ESCUELA Nº 771;4423366
+5;42;773;2600564;0;Activo;4;Chacra Nº 339;(U9107);Rural Disperso;No posee;sin informacion;TIR HALEN;4492235
+15;9;774;2600563;0;Activo;1;Avda. Los Halcones;(U9211);Rural Aglomerado;No posee;colegio774@gmail.com;COLEGIO Nº 774;499238
+1;17;775;2600566;0;Activo;2;Alem 2726, Roque González ;(U9120);Urbano;No posee;colegio775@hotmail.com;COLEGIO Nº 775;4473231
+11;60;776;2600567;0;Activo;4;Bustamante y Guerra , PLaya Unión ;(U9103);Urbano;http://colegio776_blogspot.com;colegio776_pu@hotmail.com;EMMANUEL PUEBLAS PIRES Nº 776;4496741/ 4496503
+8;59;777;2600572;1;Activo;4;Sarmiento;(U9207);Rural Aglomerado;No posee;colegio_777@yahoo.com.ar;ENRIQUE IGNACIO CALVO;4497253
+8;59;777;2600572;0;Activo;4;Sarmiento;(U9207);Rural Aglomerado;No posee;colegio_777@yahoo.com.ar;ENRIQUE IGNACIO CALVO;4497253
+11;66;778;2600573;0;Activo;4;Avda. Rawson 351, Centro ;(U9100);Urbano;No posee;sin informacion;COLEGIO Nº 778;4433822
+3;24;779;2600581;1;Activo;3;Ruta Provincial N° 17;(U9201);Rural Aglomerado;No posee;colegio779corcovado@gmail.com;COLEGIO N° 779;494058
+3;24;779;2600581;0;Activo;3;Ruta Provincial N° 17;(U9201);Rural Aglomerado;No posee;colegio779corcovado@gmail.com;COLEGIO Nº 779;494058
+15;30;780;2600582;0;Activo;1;Dr. Benito Fernández;(U9201);Rural Aglomerado;No posee;colegio780@gmail.com;COLEGIO Nº 780;479139
+5;48;781;2600590;1;Activo;4;28 de Julio 69;(U9107);Urbano;No posee;colegio781@gmail.com;DON ELADIO ZAMARREÑO;4492257
+5;48;781;2600590;0;Activo;4;28 de Julio 69;(U9107);Urbano;No posee;colegio781@gmail.com;DON ELADIO ZAMARREÑO;4492257
+2;40;782;2600595;0;Activo;3;Avda. San Martín;(U9201);Rural Aglomerado;No posee;colegio782tecka@yahoo.com.ar;COLEGIO Nº 782;493082
+4;39;783;2600596;0;Activo;3;Constantino Salinas;(U9225);Rural Aglomerado;No posee;783riopico@gmail.com;COLEGIO Nº 783;492008
+11;66;784;2600597;0;Activo;4;Ramón y Cajal 350, Democracia Argentina ;(U9100);Urbano;escuela784.chubut.gov.ar;escuela.784.trelew@gmail.com;DR. MARIO ABEL AMAYA;4428519
+1;17;785;2600617;0;Activo;2;Arturo Jauretche 1441, Comercio I ;(U9120);Urbano;https://escuela785educacionadistancia.blogspot.com/;colegio785@gmail.com;"""TROPEROS PATAGONICOS"" Nº785";4450084
+1;17;786;2600618;0;Activo;2;José Menéndez 44;(U9120);Urbano;No posee;colegio786@gmail.com;COLEGIO Nº 786;4451398
+11;66;787;2600622;0;Activo;4;25 de Mayo 4681, INTA ;(U9100);Urbano;No posee;sin informacion;COLEGIO PADRE LUCIO SABATTI;154673866/154775188
+15;12;788;2600643;0;Activo;1;Ruta Provincial Nº 16;(U9211);Urbano;No posee;colegio788parajeentrerios@gmail.com;COLEGIO Nº 788;4499728
+1;17;789;2600644;0;Activo;2;Villarino 900, Juan B. Justo ;(U9120);Urbano;No posee;colegioprovincial789@gmail.com;COLEGIO Nº 789;4472047
+1;17;790;2600645;0;Activo;2;Dorrego 380, Luis Piedrabuena ;(U9120);Urbano;No posee;colegio790@gmail.com;21 DE ENERO;4452172
+3;27;791;2600646;0;Activo;3;Pintor Antunez , BARRIO BADEN ;(U9200);Urbano;No posee;escuela791@gmail.com;ESCUELA Nº 791;450189
+11;66;792;2600647;0;Activo;4;Pellegrini Norte 802, San Martín ;(U9100);Urbano;No posee;colegio792tw@hotmail.com;LIBERTADOR GENERAL SAN MARTÍN;4421040
+11;66;793;2600648;0;Activo;4;Viedma 4231, Moreira ;(U9100);Urbano;http://cole793tw.blogspot.com;colegiosecundario793@gmail.com;SOLDADO SIMÓN ANTIECO Nº 793;4446317
+5;52;794;2600649;0;Activo;4;Virgilio Zampini 47;(U9105);Urbano;No posee;colegio794gaiman@gmail.com;HORACIO MARRAS;154695477
+11;63;795;2600650;0;Activo;4;Luis González , Barrio 490 viviendas- Sector Norte ;(U9103);Urbano;colegio795.com.ar;colegio795@gmail.com;COLEGIO Nº 795;4483692
+14;81;796;2600651;0;Activo;6;Vélez Sarsfield 1277, Centro ;(U9000);Urbano;No posee;sin informacion;COLEGIO Nº 796;4463106
+14;81;797;2600652;0;Activo;6;Las Violetas , San Martín ;(U9000);Urbano;No posee;colegio797@hotmail.com;COLEGIO Nº 797;4460559
+14;81;798;2600653;0;Activo;6;Avda. Canada 2650, Roca ;(U9000);Urbano;No posee;colegio798@live.com;COLEGIO Nº 798;4483113
+14;81;799;2600661;0;Activo;6;Constitución , Ciudadela ;(U9000);Urbano;No posee;colegioprovincial799@gmail.com;COLEGIO Nº 799;4549871
+11;66;801;2600157;2;Activo;4;MITRE 11;(U9100);Urbano;http:/isfd801.chu.infd.edu.ar;esc801@gmail.com;"I.S.F.D. Nº 801 ""JUANA MANSO""";4423596
+11;66;801;2600157;0;Activo;4;25 de Mayo , Centro ;(U9100);Urbano;http:/isfd801.chu.infd.edu.ar;esc801@gmail.com;"I.S.F.D. Nº 801 ""JUANA MANSO""";4429301
+14;81;802;2600336;0;Activo;6;Avda. Irigoyen , Centro ;(U9000);Urbano;No posee;sin informacion;"""EDITH LITWIN ISFD N° 802";4463943
+1;17;803;2600023;0;Activo;2;25 de Mayo , Sur ;(U9120);Urbano;http://isfd803.chu.infd.edu.ar;isfd803@gmail.com;I.S.F.D. Nº 803;4457769
+3;41;804;2600119;2;Activo;3;Av. Cnel. Fontana 30;(U9203);Urbano;No posee;sin informacion;I.S.F.D. Nº 804 - TREVELIN;480198/2804406875
+3;27;804;2600119;0;Activo;3;Pintor Antunez;(U9200);Urbano;http://isfd804.chu.infd.edu.ar;escuela804@gmail.com;I.S.F.D. N° 804;453958
+1;17;805;2600155;4;Activo;2;SAN MARTÍN 1904, LUIS PRIEDRABUENA ;(U9120);Urbano;http://isfd805.chu.infd.edu.ar;madryn805@yahoo.com.ar;"""MAESTRO CLYDWYN AP AERON JONES""Nº 805- PUERTO MADRYN";4451676
+5;42;805;2600155;6;Activo;4;CHACRA 338-RUTA 7;(U9107);Urbano;isfd805.chu.infd.edu.ar;esc28dejulio805@outlook.com;"""MAESTRO CLYDWYN AP AERON JONES"" N° 805 - 28 DE JULIO";4864784
+5;52;805;2600155;2;Activo;4;Avda. Eugenio Tello 384, Centro ;(U9105);Urbano;No posee;sin informacion;"""MAESTRO CLYDWYN AP AERON JONES""Nº 805- GAIMAN";4491601
+11;66;805;2600155;0;Activo;4;Roque González;(U9100);Urbano;http://isfd805.chu.infd.edu.ar;instituto805tw@yahoo.com.ar;"""MAESTRO CLYDWYN AP AERON JONES""N° 805";4427668
+11;63;805;2600155;5;Activo;4;Luis González , 490 viviendas sector norte ;(U9103);Urbano;No posee;sin informacion;"""MAESTRO CLYDWYN AP AERON JONES""Nº 805- RAWSON";4485589
+11;66;805;2600155;1;Activo;4;Roque González;(U9100);Urbano;http://isfd805.chu.infd.edu.ar;instituto805tw@yahoo.com.ar;"""MAESTRO CLYDWYN AP AERON JONES""Nº 805- TRELEW";4427668
+14;81;806;2600050;0;Activo;6;Clara Mizrahi , Centro Cívico ;(U9000);Urbano;http://isfd806.chu.infd.edu.ar;direccion@isfd806.edu.ar;I.S.F.D. ARTÍSTICA Nº 806;4467604
+14;81;807;2600415;0;Activo;6;Perito Moreno , Centro Cívico ;(U9000);Urbano;https://isfd807-chu.infd.edu.ar/sitio/;instituto807comodoro@yahoo.com.ar;"I.S.F.D. N° 807 ""PERITO MORENO""";4478911/4445552
+11;66;808;2600058;2;Activo;4;Belgrano 2170, UPCN ;(U9100);Urbano;www.isfd808.edu.ar;info@isfd808.edu.ar;"I.S.F.D. Nº 808 ""PEDRO Y MARÍA CURIE""";4444075
+11;66;808;2600058;0;Activo;4;Carlos Pellegrini 390, Centro ;(U9100);Urbano;isfd808-chu.infd.edu.ar;infoisfd808@gmail.com;"I.S.F.D. Nº 808 ""PEDRO Y MARIA CURIE""";4426567
+3;27;809;2600025;0;Activo;3;Sarmiento 94;(U9200);Rural;www.isfd809esquel.com.ar;info@isfd809esquel.com.ar;"I.S.F.D. N° 809 ""REPÚBLICA DE COSTA RICA""";451212
+4;31;809;2600025;1;Activo;3;Urquiza;(U9220);Rural;www.isfd809esquel.com.ar;info@isfd809esquel.com.ar;"I.S.F.D. Nº 809 ""REPÚBLICA DE COSTA RICA""";496003
+14;81;810;2600135;0;Activo;6;Pedrotti , General Mosconi ;(U9005);Urbano;isfd810.chu.infd.edu.ar;isfd810@educ.ar;"I.S.F.D. N° 810 ""PROFESOR FIDEL PÉREZ MORENO""";4550729
+11;63;811;2600265;0;Activo;4;Pedro Martínez 25;(U9103);;www.institutosuperior811.wordpress.com;escueladecadetes_811@hotmail.com;Inst. Sup. De formación Policial nº 811 “Comisario Gral. Juan Gustavo Boyd”;4482551
+14;81;812;2600578;0;Activo;6;Avda. del Libertador General San Martín , General Mosconi- Km.3 ;(U9005);Rural;www.ceretchubut.edu.ar;direccion.ceretchubut@gmail.com;"I.S.E.T. Nº 812 ""ING. ESTELA MARÍA MIGUEL""";4559000
+15;9;813;2600636;2;Activo;1;Avda. Los Halcones;(U9211);Urbano;No posee;sin informacion;I.S.F.D. Nº 813 - EPUYÉN;4499748
+15;2;813;2600636;1;Activo;1;Callejón Mosqueta 1007, Zona de Chacra ;(U9217);Urbano;www.isfd813.chu.infd.edu.ar;isfd813@gmail.com;I.S.F.D. Nº 813- CHOLILA;498044/498204
+15;12;813;2600636;0;Activo;1;Remigio Nogues;(U9211);Urbano;No posee;sin informacion;I.S.F.D. Nº 813;4499748
+15;12;814;2600675;0;Activo;1;Ruta Provincial Nº 16- Km. 3.5;(U8431);Urbano;www.isfda814.com.ar;814direccion@gmail.com/814elhoyo@gmail.com;I.S.F.D. ARTÍSTICA Nº 814;4499611
+15;7;814;2600675;1;Activo;1;Los Duraznos;(U9211);Urbano;www.isfda814.com.ar;814direccion@gmail.com/814elhoyo@gmail.com;I.S.F.D. ARTÍSTICA Nº 814;4471571
+3;27;815;2600769;0;Activo;3;Alsina 225;(U9200);Rural;No posee;iset815@gmail.com;INSTITUTO SUPERIOR DE ENSEÑANZA TECNOLOGICA Nº 815;456497 / 452931
+11;63;816;2600783;0;Activo;4;Vuelta de Obligado 10, SAN PABLO ;(U9103);Urbano;isfd.816.chu.mfa.edu.ar/sitio/;iies816rw@gmail.com;I.S.F.D.N° 816;4484378
+3;27;818;2600789;0;Activo;3;Av. Pres. Juan Domingo Perón 1251, Bella Vista ;(U9200);Urbano;https://ies818artistica-chu.infd.edu.ar/sitio/;ies818artistica@gmail.com;I.E.S.A.;450609
+12;78;819;2600851;2;Activo;5;SARMIENTO 76;(U9030);Urbano;No posee;sin informacion;"ISNU DE FORMACION DOCENTE N°819 ""ANEXO RIO SENGUER”";20188
+12;71;819;2600851;1;Activo;5;SARMIENTO 30;(U9033);Urbano;No posee;sin informacion;"ISNU FORMACION DOCENTE°819 ""ANEXO ALTO RIO SENGUER""";20188
+13;79;819;2600851;0;Activo;5;PERITO MORENO 435, SARMIENTO ;9020;Urbano;No posee;sin informacion;I.S.N.U. N°819;5925383
+11;63;820;2600866;1;Activo;4;25 DE MAYO;9100;;No posee;sin informacion;INSTITUTO DE ENSEÑANZA TÉNICA N°820 (ANEXO RAWSON);4481688
+11;63;1001;2600307;0;Activo;4;Vacchina 76, Centro ;(U9103);Urbano;No posee;imanivsecundario@gmail.com/ima.direcciongeneral@gmail.com;INSTITUTO MARÍA AUXILIADORA;4482626-4483746
+11;63;1002;2600304;0;Activo;4;Don Bosco 248, Centro ;(U9103);Urbano;No posee;secretaria_prim.idb@hotmail.com;INSTITUTO DON BOSCO;4482623
+11;66;1003;2600056;0;Activo;4;San Martín 260, Centro ;(U9100);Urbano;No posee;imanivsecundario@gmail.com/ima.direcciongeneral@gmail.com;INSTITUTO MARÍA AUXILIADORA;4424469
+11;66;1004;2600041;0;Activo;4;Moreno 1004, Padre Juan ;(U9100);Urbano;secretariamuzio@gmail.com;secretariamuzio@gmail.com;INSTITUTO PADRE JUAN MUZIO;4421196
+14;81;1005;2600134;0;Activo;6;Don Bosco 350, General Mosconi ;(U9005);Urbano;casasalesianadeanfunes.com;primariacdf@gmail.com;COLEGIO SALESIANO DEÁN FUNES;4550257
+14;81;1006;2600043;0;Activo;6;ALEM 1112, PIETROBELLI ;(U9000);Urbano;http//salesianosdelsur.com.ar/;secretariaprimaria1006savio@gmail.com;COLEGIO SALESIANO SANTO DOMINGO SAVIO;4462886
+3;27;1007;2600062;0;Activo;3;Chacabuco 859, Jorge Newbery ;(U9200);Urbano;No posee;cegiosalesianoesquel@gmail.com;COLEGIO SAN LUIS GONZAGA;452535
+14;81;1008;2600368;0;Activo;6;Escalada 1567, La Loma ;(U9000);Urbano;www.acricana.com;direccion@acricana.com;COLEGIO BILINGÜE ABRAHAM LINCOLN SCHOOL;4466311
+14;81;1009;2600386;0;Activo;6;Sarmiento 849, Centro ;(U9000);Urbano;No posee;imanivsecundario@gmail.com/ima.direcciongeneral@gmail.com;INSTITUTO MARÍA AUXILIADORA;4473577
+14;81;1010;2600128;0;Activo;6;San Martín 3500, San Martín ;(U9000);Urbano;No posee;juanitocorti@hotmail.com;JUAN XXIII;4462097
+14;81;1011;2600004;0;Activo;6;Rivadavia 2520, Ceferino Namumcurá ;(U9000);Urbano;No posee;ceferinonamucura1011@hotmail.com;CEFERINO NAMUNCURÁ;4462037
+11;66;1012;2600416;0;Activo;4;25 de Mayo 1240, Democracia Argentina ;(U9100);Urbano;www.aasur.org.ar;primaria.trelew@educacionadventista.org.ar;ESCUELA ADVENTISTA DR. NICOLÁS AVELLANEDA;4422636
+11;66;1013;2600144;0;Activo;4;Ruta provincial Nº 7;(U9100);Urbano;No posee;escuelanuevatw@yahoo.com.ar;ESCUELA NUEVA;4443264
+14;81;1015;2600317;0;Activo;6;Cayelli 570, Roca ;(U9000);Urbano;No posee;primaria.comodoro@educacionadventista.org.ar;ESCUELA ADVENTISTA FRANCISCO RAMOS MEJÍA;4481355
+14;81;1017;2600366;0;Activo;6;Avda. Estados Unidos 75, José Fuchs ;(U9000);Urbano;www.institutoaustral.com.ar;fundacion@institutoaustral.com.ar;INSTITUTO AUSTRAL DE ENSEÑANZA;4461684
+14;81;1018;2600241;0;Activo;6;Ameghino 1492, Centro ;(U9000);Urbano;www.martinrivadavia.com.ar;ceciliacrisci@martinrivadavia.com.ar;INSTITUTO MARTÍN RIVADAVIA;4461159
+14;81;1019;2600369;0;Activo;6;Alvear 446, Centro ;(U9000);Urbano;No posee;direccion.secundaria@escuelamarianomoreno.com.ar;ESCUELA INTEGRAL MARIANO MORENO;4470241
+1;17;1020;2600383;0;Activo;2;Colón 352, 28 ;(U9120);Urbano;www.escueladelacosta.org.ar;direccionsecundaria@escueladelacosta.edu.ar;ESCUELA DE LA COSTA;4451334
+14;81;1023;2600036;0;Activo;6;El Clarín 726, Roca ;(U9000);Urbano;No posee;colegio-cervantescr@hotmail.com.ar;COLEGIO CERVANTES;4473709
+14;81;1024;2600129;0;Activo;6;Plácido Glatigni 1202, Máximo Abásolo ;(U9000);Urbano;No posee;escuela.sanjuanbosco@gmail.com;SAN JUAN BOSCO;4461176
+3;41;1025;2600113;0;Activo;3;Sarmiento 27;(U9203);Urbano;www.escuelapuertadelsol.org;puertadelsoltrevelin@gmail.com;ESCUELA BILINGÜE PUERTA DEL SOL;480769
+1;17;1026;2600269;0;Activo;2;Doctor Ávila 351, Colonos y Galeses ;(U9120);Urbano;http://www.amse.edu.ar/;escuelamutualista@gmail.com;ESCUELA MUTUALISTA A.M.S.E.;4473120
+11;66;1028;2600591;0;Activo;4;Belgrano 973, Los Olmos ;(U9100);Urbano;www.escueladelsol.edu.ar;info@escueladelsol.edu.ar;ESCUELA DEL SOL;4436342
+14;83;1029;2600593;0;Activo;6;Lago de los Cisnes 241;(U9001);Urbano;www.everardodecasatilly.edu.ar;fundaciondakota@gmail.com/fundaciondakota@everardodecasatilly.edu.ar;COMPLEJO EDUCATIVO EVERARDO DE CASA TILLY E.G.B. 1 Y 2;4452944
+3;27;1030;2600600;0;Activo;3;25 de Mayo 283, John Kennedy ;(U9200);Urbano;No posee;sin informacion;FUNDACIÓN EDUCATIVA ESQUEL;456053
+11;66;1031;2600660;0;Activo;4;Moreno 253, Centro ;(U9100);Urbano;No posee;escuelahendre@gmail.com;ESCUELA HENDRE YSGOL YR HENDRE;4436436
+11;66;1031;2600660;1;Activo;4;Rivadavia 320;(U9100);Urbano;No posee;escuelahendre@gmail.com;ESCUELA HENDRE YSGOL YR HENDRE N° 1031;4436436
+14;81;1032;2600694;0;Activo;6;VIAMONTE 86;(U9000);Urbano;No posee;primaria@emb.edu.ar;ESCUELA MANUEL BELGRANO;4066860
+15;12;1033;2600739;0;Activo;1;Callejón rural , Paraje Entre Ríos ;(U9211);Rural;escuelacrisoldemicael.blogspot.com;escuelacrisoldemicael@gmail.com;ESCUELA WALDORF CRISOL DE MICAEL;154832781
+14;81;1034;2600742;0;Activo;6;Avda. 10 de Noviembre , San Cayetano ;(U9000);;No posee;escuelarobertoalonso@hotmail.com;PASTOR ROBERTO EDUARDO ALONSO;4886146
+5;52;1035;2600753;0;Activo;4;Libertad 131, Centro ;(U9105);Urbano;No posee;ysgolfeithringaiman@yahoo.com.ar;YSGOL GYMRAEG GAIMAN;4491337
+1;17;1037;2600825;0;Activo;2;LOS ALAMOS 3575, QUINTAS DEL MIRADOR ;(U9120);Urbano;www.tierradeinfancia.com;secretaria@tierradeinfancia.org;ESCUELA LIBRE TIERRA DE INFANCIA;4882028
+3;41;1038;2600826;0;Activo;3;RIO CORINTO 96;(U9203);Urbano;No posee;sin informacion;YSGOL Y CWM;2945616732
+13;79;1039;2600833;0;Activo;5;PERITO MORENO 18;(U9020);Urbano;No posee;colegiointegraldelsur2019@gmail.com;COLEGIO INTEGRAL DEL SUR N°1039;727946
+14;83;1040;2600841;0;Activo;6;NEMESIO FIGUEROA 142;9001;Urbano;No posee;sin informacion;CENTRO EDUCATIVO DE INNOVACIÓN Y TECNOLOGÍA;5388238
+1;17;1041;2600856;0;Activo;2;MARCELO TORCUATO DE ARVEAR 202;9120;Urbano;No posee;sin informacion;COLEGIO INTEGRAL PATAGONIA ARGENTINA(C.I.P.A.) N° 1041;53853
+1;17;1042;2600858;0;Activo;2;SAN MARTIN 85;9120;Urbano;No posee;sin informacion;ESCUELA SUR N°1042;194781
+5;52;1043;2600872;0;Activo;4;MARIANO MORENO 25;9105;;No posee;sin informacion;"ESCUELA ""UNA SEMILLA DE ESPERANZA N°1043";350838
+1;17;1044;2600874;0;Activo;2;;;;No posee;sin informacion;ESCUELA NUEVA AUSTRAL;
+1;17;1045;2600875;0;Activo;2;;;;No posee;sin informacion;SEMILLAS DE MI TIERRA;
+14;81;1403;2600343;0;Activo;6;Pje. la Patria 175, Presidente Ortiz km 5 ;(U9000);Urbano;No posee;escueladenivelinicial2406@gmail.com;ABRACADABRA;155200200
+14;81;1404;2600239;0;Activo;6;Urquiza 924, Centro ;(U9000);Urbano;www.jchiquilandia.com;sandrabottino@hotmail.com;CHIQUILANDIA;4468489
+14;81;1405;2600040;0;Activo;6;Avda. Kennedy 3251, Juan XXIII ;(U9000);Urbano;No posee;dailankifkicr@gmail.com;DAILAN KIFKI;4482400
+14;81;1406;2600033;0;Activo;6;Teniente Levalle 578, Roca ;(U9000);Urbano;No posee;eniprincipito@gmail.com;EL PRINCIPITO;4462291
+14;81;1408;2600471;0;Activo;6;Ameghino 1492, Centro ;(U9000);Urbano;www.martinrivadavia.com.ar;ceciliacrisci@martinrivadavia.com.ar;INSTITUTO MARTÍN RIVADAVIA;4461159
+14;81;1409;2600032;0;Activo;6;Francisco Bher 375, Pueyrredón ;(U9000);Urbano;No posee;eni1409@hotmail.com;LOS ENANITOS;4482084
+14;81;1411;2600473;0;Activo;6;Avda. Tehuelches 610, General Mosconi- Km. 3 ;(U9005);Urbano;No posee;sin informacion;GRANJA MISIA PEPA;4559274
+14;81;1412;2600318;0;Activo;6;Maipú 1666, Centro ;(U9000);Urbano;No posee;infomonigote@gmail.com;MONIGOTE;4461168
+14;81;1413;2600240;0;Activo;6;Francia 954, Centro ;(U9000);Urbano;No posee;jardinnaricitas@yahoo.com.ar;NARICITAS;4471944
+11;66;1421;2600149;0;Activo;4;Cabot 171, Los Olmos ;(U9100);Urbano;www.jardindelsol.edu.ar;direccion@jardindelsol.edu.ar;JARDÍN DEL SOL;4436473
+11;66;1421;2600149;1;Activo;4;Mitre 1052, Los Olmos ;(U9103);Urbano;www.jardindelsol.edu.ar;direccion@jardindelsol.edu.ar;JARDÍN DEL SOL;4433551
+11;66;1424;2600083;0;Activo;4;28 de Julio 856, Centro ;(U9100);Urbano;No posee;jardin1424tw@gmail.com;JARDÍN MATERNAL Y DE INFANTES A.T.E.CH.;4420110
+11;63;1427;2600105;0;Activo;4;San Martín 57;(U9103);Urbano;No posee;jardindisney1427@hotmail.com;JARDÍN MATERNAL Y DE INFANTES DISNEY;4484157
+1;17;1430;2600349;0;Activo;2;Dorrego 275, Sur ;(U9120);Urbano;No posee;eljardindefrutillitas1430@hotmail.com;EL JARDÍN DE FRUTILLITAS;4452547
+11;63;1448;2600539;0;Activo;4;Ernesto Echave 494, Policial 60 viviendas ;(U9103);Urbano;No posee;eni1448depolicia@hotmail.com;Oficial Subinspector Licenciada Paola Mariela Davies;4482828
+11;63;1449;2600540;0;Activo;4;Julio Argentino Roca 83;(U9103);Urbano;No posee;estanciadelsol@live.com;LA ESTANCIA DEL SOL;4485822
+1;17;1453;2600588;0;Activo;2;9 de Julio 575, Conquistadores del Desierto ;(U9120);Urbano;No posee;huellitas2007@hotmail.com;HUELLITAS;4471911
+14;83;1454;2600594;0;Activo;6;Lago de los Cisnes 241;(U9001);Urbano;www.everardodecasatilly.edu.ar;fundaciondakota@gmail.com;TILLY SUEÑOS;4452944
+14;81;1455;2600623;0;Activo;6;Plácido Glatigni , Máximo Abásolo ;(U9000);Urbano;No posee;juanitobosco1455@hotmail.com;JUANITO BOSCO;4440773
+1;17;1456;2600629;0;Activo;2;Antártida Argentina , Patagonia ;(U9120);Urbano;No posee;maternalelpinguinito@yahoo.com.ar;JARDIN MATERNAL EL PINGÜINITO;456970
+1;17;1457;2600630;0;Activo;2;Reconquista 49;(U9120);Urbano;No posee;filomenajardin1457@gmail.com;FILOMENA;154594388
+5;52;1460;2600641;0;Activo;4;Azopardo 189, Gaiman Nuevo ;(U9105);Urbano;No posee;sin informacion;KOPOS;154695578
+5;52;1460;2600641;1;Activo;4;JUAN BAUTISTA ALBERDI 401, BARAIBAR ;(U9105);Urbano;No posee;sin informacion;KOPOS;545218
+11;66;1461;2600669;0;Activo;4;Ruta Nacional Nº 3;(U9100);Urbano;No posee;jardin1461@gmail.com, lujanbarneche@gmail.com;MARÍA CALDERÓN DE LA BARCA;4423011
+11;66;1463;2600686;0;Activo;4;Soberanía Nacional 660, Santa Mónica ;(U9100);Urbano;No posee;vilmaperezperez@hotmail.com.ar;MUNDO FELÌZ;154681649
+3;27;1464;2600709;0;Activo;3;Chacabuco 762, Centro ;(U9200);Urbano;No posee;disparates07@yahoo.com.ar;MUNDO DISPARATADO;453447
+11;66;1466;2600712;0;Activo;4;Urquiza 446, Centro ;(U9100);Urbano;No posee;jardindeinfantesmamapata@gmail.com;MAMÁ PATA;154417410
+14;83;1467;2600715;0;Activo;6;Lago Futalaufquen 650, Los Lagos ;(U9001);Urbano;No posee;inihakunamatata@gmail.com;HAKUNA MATATA;4452266
+14;81;1468;2600763;0;Activo;6;SAN MARTIN 96;(U9000);Urbano;No posee;gabyvallero@gmail.com;"JARDIN MATERNAL Y DE INFANTES ""CANTE-PRI""";4064423
+14;81;1471;2600778;0;Activo;6;Monseñor D'Andrea 1951, Jose Fuchs ;(U9000);Urbano;No posee;Enidonquijotedelamancha@hotmail.com;"ESCUELA DE NIVEL INICIAL ""DON QUIJOTE DE LA MANCHA""";4048160
+14;81;1472;2600799;0;Activo;6;Italia 566, Centro ;(U9000);Urbano;No posee;acuarelainfantil@hotmail.com;"JARDIN MATERNAL Y DE INFANTES ""ACUARELA""";2974625572
+14;81;1473;2600807;0;Activo;6;Avenida Raul Alfonsin 625, Presidente Ortiz km 5 ;(U9000);Urbano;No posee;jardinserafines@gmail.com;ESCUELA DE NIVEL INICIAL SERAFINES;154285593
+14;81;1474;2600808;0;Activo;6;Albear 74;(U9000);Urbano;No posee;jacarandapessoa@gmail.com;ESCUELA DE NIVEL INICIAL JACARANDA;2974473633
+14;81;1476;2600823;0;Activo;6;SCALABRINI ORTIZ 1130, JUAN XXIII ;(U9000);Urbano;No posee;sapope-pe@hotmail.com;"ESCUELA DE NIVEL INICIAL ""EL SAPO PEPE""";6244328
+1;17;1477;2600824;0;Activo;2;ALVEAR 209;(U9120);Urbano;No posee;sin informacion;JARDIN MATERNAL Nº 1477 SEMILLAS DE MI TIERRA;447-2832
+14;81;1479;2600830;0;Activo;6;AVENIDA ROCA 96;(U9000);;No posee;apredijuegos@hotmail.com;"JARDIN MATERNO INFANTIL ""APRENDIJUEGOS"" Nº 1479";4483107/0297
+14;81;1480;2600840;0;Activo;6;CATAMARCA 140, 9 DE JULIO ;9000;;No posee;sin informacion;"ESCUELA DE NIVEL INICIAL""ENI MONA LISA N° 1480""";154206489
+3;27;1481;2600870;0;Activo;3;GINO PASQUINI 13;9200;;No posee;sin informacion;"ESCUELA DE NIVEL INICIAL""ALEGRIA N° 1481""";15644296
+14;81;1482;2600873;0;Activo;6;JORGE NEWBERY 190;9000;;No posee;sin informacion;"ESCUELA DE NIVEL INICIAL ""JORGE NEWBERY"" N°1482";4060869
+11;63;1501;2600482;0;Activo;4;García Cavín- Chacra Nº 40 , Los Pinos ;(U9103);Urbano;No posee;sin informacion;"CENTRO DE ESTIMULACIÓN TEMPRANA ""COMIENZOS""";4482684
+14;81;1503;2600752;0;Activo;6;Necochea 1540, Centro ;(U9000);Urbano;WWW.vocescentroprivado.com.ar;centroprivadovoces@gmail.com;"CENTRO PRIVADO DE EDUCACIÓN ESPECIAL ""VOCES""";4069596
+14;81;1602;2600784;0;Activo;6;Francisco de Viedma 178, General Mosconi ;(U9005);;No posee;sin informacion;WINDLANS CULTURAS Y LENGUAS N°1602;4558115
+14;81;1650;2600483;0;Activo;6;Rivadavia , San Martín ;(U9000);Urbano;No posee;efp1650@gmail.com;COLEGIO SAN JOSÉ OBRERO;4462314
+11;66;1653;2600620;0;Activo;4;9 DE JULIO 55;(U9100);;No posee;isabellasanacore@hotmail.com;CENTRO DE CAP. PROF. DE COSMETOLOGIA Y ESTETICA;4432273
+14;81;1658;2600667;0;Activo;6;Rivadavia 1096, Loma ;(U9000);Urbano;www.bmingles.com.ar / www.bmgo.com.ar;contacto@bmingles.com.ar / nancy.p@bmingles.com.ar;INSTITUTO BM INGLES;4467240
+3;27;1664;2600699;0;Activo;3;Roca 272, Centro ;(U9200);Urbano;No posee;caciqueinacayal@gmail.com;CACIQUE INACAYAL;15516102
+1;17;1665;2600705;0;Activo;2;25 de Mayo 717, Centro ;(U9120);Urbano;No posee;cosmetologiamadryn@yahoo.com.ar;CENTRO DE ESTUDIOS COSMETOLÓGICO MADRYN;4450059
+11;66;1671;2600790;0;Activo;4;Juan Piedra Buena Parcela 9 Mza B 529, Primera Junta ;(U9100);Urbano;No posee;sin informacion;CENTRO DE JUBILADOS NUEVOS HORIZONTE ASOCIACIÓN CIVIL;4323856
+11;66;1672;2600816;0;Activo;4;Malvinas Argentinas 24;(U9100);Urbano;No posee;cfptw.donbosco@gmail.com;C.F.P N° 1672 SAN JUAN BOSCO;4428334
+1;17;1673;2600818;0;Activo;2;San Martin 41;(U9120);Urbano;highstreet.com.ar;instituto@highstreet.com.ar;HIGH STREET INSTITUTE;4456753
+5;52;1674;2600821;0;Activo;4;;;Urbano;No posee;sin informacion;CENTRO PATAGÓNICO DE SEGURIDAD;4417638
+1;17;1676;2600871;0;Activo;2;25 DE MAYO 12;9120;;No posee;sin informacion;"ESCUELA FUNDACION APRENDER PARA NATIVOS DIGITALES""FAND"" N°1676";191794
+14;81;1701;2600484;0;Activo;6;Sarmiento 849, Centro ;(U9000);Urbano;No posee;imanivsecundario@gmail.com/ima.direcciongeneral@gmail.com;INSTITUTO MARÍA AUXILIADORA;4473577
+11;63;1702;2600445;0;Activo;4;Don Bosco 248, Centro ;(U9103);Urbano;No posee;secretaria_prim.idb@hotmail.com;INSTITUTO DON BOSCO;4482623
+11;66;1703;2600435;0;Activo;4;San Martín 260, Centro ;(U9100);Urbano;No posee;imanivsecundario@gmail.com/ima.direcciongeneral@gmail.com;INSTITUTO MARÍA AUXILIADORA;4424469
+11;66;1704;2600431;0;Activo;4;Moreno 1004, Padre Juan Muzio ;(U9100);Urbano;secretariamuzio@gmail.com;secretariamuzio@gmail.com;INSTITUTO PADRE JUAN MUZIO;4421196
+14;81;1705;2600439;0;Activo;6;Don Bosco 350, General Mosconi ;(U9005);Urbano;casasalesianadeanfunes.com;primariacdf@gmail.com;COLEGIO SALESIANO DEÁN FUNES;4550257
+14;81;1706;2600432;0;Activo;6;Alem 1112, Pietrobelli ;(U9000);Urbano;salesianosdelsur.com.ar;savioseccionnocturna@yahoo.com.ar;INSTITUTO SANTO DOMINGO SAVIO;4462886
+14;81;1707;2600433;0;Activo;6;Alem 1112, Pietrobelli ;(U9000);Urbano;salesianosdelsur.com.ar;savioseccionnocturna@yahoo.com.ar;INSTITUTO SANTO DOMINGO SAVIO;4462886
+13;79;1708;2600351;0;Activo;5;Avda. San Martín 78;(U9020);Urbano;No posee;colegiofontana@hotmail.com;INSTITUTO GOBERNADOR FONTANA;4893099
+14;81;1710;2600285;0;Activo;6;Hipólito Yrigoyen 3528, Industrial ;(U9000);Urbano;No posee;grupodavinci@argentina.com;INSTITUTO LEONARDO DA VINCI;4481898
+14;81;1711;2600446;0;Activo;6;Avda. Estados Unidos 75, José Fuchs ;(U9000);Urbano;www.institutoaustral.com.ar;fundacion@institutoaustral.com.ar;INSTITUTO AUSTRAL DE ENSEÑANZA;4461684
+5;48;1712;2600283;0;Activo;4;25 de Mayo 5;(U9107);Urbano;No posee;iwcmorris@yahoo.com.ar;INSTITUTO WILLIAM CASE MORRIS;4492006
+3;27;1713;2600436;0;Activo;3;Chacabuco 859, Jorge Newbery ;(U9200);Urbano;No posee;colegiosalesianoesquel@gmail.com.ar;INSTITUTO SAN LUIS GONZAGA;452535
+5;52;1714;2600291;0;Activo;4;Michel Jones 490, Centro ;(U9105);Urbano;www.colegiocamwy.com.ar;camwyrectoria@yahoo.com.ar/colegiocamwy@hotmail.com;INSTITUTO CAMWY;4491063
+11;66;1715;2600440;0;Activo;4;Ruta Provincial Nº 7- Chacra Nº 94;(U9100);Urbano;No posee;escuelanuevatw@yahoo.com.ar;ESCUELA NUEVA;4443264
+14;81;1717;2600430;1;Activo;6;Clarín 726, Roca ;(U9000);Urbano;No posee;colegio-cervantescr@hotmail.com.ar;COLEGIO CERVANTES;4486048
+14;81;1717;2600430;0;Activo;6;Clarín 726, Roca ;(U9000);Urbano;No posee;colegio-cervantescr@hotmail.com.ar;COLEGIO CERVANTES;4473709
+14;81;1718;2600444;0;Activo;6;Ameghino 1492, Centro ;(U9000);Urbano;www.martinrivadavia.com.ar;ceciliacrisci@martinrivadavia.com.ar;INSTITUTO MARTÍN RIVADAVIA;4461159
+1;17;1720;2600447;0;Activo;2;Colón 35;(U9120);Urbano;www.escueladelacosta.org.ar;direccionsecundaria@escueladelacosta.edu.ar;ESCUELA DE LA COSTA;4451334
+14;81;1722;2600534;0;Activo;6;Escalada 1567, La Loma ;(U9000);Urbano;www.acricana.com;bncacricana@gmail.com/direccion@acricana.com;COLEGIO BILINGÜE ABRAHAM LINCOLN;4466311
+3;41;1723;2600560;0;Activo;3;Sarmiento 27;(U9203);Urbano;www.escuelapuertadelsol.org;puertadelsoltrevelin@gmail.com;ESCUELA BILINGÜE PUERTA DEL SOL;480769
+5;52;1724;2600580;0;Activo;4;Chacra 200;(U9105);Urbano;No posee;colegioaliwen@gmail.com;COLEGIO ALIWEN;4491414
+14;81;1726;2600614;0;Activo;6;Pensamientos 836, San Martín ;(U9000);Urbano;No posee;csanjoseobrero@hotmail.com;SAN JOSÉ OBRERO;4462314
+1;17;1727;2600616;0;Activo;2;9 de Julio , Villa del Parque ;(U9120);Urbano;www.escuelafape.com;rectoriafape@yahoo.com.ar;COLEGIO PUERTO MADRYN - F.A.P.E.;4458341
+15;2;1728;2600654;0;Activo;1;Ruta Provincial Nº 71;(U9217);Rural Aglomerado;www.cruzadapatagonica.org;cevallecholila@cruzadapatagonica.org;"CENTRO EDUCATIVO AGROTÉCNICO ""VALLE DE CHOLILA""";15403368
+1;17;1729;2600656;0;Activo;2;Doctor Ávila 351, Colonos y Galeses ;(U9120);Urbano;http://www.amse.edu.ar/;escuelamutualista@gmail.com;ESCUELA MUTUALISTA A.M.S.E.;4473120/4455330
+11;63;1730;2600657;0;Activo;4;Bernardo Vacchina 76, Centro ;(U9103);Urbano;No posee;imanivsecundario@gmail.com/ima.direcciongeneral@gmail.com;INSTITUTO MARÍA AUXILIADORA;4482626
+14;83;1731;2600658;0;Activo;6;Lago de los Cisnes 241;(U9001);;www.evarardodecasatilly.edu.ar;fundaciondakota@gmail.com;"COMPLEJO EDUCATIVO ""EVERARDO DE CASA TILLY""";4452944
+14;81;1732;2600659;0;Activo;6;Alvear 446, Centro ;(U9000);;No posee;direccion.secundaria@escuelamarianomoreno.com.ar;ESCUELA INTEGRAL MARIANO MORENO;4470241
+14;81;1733;2600683;0;Activo;6;Monseñor D´Andrea 2044, Pueyrredón ;(U9100);Urbano;No posee;colegiosol@speedy.com.ar;COLEGIO PATAGÓNICO DEL SOL;4441831
+3;27;1734;2600704;0;Activo;3;Roca 272, Centro ;(U9200);Urbano;No posee;caciqueinacayal@gmail.com;"ESCUELA SALESIANA ""CACIQUE INACAYAL""";15516100/01/02
+14;81;1735;2600745;0;Activo;6;;;Urbano;No posee;primaria@emb.edu.ar;Escuela Manuel Belgrano;4066860
+1;17;1737;2600803;0;Activo;2;Obreros Unidos 120;(U9120);Urbano;fundacionceferino.org.ar;info@fundacionceferino.org.ar;UNIDAD EDUCATIVA DE GESTION SOCIAL-CEFERINO NAMUNCURA-;4472552
+11;66;1738;2600800;0;Activo;4;Mamel 4266, Inta ;(U9100);Urbano;No posee;escuelaepja1738@gmail.com/asociacion_ecos@yahoo.com.ar;UNIDAD EDUCATIVA DE GESTIÓN SOCIAL - ECOS;154822732
+3;27;1739;2600812;0;Activo;3;25 de Mayo 28;9200;;No posee;sin informacion;FUNDACIÓN EDUCATIVA ESQUEL;456053
+14;81;1740;2600813;0;Activo;6;Rivadavia 117;(U9000);Urbano;iacr.educacionadventista.com;instituto.comodoro@educacionadventista.org.ar;ESCUELA ADVENTISTA RAMOS MEJIA;4463297
+14;81;1741;2600839;0;Activo;6;CARLOS CALVO 650, MOSCONI KM.3 ;9000;;No posee;sin informacion;INSTITUTO INGENIERO ENRIQUE MOSCONI;4011639
+15;12;1742;2600853;0;Activo;1;RUTA PROVINCIAL N°16 KM.5 PARAJE ENTRE RIOS;8431;;No posee;sin informacion;"ESCUELA N° 1742 ""WALDORF CRISOL DE MICAEL""";933098
+1;17;1743;2600864;0;Activo;2;GUTIN EBRILL ENTRE MORGAN Y DAVIES;9120;;No posee;sin informacion;COLEGIO INTEGRAL PATAGONIA ARGENTINA C.I.P.A N°1743;5053853
+1;17;1744;2600865;0;Activo;2;PAULINA ESCARDO Y VICTORIA DE ELIZAGUIRRE 312;9120;;No posee;sin informacion;C.A.M.A.D N°1744;452999
+1;17;1746;2600876;0;Activo ;2;;9120;;No posee;sin informacion;ESCUELA NUEVA AUSTRAL;
+14;81;1801;2600477;0;Activo;6;Sarmiento 849, Centro ;9000;Urbano;No posee;sin informacion;ISFD MARÍA AUXILIADORA;4473577
+11;66;1802;2600082;0;Activo;4;Leandro Alem 437, Alberdi ;9211;Urbano;No posee;rhyslorena@gmail.com y ippicapacitacion@gmail.com;INST. PATAGÓNICO DEL PROFESORADO DE INGLÉS;4425676
+11;66;1803;2600099;0;Activo;4;Carrasco 250, Padre Juan Muzio ;9211;Urbano;www.cet.edu.ar;rectoria@cet.edu.ar;CENTRO DE ESTUDIOS TRELEW (CET) Nº 1803;4433276
+14;81;1806;2600486;0;Activo;6;Ameghino 1030, Centro ;8431;Urbano;www.institutoceli.com;celi@satlink.com / celi1806@yahoo.com.ar;COMODORO ENGLISH LANGUAGE INSTITUTE Nº 1806;4472191/4010494
+11;66;1808;2600510;0;Activo;4;Urquiza 356, Alberdi ;8431;Urbano;www.idestrelew.edu.ar;info@idestrelew.edu.ar /hola@idestrelew.edu.ar;INST. DE ESTUDIOS SUPERIORES (IDES) Nº 1808;4429049
+11;66;1814;2600562;0;Activo;4;Chile 357, Centro ;9201;Urbano;www.ismecanicadental.com.ar;marcelainstmecanicadental@hotmail.com;INST. SUP. DE MECÁNICA DENTAL Nº 1814;154388925/ 154680302
+14;81;1814;2600562;1;Activo;6;Avda. Estados Unidos 1041, KM3 ;9201;Urbano;www.ismecanicadental.com.ar;marcelainstmecanicadental@hotmail.com;INST. SUP. DE MECÁNICA DENTAL Nº 1814;154146720/ 4468989
+11;66;1816;2600599;0;Activo;4;Irigoyen 1519, San David ;9120;;www.i.s.g.saborpategonico.com.ar;isgsaborpatagonico@gmail.com;INST. SUP. DE GASTRONOMÍA N° 1816;4425140
+11;66;1818;2600611;0;Activo;4;Moreno Norte , Unión ;9120;Urbano;No posee;saragianardo@hotmail.com;INST. DE DOCENCIA, INVESTIGACIÓN Y CAPACITACIÓN LABORAL DE LA SANIDAD Nº 1818;4432468
+14;81;1818;2600611;1;Activo;6;Belgrano 920, Centro ;(U9000);Urbano;No posee;sin informacion;INST. DE DOCENCIA, INV. Y CAP. LAB. DE LA SANIDAD ARG.;154277695
+1;17;1819;2600615;0;Activo;2;Marcos A. Zar 345, Centro ;(U9120);;www.ipcs.edu.ar;info@ipcs.edu.ar;INST. PATAGÓNICO DE CIENCIAS SOCIALES Nº 1819;154600091
+14;81;1820;2600674;0;Activo;6;Aristóbulo del Valle 1555, CENTRO ;(U9000);Urbano;No posee;sin informacion;INSTITUTO SUPERIOR CONSULTAR ACADÉMICA;4063258/4441104
+14;81;1821;2600688;0;Activo;6;SAN MARTÍN 548, CENTRO ;(U9000);Urbano;No posee;sin informacion;INSTITUTO SUPERIOR GENERAL SAN MARTIN;4467223
+1;17;1823;2600760;0;Activo;2;ROBERTS 6;(U9120);Urbano;No posee;sin informacion;ESTUDIOS EN CIENCIAS COMERCIALES;4452999
+1;17;1824;2600762;0;Activo;2;MORENO 14;(U9120);Urbano;No posee;centroestudiosmadryn@speedy.com.ar;CENTRO DE ESTUDIOS MADRYN;4403933
+1;17;1825;2600857;0;Activo;2;SARMIENTO 26;9120;;No posee;sin informacion;"""ECPM"" ESCUELA DE CINE DE PUERTO MADRYN N°1825";401934
+1;17;2001;2600059;0;Activo;2;Albarracín Norte 2982, San Miguel ;(U9120);Urbano;No posee;escuelaverde3@hotmail.com/ escuelaverde3@gmail.com/;CELINA BALÁN DE PADILLA;4450376
+1;17;2003;2600373;0;Activo;2;Anita Jones 44, 21 de Enero ;(U9120);Urbano;No posee;escuelamunicipal1@hotmail.com;"ESCUELA MUNICIPAL N° 1 ""VICTOR A. MORON""";4473162
+3;41;2004;2600114;0;Activo;3;Molino Viejo 50;(U9203);Urbano;No posee;escuelaelmolino2004@gmail.com;"ESCUELA PROVINCIAL MUNICIPAL ""EL MOLINO""";480604
+3;27;2005;2600176;0;Activo;3;Ruta Nacional N° 259- Km. 5;(U9200);Urbano;No posee;escuela2005esquel@gmail.com;ESCUELA PROVINCIAL MUNICIPAL Nº 2005;15320451
+14;81;2006;2600860;0;Activo;6;CARLOS O'DONELL 216;9000;;No posee;sin informacion;ESCUELA PROVINCIAL MUNICIPAL Nº 2006;6310723
+1;17;2401;2600405;0;Activo;2;Necochea , Unión Obrera ;9211;Urbano;No posee;sin informacion;PIEDRA LIBRE;4473171
+3;27;2403;2600117;2;Activo;3;Humpreys , Estación ;9211;Urbano;No posee;escuela2403jardinmaternal@hotmail.com;JARDINES MATERNALES MUNICIPALES Nº 2403;454402
+3;27;2403;2600117;1;Activo;3;Chacabuco , Matadero ;8431;Urbano;No posee;escuela2403jardinmaternal@hotmail.com;JARDINES MATERNALES MUNICIPALES Nº 2403;454879
+3;27;2403;2600117;0;Activo;3;Sarmiento , Don Bosco ;8431;Urbano;No posee;escuela2403jardinmaternal@hotmail.com;JARDINES MATERNALES MUNICIPALES Nº 2403;454403
+11;63;2404;2600508;0;Activo;4;Ramon Neculqueo 1241, San Ramon ;9201;Urbano;No posee;jardinmunicipal2404-2412@hotmail.com;ESCUELA DE NIVEL INICIAL MUNICIPAL N° 2404;4482513
+11;63;2404;2600508;7;Activo;4;Chacho Peñaloza 65, Área 16 ;9201;Urbano;No posee;jardinmunicipal2404-2412@hotmail.com;ESCUELA DE NIVEL INICIAL MUNICIPAL Nº 2404;4410560
+11;63;2404;2600508;6;Activo;4;Federicci 780, San Pablo ;9120;Urbano;No posee;jardinmunicipal2404-2412@hotmail.com;ESCUELA DE NIVEL INICIAL MUNICIPAL Nº 2404;4410560
+11;63;2404;2600508;5;Activo;4;Ceferino Namuncurá 354, Área 12 ;9120;Urbano;No posee;jardinmunicipal2404-2412@hotmail.com;ESCUELA DE NIVEL INICIAL MUNICIPAL Nº 2404;4410560
+11;63;2404;2600508;4;Activo;4;Ramón Neculqueo 1241, San Ramón ;(U9103);Urbano;No posee;jardinmunicipal2404-2412@hotmail.com;ESCUELA DE NIVEL INICIAL MUNICIPAL Nº 2404;4410560
+11;63;2404;2600508;3;Activo;4;Remedios de Escalada de San Martín 925, Luis Vernet ;(U9103);Urbano;No posee;jardinmunicipal2404-2412@hotmail.com;ESCUELA DE NIVEL INICIAL MUNICIPAL N° 2404;4410560
+11;63;2404;2600508;2;Activo;4;Conesa 674, Rio Chubut ;(U9103);Urbano;No posee;jardinmunicipal2404-2412@hotmail.com;ESCUELA DE NIVEL INICIAL MUNICIPAL N° 2404;4410560
+1;17;2405;2600528;0;Activo;2;Anita Jones 20, 21 de Enero ;(U9120);Urbano;No posee;decolores_2405@hotmail.com;PARAÍSO DE COLORES;4456982
+1;17;2406;2600529;0;Activo;2;Gualjaina , Pujol II ;(U9120);Urbano;No posee;escueladenivelinicial2406@gmail.com;ABRACADABRA;4471005
+1;17;2407;2600530;0;Activo;2;Albarracín 2980, San Miguel ;(U9120);Urbano;Fuera de funcionamiento;jardincdi4@gmail.com;PICHI ÑEKUM;4471126
+1;17;2408;2600531;0;Activo;2;La Rioja 725, Gobernador Fontana ;(U9120);Urbano;No posee;sin informacion;ACUARELA;4472365
+14;81;2409;2600533;11;Activo;6;Liñeiros 3025, Stella Maris ;(U9000);Urbano;No posee;cpbstellamaris@hotmail.com;"CENTRO DE PROMOCIÓN BARRIAL ""STELLA MARIS""";4480191
+14;81;2409;2600533;10;Activo;6;Felix Vega , 30 de Octubre ;(U9000);Urbano;No posee;cpb30deoctubre@hotmail.com.ar;"CENTRO DE PROMOCIÓN BARRIAL ""30 DE OCTUBRE""";4482795
+14;81;2409;2600533;9;Activo;6;Lisandro de la Torre 3300, Isidro Quiroga ;(U9000);Urbano;No posee;cpbisidroquiroga@hotmail.com.ar;"CENTRO DE PROMOCIÓN BARRIAL ""ISIDRO QUIROGA""";4486142
+14;82;2409;2600533;7;Activo;6;Colhue huapi 321, Centro ;(U9000);Urbano;No posee;sin informacion;"CENTRO DE PROMOCIÓN BARRIAL ""DIADEMA""";484 3224
+14;81;2409;2600533;6;Activo;6;Avda. José Ingeniero 1064, Presidente Ortiz- Km. 5 ;(U9001);Urbano;No posee;cpbkm5@outlook.com;"CENTRO DE PROMOCIÓN BARRIAL ""PRESIDENTE ORTIZ""";4559197
+14;81;2409;2600533;5;Activo;6;Base Matienzo , Don Bosco ;(U9000);Urbano;No posee;sin informacion;"CENTRO DE PRMOCIÓN BARRIAL ""DON BOSCO""";4536290
+14;81;2409;2600533;4;Activo;6;Juan José Paso , Próspero Palazzo ;(U9000);Urbano;No posee;cpbprosperopalazzo@hotmail.com;"CENTRO DE PROMOCIÓN BARRIAL ""PRÓSPERO PALAZZO""";4548110
+14;81;2409;2600533;3;Activo;6;Rivadavia , Centro ;(U9000);Urbano;No posee;evitainstitucion@hotmail.com;"CENTRO DE PROMOCIÓN BARRIAL ""EVITA""";4463999
+14;81;2409;2600533;1;Activo;6;Las Violetas S/N , San Martín ;(U9000);Urbano;No posee;cPBsanmartin@hotmail.com;"CENTRO DE PROMOCIÓN BARRIAL ""SAN MARTÍN""";4470200
+14;81;2409;2600533;0;Activo;6;Formosa 1661, Pietrobelli ;(U9005);Urbano;No posee;cpblosgrillitos@hotmail.com;"CENTRO DE PROMOCIÓN BARRIAL ""LOS GRILLITOS""";4463478
+13;79;2410;2600570;0;Activo;5;España 792, Centro ;(U9020);Urbano;No posee;maternalsarmiento@gmail.com;VICTORINA E. BRITAPAJA;4893401
+11;63;2411;2600577;0;Activo;4;Vachina 384, Centro ;(U9103);Urbano;No posee;jardinmaternalmunicipal2411@hotmail.com;CRECIENDO JUNTOS;4482259
+11;63;2412;2600583;0;Activo;4;Doble Trocha , Sector Área Nº 23 ;(U9103);Urbano;No posee;jardinmunicipal2404-2412@hotmail.com;ESTRELLITAS DE MAR;4410560
+11;63;2412;2600583;1;Activo;4;Alejandro Conesa 674, RIO CHUBUT ;(U9103);Urbano;No posee;jardinmunicipal2404-2412@hotmail.com;ESTRELLITAS DE MAR (ANEXO RIÓ CHUBUT);4410560
+12;78;2413;2600589;0;Activo;5;Pasaje Kennedy;(U9030);Urbano;No posee;jardin2413@hotmail.com;RAYITO DE SOL;420372
+3;27;2414;2600598;2;Activo;3;Indígenas y los sueños , BADEN I ;(U9200);Urbano;No posee;jardinmatminicip2414@gmail.com;JARDN MATERNAL MUNICIPAL;456357
+3;27;2414;2600598;1;Activo;3;Pasaje 16 de Noviembre 2076, 28 de Junio ;(U9200);Urbano;No posee;glrosana@hotmail.com;TREMÚN NEHUÉN;453050
+3;27;2414;2600598;0;Activo;3;Alsina , Buenos Aires ;(U9200);Urbano;No posee;glrosana@hotmail.com;CHISPITAS;456357
+11;66;2415;2600612;0;Activo;4;Ricardo Berwin 145, Centro ;(U9100);Urbano;No posee;silcami273@hotmail.com;"CENTRO MATERNO INFANTIL MUNICIPAL (CEMIM) VESP.""BICHITO DE LUZ""";4427484
+11;66;2415;2600612;6;Activo;4;Ecuador , Corradi ;(U9100);Urbano;No posee;sin informacion;"CEMIM ""TUTU MARAMBA""";154323925
+11;66;2415;2600612;5;Activo;4;Emilio Frey , Sur ;(U9100);Urbano;No posee;jardin_arcoiristw@hotmail.com;"CEMIM ""ARCO IRIS""";4421179
+11;66;2415;2600612;4;Activo;4;Arrayanes , Los Aromos ;(U9100);Urbano;No posee;sin informacion;"CEMIM ""LOS AROMITOS""";4828147/4422606
+11;66;2415;2600612;3;Activo;4;Ricardo Berwin 145, Centro ;(U9100);Urbano;No posee;jardinevitatrelew@hotmail.com;"CEMIM ""EVITA""";4427484
+11;66;2415;2600612;2;Activo;4;Entre Ríos 139, Progreso ;(U9100);Urbano;No posee;jardin_ballenitazul@hotmail.com;"CEMIM ""BALLENITA AZUL""";4435657
+11;66;2415;2600612;1;Activo;4;Benito Fernández , Planta de Gas ;(U9100);Urbano;No posee;jardinpichiayelen@outlook.com;"CEMIM ""PICHI AYELÉN""";4428883
+15;2;2416;2600613;0;Activo;1;Avda. 15 de Diciembre , Residencial ;(U9217);Rural Aglomerado;No posee;jardinmaternalcholila@gmail.com;JARDÍN MATERNAL MUNICIPAL Nº 2416;498196
+15;9;2417;2600716;0;Activo;1;El Chucao , Alto ;(U9211);Urbano;No posee;velascosil@yahoo.com.ar;JARDÍN MATERNAL MUNICIPAL Nº 2417;499526
+3;41;2418;2600724;0;Activo;3;Río Percy 146;(U9203);Urbano;No posee;kr.hammond.73@gmail.com;JARDÍN MATERNAL MUNICIPAL Nº 2418;481015
+1;17;2701;2600374;0;Activo;2;Juan Muzzio 1;(U9120);Urbano;www.webmail.colegiodepesca.edu.ar;colegiodepesca@gmail.com;"ESCUELA MUNICIPAL DE APRENDIZAJE LABORAL (E.M.A.L.) ""JUAN DEMONTE""";4451314
+11;63;2702;2600138;0;Activo;4;Güemes 71;(U9103);Urbano;No posee;emal2702rw@gmail.com;ESCUELA DE APRENDIZAJE LABORAL (E.M.A.L.) Nº 2702;4485686
+3;27;3018;2600713;0;Activo;3;Ruta Nacional Nº 259 , Zona de Chacras ;(U9200);Urbano;No posee;sin informacion;CASA ESTUDIANTIL Nº 3018;451397
+3;27;4401;2600819;0;Activo;3;25 de Mayo y Alsina;(U9200);Urbano;No posee;eni489tw@gmail.com;ESCUELA DE NIVEL INICIAL;453433
+14;83;4402;2600828;0;Activo;6;ONAS - ENTRE ARAUCANO Y BELGRANO;(U9001);Urbano;No posee;eni4402rada@gmail.com;ESCUELA DE NIVEL INICIAL Nº 4402;154132892
+3;27;4403;2600835;0;Activo;3;VOLTA Y ALMAFUERTE;(U9200);;No posee;sin informacion;ESCUELA DE NIVEL INICIAL Nº 4403;455503
+4;39;4404;2600836;0;Activo;3;;;Urbano;No posee;jjardincito4404riopico@mail.com;ESCUELA DE NIVEL INICIAL Nº 4404;492090
+15;7;4405;2600850;0;Activo;1;LOS GUINDOS Y FRUTILLITAS;9211;Urbano;No posee;sin informacion;ESCUELA DE NIVEL INICIAL Nº 4405;4471104
+15;12;4406;2600854;1;Activo;1;LAS MUTICIAS;9211;Urbano;No posee;sin informacion;ESCUELA DE NIVEL INICIAL Nº 4406;4499119
+15;12;4406;2600854;0;Activo;1;CASA DE TÉ , PARAJE ISLA CENTRO ;8431;Urbano;No posee;sin informacion;ESCUELA DE NIVEL INICIAL Nº 4406;32197
+11;60;5009;2600782;0;Activo;4;Centenario 1035, Playa Unión ;(U9121);Urbano;No posee;cestudiantil5009@gmail.com;INA LEFKEN ÑIEKUM (RESIDENCIA FRENTE AL MAR);4496236
+11;63;6002;2600639;0;Activo;4;LEWIS JONES 24;(U9103);Urbano;No posee;culturatecnologica@udc.edu.ar;UNIDAD DE CULTURA TECNOLÓGICA E INNOVACIÓN PRODUCTIVA Nº 2;481866
+15;12;6500;2600655;0;Activo;1;Parque Nacional Lago Puelo ;(U8431);Rural Aglomerado;No posee;plantapuelo@hotmail.com;PLANTA PERMANENTE DE CAMPAMENTOS EDUCATIVOS Nº 6500 DE LAGO PUELO;154204203
+3;32;6501;2600684;0;Activo;3;Ruta Provincial Nº 71;(U9201);Rural Aglomerado;www.chubut.edu.ar/chubut/?p=18708;plantaeducativafutalaufquen@hotmail.com;PLANTA PERMANENTE DE CAMPAMENTOS EDUCATIVOS Nº 6501 DE LAGO FUTALAUFQUEN;15688908
+15;12;6503;2600838;0;Activo;1;PARAJE EL TURBIO ;8431;Rural Aglomerado;No posee;sin informacion;PLANTA PERMANENTE DE CAMPAMENTOS EDUCATIVOS Nº 6503 DE LAGO PUELO;4568964
+2;37;6504;2600861;0;Activo;3;Ruta Provincial N°12 kM.-100;9201;Rural Aglomerado;No posee;sin informacion;PLANTA PERMANENTE DE CAMPAMENTOS EDUCATIVOS Nº 6504 DE PIEDRA PARADA;696842
+1;17;7701;2600673;0;Activo;2;Sarmiento 268, Centro ;9201;Urbano;www.colegio7701.com.ar;direccionescuela7701@gmail.com.ar;COLEGIO Nº 7701;4454679
+14;81;7702;2600678;0;Activo;6;Enrique Santos Discépolo 489, Don Bosco- Km. 8 ;9120;Urbano;No posee;colegio7702@gmail.com;CHARLES DARWIN N° 7702;4535287
+14;80;7703;2600679;0;Activo;6;Punta Novales 450, Caleta Córdova ;9120;Urbano;Página de Facebook: Escuela 7703 Caleta Cordova;colegio7703@hotmail.com;CALETA CÓRDOVA;4590145
+14;82;7704;2600697;0;Activo;6;Lago Argentino 445, Diadema Argentina ;(U9000);Urbano;No posee;sin informacion;COLEGIO Nº 7704;4843072
+11;63;7705;2600698;0;Activo;4;Vuelta de Obligado , San Pablo ;(U9103);Urbano;No posee;escu7705@gmail.com;COLEGIO Nº 7705;4484080
+1;17;7707;2600701;0;Activo;2;Tecka 1562, Pujol II ;(U9120);Urbano;No posee;sin informacion;"""PROFESORA MARÍA FERNANDA JINDRA"" Nº 7707";4451431
+15;26;7708;2600702;5;Activo;1;Proximo a Ruta Provincial 1;9201;Rural Disperso;No posee;escuela99_lepa@hotmail.com;UEM-ES N° 99 COSTA DE LEPA;479143
+3;35;7708;2600702;12;Activo;3;;;Rural Disperso;No posee;escuela7708rural@gmail.com;UEM-ES N° 107 NAHUEL PAN;15640350
+3;41;7708;2600702;11;Activo;3;;;Rural Disperso;No posee;escuelaparalavida@hotmail.com;UEM-ES N° 208 SIERRA COLORADA;478318
+3;38;7708;2600702;10;Activo;3;;(U9200);Rural Disperso;No posee;escuela188riopercey@gmail.com;UEM-ES N° 188 RIO PERCEY;455338
+3;33;7708;2600702;7;Activo;3;Lago Rosario ;(U9203);Rural Disperso;No posee;escuela114@yahoo.com;UEM-ES N° 114 LAGO ROSARIO;479301
+3;22;7708;2600702;6;Activo;3;Proximo a Ruta 1;(U9201);Rural Disperso;No posee;esc113centinela@gmail.com;UEM-ES N° 113 CERRO CENTINELA;494149
+3;34;7708;2600702;4;Activo;3;;(U9203);Rural Disperso;No posee;escuelaloscipreses@gmail.com;UEM-ES N° 98 LOS CIPRESES;479702
+3;32;7708;2600702;2;Activo;3;;;Rural Disperso;No posee;escuela25futalaufquen@yahoo.com.ar;UEM-ES N° 25 LAGO FUTALAUFQUEN;471042
+3;27;7708;2600702;0;Activo;3;Pasaje Isaías Vera s/n y Avenida Holdich;(U9200);Rural Disperso;No posee;escuela7708rural@gmail.com;ESCUELA SECUNDARIA RURAL Nº 7708;450885
+2;36;7708;2600702;9;Activo;3;Ruta Provincial 1;(U9201);Rural Disperso;No posee;med.134pasodelsapo@hotmail.com;UEM-ES N° 134 PASO DEL SAPO;479937
+2;19;7708;2600702;8;Activo;3;Mariano Epulef;(U9201);Rural Disperso;No posee;escuela129.aldeaepulef@gmail.com;UEM-ES N° 129 ALDEA EPULEF;490141
+2;23;7708;2600702;3;Activo;3;;;Rural Disperso;No posee;escuela79.colanconhue@gmail.com;UEM-ES N° 79 COLAN COHUÉ;470540
+2;21;7708;2600702;1;Activo;3;Carrenleufu;(U9201);Rural Disperso;No posee;escuela10.carrenleufu@gmail.com;UEM-ES N° 10 CARRENLEUFU;490746
+15;4;7709;2600703;4;Activo;1;;(U9211);Rural Disperso;No posee;sin informacion;UEM-ES N° 69 COLONIA CUSHAMEN;15686246
+15;15;7709;2600703;3;Activo;1;Ruta Provincial 35;(U9211);Rural Disperso;No posee;direccion67sur@gmail.com;UEM-ES N° 67 ÑORQUINCO SUR;15419893
+15;3;7709;2600703;1;Activo;1;Ruta Provincial Nº 35 , Aldea Escolar- Escuela Nº59 3;(U9711);Rural Disperso;No posee;sin informacion;UEM-ES N° 59 FOFO CAHUEL;470901
+15;4;7709;2600703;0;Activo;1;Avda. Libertador;(U9211);Rural Disperso;No posee;sin informacion;ESCUELA SECUNDARIA RURAL Nº 7709;470796
+1;18;7710;2600706;0;Activo;2;Avda. Las Ballenas;(U9121);Urbano;No posee;secundariopiramides@gmail.com;PATAGONIA REBELDE RURAL Nº 7710;4495027
+6;54;7711;2600719;0;Activo;4;Avda. Yanquetruz;(U9121);Rural Aglomerado;No posee;escuelal7711@outlook.com;COLEGIO SECUNDARIO RURAL Nº 7711;4499130
+5;67;7712;2600720;7;Activo;4;;;Rural;No posee;escuela7712@gmail.com;UEM-ES N° 55 TREORCKY;15475188
+6;49;7712;2600720;6;Activo;4;;(U9121);Rural;No posee;esc212escorial@hotail.com;UEM-ES N° 212 EL ESCORIAL;4484921
+6;43;7712;2600720;5;Activo;4;;(U9121);Rural;No posee;escuela128_albergue5001@hotmail.com;UEM-ES N° 128 BLANCUNTRE;4499810
+6;55;7712;2600720;4;Activo;4;;(U9121);Rural;No posee;sin informacion;UEM-ES N° 117 LAGUNITA SALADA;4490720
+6;68;7712;2600720;1;Activo;4;Ruta Provincial N°50 -a 32KM.del Lago Yala Laubat-;(U9121);Rural;No posee;escuela7712@gmail.com;UEM-ES N° 62 YALA LAUBAT;4484921
+11;61;7712;2600720;9;Activo;4;Oris de Roa;(U9100);Rural;No posee;uem78trelew@hotmiail.com escuela7712@gmail.com;UEM-ES N° 78 PUENTE HENDRE;154300864
+11;57;7712;2600720;8;Activo;4;;;Rural;No posee;escuela7712@gmail.com;UEM-ES N° 64 LOMA GRANDE;4435108
+11;63;7712;2600720;0;Activo;4;Castelli 45;(U9103);Rural;No posee;escuela7712@gmail.com;COLEGIO SECUNDARIO RURAL N° 7712;4484921/ 4483107
+9;64;7712;2600720;2;Activo;4;Ruta Provincial N°4-15Km. Acces. Aldea Sepaucal;(U9121);Rural;No posee;escuela7712@gmail.com;UEM-ES N° 92 SEPAUCAL;4484921
+11;66;7713;2600718;0;Activo;4;Ruta Nacional Nº 3- Km. 25;(U9100);Rural Disperso;No posee;claumundin@hotmail.com;ESCUELA DE FORMACIÓN INTEGRAL (C.O.S.E) Nº 7713;
+3;27;7714;2600721;0;Activo;3;Saenz Peña 2352, Malvinas Argeninas ;(U9203);Rural Aglomerado;No posee;sin informacion;COLEGIO SECUNDARIO RURAL Nº 7714DE ESQUEL;456215
+14;81;7715;2600723;0;Activo;6;Providencia 1500, Quirno Costa ;(U9000);Urbano;No posee;sin informacion;DR. NÉSTOR CARLOS KIRCHNER;4442316
+11;66;7716;2600731;0;Activo;4;Moreno Norte 395, Don Bosco ;(U9100);Urbano;No posee;colegio7716@gmail.com;COLEGIO Nº 7716;4427289
+14;81;7717;2600732;0;Activo;6;Avda. Della Mura 270, Stella Maris ;(U9000);Urbano;No posee;colegio7717@gmail.com;COLEGIO Nº 7717;4444944 / 2716
+11;66;7718;2600737;0;Activo;4;Río Senguer , Abel Amaya ;(U9100);Urbano;No posee;colegiosecundario7718@gmail.com;"""MARTIN FIERRO"" Nº 7718";4447150
+15;84;7719;2600738;0;Activo;1;Ruta Provincial Nº 70;(U9210);Rural;No posee;escagraria7719@gmail.com;COLEGIO Nº 7719;495395
+11;66;7720;2600744;0;Activo;4;David Lloyd Jones 771, Padre Juan Muzio ;(U9100);Urbano;No posee;e.d.escuela7720@gmail.com;ESCUELA Nº 7720;4427629
+11;66;7721;2600747;0;Activo;4;Michael Jones 1240, SAN JOSE ;(U9100);Urbano;Facebook Escuela7721;escuela7721@gmail.com;"ESCUELA ""ROBERTO FONTANA ROSA Nº 7721";4426987
+3;27;7722;2600751;0;Activo;3;Pasteur 1230, Buenos Aires ;(U9200);Urbano;No posee;colegio7722@gmail.com;COLEGIO Nº 7722;453912
+9;53;7723;2600755;0;Activo;4;;;Rural;No posee;ESCUELA7723@GMAIL.COM;Colegio Secundario Rural Nº 7723;484490411
+9;46;7723;2600755;1;Activo;4;;;Rural;No posee;colegiosecundario7723@hotmail.com;UEM.ES N° 63 CHACAY OESTE;154490411/ 4490150
+3;20;7724;2600756;0;Activo;3;;;Rural;No posee;colegio7724@gmail.com;Colegio Secundario Rural Nº 7724;478301
+5;47;7725;2600757;3;Activo;4;10 de Julio;(U9101);Rural;No posee;ESCUELA7725@OUTLOOK.COM;UEM-ES N° 56 DIQUE FLORENTINO AMEGHINO;4490302
+10;56;7725;2600757;0;Activo;4;;;Rural;No posee;escuela7725@outlook.com;COLEGIO SECUNDARIO RURAL N° 7725;4490875
+8;45;7725;2600757;2;Activo;4;Cerro Cóndor-a 58Km. a Paso de Indios por Ruta Provincial;(U9207);Rural;No posee;escuela7725@outlook.com;UEM-ES N° 31 CERRO CONDOR;4490011
+8;58;7725;2600757;1;Activo;4;Ruta Nacional 2;(U9207);Rural;No posee;escuela7725@outlook.com;UEM-ES N° 6 LOS ALTARES;4499002
+1;17;7726;2600765;0;Activo;2;Jo?e Podesta 20;(U9120);Urbano;www.escuela7726-pmadryn.edu.ar;escuela7726@gmail.com;COLEGIO Nº 7726;4470400
+15;7;7727;2600779;0;Activo;1;Amancay S/Nº;;Urbano;No posee;escuelatecnica7727elhoyo@gmail.com;ESCUELA Nº 7727;4471360
+14;81;7729;2600817;0;Activo;6;;;Urbano;No posee;escuelasecundaria7729@gmail.com;ESCUELA N° 7729;154048694
+3;41;7730;2600834;0;Activo;3;RIO CORINTO;(U9203);Urbano;No posee;sin informacion;ESCUELA N°7730;
+9;65;7731;2600837;0;Activo;4;SAN MARTIN;(U9121);Rural;No posee;escuela7731telsen@gmail.com;ESCUELA N°7731;4274787
+1;17;7732;2600862;0;Activo;2;AVENIDA DEL TRABAJO 153;9120;Rural;No posee;sin informacion;ESCUELA N°7732;454345
+1;17;7733;2600863;0;Activo;2;AVENIDA JUAN MUZZIO 70;9120;Rural;No posee;sin informacion;ESCUELA N°7733;451523
+11;66;CEF;2600576;0;Activo;4;Centenario 540, Los Olmos ;(U9100);;No posee;cef26trelew@hotmail.com;CENTRO DE EDUCACIÓN FÍSICA Nº 26;4421880
+14;81;Z000023;2690001;0;Activo;6;Ruta Provincial Nº 1 , Km. 4 ;(U9005);;www.unp.edu.ar - http://cup.unp.edu.ar;cup@unpata.edu.ar/ colegio@cup.unp.edu.ar;COLEGIO UNIVERSITARIO PATAGÓNICO;4557865
+14;81;Z000024;2690002;0;Activo;6;Avda. Hipólito Yrigoyen 2351, General Roca ;(U9000);;www.liceoroca.edu.ar;liceomilitargeneralroca@speedy.com.ar/info@liceoroca.edu.ar;"LICEO MILITAR ""GENERAL ROCA""";4474712/4474714

@@ -1,0 +1,13 @@
+var bibliotecas_pedagogicas = {
+	"type": "FeatureCollection",
+	"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },                                                                               
+	"features": [
+{ "type": "Feature", "properties": { "numBibl": 1, "nombreBibl": "Pueblo de Rawson", "direccion": "Alejandro Maiz N°110", "codPostal": "9103", "Localidad": "Rawson", "email": "biprawson@yahoo.co,.ar", "horario": "Lunes a Viernes de 8 a 19:45hs", "numReg": "IV" }, "geometry": { "type": "Point", "coordinates": [ -65.1070155, -43.2995116 ] } },
+{ "type": "Feature", "properties": { "numBibl": 2, "nombreBibl": "República de Italia", "direccion": "Rawson N°209", "codPostal": "9100", "Localidad": "Trelew", "email": "bip2trelew@yahoo.com.ar", "horario": "Lunes a Viernes de 7 a 19:50hs", "numReg": "IV" }, "geometry": { "type": "Point", "coordinates": [ -65.3103644, -43.250733 ] } },
+{ "type": "Feature", "properties": { "numBibl": 3, "nombreBibl": "Paulo Freire", "direccion": "Brown N°505", "codPostal": "9200", "Localidad": "Esquel", "email": "bibliotecap3@yahoo.com.ar", "horario": "Lunes a Viernes de 8 a 18:30hs", "numReg": "III" }, "geometry": { "type": "Point", "coordinates": [ -71.3131933, -42.9100771 ] } },
+{ "type": "Feature", "properties": { "numBibl": 4, "nombreBibl": "Elena Norma de Zayas", "direccion": "Av. Rivadavia N°2468", "codPostal": "9000", "Localidad": "Comodoro Rivadavia", "email": "biblioteca4cr@gmail.com", "horario": "Lunes a Viernes de 8 a 18hs", "numReg": "VI" }, "geometry": { "type": "Point", "coordinates": [ -67.5073826, -45.862555 ] } },
+{ "type": "Feature", "properties": { "numBibl": 6, "nombreBibl": "Escritores Patagónicos", "direccion": "Mitre N°1046", "codPostal": "9120", "Localidad": "Puerto Madryn", "email": "bipmadryn@speedy.com.ar", "horario": "Lunes a Viernes de 7:30 a 19hs", "numReg": "II" }, "geometry": { "type": "Point", "coordinates": [ -65.0307049, -42.7749171 ] } },
+{ "type": "Feature", "properties": { "numBibl": 7, "nombreBibl": "José Leopoldo Ortiz", "direccion": "Av. 2 de Abril N°16. Galeria Arrayanes. Local 2", "codPostal": "8431", "Localidad": "Lago Puelo", "email": "bipregion1@gmail.com", "horario": "Lunes a Viernes de 8 a 19:30hs", "numReg": "I" }, "geometry": { "type": "Point", "coordinates": [ -71.59827, -42.0596148 ] } },
+{ "type": "Feature", "properties": { "numBibl": 5, "nombreBibl": "Biblioteca Pedagógica N°5", "direccion": "Perito Moreno y Uruguay (Esc.N°82)", "codPostal": "9020", "Localidad": "Sarmiento", "email": "bp5regionv@gmail.com", "horario": "Lunes a Viernes de 7:30 a 16hs", "numReg": "V" }, "geometry": { "type": "Point", "coordinates": [ -69.0659793, -45.5889992 ] } },
+	]
+};

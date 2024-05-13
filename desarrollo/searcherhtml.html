@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name="description" content="Herramienta de visualización, gestión y análisis de información georreferenciada relativa al sistema educativo a nivel local, regional y provincial">
+  	<meta name="author" content="Dirección de Estadística y Evaluación Educativa del Ministerio de Educación del Gobierno del Chubut">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link type="text/css" rel="stylesheet" href="/css/leaflet.css" />
+	<link type="text/css" rel="stylesheet" href="/css/mapa.css" />  
+	<link type="text/css" rel="stylesheet" href="/css/leaflet.legend.css" />
+	<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css">
+	<link type="text/css" rel="stylesheet" href="/css/Control.FullScreen.css" />
+	<link type="text/css" rel="stylesheet" href="/css/easy-button.css" />
+	<link type="text/css" rel="stylesheet" href="/css/iconLayers.css" />
+	<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
+	<script src="/js/xlsx.full.min.js"></script>
+    <script src="/js/filesaver.js"></script>
+    <script src="/js/leaflet.js"></script>
+    <script src="/js/leaflet.browser.print.js"></script>
+	<script src="searchControl.js"></script>
+	
+
+	<link rel="shortcut icon" type="image/x-icon"  href="icons/favicon-500x500.png">
+	<title>Mapa Educativo Interactivo de la Provincia del Chubut</title>
+
+	<script type="text/javascript"> 
+		function buttonclick(){
+			var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {});
+            myModal.toggle();
+		}
+	</script> 
+	
+</head>
+
+<body>
+	<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel1">Buscar establecimientos educativos por:</h5>
+			<div class="d-flex justify-content-end">
+				<button type="button" class="btn-question btn-sm" data-bs-target="#staticBackdropConsulta" data-bs-toggle="modal" data-bs-dismiss="modal"></button>
+				<button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close" onclick="return resetForm();"></button>	
+			</div>
+		</div>
+		<div class="modal-body">
+			<ul class="nav nav-tabs" id="myTab" role="tablist">
+				<li class="nav-item" role="presentation">
+					<button class="nav-link active" id="numeroesc-tab" data-bs-toggle="tab" data-bs-target="#numeroesc" type="button" role="tab" aria-controls="numeroesc" aria-selected="true">Número</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#nombreessc" type="button" role="tab" aria-controls="nombreessc" aria-selected="false">Nombre</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link" id="cue-tab" data-bs-toggle="tab" data-bs-target="#cue" type="button" role="tab" aria-controls="cue" aria-selected="false">CUE-Anexo</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link" id="oferta-tab" data-bs-toggle="tab" data-bs-target="#oferta" type="button" role="tab" aria-controls="cue" aria-selected="false">Oferta Educativa</button>
+				</li>
+				
+				<li class="nav-item" role="presentation">
+					<button class="nav-link" id="localizacion-tab" data-bs-toggle="tab" data-bs-target="#localizacion" type="button" role="tab" aria-controls="cue" aria-selected="false">Localización Geográfica</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link" id="otro-tab" data-bs-toggle="tab" data-bs-target="#otro" type="button" role="tab" aria-controls="otro" aria-selected="false">Otros</button>
+				</li>
+			</ul>
+			<div class="tab-content" id="myTabContent">
+<!-- pestaña buscar por Numero de escuela-->						
+				<div class="tab-pane fade show active" id="numeroesc" role="tabpanel" aria-labelledby="numeroesc-tab">
+					<!--<form id="buscarPorNumero">-->
+						<h5 class="mt-3">Número del establecimiento: </h5>
+						<div class="p-3 shadow-sm mb-3">
+							<div class="row ">
+								<div class="form-group col-sm-12">
+									<div class="form-group">
+										<input type="text" id="f-numeroesc" name="f-numeroesc" placeholder="Ingresar el número del establecimiento" class="form-control" autofocus="">
+										<small id="infoNumero" class="form-text text-muted"><i class="bi bi-info-circle"></i> Si existen coincidencias, se van a mostrar para que seleccione alguna.</small>
+										<small id="infoNumeroError" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> El número no es válido</small>
+										<small id="infoNumeroErrorNumero" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> El número no se encuentra</small>
+									</div>	
+								</div>
+							</div>
+						</div>
+						<div class="mb-3" id="f-numeroesc-block-item" style="display: none;">
+							<h5>Seleccionar establecimiento: ${instituciones}</h5>
+							<div class="p-3 shadow-sm mb-3">
+								<div class="row ">
+									<div class="form-group col-sm-12">
+										<div class="list-group" id="f-numeroesc-item" role="tablist">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<small id="infoNumNombreRepetidoFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Ya existe esta capa</small>
+						<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+							<button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" onclick="return resetForm();">Cancelar búsqueda</button>
+							<button id="f-nroesc-item_btn_clean" type="button" class="btn btn-outline-info btn-sm" onclick="limpiarItemsNroEsc()" style="display:none">Limpiar busqueda</button>	
+							<button id="f-nroesc-item_btn" type="submit" class="btn btn-outline-success btn-sm" onclick="nroSelect()">Realizar búsqueda</button>	
+						</div>
+					<!--</form>-->
+				</div>
+<!-- pestaña buscar por Nombre de escuela-->
+				<div class="tab-pane fade" id="nombreessc" role="tabpanel" aria-labelledby="nombreessc-tab">
+					<h5 class="mt-3">Nombre del establecimiento: </h5>
+					<div class="p-3 shadow-sm mb-3">
+						<div class="row ">
+							<div class="form-group col-sm-12">
+								<div class="form-group">
+									<input type="text" name="f-nombreessc" placeholder="Ingresar el nombre del establecimiento" class="form-control" id="f-nombreessc" autofocus="">
+									<small id="infoNombre" class="form-text text-muted"><i class="bi bi-info-circle"></i> Si existen coincidencias, se van a mostrar para que seleccione alguna.</small>
+									<small id="infoNombreError" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> El nombre no es válido</small>
+									<small id="infoNombreErrorNonombre" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> El nombre no se encuentra</small>
+								</div>	
+							</div>
+						</div>
+					</div>
+					<div class="mb-3" id="nombreesc-block-item" style="display: none;">
+						<h5>Seleccionar establecimiento:</h5>
+						<div class="p-3 shadow-sm mb-3">
+							<div class="row ">
+							  <div class="col-sm-12">
+								<div class="list-group" id="f-nombreesc-item" role="tablist">
+								</div>
+							  </div>
+							</div>
+						</div>
+					</div>
+					<small id="infoNomNombreRepetidoFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Ya existe esta capa</small>
+					<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+						<button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" onclick="return resetForm();">Cancelar búsqueda</button>
+						<button id="f-nombreesc-item_btn_clean" type="button" class="btn btn-outline-info btn-sm" onclick="limpiarItemsNombreEsc()" style="display:none">Limpiar busqueda</button>	
+						<button id="f-nombreesc-item_btn" type="button" class="btn btn-outline-success btn-sm" onclick="nombreSelect()">Realizar búsqueda</button>	
+					</div>
+				</div>
+<!-- pestaña buscar por Cue-Anexo de escuela-->						
+				<div class="tab-pane fade" id="cue" role="tabpanel" aria-labelledby="cue-tab">
+					<h5 class="mt-3">Número de CUE-Anexo del establecimiento: </h5>
+					<div class="p-3 shadow-sm mb-3">
+						<div class="row ">
+							<div class="form-group col-sm-12">
+								<div class="form-group">
+									<input type="text" name="f-cue" placeholder="Ingresar el CUE-Anexo del establecimiento" class="form-control" id="f-cue" autofocus="">
+									<small id="infoCueAnexo" class="form-text text-muted" style="display: block;"><i class="bi bi-info-circle"></i> Si existe el CUE-Anexo, se va a agregar al mapa una capa que contiene los datos de su busqueda.</small>
+									<small id="infoCueAnexoError" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> El CUE-Anexo no es válido</small>
+									<small id="infoCueAnexoErrorNoExiste" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> El CUE-Anexo no existe</small>
+								</div>	
+							</div>
+						</div>
+					</div>
+					<small id="infoCueNombreRepetidoFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Ya existe esta capa</small>
+					<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+						<button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" onclick="return resetForm();">Cancelar búsqueda</button>
+						<button type="button" class="btn btn-outline-success btn-sm" onclick="cueAnexoSelect()">Realizar búsqueda</button>
+					</div>
+				</div>
+<!-- pestaña consultar por oferta-->						
+				<div class="tab-pane fade" id="oferta" role="tabpanel" aria-labelledby="oferta-tab">
+					<form id="formOferta">
+						<h5 class="mt-3"> Oferta Educativa: </h5>
+						<div class="p-3 shadow-sm mb-3">
+							<div class="row ">
+								<div class="form-group col-sm-6">
+									<label for="f-tipo">Modalidad</label>
+									<select class="form-control form-select form-select-sm" id="f-tipo" name="f-tipo" aria-label=".form-select-sm example">
+										<option selected="" value="todo">Sin seleccionar</option>
+										<option value="Común">Educación Común</option>
+										<option value="Especial">Educación Especial</option>
+										<option value="Adultos">Ed. Permanente de Jóvenes y Adultos</option>
+										<option value="Técnico Profesional">Ed. Técnico Profesional</option>
+										<option value="Artística">Educación Artística</option>
+										<option value="Intercultural Bilingüe">Ed. Intercultural Bilingue</option>
+										<option value="Contextos de privación de libertad">Ed. Contextos de Privación de la Libertad</option>
+										<option value="Domiciliaria y Hospitalaria (año anterior)">Ed. Domiciliaria y Hospitalaria</option>
+									</select>
+									<small id="infoofertaNoModalidadFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Debe seleccionar una modalidad.</small>
+								</div>
+								<div class="form-group col-sm-6">
+									<label for="f-nivel">Nivel</label>
+									<select class="form-control form-select form-select-sm" id="f-nivel" name="f-nivel" aria-label=".form-select-sm example" disabled=""></select>
+									<div id="infonivelspinner" class="spinner-border text-primary spinner-border-sm" role="status" style="display: none;">
+										<span class="visually-hidden">Loading...</span>
+									</div>
+									<small id="infoofertamodalidadNoConnFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+									<small id="infoofertamodalidadNoRepFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
+								</div>
+							</div>
+						</div>				
+						<div id="f-plan-estudio" style="display: none;">
+							<h5 class="mt-1">Planes de estudio:</h5>
+							<div class="p-3 shadow-sm mb-3">
+								<div class="row ">
+									<div class="form-group col-sm-6">
+										<label for="orientacion">Orientación</label>
+										<select class="form-control form-select form-select-sm" id="orientacion" name="orientacion" aria-label=".form-select-sm example">
+											<option selected="" value="todo">Sin seleccionar</option>
+										</select>
+										<div id="infoorientacionspinner" class="spinner-border text-primary spinner-border-sm" role="status" style="display: none;">
+											<span class="visually-hidden">Loading...</span>
+										</div>
+										<small id="infoofertaplaetudioNoConnFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+										<small id="infoofertafertaplaetudioNoRepFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
+									</div>
+									<div class="form-group col-sm-6">
+										<label for="dictado">Modalidad de dictado</label>
+										<select class="form-control form-select form-select-sm" id="dictado" name="dictado" aria-label=".form-select-sm example">
+											<option value="todo" selected="">Sin seleccionar</option>
+											<option value="Presencial">Presencial</option>
+											<option value="A distancia">A distancia</option>	
+										</select>
+										<div id="infodictadospinner" class="spinner-border text-primary spinner-border-sm" role="status" style="display: none;">
+											<span class="visually-hidden">Loading...</span>
+										</div>
+										<small id="infoofertadictadoNoConnFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+										<small id="infoofertafertadictadoNoRepFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
+									</div>
+								</div>
+							</div>
+						</div>
+						<small id="infoOfertaNombreRepetidoFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Ya existe esta capa.</small>
+						<small id="infoOfertaNoDatosFinalesFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
+						<small id="infoOfertaNoConnFinalesFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+						<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+							<button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" onclick="return resetForm();">Cancelar búsqueda</button>
+							<button type="submit" class="btn btn-outline-success btn-sm"><span id="consultaofertaspinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span> Realizar búsqueda</button>
+						</div>
+					</form>
+				</div>
+<!-- pestaña consultar por localizacion-->						
+				<div class="tab-pane fade" id="localizacion" role="tabpanel" aria-labelledby="localizacion-tab">
+					<form id="formLocalizacion">
+						<h5 class="mt-3">Locación geográfica: </h5>
+						<div class="p-3 shadow-sm mb-3">
+							<div class="row ">
+								<div class="form-group col-sm-4">
+									<label for="regionFormControlSelect">Región</label>
+									<select class="form-control form-select form-select-sm" id="regionFormControlSelect" name="regionFormControlSelect" aria-label=".form-select-sm example">
+										<option selected="" value="todo">Sin seleccionar</option>
+										<option value="1">I</option>
+										<option value="2">II</option>
+										<option value="3">III</option>
+										<option value="4">IV</option>
+										<option value="5">V</option>
+										<option value="6">VI</option>
+									</select>
+									<small id="inforegionFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Debe seleccionar una región.</small>
+								</div>
+								<div class="form-group col-sm-4">
+									<label for="departamentoFormControlSelect">Localidad</label>
+									<select class="form-control form-select form-select-sm" id="departamentoFormControlSelect" name="departamentoFormControlSelect" aria-label=".form-select-sm example" disabled="">
+									</select>
+									<div id="inforegionspinner" class="spinner-border text-primary spinner-border-sm" role="status" style="display: none;">
+										<span class="visually-hidden">Loading...</span>
+									</div>
+									<small id="inforegionNoDatosFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
+									<small id="inforegionNoConnFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+								</div>
+								<div class="form-group col-sm-4">
+									<label for="direccionFormControlSelect">Dirección</label>
+									<select class="form-control form-select form-select-sm" id="direccionFormControlSelect" name="direccionFormControlSelect" aria-label=".form-select-sm example" disabled="">
+									</select>
+									<div id="infolocspinner" class="spinner-border text-primary spinner-border-sm" role="status" style="display: none;">
+										<span class="visually-hidden">Loading...</span>
+									</div>
+									<small id="infolocNoDatosFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
+									<small id="infolocNoConnFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+								</div>
+							</div>
+						</div>
+						<small id="infoLocNombreRepetidoFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Ya existe esta capa.</small>
+						<small id="infolocNoDatosFinalesFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
+						<small id="infolocNoConnFinalesFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+						<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+							<button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" onclick="return resetForm();">Cancelar búsqueda</button>
+							<button type="submit" class="btn btn-outline-success btn-sm"><span id="consultalocalizacionspinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span> Realizar búsqueda</button>
+						</div>
+					</form>
+				</div>
+<!-- pestaña consultar por Otros criterios-->
+				<div class="tab-pane fade" id="otro" role="tabpanel" aria-labelledby="otro-tab">
+					<form id="formOtros">
+						<fieldset id="paso1" style="display: block;">
+							<h5 class="mt-3">Funcionamiento:</h5>
+							<div class="p-3 shadow-sm mb-3">
+								<div class="row">
+									<div class="form-group col-sm-6">
+										<label for="turnoFormControlSelect">Turno de funcionamiento</label>
+										<select class="form-control form-select form-select-sm" id="turnoFormControlSelect" name="turnoFormControlSelect" aria-label=".form-select-sm example">
+											<option value="todo" selected="">Sin seleccionar</option>
+											<option value="manana">Mañana</option>
+											<option value="tarde">Tarde</option>
+											<option value="noche">Noche</option>
+											<option value="doble">Doble</option>
+											<option value="otro">Otro</option>
+											<option value="ninguno">Ninguno de los anteriores</option>
+										</select>
+									</div>
+									<div class="form-group col-sm-6">
+										<label for="jornadaFormControlSelect">Jornada extendida/completa</label>
+										<select class="form-control form-select form-select-sm" id="jornadaFormControlSelect" name="jornadaFormControlSelect" aria-label=".form-select-sm example">
+											<option value="todo" selected="">Sin seleccionar</option>
+											<option value="completa">Completa</option>
+											<option value="extendida">Extendida</option>
+										</select>
+									</div>
+								</div>
+								<div class="row mt-2">
+									<div class="form-group col-sm-6">
+										<label for="ambitoFormControlSelect">Ámbito</label>
+										<select class="form-control form-select form-select-sm" id="ambitoFormControlSelect" name="ambitoFormControlSelect" aria-label=".form-select-sm example">
+											<option selected="" value="todo">Sin seleccionar</option>
+											<option value="rural">Rural</option>
+											<option value="urbano">Urbano</option>
+										</select>
+									</div>
+									<div class="form-group col-sm-6">
+										<label for="sectorFormControlSelect">Sector de gestión</label>
+										<select class="form-control form-select form-select-sm" id="sectorFormControlSelect" name="sectorFormControlSelect" aria-label=".form-select-sm example">
+											<option value="todo" selected="">Sin seleccionar</option>
+											<option value="estatal">Estatal</option>
+											<option value="privado">Privado</option>
+											<option value="social">Social/cooperativa</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+								<button type="button" class="btn btn-outline-primary btn-sm" onclick="paso1apaso2()">Siguiente</button>	
+							</div>		
+						</fieldset>
+						<fieldset id="paso2" style="display: none;">						
+							<h5 class="mt-3">Características Pedagógicas Educativas:</h5>
+							<div class="p-3 shadow-sm mb-3">
+								<div class="row">
+									<div class="form-group col-sm-4">
+										<label for="idiomaFormControlSelect">Idioma</label>
+										<select class="form-control form-select form-select-sm" id="idiomaFormControlSelect" name="idiomaFormControlSelect" aria-label=".form-select-sm example">
+											<option value="todo" selected="">Sin seleccionar</option>
+											<option value="ingles">Inglés</option>
+											<option value="frances">Francés</option>
+											<option value="portugues">Portugués</option>
+											<option value="italiano">Italiano</option>
+											<option value="aleman">Alemán</option>
+											<option value="hebreo">Hebreo</option>
+											<option value="indigena">Lengua Indigena</option>
+											<option value="otro">Ninguno de los anteriores</option>
+										</select>
+									</div>
+								</div>
+							</div>																	
+							<h5 class="mt-1">Equipamiento, Tecnología y Pedagogía:</h5>
+							<div class="p-3 shadow-sm mb-3">
+								<div class="row ">
+									<div class="form-group col-sm-4">
+										<label for="bibliotecaFormControlSelect">Biblioteca escolar</label>
+										<select class="form-control form-select form-select-sm" id="bibliotecaFormControlSelect" name="bibliotecaFormControlSelect" aria-label=".form-select-sm example">
+											<option selected="" value="todo">Sin seleccionar</option>
+											<option value="si">Si tiene biblioteca</option>
+											<option value="no">No tiene biblioteca</option>		
+										</select>
+									</div>												
+									<div class="form-group col-sm-4">
+										<label for="laboratorioFormControlSelect">Laboratorio de informática</label>
+										<select class="form-control form-select form-select-sm" id="laboratorioFormControlSelect" name="laboratorioFormControlSelect" aria-label=".form-select-sm example">
+											<option value="todo" selected="">Sin seleccionar</option>
+											<option value="si">Si tiene laboratorio</option>
+											<option value="no">No tiene laboratorio</option>
+										</select>
+									</div>
+									<div class="form-group col-sm-4">
+										<label for="conexioninternetFormControlSelect">Conexión a internet</label>
+										<select class="form-control form-select form-select-sm" id="conexioninternetFormControlSelect" name="conexioninternetFormControlSelect" aria-label=".form-select-sm example">
+											<option value="todo" selected="">Sin seleccionar</option>
+											<option value="si">Si tiene internet</option>
+											<option value="no">No tiene internet</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+								<button type="button" class="btn btn-outline-info btn-sm" onclick="paso2apaso1()">Anterior</button>
+								<button type="button" class="btn btn-outline-primary btn-sm" onclick="paso2apaso3()">Siguiente</button>	
+							</div>	
+						</fieldset>
+						<fieldset id="paso3" style="display: none;">
+							<h5 class="mt-3">Como visualizar los datos de la consulta:</h5>
+							<div class="p-3 shadow-sm mb-3">
+								<div class="row">
+									<div class="form-group col-sm-12">
+										<div class="form-group">
+											<label for="nombrecapa">Nombre de la capa </label>
+											<input type="text" id="nombrecapa" name="nombrecapa" placeholder="Nombre de la capa que se va a agregar" class="f-nombre form-control">
+											<small class="form-text text-muted"><i class="bi bi-info-circle"></i> Se va a agregar al mapa una capa que contiene los datos de su busqueda.</small>
+										</div>
+									</div>
+								</div>
+							</div>
+							<small id="infoOtrosNoSelecFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Debe seleccionar, al menos, un campo</small>
+							<small id="infoOtrosNombreRepetidoFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Ya existe una capa con este nombre</small>
+							<small id="infotNoNombreFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Debe indicar el nombre de la capa que se va agregar</small>
+							<small id="infoOtrosNoResultFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> La consulta, no obtuvo resultados</small>	
+							<small id="infoOtrosNoConnFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+							<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+								<button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" onclick="return resetForm();">Cancelar búsqueda</button>
+								<button type="button" class="btn btn-outline-info btn-sm" onclick="paso3apaso2()">Anterior</button>
+								<button type="submit" class="btn btn-outline-success btn-sm btn-submit"><span id="consultaotrosspinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span> Realizar búsqueda</button>
+							</div>	
+						   </fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

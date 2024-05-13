@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+	<meta charset="utf-8">
+	<meta name="description" content="Herramienta de visualización, gestión y análisis de información georreferenciada relativa al sistema educativo a nivel local, regional y provincial">
+  	<meta name="author" content="Dirección de Estadística y Evaluación Educativa del Ministerio de Educación del Gobierno del Chubut">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link type="text/css" rel="stylesheet" href="/css/leaflet.css" />
+	<link type="text/css" rel="stylesheet" href="/css/mapa.css" />  		
+	<link type="text/css" rel="stylesheet" href="/css/leaflet.legend.css" />
+	<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css">
+	<link type="text/css" rel="stylesheet" href="/css/Control.FullScreen.css" />
+	<link type="text/css" rel="stylesheet" href="/css/easy-button.css" />
+	<link type="text/css" rel="stylesheet" href="/css/iconLayers.css" />
+	<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
+	<script src="/js/xlsx.full.min.js"></script>
+    <script src="/js/filesaver.js"></script>
+    <script src="/js/leaflet.js"></script>
+    <script src="/js/leaflet.browser.print.js"></script>
+
+	<link rel="shortcut icon" type="image/x-icon"  href="icons/favicon-500x500.png">
+	<title>Mapa Educativo Interactivo de la Provincia del Chubut</title>
+
+	<script type="text/javascript"> 
+		function buttonclick(){
+			var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {});
+            myModal.toggle();
+		}
+	</script> 
+	
+</head>
+
+<body onload="buttonclick()">
+<!-- head -->	
+	<nav class="navbar navbar-expand-lg height-custom-nav p-0">
+		<a class="navbar-brand p-0 m-3 mt-0 mb-0" href="#">
+    		<img id="imgnavbar" src="icons/ministerio_educacion_w2.png" alt="Logo del Ministerio de Educación del Gobierno del Chubut" style="max-height: 32px; height: auto;">
+  		</a>
+  		<div class="position-absolute end-0">
+			<a class="p-0 m-3 mt-0 mb-0" href="mailto:mapasevaluacionch@gmail.com">
+				<img src="icons/envelope-fill.svg" alt="Contacto" style="height: 20px;">
+			</a>
+      </div>
+  
+	</nav>
+<!-- modal inicio -->	
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<img src="icons/ministerio_educacion.png" class="img-fluid imagecustom" alt="Logo del Ministerio de Educación del Gobierno del Chubut">
+					<button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-interval = "false">
+						<div class="carousel-inner">
+							<div class="carousel-item active">
+								<p class="text-center fst-italic fs-5 lh-1 text-break user-select-none mt-1 mb-2">Mapa Educativo Interactivo de la Provincia del Chubut</p>
+								<img src="icons/Solapa1.png" class="d-block w-100" alt="Mapa interactivo Educación Chubut">
+								<p class="custommodalbody user-select-none text-center lh-sm text-break fst-italic mt-1">Esta es una herramienta de visualización, gestión y análisis de información georreferenciada con el fin de planificar y contribuir al fortalecimiento del sistema educativo a nivel local, regional y provincial.</p>
+							</div>
+							<div class="carousel-item">
+								<p class="text-center fst-italic fs-5 lh-1 text-break user-select-none mt-1 mb-2">Controles</p>
+								<img src="icons/Solapa2.png" class="d-block w-100" alt="Mapa interactivo Educación Chubut">
+								<p class="custommodalbody user-select-none text-center lh-sm text-break fst-italic mt-1">1. Zoom, 2. Permite extender el mapa a la pantalla completa, 3. Permite centrar el mapa, 4. Despliega el listado de las capas permitiendo activar o desactivar la que se requiera visualizar en el mapa, 5. Permite la búsqueda de establecimientos por distintos criterios, 6. Permite imprimir el mapa, 7. Permite seleccionar otros mapas base de preferencia.</p>
+							</div>
+							<div class="carousel-item" id="utimoitem">
+								<p class="text-center fst-italic fs-5 lh-1 text-break user-select-none mt-1 mb-2">Capas</p>
+								<img src="icons/Solapa3.png" class="d-block w-100" alt="Mapa interactivo Educación Chubut">
+								<p class="custommodalbody user-select-none text-center lh-sm text-break fst-italic mt-1">Cada capa representa un conjunto organizado y procesado de datos que estan identificados por un tipo de marcador dentro del listado de capas desplegado (4). Los marcadores se disponen sobre el mapa de acuerdo a su ubicación geográfica y permiten acceder a su información (8), al hacer clic sobre ellos.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end m-3 mt-0">
+					<button id="buttonNext" class="btn btn-outline-info btn-sm" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next" onclick="buttonHidden()">Ver controles</button>
+					<button class="btn btn-outline-success btn-sm" type="button" data-bs-dismiss="modal" onclick="verMapa()">Ver mapa</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- modal confirmacion eliminar layer -->
+	<div class="modal fade" id="staticBackdropleyendDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelleyendDelete" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title user-select-none" id="staticBackdropLabelleyendDelete">Modal title</h5>
+				</div>
+				<div class="modal-body user-select-none">
+					<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none">¿Esta seguro que desea eliminar esta capa?</p>
+				</div>
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end m-3">
+					<button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal">Cancelar</button>
+					<button id="buttonleyendDelete" type="button" class="btn btn-outline-success btn-sm" data-bs-dismiss="modal">Confirmar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- modal info layer -->
+	<div class="modal fade" id="staticBackdropleyend" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelleyend" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title user-select-none" id="staticBackdropLabelleyend">Modal title</h5>
+				</div>
+				<div id="staticBMBL" class="modal-body user-select-none pt-0 pb-0"></div>
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end m-3">
+					<button type="button" class="btn btn-outline-success btn-sm" data-bs-dismiss="modal">Entendido</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- modal ayuda busquedas -->
+	<div class="modal fade" id="staticBackdropConsulta" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelConsulta" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title user-select-none" id="staticBackdropLabelConsulta">Ayuda sobre las busquedas</h5>
+				</div>
+				<div class="modal-body user-select-none pt-0 pb-0">
+					<p id="AyudadBuscarEst" class="text-break fs-6 fst-italic lh-sm user-select-none fw-light pt-3"> 
+						Permiten la búsqueda de establecimientos por los siguientes criterios:	
+						<ul class="text-break fs-6 fst-italic lh-sm user-select-none">
+							<li><a href='#AyudaBuscarEstPorNumero' class="text-decoration-none fw-light">Número.</a></li>
+							<li><a href='#AyudaBuscarEstPorNombre' class="text-decoration-none fw-light">Nombre.</a></li>
+							<li><a href='#AyudaBuscarEstPorCueAnexo' class="text-decoration-none fw-light">CUE-Anexo.</a></li>
+							<li><a href='#AyudaBuscarEstPorOferta' class="text-decoration-none fw-light">Oferta educativa.</a></li>
+							<li><a href='#AyudaBuscarEstPorLocalizacion' class="text-decoration-none fw-light">Localización geográfica.</a></li>
+							<li><a href='#AyudaBuscarEstPorOtroCriterio' class="text-decoration-none fw-light">Otros criterios.</a></li>
+						</ul>
+						<p id="AyudaBuscarEstPorNumero" class="text-center text-break fw-bold fs-6 fst-italic lh-sm user-select-none pt-3">Buscar establecimientos por Número</p>
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">1. Hacer clic sobre la pestaña 'Número'.</p>
+						<img class="img-fluid" src="icons/bexn0.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">2. Ingresar el número (o parte del número) del establecimiento. Este es un campo obligatorio.</p>
+						<img class="img-fluid" src="icons/bexn1.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">3. Hacer clic sobre el botón 'Realizar búsqueda'.</p>
+						<img class="img-fluid" src="icons/bexn2.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">4. Si el número es válido, y si existen coincidencias, se van a mostrar, para que se seleccione alguna, caso contrario se va a mostrar un mensaje indicando una situación de error.</p>
+						<img class="img-fluid" src="icons/bexn3.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">5. Llegado a este punto, se puede seleccionar uno de los establecimientos haciendo clic sobre alguna de las opciones mostradas, se puede cancelar la búsqueda haciendo clic sobre el botón 'Cancelar búsqueda' o realizar una nueva búsqueda haciendo clic sobre el botón 'Limpiar búsqueda'.</p>
+						<img class="img-fluid" src="icons/bexn4.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">6. Para el caso de que se haya hecho clic sobre una de las opciones mostradas, se va a agregar una nueva capa de consulta con su correspondiente marcador en el mapa.</p>
+						<img class="img-fluid mt-2 mb-2" src="icons/bexn5.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<a href='#AyudadBuscarEst' class="text-decoration-none fw-light text-end fs-6 fst-italic">Volver al principio</a>
+						<p id="AyudaBuscarEstPorNombre" class="text-center text-break fw-bold fs-6 fst-italic lh-sm user-select-none pt-3">Buscar establecimientos por Nombre</p>
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">1. Hacer clic sobre la pestaña 'Nombre'.</p>
+						<img class="img-fluid" src="icons/bexnombre0.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">2. Ingresar el nombre (o parte del nombre) del establecimiento. Este es un campo obligatorio.</p>
+						<img class="img-fluid" src="icons/bexnombre1.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">3. Hacer clic sobre el botón 'Realizar búsqueda'.</p>
+						<img class="img-fluid" src="icons/bexnombre2.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">4. Si el nombre es válido, y si existen coincidencias, se van a mostrar, para que se seleccione alguna, caso contrario se va a mostrar un mensaje indicando una situación de error.</p>
+						<img class="img-fluid" src="icons/bexnombre3.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">5. Llegado a este punto, se puede seleccionar uno de los establecimientos haciendo clic sobre alguna de las opciones mostradas, se puede cancelar la búsqueda haciendo clic sobre el botón 'Cancelar búsqueda' o realizar una nueva búsqueda haciendo clic sobre el botón 'Limpiar búsqueda'.</p>
+						<img class="img-fluid" src="icons/bexnombre4.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">6. Para el caso de que se haya hecho clic sobre una de las opciones mostradas, se va a agregar una nueva capa de consulta con su correspondiente marcador en el mapa.</p>
+						<img class="img-fluid mt-2 mb-2" src="icons/bexnombre5.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<a href='#AyudadBuscarEst' class="text-decoration-none fw-light text-end fs-6 fst-italic">Volver al principio</a>
+						<p id="AyudaBuscarEstPorCueAnexo" class="text-center text-break fw-bold fs-6 fst-italic lh-sm user-select-none pt-3">Buscar establecimientos por CUE-Anexo</p>
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">1. Hacer clic sobre la pestaña 'CUE-Anexo'.</p>
+						<img class="img-fluid" src="icons/bexcue0.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">2. Ingresar el nro de CUE-Anexo del establecimiento. Este es un campo obligatorio.</p>
+						<img class="img-fluid" src="icons/bexcue1.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">3. Llegado a este punto, se puede hacer clic sobre el botón 'Realizar búsqueda', o se puede cancelar la búsqueda haciendo clic sobre el botón 'Cancelar búsqueda'.</p>
+						<img class="img-fluid" src="icons/bexcue2.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">4. Para el caso de que se haya hecho clic sobre 'Realizar búsqueda', si el CUE-Anexo es válido, y si existe una coincidencia, se va a agregar una nueva capa de consulta con su correspondiente marcador en el mapa, caso contrario se va a mostrar un mensaje indicando una situación de error.</p>
+						<img class="img-fluid mt-2 mb-2" src="icons/bexcue3.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<a href='#AyudadBuscarEst' class="text-decoration-none fw-light text-end fs-6 fst-italic">Volver al principio</a>
+						<p id="AyudaBuscarEstPorOferta" class="text-center text-break fw-bold fs-6 fst-italic lh-sm user-select-none pt-3">Buscar establecimientos por Oferta Educativa</p>
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">1. Hacer clic sobre la pestaña 'Oferta Educativa'.</p>
+						<img class="img-fluid" src="icons/bexoferta0.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">2. Seleccionar la Modalidad. Este es un campo obligatorio.</p>
+						<img class="img-fluid" src="icons/bexoferta1.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">3. Seleccionar, o no, el Nivel. Este es un campo opcional.</p>
+						<img class="img-fluid" src="icons/bexoferta2.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">3. En el caso de que existan más opciones, estas se van a habilitar. Estos campos son opcionales. Seleccionar los que considere necesarios.</p>
+						<img class="img-fluid" src="icons/bexoferta3.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">5. Llegado a este punto, se puede hacer clic sobre el botón 'Realizar búsqueda', o se puede cancelar la búsqueda haciendo clic sobre el botón 'Cancelar búsqueda'.</p>
+						<img class="img-fluid" src="icons/bexoferta4.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">6. Para el caso de que se haya hecho clic sobre 'Realizar búsqueda', si no existen coincidencias, se va a mostrar un mensaje indicando una situación de error, caso contrario se va a agregar una nueva capa de consulta con sus correspondientes marcadores en el mapa, dependiendo de la opciones seleccionadas se puede obtener una capa con solo un resultado o con varios.</p>
+						<img class="img-fluid mt-2 mb-2" src="icons/bexoferta5.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<a href='#AyudadBuscarEst' class="text-decoration-none fw-light text-end fs-6 fst-italic">Volver al principio</a>
+						<p id="AyudaBuscarEstPorLocalizacion" class="text-center text-break fw-bold fs-6 fst-italic lh-sm user-select-none pt-3">Buscar establecimientos por Localización Geográfica</p>
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">1. Hacer clic sobre la pestaña 'Localización Geográfica'.</p>
+						<img class="img-fluid" src="icons/bexloc0.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">2. Seleccionar el nro. de Región. Este es un campo obligatorio.</p>
+						<img class="img-fluid" src="icons/bexloc1.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">3. Seleccionar, o no, la localidad. Este es un campo opcional.</p>
+						<img class="img-fluid" src="icons/bexloc2.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">4. Seleccionar, o no, la dirección. Este es un campo opcional. En este ejemplo, no se va a seleccionar la dirección.</p>
+						<img class="img-fluid" src="icons/bexloc3.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">5. Llegado a este punto, se puede hacer clic sobre el botón 'Realizar búsqueda', o se puede cancelar la búsqueda haciendo clic sobre el botón 'Cancelar búsqueda'.</p>
+						<img class="img-fluid" src="icons/bexloc4.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">6. Para el caso de que se haya hecho clic sobre 'Realizar búsqueda', si no existen coincidencias, se va a mostrar un mensaje indicando una situación de error, caso contrario se va a agregar una nueva capa de consulta con sus correspondientes marcadores en el mapa, dependiendo de la opciones seleccionadas se puede obtener una capa con solo un resultado o con varios.</p>
+						<img class="img-fluid mt-2 mb-2" src="icons/bexloc5.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<a href='#AyudadBuscarEst' class="text-decoration-none fw-light text-end fs-6 fst-italic">Volver al principio</a>
+						<p id="AyudaBuscarEstPorOtroCriterio" class="text-center text-break fw-bold fs-6 fst-italic lh-sm user-select-none pt-3">Buscar establecimientos por Otros criterios</p>
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">1. Hacer clic sobre la pestaña 'Otros'.</p>
+						<img class="img-fluid" src="icons/bexotros0.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">2. En esta búsqueda, solo es obligatorio seleccionar como mínimo el valor de uno de los campos. En este ejemplo, solo se seleccionó el turno mañana.</p>
+						<img class="img-fluid" src="icons/bexotros1.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">3. Estos campos estan organizados, en tres pestañas, para pasar entre pestañas, se puede hacer clic sobre los botones 'Anterior' y 'Siguiente'.</p>
+						<img class="img-fluid" src="icons/bexotros21.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<img class="img-fluid" src="icons/bexotros22.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">4. Al llegar a la última pestaña, es necesario, poner un nombre a la capa que se va a agregar al mapa.</p>
+						<img class="img-fluid" src="icons/bexotros3.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">5. Llegado a este punto, se puede hacer clic sobre el botón 'Realizar búsqueda', o se puede cancelar la búsqueda haciendo clic sobre el botón 'Cancelar búsqueda'.</p>
+						<img class="img-fluid" src="icons/bexotros4.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">6. Para el caso de que se haya hecho clic sobre 'Realizar búsqueda', si no existen coincidencias, se va a mostrar un mensaje indicando una situación de error, caso contrario se va a agregar una nueva capa de consulta con sus correspondientes marcadores en el mapa, dependiendo de la opciones seleccionadas se puede obtener una capa con solo un resultado o con varios.</p>
+						<img class="img-fluid mt-2 mb-2" src="icons/bexotros5.png" alt="consulta sobre mapa educativo interactivo chubut">
+						<a href='#AyudadBuscarEst' class="text-decoration-none fw-light text-end fs-6 fst-italic">Volver al principio</a>
+					</p>
+				</div>
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end m-3">
+					<button class="btn btn-outline-success btn-sm" data-bs-target="#consultasEscuelas" data-bs-toggle="modal" data-bs-dismiss="modal">Entendido</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- mapa -->
+	<div id="map"></div>
+<!-- modal buscar y consultar establecimientos por -->
+	<div class="modal fade" id="consultasEscuelas" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel1">Buscar establecimientos educativos por:</h5>
+					<div class="d-flex justify-content-end">
+						<button type="button" class="btn-question btn-sm" data-bs-target="#staticBackdropConsulta" data-bs-toggle="modal" data-bs-dismiss="modal"></button>
+						<button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close" onclick="return resetForm();"></button>	
+					</div>
+				</div>
+				<div class="modal-body">
+					<ul class="nav nav-tabs" id="myTab" role="tablist">
+						<li class="nav-item" role="presentation">
+							<button class="nav-link active" id="numeroesc-tab" data-bs-toggle="tab" data-bs-target="#numeroesc" type="button" role="tab" aria-controls="numeroesc" aria-selected="true">Número</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#nombreessc" type="button" role="tab" aria-controls="nombreessc" aria-selected="false">Nombre</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link" id="cue-tab" data-bs-toggle="tab" data-bs-target="#cue" type="button" role="tab" aria-controls="cue" aria-selected="false">CUE-Anexo</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link" id="oferta-tab" data-bs-toggle="tab" data-bs-target="#oferta" type="button" role="tab" aria-controls="cue" aria-selected="false">Oferta Educativa</button>
+						</li>
+						
+						<li class="nav-item" role="presentation">
+							<button class="nav-link" id="localizacion-tab" data-bs-toggle="tab" data-bs-target="#localizacion" type="button" role="tab" aria-controls="cue" aria-selected="false">Localización Geográfica</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link" id="otro-tab" data-bs-toggle="tab" data-bs-target="#otro" type="button" role="tab" aria-controls="otro" aria-selected="false">Otros</button>
+						</li>
+					</ul>
+					<div class="tab-content" id="myTabContent">
+<!-- pestaña buscar por Numero de escuela-->						
+						<div class="tab-pane fade show active" id="numeroesc" role="tabpanel" aria-labelledby="numeroesc-tab">
+							<h5 class="mt-3">Número del establecimiento: </h5>
+							<div class="p-3 shadow-sm mb-3">
+								<div class="row ">
+									<div class="form-group col-sm-12">
+										<div class="form-group">
+											<input type="text" id="f-numeroesc" name="f-numeroesc" placeholder="Ingresar el número del establecimiento" class="form-control" autofocus>
+											<small id="infoNumero" class="form-text text-muted"><i class="bi bi-info-circle"></i> Si existen coincidencias, se van a mostrar para que seleccione alguna.</small>
+											<small id="infoNumeroError" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> El número no es válido</small>
+											<small id="infoNumeroErrorNumero" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> El número no se encuentra</small>
+										</div>	
+									</div>
+								</div>
+							</div>
+							<div class="mb-3" id="f-numeroesc-block-item" style="display: none;">
+								<h5>Seleccionar establecimiento:</h5>
+								<div class="p-3 shadow-sm mb-3">
+									<div class="row ">
+										<div class="form-group col-sm-12">
+											<div class="list-group" id="f-numeroesc-item" role="tablist" >
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<small id="infoNumNombreRepetidoFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Ya existe esta capa</small>
+							<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+								<button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" onclick="return resetForm();">Cancelar búsqueda</button>
+								<button id="f-nroesc-item_btn_clean" type="button" class="btn btn-outline-info btn-sm" onclick="limpiarItemsNroEsc()" style="display:none">Limpiar busqueda</button>	
+								<button  id="f-nroesc-item_btn"  type="button" class="btn btn-outline-success btn-sm" onclick="nroSelect()">Realizar búsqueda</button>	
+							</div>
+						</div>
+<!-- pestaña buscar por Nombre de escuela-->
+						<div class="tab-pane fade" id="nombreessc" role="tabpanel" aria-labelledby="nombreessc-tab">
+							<h5 class="mt-3">Nombre del establecimiento: </h5>
+							<div class="p-3 shadow-sm mb-3">
+								<div class="row ">
+									<div class="form-group col-sm-12">
+										<div class="form-group">
+											<input type="text" name="f-nombreessc" placeholder="Ingresar el nombre del establecimiento" class="form-control" id="f-nombreessc" autofocus>
+											<small id="infoNombre" class="form-text text-muted"><i class="bi bi-info-circle"></i> Si existen coincidencias, se van a mostrar para que seleccione alguna.</small>
+											<small id="infoNombreError" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> El nombre no es válido</small>
+											<small id="infoNombreErrorNonombre" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> El nombre no se encuentra</small>
+										</div>	
+									</div>
+								</div>
+							</div>
+							<div class="mb-3" id="nombreesc-block-item" style="display: none;">
+								<h5>Seleccionar establecimiento:</h5>
+								<div class="p-3 shadow-sm mb-3">
+									<div class="row ">
+									  <div class="col-sm-12">
+									    <div class="list-group" id="f-nombreesc-item" role="tablist">
+									    </div>
+									  </div>
+									</div>
+								</div>
+							</div>
+							<small id="infoNomNombreRepetidoFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Ya existe esta capa</small>
+							<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+								<button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" onclick="return resetForm();">Cancelar búsqueda</button>
+								<button id="f-nombreesc-item_btn_clean" type="button" class="btn btn-outline-info btn-sm" onclick="limpiarItemsNombreEsc()" style="display:none">Limpiar busqueda</button>	
+								<button  id="f-nombreesc-item_btn"  type="button" class="btn btn-outline-success btn-sm" onclick="nombreSelect()">Realizar búsqueda</button>	
+							</div>
+						</div>
+<!-- pestaña buscar por Cue-Anexo de escuela-->						
+						<div class="tab-pane fade" id="cue" role="tabpanel" aria-labelledby="cue-tab">
+							<h5 class="mt-3">Número de CUE-Anexo del establecimiento: </h5>
+							<div class="p-3 shadow-sm mb-3">
+								<div class="row ">
+									<div class="form-group col-sm-12">
+										<div class="form-group">
+											<input type="text" name="f-cue" placeholder="Ingresar el CUE-Anexo del establecimiento" class="form-control" id="f-cue" autofocus>
+											<small id="infoCueAnexo" class="form-text text-muted" style="display: block;"><i class="bi bi-info-circle" ></i> Si existe el CUE-Anexo, se va a agregar al mapa una capa que contiene los datos de su busqueda.</small>
+											<small id="infoCueAnexoError" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> El CUE-Anexo no es válido</small>
+											<small id="infoCueAnexoErrorNoExiste" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> El CUE-Anexo no existe</small>
+										</div>	
+									</div>
+								</div>
+							</div>
+							<small id="infoCueNombreRepetidoFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Ya existe esta capa</small>
+							<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+								<button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" onclick="return resetForm();">Cancelar búsqueda</button>
+								<button type="button" class="btn btn-outline-success btn-sm" onclick="cueAnexoSelect()">Realizar búsqueda</button>
+							</div>
+						</div>
+<!-- pestaña consultar por oferta-->						
+						<div class="tab-pane fade" id="oferta" role="tabpanel" aria-labelledby="oferta-tab">
+							<form id="formOferta">
+								<h5 class="mt-3"> Oferta Educativa: </h5>
+								<div class="p-3 shadow-sm mb-3">
+									<div class="row ">
+										<div class="form-group col-sm-6">
+											<label for="f-tipo">Modalidad</label>
+											<select class="form-control form-select form-select-sm" id="f-tipo" name="f-tipo" aria-label=".form-select-sm example">
+												<option selected value="todo">Sin seleccionar</option>
+												<option value="Común">Educación Común</option>
+												<option value="Especial">Educación Especial</option>
+												<option value="Adultos">Ed. Permanente de Jóvenes y Adultos</option>
+												<option value="Técnico Profesional">Ed. Técnico Profesional</option>
+												<option value="Artística">Educación Artística</option>
+												<option value="Intercultural Bilingüe">Ed. Intercultural Bilingue</option>
+												<option value="Contextos de privación de libertad">Ed. Contextos de Privación de la Libertad</option>
+												<option value="Domiciliaria y Hospitalaria (año anterior)">Ed. Domiciliaria y Hospitalaria</option>
+											</select>
+											<small id="infoofertaNoModalidadFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Debe seleccionar una modalidad.</small>
+										</div>
+										<div class="form-group col-sm-6">
+											<label for="f-nivel">Nivel</label>
+											<select class="form-control form-select form-select-sm" id="f-nivel" name="f-nivel" aria-label=".form-select-sm example" disabled=""></select>
+											<div id="infonivelspinner" class="spinner-border text-primary spinner-border-sm" role="status" style="display: none;">
+												<span class="visually-hidden">Loading...</span>
+											</div>
+											<small id="infoofertamodalidadNoConnFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+											<small id="infoofertamodalidadNoRepFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
+										</div>
+									</div>
+								</div>				
+								<div id="f-plan-estudio" style="display: none;">
+									<h5 class="mt-1">Planes de estudio:</h5>
+									<div class="p-3 shadow-sm mb-3">
+										<div class="row ">
+											<div class="form-group col-sm-6">
+												<label for="orientacion">Orientación</label>
+												<select class="form-control form-select form-select-sm" id="orientacion" name="orientacion" aria-label=".form-select-sm example">
+													<option selected value="todo">Sin seleccionar</option>
+												</select>
+												<div id="infoorientacionspinner" class="spinner-border text-primary spinner-border-sm" role="status" style="display: none;">
+													<span class="visually-hidden">Loading...</span>
+												</div>
+												<small id="infoofertaplaetudioNoConnFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+												<small id="infoofertafertaplaetudioNoRepFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
+											</div>
+											<div class="form-group col-sm-6">
+												<label for="dictado">Modalidad de dictado</label>
+												<select class="form-control form-select form-select-sm" id="dictado" name="dictado" aria-label=".form-select-sm example">
+													<option value="todo" selected>Sin seleccionar</option>
+													<option value="Presencial">Presencial</option>
+													<option value="A distancia">A distancia</option>	
+												</select>
+												<div id="infodictadospinner" class="spinner-border text-primary spinner-border-sm" role="status" style="display: none;">
+													<span class="visually-hidden">Loading...</span>
+												</div>
+												<small id="infoofertadictadoNoConnFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+												<small id="infoofertafertadictadoNoRepFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
+											</div>
+										</div>
+									</div>
+								</div>
+								<small id="infoOfertaNombreRepetidoFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Ya existe esta capa.</small>
+								<small id="infoOfertaNoDatosFinalesFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
+								<small id="infoOfertaNoConnFinalesFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+								<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+									<button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" onclick="return resetForm();">Cancelar búsqueda</button>
+									<button type="submit" class="btn btn-outline-success btn-sm"><span id="consultaofertaspinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span> Realizar búsqueda</button>
+								</div>
+							</form>
+						</div>
+<!-- pestaña consultar por localizacion-->						
+						<div class="tab-pane fade" id="localizacion" role="tabpanel" aria-labelledby="localizacion-tab">
+							<form id="formLocalizacion">
+								<h5 class="mt-3">Locación geográfica: </h5>
+								<div class="p-3 shadow-sm mb-3">
+									<div class="row ">
+										<div class="form-group col-sm-4">
+											<label for="regionFormControlSelect">Región</label>
+											<select class="form-control form-select form-select-sm" id="regionFormControlSelect" name="regionFormControlSelect" aria-label=".form-select-sm example">
+												<option selected value="todo">Sin seleccionar</option>
+												<option value="1">I</option>
+												<option value="2">II</option>
+												<option value="3">III</option>
+												<option value="4">IV</option>
+												<option value="5">V</option>
+												<option value="6">VI</option>
+											</select>
+											<small id="inforegionFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Debe seleccionar una región.</small>
+										</div>
+										<div class="form-group col-sm-4">
+											<label for="departamentoFormControlSelect">Localidad</label>
+											<select class="form-control form-select form-select-sm" id="departamentoFormControlSelect" name="departamentoFormControlSelect" aria-label=".form-select-sm example" disabled="">
+											</select>
+											<div id="inforegionspinner" class="spinner-border text-primary spinner-border-sm" role="status" style="display: none;">
+												<span class="visually-hidden">Loading...</span>
+											</div>
+											<small id="inforegionNoDatosFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
+											<small id="inforegionNoConnFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+										</div>
+										<div class="form-group col-sm-4">
+											<label for="direccionFormControlSelect">Dirección</label>
+											<select class="form-control form-select form-select-sm" id="direccionFormControlSelect" name= "direccionFormControlSelect" aria-label=".form-select-sm example" disabled="">
+											</select>
+											<div id="infolocspinner" class="spinner-border text-primary spinner-border-sm" role="status" style="display: none;">
+												<span class="visually-hidden">Loading...</span>
+											</div>
+											<small id="infolocNoDatosFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
+											<small id="infolocNoConnFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+										</div>
+									</div>
+								</div>
+								<small id="infoLocNombreRepetidoFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Ya existe esta capa.</small>
+								<small id="infolocNoDatosFinalesFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
+								<small id="infolocNoConnFinalesFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+								<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+									<button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" onclick="return resetForm();">Cancelar búsqueda</button>
+									<button type="submit" class="btn btn-outline-success btn-sm"><span id="consultalocalizacionspinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span> Realizar búsqueda</button>
+								</div>
+							</form>
+						</div>
+<!-- pestaña consultar por Otros criterios-->
+						<div class="tab-pane fade" id="otro" role="tabpanel" aria-labelledby="otro-tab">
+							<form id="formOtros">
+								<fieldset id="paso1" style="display: block;">
+									<h5 class="mt-3">Funcionamiento:</h5>
+									<div class="p-3 shadow-sm mb-3">
+										<div class="row">
+											<div class="form-group col-sm-6">
+												<label for="turnoFormControlSelect">Turno de funcionamiento</label>
+												<select class="form-control form-select form-select-sm" id="turnoFormControlSelect" name="turnoFormControlSelect" aria-label=".form-select-sm example">
+													<option value="todo" selected>Sin seleccionar</option>
+													<option value="manana">Mañana</option>
+													<option value="tarde">Tarde</option>
+													<option value="noche">Noche</option>
+													<option value="doble">Doble</option>
+													<option value="otro">Otro</option>
+													<option value="ninguno">Ninguno de los anteriores</option>
+												</select>
+											</div>
+											<div class="form-group col-sm-6">
+												<label for="jornadaFormControlSelect">Jornada extendida/completa</label>
+												<select class="form-control form-select form-select-sm" id="jornadaFormControlSelect" name="jornadaFormControlSelect"  aria-label=".form-select-sm example">
+													<option value="todo" selected>Sin seleccionar</option>
+													<option value="completa">Completa</option>
+													<option value="extendida">Extendida</option>
+												</select>
+											</div>
+										</div>
+										<div class="row mt-2">
+											<div class="form-group col-sm-6">
+												<label for="ambitoFormControlSelect">Ámbito</label>
+												<select class="form-control form-select form-select-sm" id="ambitoFormControlSelect" name="ambitoFormControlSelect" aria-label=".form-select-sm example">
+													<option selected value="todo">Sin seleccionar</option>
+													<option value="rural">Rural</option>
+													<option value="urbano">Urbano</option>
+												</select>
+											</div>
+											<div class="form-group col-sm-6">
+												<label for="sectorFormControlSelect">Sector de gestión</label>
+												<select class="form-control form-select form-select-sm" id="sectorFormControlSelect" name="sectorFormControlSelect" aria-label=".form-select-sm example">
+													<option value="todo" selected>Sin seleccionar</option>
+													<option value="estatal">Estatal</option>
+													<option value="privado">Privado</option>
+													<option value="social">Social/cooperativa</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+										<button type="button" class="btn btn-outline-primary btn-sm" onclick="paso1apaso2()">Siguiente</button>	
+									</div>		
+								</fieldset>
+								<fieldset id="paso2" style="display: none;">						
+									<h5 class="mt-3">Características Pedagógicas Educativas:</h5>
+									<div class="p-3 shadow-sm mb-3">
+										<div class="row">
+											<div class="form-group col-sm-4">
+												<label for="idiomaFormControlSelect">Idioma</label>
+												<select class="form-control form-select form-select-sm" id="idiomaFormControlSelect" name="idiomaFormControlSelect" aria-label=".form-select-sm example">
+													<option value="todo" selected>Sin seleccionar</option>
+													<option value="ingles">Inglés</option>
+													<option value="frances">Francés</option>
+													<option value="portugues">Portugués</option>
+													<option value="italiano">Italiano</option>
+													<option value="aleman">Alemán</option>
+													<option value="hebreo">Hebreo</option>
+													<option value="indigena">Lengua Indigena</option>
+													<option value="otro">Ninguno de los anteriores</option>
+												</select>
+											</div>
+										</div>
+									</div>																	
+									<h5 class="mt-1">Equipamiento, Tecnología y Pedagogía:</h5>
+									<div class="p-3 shadow-sm mb-3">
+										<div class="row ">
+											<div class="form-group col-sm-4">
+												<label for="bibliotecaFormControlSelect">Biblioteca escolar</label>
+												<select class="form-control form-select form-select-sm" id="bibliotecaFormControlSelect"
+												name="bibliotecaFormControlSelect" aria-label=".form-select-sm example">
+													<option selected value="todo">Sin seleccionar</option>
+													<option value="si">Si tiene biblioteca</option>
+													<option value="no">No tiene biblioteca</option>		
+												</select>
+											</div>												
+											<div class="form-group col-sm-4">
+												<label for="laboratorioFormControlSelect">Laboratorio de informática</label>
+												<select class="form-control form-select form-select-sm" id="laboratorioFormControlSelect" name="laboratorioFormControlSelect" aria-label=".form-select-sm example">
+													<option value="todo" selected>Sin seleccionar</option>
+													<option value="si">Si tiene laboratorio</option>
+													<option value="no">No tiene laboratorio</option>
+												</select>
+											</div>
+											<div class="form-group col-sm-4">
+												<label for="conexioninternetFormControlSelect">Conexión a internet</label>
+												<select class="form-control form-select form-select-sm" id="conexioninternetFormControlSelect" name="conexioninternetFormControlSelect" aria-label=".form-select-sm example">
+													<option value="todo" selected>Sin seleccionar</option>
+													<option value="si">Si tiene internet</option>
+													<option value="no">No tiene internet</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+										<button type="button" class="btn btn-outline-info btn-sm" onclick="paso2apaso1()">Anterior</button>
+										<button type="button" class="btn btn-outline-primary btn-sm" onclick="paso2apaso3()">Siguiente</button>	
+									</div>	
+								</fieldset>
+								<fieldset id="paso3" style="display: none;">
+									<h5 class="mt-3">Como visualizar los datos de la consulta:</h5>
+									<div class="p-3 shadow-sm mb-3">
+										<div class="row">
+											<div class="form-group col-sm-12">
+												<div class="form-group">
+													<label for="nombrecapa">Nombre de la capa </label>
+													<input type="text" id="nombrecapa" name="nombrecapa" placeholder="Nombre de la capa que se va a agregar" class="f-nombre form-control">
+													<small class="form-text text-muted"><i class="bi bi-info-circle"></i> Se va a agregar al mapa una capa que contiene los datos de su busqueda.</small>
+												</div>
+											</div>
+										</div>
+									</div>
+									<small id="infoOtrosNoSelecFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Debe seleccionar, al menos, un campo</small>
+									<small id="infoOtrosNombreRepetidoFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Ya existe una capa con este nombre</small>
+									<small id="infotNoNombreFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Debe indicar el nombre de la capa que se va agregar</small>
+									<small id="infoOtrosNoResultFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> La consulta, no obtuvo resultados</small>	
+									<small id="infoOtrosNoConnFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+					            	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+					            		<button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" onclick="return resetForm();">Cancelar búsqueda</button>
+					            		<button type="button" class="btn btn-outline-info btn-sm" onclick="paso3apaso2()">Anterior</button>
+					            		<button type="submit" class="btn btn-outline-success btn-sm btn-submit"><span id="consultaotrosspinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span> Realizar búsqueda</button>
+					            	</div>	
+		           				</fieldset>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- informe mas info -->
+	<div id="InfoAdicional" style="display:none">
+		<div class="container">
+			<h4 id="fnainfoadicional" class="m-3" style="color:#0d6efd"></h4>
+			<div class="row ">
+				<div class="col m-2 ">
+					<div class="card h-100">
+						<div class="card-header card-header-custom">
+							<div class="d-flex">
+								<div>Datos Institucionales</div>
+								<div class="ms-auto"><i class="bi bi-pin-angle"></i></div>
+							</div>
+						</div>
+						<div class="card-body">
+							<p id="cueanexoinfoadicional" class="card-text card-text-custom"></p>
+							<p id="funinfoadicional" class="card-text card-text-custom"></p>
+							<p id="Regioninfoadicional" class="card-text card-text-custom"></p>
+							<p id="departamentoinfoadicional" class="card-text card-text-custom"></p>
+							<p id="Localidadinfoadicional" class="card-text card-text-custom"></p>
+							<p id="calleinfoadicional" class="card-text card-text-custom"></p>
+							<p id="cod_postalinfoadicional" class="card-text card-text-custom"></p>
+							<p id="amginfoadicional" class="card-text card-text-custom"></p>
+						</div>
+					</div>
+				</div>
+				<div class="col m-2">
+					<div class="card h-100">
+						<div class="card-header card-header-custom">
+							<div class="d-flex">
+								<div>Datos de Contacto</div>
+								<div class="ms-auto"><i class="bi bi-chat-square-text"></i></div>
+							</div>
+						</div>
+						<div class="card-body">
+							<p id="telefonoinfoadicional" class="card-text card-text-custom"></p>
+							<p id="emailinfoadicional" class="card-text card-text-custom"></p>
+							<p id="sitio_webinfoadicional" class="card-text card-text-custom"></p>
+							<p id="resp_respnsableinfoadicional" class="card-text card-text-custom"></p>
+							<p id="resp_telresponsableinfoadicional" class="card-text card-text-custom"></p>
+						</div>
+					</div>
+				</div>
+				<div class="col m-2">
+					<div class="h-100">
+						<div class="card">
+							<div class="card-header card-header-custom">
+								<div class="d-flex">
+									<div>Oferta Educativa</div>
+									<div class="ms-auto"><i class="bi bi-pencil-square"></i></div>
+								</div>
+							</div>
+							<div class="card-body">
+								<p id="Modalidadinfoadicional" class="card-text card-text-custom"></p>
+								<p id="Nivelesinfoadicional" class="card-text card-text-custom"></p>
+								<p id="Ofertainfoadicional" class="card-text card-text-custom"></p>
+							</div>
+						</div>
+						<div class="card mt-2">
+							<div class="card-header card-header-custom">
+								<div class="d-flex">
+									<div>Funcionamiento</div>
+									<div class="ms-auto"><i class="bi bi-stopwatch"></i></div>
+								</div>
+							</div>
+							<div class="card-body">
+								<p id="jornadainfoadicional" class="card-text card-text-custom"><b>Jornada extendida/completa: </b>No se registra</p>
+								<p id="turnoinfoadicional" class="card-text card-text-custom"><b>Turno: </b>No se registra</p>
+								<p id="gesinfoadicional" class="card-text card-text-custom"></p>
+								<p id="Dependenciinfoadicional" class="card-text card-text-custom"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row mb-2">
+				<div class="col m-2">
+					<div class="card h-100">
+						<div class="card-header card-header-custom">
+							<div class="d-flex">
+								<div>Equipamiento, Tecnología y Pedagogía</div>
+								<div class="ms-auto"><i class="bi bi-building"></i></div>
+							</div> 
+						</div>
+						<div class="card-body">
+							<p id="bibliotecainfoadicional" class="card-text card-text-custom"><b>Biblioteca escolar/Espacio físico: </b>No se registra </p>
+							<p id="laboratorioinfoadicional" class="card-text card-text-custom"><b>Laboratorio de informática/Espacio físico: </b>No se registra </p>
+							<p id="internetinfoadicional" class="card-text card-text-custom"><b>Conexión a internet/Tipo de conexión: </b>No se registra </p>
+						</div>
+					</div>
+				</div>
+				<div class="col m-2">
+					<div class="card h-100">
+						<div class="card-header card-header-custom">
+							<div class="d-flex">
+								<div>Infraestructura</div>
+								<div class="ms-auto"><i class="bi bi-tools"></i></div>
+							</div> 
+						</div>
+						<div class="card-body">	
+							<p id="aguainfoadicional" class="card-text card-text-custom"><b>Agua potable: </b>No se registra </p>
+							<p id="energiainfoadicional" class="card-text card-text-custom"><b>Energía eléctrica: </b>No se registra</p>
+							<p id="fuentenergiainfoadicional" class="card-text card-text-custom"><b>Fuentes de energía eléctrica: </b>No se registra</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
+				<button type="button" class="btn btn-outline-info btn-sm" id="exportarinfoadicional" >Exportar a excel</button>
+				<a class='btn btn-outline-primary btn-sm' onclick='nomostrarInfoAdicional()'>Volver al mapa</a>
+			</div>
+		</div>
+	</div>
+
+
+<!-- modal filtro -->
+	<div class="modal fade" id="filtroInformacion" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel2">Filtrar información por:</h5>
+					<button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close" onclick="return resetFormFiltro();"></button>
+				</div>
+				<form id="formfiltroInformacion">
+					<div class="modal-body">
+						<div class="container">
+							<p class="text-primary">Seleccionar datos:</p>
+							<div id="seleccionardato" class="container shadow-sm">
+								<div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 p-2">
+									<div class="col">
+										<div class="form-check form-switch">
+											<input class="form-check-input btn-lg" type="checkbox" id="flexSwitchCheckMatricula" name="flexSwitchCheckMatricula">
+											<label  class="form-check-label" for="flexSwitchCheckMatricula">Matrícula</label>
+										</div>
+									</div>
+									<div class="col">
+										<div class="form-check form-switch">
+											<input class="form-check-input btn-lg" type="checkbox" id="flexSwitchCheckEstablecimiento" name="flexSwitchCheckEstablecimiento">
+											<label class="form-check-label" for="flexSwitchCheckEstablecimiento">Establecimientos</label>
+										</div>
+									</div>
+									<div class="col">
+										<div class="form-check form-switch">
+											<input class="form-check-input btn-lg" type="checkbox" id="flexSwitchCheckUnidades" name="flexSwitchCheckUnidades">
+											<label class="form-check-label" for="flexSwitchCheckUnidades">Unidades</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div id="seleccionarfilah" style="display: none;">
+								<p class="text-primary pt-3">Seleccionar fila:</p>
+								<div id="seleccionarfila" class="container shadow-sm">
+									<div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 p-2">
+										<div id="colflexSwitchCheckRegion" class="col" style="display: none;">
+											<div class="form-check form-switch" >
+											  <input class="form-check-input btn-lg" type="checkbox" id="flexSwitchCheckRegion" name="flexSwitchCheckRegion">
+											  <label class="form-check-label" for="flexSwitchCheckRegion">Región</label>
+											</div>
+										</div>
+										<div id="colflexSwitchCheckNivel" class="col" style="display: none;">
+											<div class="form-check form-switch" >
+												<input class="form-check-input btn-lg" type="checkbox" id="flexSwitchCheckNivel" name="flexSwitchCheckNivel">
+												<label class="form-check-label" for="flexSwitchCheckNivel">Nivel</label>
+											</div>
+										</div>
+										<div id="colfilavacia" class="col"></div>
+										<div class="col"></div>
+										<div class="col"></div>
+									</div>
+								</div>
+							</div>
+
+
+							<div id="seleccionarcolumnah" style="display: none;">
+								<p class="text-primary pt-3">Seleccionar columna:</p>
+								<div id="seleccionarcolumna" class="container shadow-sm">
+									<div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 p-2">
+										<div id="colflexSwitchCheckAmbito1" class="col" style="display: none;">
+											<div class="form-check form-switch">
+												<input class="form-check-input btn-lg" type="checkbox" id="flexSwitchCheckAmbito1" name="flexSwitchCheckAmbito1">
+												<label class="form-check-label" for="flexSwitchCheckAmbito1">Ámbito</label>
+											</div>
+										</div>
+										<div id="colflexSwitchCheckGestion1" class="col" style="display: none;">
+											<div class="form-check form-switch" >
+												<input class="form-check-input btn-lg" type="checkbox" id="flexSwitchCheckGestion1" name="flexSwitchCheckGestion1">
+											<label class="form-check-label" for="flexSwitchCheckGestion1">Gestión</label>
+											</div>
+										</div>
+										<div id="colflexSwitchCheckRegion1" class="col" style="display: none;">
+											<div class="form-check form-switch" >
+											  <input class="form-check-input btn-lg" type="checkbox" id="flexSwitchCheckRegion1" name="flexSwitchCheckRegion1">
+											  <label class="form-check-label" for="flexSwitchCheckRegion1">Región</label>
+											</div>
+										</div>
+										<div id="colclovacia1" class="col"></div>
+										<div id="colclovacia2" class="col"></div>
+										<div id="colclovacia3" class="col"></div>
+									</div>
+								</div>
+							</div>	
+							<small id="infoestablecimientosxfiltronoselect" class="form-text pt-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Debe seleccionar, al menos, un tipo de datos y una fila.</small>
+							<small id="infoestablecimientosxfiltronoconn" class="form-text pt-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i>No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+						</div>
+					</div>
+					<div class="d-grid gap-2 d-md-flex justify-content-md-end m-3 mt-0">
+						<button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" onclick="return resetFormFiltro();">Cancelar filtro</button>
+						<button type="submit" class="btn btn-outline-success btn-sm btn-submit">Filtrar información</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+<!-- informe info filtro y graficos-->
+	<div id="establecimientosinfofiltro" style="display:none">
+		<div class="container">
+			<h4 id="tituloinfofiltro" class="m-3" style="color:#0d6efd"></h4>
+			<div class="container-fluid">
+				<div class="table-responsive-xxl mb-3" style="font-size: 0.8rem;">
+					<table class="table table-borderless">
+						<thead>
+							<tr id="tablatr1"></tr>
+							<tr id="tablatr2"></tr>
+						</thead>
+						<tbody id="tablatr3"></tbody>
+					</table>
+				</div>
+			</div>
+
+			<div id="graficoporfila"></div>
+			<div id="graficoporcolumna"></div>
+			<!--div class="container d-flex align-items-center justify-content-center">
+				<div class="row">
+					<div class="col-12">
+						<div class="mb-3" id="graficoporfila"></div>
+							
+					</div>
+					<div class="col-12">
+						<div class="mb-3" id="graficoporcolumna"></div>
+					</div>
+				</div>
+			</div-->
+			<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
+				<!--button type="button" class="btn btn-outline-info btn-sm" id="exportarestablecimientoinfofiltro" >Exportar a excel</button-->
+				<a href="#top"  class='btn btn-outline-primary btn-sm' onclick='nomostrarestablecimientosinfofiltro()'>Volver al mapa</a>
+			</div>
+		</div>
+	</div>
+
+	<script src="js/bootstrap.bundle.min.js"></script>
+	
+	<script src="js/plotly-2.8.3.min.js"></script>
+	<script src="js/iconLayers.js"></script>
+	<script src="js/easy-button.js"></script>
+	<script src="js/Control.FullScreen.js"></script>
+	<script type="text/javascript" src="js/leaflet.legend.js"></script>
+	<script src="layers/domiciliaria_hospitalaria.js"></script>
+	<script src="layers/educacion_especial.js"></script>
+	<script src="layers/educacion_inicial.js"></script>
+	<script src="layers/educacion_primaria.js"></script>
+	<script src="layers/educacion_secundaria.js"></script>
+	<script src="layers/educacion_artistica.js"></script>
+	<script src="layers/educacion_superior.js"></script>
+	<script src="layers/epja.js"></script>
+	<script src="layers/formacion_profesional.js"></script>
+	<script src="layers/otros_servicios_educativos.js"></script>
+	<script src="layers/supervision_secundaria.js"></script>
+	<script src="layers/supervision_primaria.js"></script>
+	<script src="layers/supervision_inicial.js"></script>	
+	<script src="layers/supervision_privada.js"></script>
+	<script src="layers/ministerio_educacion.js"></script>
+	<script src="layers/delegaciones_administrativas.js"></script>
+	<script src="layers/bibliotecas_pedagogicas.js"></script>
+	<script src="layers/localizaciones.js"></script>
+	<script src="layers/regiones_educativas.js"></script>
+	<script src="layers/departamentos.js"></script>
+	<script src="mapa.js"></script>
+
+</body>
+
+</html>
