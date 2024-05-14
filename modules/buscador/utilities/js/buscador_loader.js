@@ -109,4 +109,7 @@ function paso3apaso2(){
     fielset2.style.display = 'block';
 }
 
-cargarDatosBuscador();
+var modalBusqueda = document.getElementById('modalBusqueda');
+modalBusqueda.addEventListener('shown.bs.modal', function (event) {
+    cargarDatosBuscador();
+});

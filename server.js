@@ -5,6 +5,16 @@ app.use(express.static(path.join(__dirname,'modules','mapa')));
 app.use(express.static(path.join(__dirname,'modules','buscador')));
 
 
+// Middleware para servir archivos estáticos con tipo MIME correcto
+app.use('/modules/buscador', express.static(path.join(__dirname, 'modules/buscador'), {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    }
+  }
+}));
+
+
 // Configura Pug como motor de plantillas
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'modules', 'buscador', 'views'));
@@ -12,7 +22,7 @@ app.set('views', path.join(__dirname, 'modules', 'buscador', 'views'));
 
 
 
-app.get('/', function(req, res) {
+app.get('/inicio', function(req, res) {
   res.send('Hola Mundo');
 });
 

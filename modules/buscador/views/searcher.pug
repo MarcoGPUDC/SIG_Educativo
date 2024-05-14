@@ -28,27 +28,7 @@ html(lang="es")
     title Mapa Educativo Interactivo de la Provincia del Chubut
   
     body
-        //.modal-content
-            .modal-header
-                h5.modal-title Modal title
-                button.btn-close(type='button', data-bs-dismiss='modal', aria-label='Close')
-            .modal-body
-                nav
-                    .nav.nav-tabs#nav-tab(role="tablist")
-                        button.nav-link.active#nav-home-tab(data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true") Home
-                        button.nav-link#nav-numero-tab(data-bs-toggle="tab" data-bs-target="#nav-numero" type="button" role="tab" aria-controls="nav-profile" aria-selected="false") Numero
-                        button.nav-link#nav-nombre-tab(data-bs-toggle="tab" data-bs-target="#nav-nombre" type="button" role="tab" aria-controls="nav-contact" aria-selected="false") Nombre
-
-                    .tab-content#nav-tabContent
-                        .tab-pane.fade.show.active#nav-home(role="tabpanel" aria-labelledby="nav-home-tab") Home
-                        .tab-pane.fade#nav-numero(role="tabpanel" aria-labelledby="nav-numero-tab") Numero
-                        .tab-pane.fade#nav-nombre(role="tabpanel" aria-labelledby="nav-nombre-tab") Nombre
-                    
-            .modal-footer
-                button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Close
-                button.btn.btn-primary(type='button') Save changes
-        // <div class="modal fade show active" id="consultasEscuelas" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
-        <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-dialog modal-lg modal-dialog-centered" id='modalBusqueda'>
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel1">Buscar establecimientos educativos por:</h5>
@@ -431,4 +411,3 @@ html(lang="es")
                 </div>
             </div>
         </div>
-        //</div>

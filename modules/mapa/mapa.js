@@ -983,22 +983,29 @@ var artistica = L.geoJSON(ed_artistica, {
 
 
 // Agregar boton consulta
-
+var myModal = new bootstrap.Modal(document.getElementById('exampleModalBusqueda'));
 var mostrarConsultaButton = L.easyButton({
-	id: 'idConsultaButton',
+    id: 'idConsultaButton',
     states: [{
-            stateName: 'fa-globe',
-            icon:      "<img class='icon' src='icons/search-icon.png' style='width:18px; height:18px;'>", 
-            title:     'Busqueda', 
-            onClick: function(btn, map) { 
-				var modalConsulta = new bootstrap.Modal(document.getElementById('consultasEscuelas'), {});
-            	modalConsulta.toggle(); 
-            }
-        }]
-});
-
-
-//mostrarConsultaButton.addTo(mymap);
+      stateName: 'fa-globe',
+      icon: "<img class='icon' src='icons/search-icon.png' style='width:18px; height:18px;'>",
+      title: 'Busqueda',
+      onClick: function(btn, map) {
+        fetch('/buscador')
+          .then(response => response.text())
+          .then(html => {
+            // Insertar el HTML obtenido en el cuerpo del modal
+            document.getElementById('modalBody').innerHTML = html;
+            // Mostrar el modal
+            myModal.show();
+			cargarDatosBuscador();
+          })
+          .catch(error => {
+            console.error('Error al cargar contenido:', error);
+          });
+      }
+    }]
+  });
 
 // Agregar boton filtro
 
