@@ -329,24 +329,30 @@ function onEachFeature(feature, layer){
 // Colores por region
 
 function colorRegion(d) { 
-	return d == "I" ? '#b689c5' : 
-	d == "II" ? '#9febff' : 
-	d == "III" ? '#f4e49d' : 
-	d == "IV" ? '#8cdb4b' :
-	d == "V" ? '#c3c3c3' :
-		'#f1767f'; 
+	return d == "I" ? '#ffb109' : 
+	d == "II" ? '#ffc815' : 
+	d == "III" ? '#ff682c' : 
+	d == "IV" ? '#ff8540' :
+	d == "V" ? '#5894a7' :
+		'#21708c'; 
 };
 
 // Estilo por region
 
-function estilo_region (feature) {
-		return{
-			fillColor: colorRegion(feature.properties.numReg), 
-			color: colorRegion(feature.properties.numReg), 
-			opacity :  0.40,
-			fillOpacity: 0.3,
+function estilo_region (feature) {		
+			if (feature.properties.numReg == 'I' || feature.properties.numReg == 'III' || feature.properties.numReg == 'VI') {
+				return{fillColor: colorRegion(feature.properties.numReg), 
+				color: colorRegion(feature.properties.numReg), 
+				opacity :  0.2,
+				fillOpacity: 0.3,}
+			} else {
+				return {fillColor: colorRegion(feature.properties.numReg), 
+				color: colorRegion(feature.properties.numReg), 
+				opacity :  0.2,
+				fillOpacity: 0.2,}
+			}
+			
 	};
-};
 
 // Agregar regiones a mapa
 
@@ -786,6 +792,7 @@ function closepoput(e) {
   	setTimeout(function(){ layer.closePopup(); }, 20000);  
 }
 
+//ventana informativa pequeña
 function onEachFeatureL(feature, layer){
 	layer.bindPopup(
 		"<!--img src='icons/pruebaEscuela.png' class='card-img-top p-0 m-0' alt='" + (feature.properties.fna?feature.properties.fna:"No se registra") + "'-->" +
@@ -882,9 +889,23 @@ var primaria = L.geoJSON(ed_primaria, {
 });		
 
 //baselayer.addLayer(primaria);
+//const markersCluster = L.markerClusterGroup();
+const markersCluster = L.markerClusterGroup({
+    showCoverageOnHover: false, // Desactiva la visualización del radio en el hover
+    disableClusteringAtZoom: 13, // Desactiva la agrupación a partir de cierto nivel de zoom
+    //spiderfyOnMaxZoom: false, // No agrupa los marcadores al hacer zoom máximo
+    maxClusterRadius: 30, // Establece el radio máximo de agrupación
+	iconCreateFunction: function(cluster) {
+        return L.divIcon({ 
+            html: '<img src="./icons/establecimientos_sec.svg">', // Utiliza un ícono personalizado
+            className: 'establecimientos-icons', // Clase CSS para el ícono
+            iconSize: L.point(3, 3) // Tamaño del ícono
+        });
+    }
+});
 var secundaria = L.geoJSON(ed_secundaria, {
 		pointToLayer: function (feature, latlng) {
-			return L.marker(latlng, {
+			return markersCluster.addLayer(L.marker(latlng, {
 				icon: L.icon({
 				    iconUrl: "icons/establecimientos_sec.svg",
 				    iconSize:     [22, 22], 
@@ -892,7 +913,7 @@ var secundaria = L.geoJSON(ed_secundaria, {
 				    popupAnchor:  [0, 0] 
 				}),
 				riseOnHover: true
-			});
+			}));
 		},	
 		onEachFeature: onEachFeatureL
 });	
@@ -914,6 +935,7 @@ var superior = L.geoJSON(ed_superior, {
 });	
 
 //baselayer.addLayer(superior);
+
 var epja = L.geoJSON(ed_epja, {
 		pointToLayer: function (feature, latlng) {
 			return L.marker(latlng, {
@@ -995,7 +1017,7 @@ var mostrarConsultaButton = L.easyButton({
           .then(response => response.text())
           .then(html => {
             // Insertar el HTML obtenido en el cuerpo del modal
-            document.getElementById('modalBody').innerHTML = html;
+            document.getElementById('modalBodyBuscador').innerHTML = html;
             // Mostrar el modal
             myModal.show();
 			cargarDatosBuscador();
@@ -1504,7 +1526,7 @@ function nroSelect(){
 	var infoNroErrorNonombre = document.getElementById("infoNumeroErrorNumero");
 	var numeroescblockitem = document.getElementById("f-numeroesc-block-item");
 	var fnumeroescitem = document.getElementById("f-numeroesc-item");
-	var numeroesc = document.getElementById("f-numeroesc");
+	var numeroesc = document.getElementById("select-numero");
 	var miSelect = numeroesc.value;
 	if(isNa(miSelect)){
 		coincidencias = 0;

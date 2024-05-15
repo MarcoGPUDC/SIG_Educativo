@@ -254,3 +254,12 @@ html, body{
     color: white;
     width: auto !important;
 }
+
+.modalBusqueda{
+    right: 100px;
+}
+
+.establecimientos-icons img{
+    width: 21.99px;
+    height: 21.99px;
+}
