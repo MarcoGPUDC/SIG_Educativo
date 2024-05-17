@@ -36,6 +36,8 @@ app.use('/info', informacion_controlador);
 const buscador_controlador = require('./modules/buscador/controllers/buscador_controlador');
 app.use('/buscador', buscador_controlador);
 
+const mapRoutes = require('./modules/mapa/models/info_popup_model');
+app.use('/', mapRoutes);
 
 
 

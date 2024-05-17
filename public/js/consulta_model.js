@@ -40,8 +40,17 @@ function buscar_todos_domicilio () {
 
 function busqueda_simple (id) {
     return db.one(`SELECT inst.*, COALESCE(c.responsable, 'Sin Informacion') AS responsable, COALESCE(c.email, 'Sin Informacion') AS email, COALESCE(c.tel_resp, 000000000) AS tel_resp FROM padron.v_institucion_completa AS inst
-    JOIN padron.contacto c ON c.id_institucion = inst.cue
-    WHERE inst.cue = $1;`,id);
+        JOIN padron.contacto c ON c.id_institucion = inst.cue
+        WHERE inst.cue = $1;`,id);
+};
+
+//consultas para visualizar en el mapa
+function buscar_info_popup_inst() {
+    return db.any(`SELECT inst.cue_anexo, inst.numero, inst.region, loc.localidad, inst.domicilio, inst.tel, cont.email, inst.web, cont.responsable, cont.tel_resp, geo.lat, geo.long 
+        FROM padron.institucion inst 
+        JOIN padron.localidad loc ON inst.id_localidad = loc.id_localidad 
+        JOIN padron.contacto cont ON inst.id_institucion = cont.id_institucion
+        JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion;`);
 };
 
 
@@ -54,5 +63,6 @@ module.exports = {
     buscar_todos_localidad,
     buscar_todos_departamento,
     buscar_todos_domicilio,
-    busqueda_simple
+    busqueda_simple,
+    buscar_info_popup_inst
 };

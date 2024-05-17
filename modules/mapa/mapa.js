@@ -800,20 +800,20 @@ function onEachFeatureL(feature, layer){
   		"<h6 style='color:#0d6efd'>"+ (feature.properties.fna?feature.properties.fna:"No se registra") + "</h6>" +
 	 	"<h6> Información General</h6>" + 
 	 	"<table>"+
-		"<tr><td><b>CUE - Anexo:</b> "+ (feature.properties.cueanexo?feature.properties.cueanexo:"No se registra") + "</td></tr>"+
-		"<tr><td><b>Número:</b> "+ (feature.properties.codJurid?feature.properties.codJurid:"No se registra") + "</td></tr>" + 
-		"<tr><td><b>Región:</b> "+ (feature.properties.Región?feature.properties.Región:"No se registra") + "</td></tr>" +
-		"<tr><td><b>Localidad:</b> "+ (feature.properties.Localidad?formatoNombre(feature.properties.Localidad):"No se registra") + "</td></tr>" +
-		"<tr><td><b>Dirección:</b> "+ (feature.properties.calle?feature.properties.calle:"") + " " + (feature.properties.num_calle?feature.properties.num_calle:"S/N") + "</td></tr>" +
-		"<tr><td><b>Nivel:</b> "+ (feature.properties.Nivel?feature.properties.Nivel:"No se registra") + "</td></tr>" +
+		"<tr><td><b>CUE - Anexo:</b> "+ (feature.properties.cueanexo?feature.properties.cue_anexo:"No se registra") + "</td></tr>"+
+		"<tr><td><b>Número:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") + "</td></tr>" + 
+		"<tr><td><b>Región:</b> "+ (feature.properties.región?feature.properties.región:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Localidad:</b> "+ (feature.properties.localidad?formatoNombre(feature.properties.localidad):"No se registra") + "</td></tr>" +
+		"<tr><td><b>Dirección:</b> "+ (feature.properties.direccion?feature.properties.direccion:"") + "</td></tr>" +
+		"<tr><td><b>Nivel:</b> "+ (feature.properties.nivel?feature.properties.nivel:"No se registra") + "</td></tr>" +
 		"</table>" +
 		"<h6 class='mt-3'> Información de Contacto</h6>" + 
 		"<table>" +
-		"<tr><td><b>Teléfono:</b> "+ (feature.properties.telefono_cod_area?feature.properties.telefono_cod_area:"") + " " + (feature.properties.telefono?feature.properties.telefono:"") + "</td></tr>" +
+		"<tr><td><b>Teléfono:</b> "+ (feature.properties.tel?feature.properties.tel:"") + "</td></tr>" +
 		"<tr><td><b>Email:</b><a " + (feature.properties.email?"href='mailto:"+feature.properties.email:"") + " '> "  + (feature.properties.email?feature.properties.email:"No se registra") + "</a></td></tr>" +
 		"<tr><td><b>Sitio Web:</b>" + "<a " + (feature.properties.sitioweb && feature.properties.sitioweb != 'Sin información'?"href='"+feature.properties.sitioweb:"") + " ' target='_blank' rel='noopener noreferrer'> "  + (feature.properties.sitioweb?feature.properties.sitioweb:"No se registra") + "</a>"+ "</td></tr>" +
-		"<tr><td><b>Responsable:</b> "+ (feature.properties.responsabl?feature.properties.responsabl:"") + "</td></tr>" +
-		"<tr><td><b>Tel. del Responsable:</b> "+ (feature.properties.resp_tel?feature.properties.resp_tel:"-") + "</td></tr>" +
+		"<tr><td><b>Responsable:</b> "+ (feature.properties.responsabl?feature.properties.responsable:"") + "</td></tr>" +
+		"<tr><td><b>Tel. del Responsable:</b> "+ (feature.properties.tel_resp?feature.properties.tel_resp:"-") + "</td></tr>" +
 		"</table>" +
   		"</div></div>" +
   		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' onclick='mostrarInfoAdicional()'>Ver más...</a></div>" +
@@ -903,20 +903,41 @@ const markersCluster = L.markerClusterGroup({
         });
     }
 });
+/*
 var secundaria = L.geoJSON(ed_secundaria, {
 		pointToLayer: function (feature, latlng) {
 			return markersCluster.addLayer(L.marker(latlng, {
 				icon: L.icon({
-				    iconUrl: "icons/establecimientos_sec.svg",
-				    iconSize:     [22, 22], 
+					iconUrl: "icons/establecimientos_sec.svg",
+					iconSize:     [22, 22], 
 					iconAnchor:   [11, 0], 
-				    popupAnchor:  [0, 0] 
+					popupAnchor:  [0, 0] 
 				}),
 				riseOnHover: true
 			}));
 		},	
 		onEachFeature: onEachFeatureL
 });	
+*/
+
+var secundaria = fetch('/mapa/setInstMarkers')
+            .then(response => response.json())
+            .then(data => {
+                var ed_secundaria = L.geoJSON(data, {
+                    pointToLayer: function (feature, latlng) {
+                        return markersCluster.addLayer(latlng, {
+                            icon: L.icon({
+                                iconUrl: "icons/establecimientos_sec.svg",
+                                iconSize: [22, 22],
+                                iconAnchor: [11, 0],
+                                popupAnchor: [0, 0]
+                            }),
+                            riseOnHover: true
+                        });
+                    },
+                    onEachFeature: onEachFeatureL
+				})});
+
 
 //baselayer.addLayer(secundaria);
 var superior = L.geoJSON(ed_superior, {
