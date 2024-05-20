@@ -46,11 +46,11 @@ function busqueda_simple (id) {
 
 //consultas para visualizar en el mapa
 function buscar_info_popup_inst() {
-    return db.any(`SELECT inst.cue_anexo, inst.numero, inst.region, loc.localidad, inst.domicilio, inst.tel, cont.email, inst.web, cont.responsable, cont.tel_resp, geo.lat, geo.long 
-        FROM padron.institucion inst 
-        JOIN padron.localidad loc ON inst.id_localidad = loc.id_localidad 
-        JOIN padron.contacto cont ON inst.id_institucion = cont.id_institucion
-        JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion;`);
+    return db.any(`SELECT * FROM (SELECT inst.cue_anexo, (CASE WHEN inst.numero = 'Z000023' THEN 700 WHEN inst.numero = 'Z000024' THEN 700 WHEN inst.numero = 'CEF' THEN 700 WHEN inst.numero > '0' THEN inst.numero::INT END) AS numero, inst.nombre, inst.region, loc.localidad, inst.domicilio, inst.tel, cont.email, inst.web, cont.responsable, cont.tel_resp, geo.lat, geo.long 
+    FROM padron.institucion inst 
+    JOIN padron.localidad loc ON inst.id_localidad = loc.id_localidad 
+    JOIN padron.contacto cont ON inst.id_institucion = cont.id_institucion
+    JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion) tmp WHERE numero >= 700 AND numero <= 799 ORDER BY numero;`);
 };
 
 

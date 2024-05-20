@@ -797,12 +797,12 @@ function onEachFeatureL(feature, layer){
 	layer.bindPopup(
 		"<!--img src='icons/pruebaEscuela.png' class='card-img-top p-0 m-0' alt='" + (feature.properties.fna?feature.properties.fna:"No se registra") + "'-->" +
 		"<div class='p-3'>"+
-  		"<h6 style='color:#0d6efd'>"+ (feature.properties.fna?feature.properties.fna:"No se registra") + "</h6>" +
+  		"<h6 style='color:#0d6efd'>"+ (feature.properties.nombre?feature.properties.nombre:"No se registra") + "</h6>" +
 	 	"<h6> Información General</h6>" + 
 	 	"<table>"+
-		"<tr><td><b>CUE - Anexo:</b> "+ (feature.properties.cueanexo?feature.properties.cue_anexo:"No se registra") + "</td></tr>"+
+		"<tr><td><b>CUE - Anexo:</b> "+ (feature.properties.cueanexo?feature.properties.cueanexo:"No se registra") + "</td></tr>"+
 		"<tr><td><b>Número:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") + "</td></tr>" + 
-		"<tr><td><b>Región:</b> "+ (feature.properties.región?feature.properties.región:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Región:</b> "+ (feature.properties.region?feature.properties.region:"No se registra") + "</td></tr>" +
 		"<tr><td><b>Localidad:</b> "+ (feature.properties.localidad?formatoNombre(feature.properties.localidad):"No se registra") + "</td></tr>" +
 		"<tr><td><b>Dirección:</b> "+ (feature.properties.direccion?feature.properties.direccion:"") + "</td></tr>" +
 		"<tr><td><b>Nivel:</b> "+ (feature.properties.nivel?feature.properties.nivel:"No se registra") + "</td></tr>" +
@@ -812,7 +812,7 @@ function onEachFeatureL(feature, layer){
 		"<tr><td><b>Teléfono:</b> "+ (feature.properties.tel?feature.properties.tel:"") + "</td></tr>" +
 		"<tr><td><b>Email:</b><a " + (feature.properties.email?"href='mailto:"+feature.properties.email:"") + " '> "  + (feature.properties.email?feature.properties.email:"No se registra") + "</a></td></tr>" +
 		"<tr><td><b>Sitio Web:</b>" + "<a " + (feature.properties.sitioweb && feature.properties.sitioweb != 'Sin información'?"href='"+feature.properties.sitioweb:"") + " ' target='_blank' rel='noopener noreferrer'> "  + (feature.properties.sitioweb?feature.properties.sitioweb:"No se registra") + "</a>"+ "</td></tr>" +
-		"<tr><td><b>Responsable:</b> "+ (feature.properties.responsabl?feature.properties.responsable:"") + "</td></tr>" +
+		"<tr><td><b>Responsable:</b> "+ (feature.properties.responsable?feature.properties.responsable:"") + "</td></tr>" +
 		"<tr><td><b>Tel. del Responsable:</b> "+ (feature.properties.tel_resp?feature.properties.tel_resp:"-") + "</td></tr>" +
 		"</table>" +
   		"</div></div>" +
@@ -888,12 +888,10 @@ var primaria = L.geoJSON(ed_primaria, {
 		onEachFeature: onEachFeatureL
 });		
 
-//baselayer.addLayer(primaria);
-//const markersCluster = L.markerClusterGroup();
-const markersCluster = L.markerClusterGroup({
+var markersCluster = L.markerClusterGroup({
     showCoverageOnHover: false, // Desactiva la visualización del radio en el hover
     disableClusteringAtZoom: 13, // Desactiva la agrupación a partir de cierto nivel de zoom
-    //spiderfyOnMaxZoom: false, // No agrupa los marcadores al hacer zoom máximo
+    spiderfyOnMaxZoom: false, // No agrupa los marcadores al hacer zoom máximo
     maxClusterRadius: 30, // Establece el radio máximo de agrupación
 	iconCreateFunction: function(cluster) {
         return L.divIcon({ 
@@ -902,41 +900,75 @@ const markersCluster = L.markerClusterGroup({
             iconSize: L.point(3, 3) // Tamaño del ícono
         });
     }
-});
-/*
-var secundaria = L.geoJSON(ed_secundaria, {
-		pointToLayer: function (feature, latlng) {
-			return markersCluster.addLayer(L.marker(latlng, {
-				icon: L.icon({
-					iconUrl: "icons/establecimientos_sec.svg",
-					iconSize:     [22, 22], 
-					iconAnchor:   [11, 0], 
-					popupAnchor:  [0, 0] 
-				}),
-				riseOnHover: true
-			}));
-		},	
-		onEachFeature: onEachFeatureL
-});	
-*/
+}); // Añadir el cluster al mapa
 
-var secundaria = fetch('/mapa/setInstMarkers')
-            .then(response => response.json())
-            .then(data => {
-                var ed_secundaria = L.geoJSON(data, {
-                    pointToLayer: function (feature, latlng) {
-                        return markersCluster.addLayer(latlng, {
-                            icon: L.icon({
-                                iconUrl: "icons/establecimientos_sec.svg",
-                                iconSize: [22, 22],
-                                iconAnchor: [11, 0],
-                                popupAnchor: [0, 0]
-                            }),
-                            riseOnHover: true
-                        });
-                    },
-                    onEachFeature: onEachFeatureL
-				})});
+// Función para obtener la capa de datos
+function getSecundariaLayer() {
+    return fetch('/mapa/setInstMarkers')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Fetched data:', data); // Log después de obtener los datos
+
+            // Crea la capa GeoJSON y añádela al cluster
+            var secundariaLayer = L.geoJSON(data, {
+                pointToLayer: function (feature, latlng) {
+                    var marker = L.marker(latlng, {
+                        icon: L.icon({
+                            iconUrl: "icons/establecimientos_sec.svg",
+                            iconSize: [22, 22],
+                            iconAnchor: [11, 0],
+                            popupAnchor: [0, 0]
+                        }),
+                        riseOnHover: true
+                    });
+					markersCluster.addLayer(marker);
+                    return marker;
+                },
+                onEachFeature: onEachFeatureL
+            });
+
+            console.log('Created layer:', secundariaLayer); // Log después de crear secundariaLayer
+
+            // Devuelve la capa
+            return secundariaLayer;
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            return null;
+        });
+}
+//mymap.addLayer(markersCluster);
+
+// Obtener la capa y configurarla
+getSecundariaLayer().then(secundariaLayer => {
+    console.log('Using layer:', secundariaLayer); // Log antes de usar secundariaLayer
+    
+    var layersConfig = [{
+        label: "Ed. Secundaria",
+        type: "image",
+        url: "icons/establecimientos_sec.svg",
+        layers_type: "establecimiento",
+        layers: [markersCluster],
+        inactive: true,
+    }];
+
+    // Añadir la capa al mapa si está definida
+    if (secundariaLayer) {
+		var legend = new L.control.Legend({
+			position: "topleft",
+			title: "Capas",
+			collapsed: true,
+			symbolWidth: 17, 
+			opacity: 1,
+			column: false,
+			legends: layersConfig
+			})
+			.addTo(mymap);
+    } else {
+        console.error('Secundaria layer is undefined');
+    }
+});
+
 
 
 //baselayer.addLayer(secundaria);
@@ -1247,14 +1279,6 @@ var	legends = [{
 		url: "icons/establecimientos_primaria.svg",
 		layers_type: "establecimiento",
 		layers: [primaria],
-		inactive: true,
-        },
-        {
-		label: "Ed. Secundaria",
-		type: "image",
-		url: "icons/establecimientos_sec.svg",
-		layers_type: "establecimiento",
-		layers: [secundaria],
 		inactive: true,
         },
         {
