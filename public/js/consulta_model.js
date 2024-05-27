@@ -50,7 +50,15 @@ function buscar_info_popup_inst() {
     FROM padron.institucion inst 
     JOIN padron.localidad loc ON inst.id_localidad = loc.id_localidad 
     JOIN padron.contacto cont ON inst.id_institucion = cont.id_institucion
-    JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion) tmp WHERE numero >= 700 AND numero <= 799 ORDER BY numero;`);
+    JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion) tmp ORDER BY numero;`);
+};
+
+function buscar_info_popup_inst_inic() {
+    return db.any(`SELECT * FROM inst.numero, inst.nombre, inst.region, loc.localidad, inst.domicilio, inst.tel, cont.email, inst.web, cont.responsable, cont.tel_resp, geo.lat, geo.long 
+    FROM padron.institucion inst 
+    JOIN padron.localidad loc ON inst.id_localidad = loc.id_localidad 
+    JOIN padron.contacto cont ON inst.id_institucion = cont.id_institucion
+    JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion) tmp ORDER BY numero;`);
 };
 
 
@@ -64,5 +72,6 @@ module.exports = {
     buscar_todos_departamento,
     buscar_todos_domicilio,
     busqueda_simple,
-    buscar_info_popup_inst
+    buscar_info_popup_inst,
+    buscar_info_popup_inst_inic
 };

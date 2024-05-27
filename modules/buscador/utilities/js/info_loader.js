@@ -36,6 +36,10 @@ async function completarDatosInstitucion() {
         document.getElementById('emailinfoadicional').innerHTML = `${data.email}`;
         document.getElementById('sitio_webinfoadicional').innerHTML = `${data.web}`;
         document.getElementById('resp_telresponsableinfoadicional').innerHTML = `${data.tel_resp}`;
+        //datos oferta
+        document.getElementById('Modalidadinfoadicional').innerHTML = `${data.modalidad}`;
+        document.getElementById('Nivelesinfoadicional').innerHTML = `${data.nivel}`;
+        document.getElementById('Modalidadinfoadicional').innerHTML = `${data.oferta}`;
     })
     .catch(error => {
         console.error('Error:', error);

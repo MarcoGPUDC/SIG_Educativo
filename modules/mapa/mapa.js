@@ -1,12 +1,12 @@
 // Crear mapa ------------------------------------------------------------------------------
 
-var mymap = new L.map('map', {
+var mymap = new L.map('map'/*, {
 	fullscreenControl: true,
 	fullscreenControlOptions: {
 		position: 'topleft',
 		forceSeparateButton: true
 	}
-}); 
+}*/); 
 
 // Tile mapas
 
@@ -194,7 +194,7 @@ departament =  L.geoJson(departamentos, {
 
 // Agregar nombre region
 
-var textLatLngR1 = [-42.473364, -70.828274];  
+var textLatLngR1 = [-42.263364, -70.828274];  
 var textLabelR1 = L.marker(textLatLngR1, {
     icon: L.divIcon({
         className: 'text-labels',
@@ -203,7 +203,7 @@ var textLabelR1 = L.marker(textLatLngR1, {
     zIndexOffset: -1 
 });
 baselayer.addLayer(textLabelR1);
-var textLatLngR2 = [-42.440042, -64.77781];  
+var textLatLngR2 = [-42.340042, -65.70081];  
 var textLabelR2 = L.marker(textLatLngR2, {
     icon: L.divIcon({
         className: 'text-labels',
@@ -212,7 +212,7 @@ var textLabelR2 = L.marker(textLatLngR2, {
     zIndexOffset: -1 
 });
 baselayer.addLayer(textLabelR2);
-var textLatLngR3 = [-43.578353, -70.542548];  
+var textLatLngR3 = [-43.678353, -70.742548];  
 var textLabelR3 = L.marker(textLatLngR3, {
     icon: L.divIcon({
         className: 'text-labels',
@@ -221,7 +221,7 @@ var textLabelR3 = L.marker(textLatLngR3, {
     zIndexOffset: -1 
 });
 baselayer.addLayer(textLabelR3);
-var textLatLngR4 = [-43.533583, -67.11289];  
+var textLatLngR4 = [-43.533583, -67.91289];  
 var textLabelR4 = L.marker(textLatLngR4, {
     icon: L.divIcon({
         className: 'text-labels',
@@ -239,7 +239,7 @@ var textLabelR5 = L.marker(textLatLngR5, {
     zIndexOffset: -1 
 });
 baselayer.addLayer(textLabelR5);
-var textLatLngR6 = [-45.339412, -67.364911];  
+var textLatLngR6 = [-45.339412, -67.964911];  
 var textLabelR6 = L.marker(textLatLngR6, {
     icon: L.divIcon({
         className: 'text-labels',
@@ -824,7 +824,7 @@ function onEachFeatureL(feature, layer){
         popupopen : closepoput,
     });
 }
-
+/*
 var domiciliaria_hospitalaria = L.geoJSON(ed_domiciliaria_hospitalaria, {
 		pointToLayer: function (feature, latlng) {
 			return L.marker(latlng, {
@@ -886,91 +886,7 @@ var primaria = L.geoJSON(ed_primaria, {
 			});
 		},	
 		onEachFeature: onEachFeatureL
-});		
-
-var markersCluster = L.markerClusterGroup({
-    showCoverageOnHover: false, // Desactiva la visualización del radio en el hover
-    disableClusteringAtZoom: 13, // Desactiva la agrupación a partir de cierto nivel de zoom
-    spiderfyOnMaxZoom: false, // No agrupa los marcadores al hacer zoom máximo
-    maxClusterRadius: 30, // Establece el radio máximo de agrupación
-	iconCreateFunction: function(cluster) {
-        return L.divIcon({ 
-            html: '<img src="./icons/establecimientos_sec.svg">', // Utiliza un ícono personalizado
-            className: 'establecimientos-icons', // Clase CSS para el ícono
-            iconSize: L.point(3, 3) // Tamaño del ícono
-        });
-    }
-}); // Añadir el cluster al mapa
-
-// Función para obtener la capa de datos
-function getSecundariaLayer() {
-    return fetch('/mapa/setInstMarkers')
-        .then(response => response.json())
-        .then(data => {
-            console.log('Fetched data:', data); // Log después de obtener los datos
-
-            // Crea la capa GeoJSON y añádela al cluster
-            var secundariaLayer = L.geoJSON(data, {
-                pointToLayer: function (feature, latlng) {
-                    var marker = L.marker(latlng, {
-                        icon: L.icon({
-                            iconUrl: "icons/establecimientos_sec.svg",
-                            iconSize: [22, 22],
-                            iconAnchor: [11, 0],
-                            popupAnchor: [0, 0]
-                        }),
-                        riseOnHover: true
-                    });
-					markersCluster.addLayer(marker);
-                    return marker;
-                },
-                onEachFeature: onEachFeatureL
-            });
-
-            console.log('Created layer:', secundariaLayer); // Log después de crear secundariaLayer
-
-            // Devuelve la capa
-            return secundariaLayer;
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-            return null;
-        });
-}
-//mymap.addLayer(markersCluster);
-
-// Obtener la capa y configurarla
-getSecundariaLayer().then(secundariaLayer => {
-    console.log('Using layer:', secundariaLayer); // Log antes de usar secundariaLayer
-    
-    var layersConfig = [{
-        label: "Ed. Secundaria",
-        type: "image",
-        url: "icons/establecimientos_sec.svg",
-        layers_type: "establecimiento",
-        layers: [markersCluster],
-        inactive: true,
-    }];
-
-    // Añadir la capa al mapa si está definida
-    if (secundariaLayer) {
-		var legend = new L.control.Legend({
-			position: "topleft",
-			title: "Capas",
-			collapsed: true,
-			symbolWidth: 17, 
-			opacity: 1,
-			column: false,
-			legends: layersConfig
-			})
-			.addTo(mymap);
-    } else {
-        console.error('Secundaria layer is undefined');
-    }
 });
-
-
-
 //baselayer.addLayer(secundaria);
 var superior = L.geoJSON(ed_superior, {
 		pointToLayer: function (feature, latlng) {
@@ -989,22 +905,7 @@ var superior = L.geoJSON(ed_superior, {
 
 //baselayer.addLayer(superior);
 
-var epja = L.geoJSON(ed_epja, {
-		pointToLayer: function (feature, latlng) {
-			return L.marker(latlng, {
-				icon: L.icon({
-				    iconUrl: "icons/establecimientos_epja.svg",
-				    iconSize:     [22, 22], 
-					iconAnchor:   [11, 0], 
-				    popupAnchor:  [0, 0] 
-				}),
-				riseOnHover: true
-			});
-		},	
-		onEachFeature: onEachFeatureL
-});	
 
-//baselayer.addLayer(epja);
 var form_prof = L.geoJSON(ed_form_prof, {
 		pointToLayer: function (feature, latlng) {
 			return L.marker(latlng, {
@@ -1040,21 +941,265 @@ var otros_serv_comp = L.geoJSON(ed_otros_serv_comp, {
 
 
 //baselayer.addLayer(form_prof);
-var artistica = L.geoJSON(ed_artistica, {
+
+
+*/	
+//crear cluster de markers, es decir que los iconos del layer se agrupan o desagrupan segun se haga zoom out o zoom in
+function createCluster(nivel) {
+	var cluster = L.markerClusterGroup({
+		showCoverageOnHover: false, // Desactiva la visualización del radio en el hover
+		disableClusteringAtZoom: 13, // Desactiva la agrupación a partir de cierto nivel de zoom
+		spiderfyOnMaxZoom: false, // No agrupa los marcadores al hacer zoom máximo
+		maxClusterRadius: 30, // Establece el radio máximo de agrupación
+		iconCreateFunction: function(cluster) {
+			return L.divIcon({ 
+				html: `<img src="./icons/establecimientos_${nivel}.svg">`, // Utiliza un ícono personalizado
+				className: 'establecimientos-icons', // Clase CSS para el ícono
+				iconSize: L.point(3, 3) // Tamaño del ícono
+			});
+		}
+	});
+	return cluster;
+}
+//function createLayer(cluster, data, nivel) 
+function createLayer(data, nivel) {
+	var cluster = createCluster(nivel);
+	var layer = L.geoJSON(data, {
 		pointToLayer: function (feature, latlng) {
-			return L.marker(latlng, {
+			var marker = L.marker(latlng, {
 				icon: L.icon({
-				    iconUrl: "icons/establecimientos_artistica.svg",
-				    iconSize:     [22, 22], 
-					iconAnchor:   [11, 0], 
-				    popupAnchor:  [0, 0] 
+					iconUrl: `icons/establecimientos_${nivel}.svg`,
+					iconSize: [22, 22],
+					iconAnchor: [11, 0],
+					popupAnchor: [0, 0]
 				}),
 				riseOnHover: true
 			});
-		},	
+			cluster.addLayer(marker);
+			return marker;
+		},
 		onEachFeature: onEachFeatureL
-});		
-//baselayer.addLayer(artistica);
+	});
+	return cluster;
+}
+/*var clusterSecundaria = createCluster('sec');
+var clusterInicial = createCluster('inicial');
+var clusterPrimaria = createCluster('primaria');
+var clusterEspecial = createCluster('especial');
+var clusterSNU = createCluster('superior');
+var clusterDomHosp = createCluster('dom_hosp');
+var clusterFormProf = createCluster('form_prof');
+var clusterOtrosServ = createCluster('comp');*/
+/*L.markerClusterGroup({
+    showCoverageOnHover: false, // Desactiva la visualización del radio en el hover
+    disableClusteringAtZoom: 13, // Desactiva la agrupación a partir de cierto nivel de zoom
+    spiderfyOnMaxZoom: false, // No agrupa los marcadores al hacer zoom máximo
+    maxClusterRadius: 30, // Establece el radio máximo de agrupación
+	iconCreateFunction: function(cluster) {
+        return L.divIcon({ 
+            html: '<img src="./icons/establecimientos_sec.svg">', // Utiliza un ícono personalizado
+            className: 'establecimientos-icons', // Clase CSS para el ícono
+            iconSize: L.point(3, 3) // Tamaño del ícono
+        });
+    }
+});*/
+
+
+
+// Función para obtener la capa de datos
+function getTodosLayers() {
+    return fetch('/mapa/setInstMarkers')
+        .then(response => response.json())
+        .then(data => {
+			var todosLayers = [];
+			var dataInicial = [];
+			var dataPrimaria = [];
+			var dataSecundaria = [];
+			var dataEspecial = [];
+			var dataSNU = [];
+			var dataDomHosp = [];
+			var dataFormProf = [];
+			var dataOtrosServ = [];
+			var dataArtistica = [];
+			data.features.forEach(escuelas => {
+				switch (true) {
+					//numeracion inicial 400 a 499 / 4000 a 4999 / 1400 a 1499 / 2400 a 2499
+					case ((escuelas.properties.numero >= 400 && escuelas.properties.numero <= 499) || (escuelas.properties.numero >= 4000 && escuelas.properties.numero <= 4999) || (escuelas.properties.numero >= 1400 && escuelas.properties.numero <= 1499) || (escuelas.properties.numero >= 2400 && escuelas.properties.numero <= 2499)):
+						dataInicial.push(escuelas);
+						break;
+					//numeracion primaria 0 a 299 / 1000 a 1299 / 2000 a 2099
+					case ((escuelas.properties.numero >= 0 && escuelas.properties.numero <= 299) || (escuelas.properties.numero >= 1000 && escuelas.properties.numero <= 1299) || (escuelas.properties.numero >= 2000 && escuelas.properties.numero <= 2099)):
+						dataPrimaria.push(escuelas)
+						break;
+					//numeracion secundaria 700 a 799 / 7000 a 7999 / 1700 a 1799 / 2700 a 2799
+					case ((escuelas.properties.numero >= 700 && escuelas.properties.numero <= 799) || (escuelas.properties.numero >= 7000 && escuelas.properties.numero <= 7999) || (escuelas.properties.numero >= 1700 && escuelas.properties.numero <= 1799) || (escuelas.properties.numero >= 2700 && escuelas.properties.numero <= 2799)):
+						dataSecundaria.push(escuelas)
+						break;
+					//numeracion Adultos - formacion profesional 600 a 699 / 1600 a 1699
+					case ((escuelas.properties.numero >= 600 && escuelas.properties.numero <= 699) || (escuelas.properties.numero >= 1600 && escuelas.properties.numero <= 1699)):
+						dataFormProf.push(escuelas);
+						break;
+					//numeracion especial 500 a 599 / 1500 a 1500
+					case ((escuelas.properties.numero >= 500 && escuelas.properties.numero <= 599) || (escuelas.properties.numero >= 1500 && escuelas.properties.numero <= 1599)):
+						dataEspecial.push(escuelas);
+						break;
+					//superior no universitario SNU 800 a 899 / 1800 a 1899
+					case ((escuelas.properties.numero >= 800 && escuelas.properties.numero <= 899) || (escuelas.properties.numero >= 1800 && escuelas.properties.numero <= 1899)):
+						dataSNU.push(escuelas);
+						break;
+					//numeracion domiciliaria/hospitalaria 300 a 399
+					case (escuelas.properties.numero >= 300 && escuelas.properties.numero <= 399):
+						dataDomHosp.push(escuelas);
+						break;
+					//lo que no cae en lo anterior cae en otros servicios educativos
+					case (true):
+						dataOtrosServ.push(escuelas);
+						break;	
+					default:
+        				console.log('no se encontraron instituciones');
+					}})
+					
+            //console.log('Fetched data:', data.features); // Log después de obtener los datos
+
+            // Crea la capa GeoJSON y añádela al cluster
+			var inicialLayer = createLayer(dataInicial, 'inicial');
+			//console.log('Created layer:', inicialLayer); // Log después de crear secundariaLayer
+			var primariaLayer = createLayer(dataPrimaria, 'primaria');
+			//console.log('Created layer:', primariaLayer); // Log después de crear secundariaLayer
+			var secundariaLayer = createLayer(dataSecundaria, 'sec');
+			//console.log('Created layer:', secundariaLayer); // Log después de crear secundariaLayer
+			var especialLayer = createLayer(dataEspecial, 'especial');
+			//console.log('Created layer:', especialLayer); // Log después de crear secundariaLayer
+			var SNULayer = createLayer(dataSNU, 'superior');
+			//console.log('Created layer:', SNULayer); // Log después de crear secundariaLayer
+			var domHospLayer = createLayer(dataDomHosp, 'dom_hosp');
+			//console.log('Created layer:', domHospLayer); // Log después de crear secundariaLayer
+			var formProfLayer = createLayer(dataFormProf, 'form_prof');
+			//console.log('Created layer:', formProfLayer); // Log después de crear secundariaLayer
+			var otrosServLayer = createLayer(dataOtrosServ, 'comp');
+			//console.log('Created layer:', otrosServLayer); // Log después de crear secundariaLayer
+			/*L.geoJSON(dataSecundaria, {
+                pointToLayer: function (feature, latlng) {
+                    var marker = L.marker(latlng, {
+                        icon: L.icon({
+                            iconUrl: "icons/establecimientos_sec.svg",
+                            iconSize: [22, 22],
+                            iconAnchor: [11, 0],
+                            popupAnchor: [0, 0]
+                        }),
+                        riseOnHover: true
+                    });
+					clusterSecundaria.addLayer(marker);
+                    return marker;
+                },
+                onEachFeature: onEachFeatureL
+            });*/
+			todosLayers.push(inicialLayer);//0
+			todosLayers.push(primariaLayer);//1
+			todosLayers.push(secundariaLayer);//2
+			todosLayers.push(SNULayer);//3
+			todosLayers.push(especialLayer);//4
+			todosLayers.push(formProfLayer);//5
+			todosLayers.push(domHospLayer);//6
+			todosLayers.push(otrosServLayer);//7
+            return todosLayers;
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            return null;
+        });
+}
+
+
+// Obtener la capa y configurarla
+getTodosLayers().then(Layers => {
+    var layersConfig = [
+		{
+		label: "Ed. Inicial",
+		type: "image",
+		url: "icons/establecimientos_inicial.svg",
+		layers_type: "establecimiento",
+		layers: [Layers[0]],
+		inactive: true,
+		},
+		{
+		label: "Ed. Primaria",
+		type: "image",
+		url: "icons/establecimientos_primaria.svg",
+		layers_type: "establecimiento",
+		layers: [Layers[1]],
+		inactive: true,
+		},
+		{
+		label: "Ed. Secundaria",
+		type: "image",
+		url: "icons/establecimientos_sec.svg",
+		layers_type: "establecimiento",
+		layers: [Layers[2]],
+		inactive: true,
+		},
+		{
+		label: "Ed. Superior No Universitaria",
+		type: "image",
+		url: "icons/establecimientos_superior.svg",
+		layers_type: "establecimiento",
+		layers: [Layers[3]],
+		inactive: true,
+		},
+		{
+		label: "Ed. Especial",
+		type: "image",
+		url: "icons/establecimientos_especial.svg",
+		layers_type: "establecimiento",
+		layers: [Layers[4]],
+		inactive: true,
+		},
+		{
+		label: "Formación Profesional",
+		type: "image",
+		url: "icons/establecimientos_form_prof.svg",
+		layers_type: "establecimiento",
+		layers: [Layers[5]],
+		inactive: true,
+		},
+		{
+		label: "Ed. Domiciliaria y Hospitalaria",
+		type: "image",
+		url: "icons/establecimientos_dom_hosp.svg",
+		layers_type: "establecimiento",
+		layers: [Layers[6]],
+		inactive: true,
+		},
+		{
+		label: "Otros Servicios Educativos",
+		type: "image",
+		url: "icons/establecimientos_comp.svg",
+		layers_type: "establecimiento",
+		layers: [Layers[7]],
+		inactive: true,
+		}
+	];
+
+    // Añadir la capa al mapa si está definida
+    if (Layers) {
+		var legend = new L.control.Legend({
+			position: "topleft",
+			title: "Capas2",
+			collapsed: true,
+			symbolWidth: 17, 
+			opacity: 1,
+			column: false,
+			legends: layersConfig
+			})
+			.addTo(mymap);
+    } else {
+        console.error('No se econtraron capas de instituciones');
+    }
+});
+
+//mymap.addLayer(markersCluster);
+
+
 
 
 // Agregar boton consulta
@@ -1161,6 +1306,38 @@ var controlbrowserPrint = L.control.browserPrint({
 
 //controlbrowserPrint.addTo(mymap);
 
+
+var epja = L.geoJSON(ed_epja, {
+	pointToLayer: function (feature, latlng) {
+		return L.marker(latlng, {
+			icon: L.icon({
+				iconUrl: "icons/establecimientos_epja.svg",
+				iconSize:     [22, 22], 
+				iconAnchor:   [11, 0], 
+				popupAnchor:  [0, 0] 
+			}),
+			riseOnHover: true
+		});
+	},	
+	onEachFeature: onEachFeatureL
+});
+var artistica = L.geoJSON(ed_artistica, {
+	pointToLayer: function (feature, latlng) {
+		return L.marker(latlng, {
+			icon: L.icon({
+				iconUrl: "icons/establecimientos_artistica.svg",
+				iconSize:     [22, 22], 
+				iconAnchor:   [11, 0], 
+				popupAnchor:  [0, 0] 
+			}),
+			riseOnHover: true
+		});
+	},	
+	onEachFeature: onEachFeatureL
+});		
+//baselayer.addLayer(artistica);
+
+//baselayer.addLayer(epja);
 // Agregar leyenda a mapa 
 
 var	legends = [{
@@ -1201,14 +1378,14 @@ var	legends = [{
 		layers: [del_admnistrativas],
 		inactive: false,
         },
-        {
+		{
 		label: "Supervisión Inicial",
 		type: "image",
 		url: "icons/supervision_inicial.svg",
 		layers_type: "organizacion",
 		layers: [sup_inicial],
 		inactive: false,
-        },
+		},
         {
 		label: "Supervisión Primaria",
 		type: "image",
@@ -1241,82 +1418,26 @@ var	legends = [{
 		layers: [bib_pedagogicas],
 		inactive: true,
         },
-        {
-		label: "Ed. Domiciliaria y Hospitalaria",
-		type: "image",
-		url: "icons/establecimientos_dom_hosp.svg",
-		layers_type: "establecimiento",
-		layers: [domiciliaria_hospitalaria],
-		inactive: true,
-        },
-        {
-		label: "Ed. Especial",
-		type: "image",
-		url: "icons/establecimientos_especial.svg",
-		layers_type: "establecimiento",
-		layers: [especial],
-		inactive: true,
-        },
-        {
-		label: "Ed. Artística",
-		type: "image",
-		url: "icons/establecimientos_artistica.svg",
-		layers_type: "establecimiento",
-		layers: [artistica],
-		inactive: true,
-        },
-        {
-		label: "Ed. Inicial",
-		type: "image",
-		url: "icons/establecimientos_inicial.svg",
-		layers_type: "establecimiento",
-		layers: [inicial],
-		inactive: true,
-        },
-        {
-		label: "Ed. Primaria",
-		type: "image",
-		url: "icons/establecimientos_primaria.svg",
-		layers_type: "establecimiento",
-		layers: [primaria],
-		inactive: true,
-        },
-        {
-		label: "Ed. Superior No Universitaria",
-		type: "image",
-		url: "icons/establecimientos_superior.svg",
-		layers_type: "establecimiento",
-		layers: [superior],
-		inactive: true,
-        },
-        {
+		{
 		label: "Ed. permanente de Jóvenes y Adultos",
 		type: "image",
 		url: "icons/establecimientos_epja.svg",
 		layers_type: "establecimiento",
 		layers: [epja],
 		inactive: true,
-        },
-        {
-		label: "Formación Profesional",
+		},
+		{
+		label: "Ed. Artística",
 		type: "image",
-		url: "icons/establecimientos_form_prof.svg",
+		url: "icons/establecimientos_artistica.svg",
 		layers_type: "establecimiento",
-		layers: [form_prof],
+		layers: [artistica],
 		inactive: true,
-        },
-        {
-		label: "Otros Servicios Educativos",
-		type: "image",
-		url: "icons/establecimientos_comp.svg",
-		layers_type: "establecimiento",
-		layers: [otros_serv_comp],
-		inactive: true,
-        }
+		}        
         ];
-var legend = new L.control.Legend({
+legend = L.control.Legend({
 	position: "topleft",
-	title: "Capas",
+	title: "Capas1",
 	collapsed: true,
 	symbolWidth: 17, 
 	opacity: 1,
@@ -2209,7 +2330,7 @@ function agregarNuevaLegend(){
 	if(legend instanceof L.Control.Legend){mymap.removeControl(legend);}
 	legend = new L.control.Legend({
 	position: "topleft",
-	title: "Capas",
+	title: "Capas3",
 	collapsed: true,
 	symbolWidth: 17,
 	opacity: 1,
