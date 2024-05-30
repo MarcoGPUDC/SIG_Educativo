@@ -265,3 +265,19 @@ html, body{
     width: 21.99px;
     height: 21.99px;
 }
+
+.buscador-direccion {
+    margin-left: 45px;
+}
+
+#resultados-buscador{
+    position: absolute;
+    z-index: 999;
+    background-color: #ffffff;
+    border: 2px solid black;
+    width: auto;
+}
+#resultados-buscador li{
+    margin: 2px;
+    padding: 2px;
+}

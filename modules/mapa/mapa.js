@@ -83,9 +83,75 @@ var centrarMapaButton = L.easyButton({
 				}
             }
         }]
+	
 });
 centrarMapaButton.addTo(mymap);
 
+
+const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1Ijoic2lnLWUtYWRtaW4iLCJhIjoiY2x3cWd2dXl5MDI2NTJrcHFrajhxbWp5dSJ9.R_tS8eyc4BaaaRY1yd3NZw';
+
+if (!MAPBOX_ACCESS_TOKEN) {
+	console.error('Debes proporcionar un token de acceso válido para Mapbox.');
+}
+var geocoder = L.Control.Geocoder.mapbox('MAPBOX_ACCESS_TOKEN');
+
+// Maneja el evento de búsqueda cuando el usuario presiona Enter
+document.getElementById('address').addEventListener('keydown', function(event) {
+		
+  if (event.key == 'Enter' && event.target.value.length> 2) {
+	var dirs = document.getElementById('resultados-buscador');
+	dirs.innerHTML = '<p>resultados</p>';
+	dirs.classList.toggle('d-none')
+	var query = event.target.value;
+	//fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${MAPBOX_ACCESS_TOKEN}&types=address`)
+	//fetch(`https://apis.datos.gob.ar/georef/api/direcciones?direccion=${query}&departamento=rawson&provincia=chubut`)
+	//fetch(`https://apis.datos.gob.ar/georef/api/direcciones?provincia=chubut&direccion=${query}&format=jsonv2`)
+	
+	fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&addressdetails=1`)
+    .then(results => {
+		var result = results.direcciones;
+		result.forEach(function(resultado, index) {
+			if (index < 6) {
+				var button = document.createElement('button');
+				button.textContent = `${resultado.calle.nombre}, ${resultado.altura.valor}, ${resultado.localidad_censal.nombre}`;
+				button.setAttribute('data-index', index); // Añade el índice como un atributo de datos personalizado
+				var dataAddressValue = JSON.stringify(resultado.ubicacion);
+				button.setAttribute('data-address', dataAddressValue);
+				button.setAttribute('class', 'btn')
+				button.addEventListener('click', function() {
+					var dataAddressValue = this.getAttribute('data-address');
+					var latlng = JSON.parse(dataAddressValue);
+					L.marker(latlng).addTo(mymap)	
+					.bindPopup(resultado.calle.nombre + ", " + resultado.altura.valor)
+					.openPopup();
+					mymap.setView(latlng, 13);
+				});
+				dirs.appendChild(button);
+			}
+		});
+		
+	});
+  }
+});
+
+document.addEventListener('click', function(event) {
+	var buscadorDireccion = document.getElementById('buscador-direccion');
+	var resultadosBuscador = document.getElementById('resultados-buscador');
+
+	if (!buscadorDireccion.contains(event.target)) {
+		resultadosBuscador.classList.add('d-none');
+	}
+});
+
+// Prevenir que el click dentro del buscador cierre el div
+document.getElementById('resultados-buscador').addEventListener('click', function(event) {
+	event.stopPropagation();
+});
+/*ar textLabelR2 = L.marker(textLatLngR2, {
+    icon: L.divIcon({
+        className: 'text-labels',
+        html: '<div>II</div>'
+    }),*/
 
 // Agregar departaentos a mapa 
 

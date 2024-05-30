@@ -1,14 +1,33 @@
 var express = require('express');
 var app = express();
 const path = require('path');
+app.use(express.static(path.join(__dirname,'public')));
 app.use(express.static(path.join(__dirname,'modules','mapa')));
 app.use(express.static(path.join(__dirname,'modules','buscador')));
-
+app.use(express.static(path.join(__dirname,'modules','mapoteca')));
 // Middleware para servir archivos estáticos con tipo MIME correcto
 app.use('/modules/buscador', express.static(path.join(__dirname, 'modules/buscador'), {
   setHeaders: (res, path) => {
     if (path.endsWith('.js')) {
       res.setHeader('Content-Type', 'application/javascript');
+    }
+  }
+}));
+
+app.use('/public', express.static(path.join(__dirname, 'public'), {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css');
+    } else if (path.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    }
+  }
+}));
+
+app.use('/mapoteca', express.static(path.join(__dirname, 'modules','mapoteca'), {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css');
     }
   }
 }));
@@ -27,6 +46,10 @@ app.get('/inicio', function(req, res) {
 
 app.get('/mapa', function(req, res) {
     res.sendFile(__dirname + '/modules/mapa/index.html');
+});
+
+app.get('/mapoteca', function(req, res){
+  res.sendFile(__dirname + '/modules/mapoteca/views/mapoteca_index.html')
 });
 
 

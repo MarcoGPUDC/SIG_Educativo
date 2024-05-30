@@ -1,3 +1,10 @@
+body {
+	max-width: 80%;
+	margin-left: 10%;
+}
+
+
+
 ul li .nav-link {
 	color: #21708c
 }

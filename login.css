@@ -1,0 +1,16 @@
+@charset "utf-8";
+
+@media (max-width: 1280px){
+}
+
+@media (max-width: 1041px){
+}
+
+.inicio-sesion {
+	margin: 20px;
+	margin-left: 25%;
+}
+
+.boton-ingreso {
+	margin-left: 40%;
+}
