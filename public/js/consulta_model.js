@@ -44,6 +44,15 @@ function busqueda_simple (id) {
         WHERE inst.cue = $1;`,id);
 };
 
+function busqueda_adicional (id) {
+    return db.any(`SELECT inst.id_institucion, inst.cue_anexo, func.jornada, turno.nombre AS turno, nivel.nombre AS nivel, mod.nombre AS modalidad FROM padron.institucion inst 
+    JOIN padron.funcionamiento func ON inst.id_institucion = func.id_institucion
+    JOIN padron.turno turno ON turno.id_turno = func.id_turno
+    JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
+    JOIN padron.modalidades_educativas mod ON mod.id_modalidad = ofe.id_modalidad
+    JOIN padron.nivel nivel ON ofe.id_nivel = nivel.id_nivel WHERE inst.id_institucion = $1;`,id);
+};
+
 //consultas para visualizar en el mapa
 function buscar_info_popup_inst() {
     return db.any(`SELECT * FROM (SELECT inst.cue_anexo, (CASE WHEN inst.numero = 'Z000023' THEN 700 WHEN inst.numero = 'Z000024' THEN 700 WHEN inst.numero = 'CEF' THEN 700 WHEN inst.numero > '0' THEN inst.numero::INT END) AS numero, inst.nombre, inst.region, loc.localidad, inst.domicilio, inst.tel, cont.email, inst.web, cont.responsable, cont.tel_resp, geo.lat, geo.long 
@@ -53,13 +62,6 @@ function buscar_info_popup_inst() {
     JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion) tmp ORDER BY numero;`);
 };
 
-function buscar_info_popup_inst_inic() {
-    return db.any(`SELECT * FROM inst.numero, inst.nombre, inst.region, loc.localidad, inst.domicilio, inst.tel, cont.email, inst.web, cont.responsable, cont.tel_resp, geo.lat, geo.long 
-    FROM padron.institucion inst 
-    JOIN padron.localidad loc ON inst.id_localidad = loc.id_localidad 
-    JOIN padron.contacto cont ON inst.id_institucion = cont.id_institucion
-    JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion) tmp ORDER BY numero;`);
-};
 
 
 module.exports = {
@@ -73,5 +75,5 @@ module.exports = {
     buscar_todos_domicilio,
     busqueda_simple,
     buscar_info_popup_inst,
-    buscar_info_popup_inst_inic
+    busqueda_adicional
 };

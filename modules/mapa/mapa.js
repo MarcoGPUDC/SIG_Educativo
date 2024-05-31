@@ -106,25 +106,35 @@ document.getElementById('address').addEventListener('keydown', function(event) {
 	//fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${MAPBOX_ACCESS_TOKEN}&types=address`)
 	//fetch(`https://apis.datos.gob.ar/georef/api/direcciones?direccion=${query}&departamento=rawson&provincia=chubut`)
 	//fetch(`https://apis.datos.gob.ar/georef/api/direcciones?provincia=chubut&direccion=${query}&format=jsonv2`)
-	
-	fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&addressdetails=1`)
+	var marcadores = [];
+	fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=jsonv2&addressdetails=1`)
+	.then(response => response.json())
     .then(results => {
-		var result = results.direcciones;
-		result.forEach(function(resultado, index) {
-			if (index < 6) {
+		console.log(results);
+		//var result = results.direcciones;
+		results.forEach(function(resultado, index) {
+			if (index < 5) {
 				var button = document.createElement('button');
-				button.textContent = `${resultado.calle.nombre}, ${resultado.altura.valor}, ${resultado.localidad_censal.nombre}`;
+				button.textContent = `${resultado.address.road}, ${resultado.address.house_number}, ${resultado.address.town}`;
 				button.setAttribute('data-index', index); // Añade el índice como un atributo de datos personalizado
-				var dataAddressValue = JSON.stringify(resultado.ubicacion);
+				var dataAddressValue = JSON.stringify([resultado.lat, resultado.lon]);
 				button.setAttribute('data-address', dataAddressValue);
 				button.setAttribute('class', 'btn')
 				button.addEventListener('click', function() {
 					var dataAddressValue = this.getAttribute('data-address');
 					var latlng = JSON.parse(dataAddressValue);
-					L.marker(latlng).addTo(mymap)	
-					.bindPopup(resultado.calle.nombre + ", " + resultado.altura.valor)
+					var marker;
+					marker = L.marker(latlng).addTo(mymap)
+					.bindPopup(resultado.address.road + ", " + resultado.address.town)
 					.openPopup();
 					mymap.setView(latlng, 13);
+					marcadores.push(marker);
+					marker.on('dblclick', function() {
+						// Remover el marcador del mapa
+						marker.remove();
+						// Remover la referencia del marcador del array
+						marcadores.splice(marcadores.indexOf(marker), 1);
+					});
 				});
 				dirs.appendChild(button);
 			}

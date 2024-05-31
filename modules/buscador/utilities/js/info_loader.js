@@ -36,15 +36,51 @@ async function completarDatosInstitucion() {
         document.getElementById('emailinfoadicional').innerHTML = `${data.email}`;
         document.getElementById('sitio_webinfoadicional').innerHTML = `${data.web}`;
         document.getElementById('resp_telresponsableinfoadicional').innerHTML = `${data.tel_resp}`;
-        //datos oferta
-        document.getElementById('Modalidadinfoadicional').innerHTML = `${data.modalidad}`;
-        document.getElementById('Nivelesinfoadicional').innerHTML = `${data.nivel}`;
-        document.getElementById('Modalidadinfoadicional').innerHTML = `${data.oferta}`;
+        
     })
     .catch(error => {
         console.error('Error:', error);
     });
-        
+    
+    fetch(`info/obtenerDatosAdc?num=${id}`)
+    .then(response => {
+        // Maneja la respuesta recibida del servidor
+        if (!response.ok) {
+            throw new Error('Error al obtener los datos');
+        }
+        return response.json(); // Convierte la respuesta en formato JSON
+    })
+    .then(data => {
+        //datos oferta
+        console.log(data);
+        data.forEach(element => {
+            if (document.getElementById('turnoinfoadicional').innerHTML == ``) {
+                document.getElementById('turnoinfoadicional').innerHTML = `${element.turno}`;
+            } else if (!document.getElementById('turnoinfoadicional').innerHTML.includes(element.turno)) {
+                document.getElementById('turnoinfoadicional').innerHTML += `/ ${element.turno}`
+            }
+            if (document.getElementById('jornadainfoadicional').innerHTML == ``) {
+                document.getElementById('jornadainfoadicional').innerHTML = `${element.jornada}`;
+            } else if (!document.getElementById('jornadainfoadicional').innerHTML.includes(element.jornada)) {
+                document.getElementById('jornadainfoadicional').innerHTML += `/ ${element.jornada}`
+            }
+            if (document.getElementById('modalidadinfoadicional').innerHTML == ``) {
+                document.getElementById('modalidadinfoadicional').innerHTML = `${element.modalidad}`;
+            } else if (!document.getElementById('modalidadinfoadicional').innerHTML.includes(element.modalidad)) {
+                document.getElementById('modalidadinfoadicional').innerHTML += `/ ${element.modalidad}`
+            }
+            if (document.getElementById('nivelesinfoadicional').innerHTML == ``) {
+                document.getElementById('nivelesinfoadicional').innerHTML += `${element.nivel}`;
+            } else if (!document.getElementById('nivelesinfoadicional').innerHTML.includes(element.nivel)) {
+                document.getElementById('nivelesinfoadicional').innerHTML = `/ ${element.nivel}`
+            }
+        });
+            
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
         };
 
 completarDatosInstitucion();
