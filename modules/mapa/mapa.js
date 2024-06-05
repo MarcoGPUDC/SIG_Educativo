@@ -668,203 +668,24 @@ function mostrarDiv(idcue){
 function closepoput(e) {
 	featureR = e.target.feature;
 	document.getElementById("cueanexoinfoadicional").innerHTML = "<b>Cueanexo: </b><div id='cueanexoinfoadicionale'>" + (featureR.properties.cueanexo?featureR.properties.cueanexo:"No se registra") + "." + "</div>";
-	document.getElementById("funinfoadicional").innerHTML = "<b>Activo/No activo: </b><div id='funinfoadicionale'>" + (featureR.properties.fun?featureR.properties.fun:"No se registra") + "." + "</div>";
-	document.getElementById("fnainfoadicional").innerHTML = "<div id='fnainfoadicionale'>" + (featureR.properties.fna?featureR.properties.fna:"No se registra.") + " (Nro: " + (featureR.properties.codJurid?featureR.properties.codJurid:"No se registra.") + ")" + "</div>";
-	document.getElementById("calleinfoadicional").innerHTML = "<b>Domicilio: </b><div id='calleinfoadicionale'>" + (featureR.properties.calle?featureR.properties.calle:"") + " " + (featureR.properties.num_calle?featureR.properties.num_calle:"S/N") + "." + "</div>";
-	document.getElementById("cod_postalinfoadicional").innerHTML = "<b>CP: </b><div id='cod_postalinfoadicionale'>" + (featureR.properties.cod_postal?featureR.properties.cod_postal:"No se registra") + "." + "</div>";
-	document.getElementById("Localidadinfoadicional").innerHTML = "<b>Localidad: </b><div id='Localidadinfoadicionale'>" + (featureR.properties.Localidad?featureR.properties.Localidad:"No se registra") + "." + "</div>";
-	document.getElementById("departamentoinfoadicional").innerHTML = "<b>Departamento: </b><div id='departamentoinfoadicionale'>" + (featureR.properties.departamen?featureR.properties.departamen:"No se registra") + "." + "</div>";
-	document.getElementById("amginfoadicional").innerHTML = "<b>Ambito: </b><div id='amginfoadicionale'>" + (featureR.properties.amg?featureR.properties.amg:"No se registra") + "." + "</div>";
-	document.getElementById("Regioninfoadicional").innerHTML = "<b>Region: </b><div id='Regioninfoadicionale'>" + (featureR.properties.Región?featureR.properties.Región:"No se registra") + "." + "</div>";
-	document.getElementById("Modalidadinfoadicional").innerHTML = "<b>Tipo de Educación/Modalidad: </b><div id='Modalidadinfoadicionale'>" + (featureR.properties.Modalidad?featureR.properties.Modalidad:"No se registra") + "." + "</div>";
-	document.getElementById("Nivelesinfoadicional").innerHTML = "<b>Nivel: </b><div id='Nivelesinfoadicionale'>" + (featureR.properties.Nivel?featureR.properties.Nivel:"No se registra") + "." + "</div>";
-	document.getElementById("Ofertainfoadicional").innerHTML = "<b>Oferta: </b><div id='Ofertainfoadicionale'>" + (featureR.properties.Oferta?featureR.properties.Oferta:"No se registra") + "." + "</div>";
+	document.getElementById("calleinfoadicional").innerHTML = "<b>Domicilio: </b><div id='calleinfoadicionale'>" + (featureR.properties.calle?featureR.properties.direccion:"No se registra") + "." + "</div>";	
+	document.getElementById("funinfoadicional").innerHTML = "<b>Activo/No activo: </b><div id='funinfoadicionale'>" + (featureR.properties.funcion?featureR.properties.funcion:"No se registra") + "." + "</div>";
+	document.getElementById("fnainfoadicional").innerHTML = "<div id='fnainfoadicionale'>" + (featureR.properties.nombre?featureR.properties.nombre:"No se registra.") + " (Nro: " + (featureR.properties.numero?featureR.properties.numero:"No se registra.") + ")" + "</div>";
+	document.getElementById("cod_postalinfoadicional").innerHTML = "<b>CP: </b><div id='cod_postalinfoadicionale'>" + (featureR.properties.cp?featureR.properties.cp:"No se registra") + "." + "</div>";
+	document.getElementById("Localidadinfoadicional").innerHTML = "<b>Localidad: </b><div id='Localidadinfoadicionale'>" + (featureR.properties.localidad?featureR.properties.localidad:"No se registra") + "." + "</div>";
+	document.getElementById("departamentoinfoadicional").innerHTML = "<b>Departamento: </b><div id='departamentoinfoadicionale'>" + (featureR.properties.departamento?featureR.properties.departamento:"No se registra") + "." + "</div>";
+	document.getElementById("amginfoadicional").innerHTML = "<b>Ambito: </b><div id='amginfoadicionale'>" + (featureR.properties.ambito?featureR.properties.ambito:"No se registra") + "." + "</div>";
+	document.getElementById("Regioninfoadicional").innerHTML = "<b>Region: </b><div id='Regioninfoadicionale'>" + (featureR.properties.region?featureR.properties.region:"No se registra") + "." + "</div>";
+	document.getElementById("Modalidadinfoadicional").innerHTML = "<b>Tipo de Educación/Modalidad: </b><div id='Modalidadinfoadicionale'>" + (featureR.properties.modalidad?featureR.properties.modalidad:"No se registra") + "." + "</div>";
+	document.getElementById("Nivelesinfoadicional").innerHTML = "<b>Nivel: </b><div id='Nivelesinfoadicionale'>" + (featureR.properties.nivel?featureR.properties.Nivel:"No se registra") + "." + "</div>";
+	document.getElementById("Ofertainfoadicional").innerHTML = "<b>Oferta: </b><div id='Ofertainfoadicionale'>" + (featureR.properties.oferta?featureR.properties.oferta:"No se registra") + "." + "</div>";
 	document.getElementById("Dependenciinfoadicional").innerHTML = "<b>Dependencia: </b><div id='Dependenciinfoadicionale'>" + (featureR.properties.Dependenci?featureR.properties.Dependenci:"No se registra") + "." + "</div>";
-	document.getElementById("gesinfoadicional").innerHTML = "<b>Sector de Gestión: </b><div id='gesinfoadicionale'>" + (featureR.properties.ges?featureR.properties.ges:"No se registra") + "." + "</div>";
-	document.getElementById("telefonoinfoadicional").innerHTML = "<b>Teléfono: </b><div id='telefonoinfoadicionale'>" + (featureR.properties.telefono_cod_area?featureR.properties.telefono_cod_area:"") + " " + (featureR.properties.telefono?featureR.properties.telefono:"") + "." + "</div>";
+	document.getElementById("gesinfoadicional").innerHTML = "<b>Sector de Gestión: </b><div id='gesinfoadicionale'>" + (featureR.properties.gestion?featureR.properties.gestion:"No se registra") + "." + "</div>";
+	document.getElementById("telefonoinfoadicional").innerHTML = "<b>Teléfono: </b><div id='telefonoinfoadicionale'>" + (featureR.properties.tel?featureR.properties.tel:"") + "." + "</div>";
 	document.getElementById("emailinfoadicional").innerHTML ="<b>Email: </b><div id='emailinfoadicionale'><a href=mailto:" + (featureR.properties.email?featureR.properties.email:"No se registra") + " '> "  + (featureR.properties.email?featureR.properties.email:"No se registra.") + "</a>" + "</div>";
-	document.getElementById("sitio_webinfoadicional").innerHTML = "<b>Sitio Web:</b><div id='sitio_webinfoadicionale'><a " + (featureR.properties.sitioweb && featureR.properties.sitioweb != 'Sin información'?"href='"+featureR.properties.sitioweb:"") + " ' target='_blank' rel='noopener noreferrer'> "  + (featureR.properties.sitioweb?featureR.properties.sitioweb:"No se registra.") + "</a>" + "</div>";
-	document.getElementById("resp_respnsableinfoadicional").innerHTML = "<b>Responsable: </b><div id='resp_respnsableinfoadicionale'>" + (featureR.properties.responsabl?featureR.properties.responsabl:"No se registra") + "." + "</div>";
-	document.getElementById("resp_telresponsableinfoadicional").innerHTML = "<b>Tel. del Responsable: </b><div id='resp_telresponsableinfoadicionale'>" + (featureR.properties.resp_tel?featureR.properties.resp_tel:"No se registra") + "." + "</div>";
-	const datos = new URLSearchParams("cueanexo="+ featureR.properties.cueanexo);
-	var jornadainfoadicional = document.getElementById("jornadainfoadicional");
-	console.log("iniciando conexion a postgres")
-	fetch('php/solicitarinfojornada.php', {
-			method: 'POST',
-			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-			body: datos
-			})
-			.then(response => response.json())
-			.then(data => {
-				console.log("Conexion establecida correctamente")
-				if(data==="errornodatos"){
-					jornadainfoadicional.innerHTML =`<b>Jornada extendida/completa: </b><div id='jornadainfoadicionale'>No se registra.</div>`;
-				} else {
-					jornadainfoadicional.innerHTML = `<b>Jornada extendida/completa: </b><div id='jornadainfoadicionale'>No se registra.</div>`;
-					var valores = "";
-					for (const [clave, valor] of Object.entries(data)) {
-							valores += valor + ". ";
-					}
-					jornadainfoadicional.innerHTML =`<b>Jornada extendida/completa: </b><div id='jornadainfoadicionale'>${valores}</div>`;
-				}	
-
-			}
-		);
-	console.log("Conexion finalizada")	
-	var turnoinfoadicional = document.getElementById("turnoinfoadicional");
-	fetch('php/solicitarinfoturno.php', {
-			method: 'POST',
-			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-			body: datos 
-			})
-			.then(response => response.json())
-			.then(data => {
-				if(data==="errornodatos"){
-					turnoinfoadicional.innerHTML =`<b>Turno: </b><div id='turnoinfoadicionale'>No se registra.</div>`;
-				} else {
-					turnoinfoadicional.innerHTML = `<b>Turno: </b><div id='turnoinfoadicionale'>No se registra.</div>`;
-					var valores = "";
-					for (const [clave, valor] of Object.entries(data)) {
-						if(valor != null){
-							valores += valor + ". ";
-						} 		
-					}
-					if(valores != ""){
-						turnoinfoadicional.innerHTML =`<b>Turno: </b><div id='turnoinfoadicionale'>${valores}</div>`;	
-					} else {
-						turnoinfoadicional.innerHTML = `<b>Turno: </b><div id='turnoinfoadicionale'>No se registra.</div>`;
-					}	
-				}	
-
-			}
-		);
-	var energiainfoadicional = document.getElementById("energiainfoadicional");
-	fetch('php/solicitarinfoenergia.php', {
-			method: 'POST',
-			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-			body: datos 
-			})
-			.then(response => response.json())
-			.then(data => {
-				if(data==="errornodatos"){
-					energiainfoadicional.innerHTML =`<b>Energía eléctrica: </b><div id='energiainfoadicionale'>No se registra.</div>`;
-				} else {
-					energiainfoadicional.innerHTML = `<b>Energía eléctrica: </b><div id='energiainfoadicionale'>No se registra.</div>`;
-					var valores = "";
-					for (const [clave, valor] of Object.entries(data)) {
-							valores += valor + ". ";
-					}
-					energiainfoadicional.innerHTML =`<b>Energía eléctrica: </b><div id='energiainfoadicionale'>${valores}</div>`;
-				}	
-
-			}
-		);
-	var fuentenergiainfoadicional = document.getElementById("fuentenergiainfoadicional");
-	fetch('php/solicitarinfofuenteenergia.php', {
-			method: 'POST',
-			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-			body: datos 
-			})
-			.then(response => response.json())
-			.then(data => {
-				if(data==="errornodatos"){
-					fuentenergiainfoadicional.innerHTML =`<b>Fuentes de energía eléctrica: </b><div id='fuentenergiainfoadicionale'>No se registra.</div>`;
-				} else {
-					fuentenergiainfoadicional.innerHTML = `<b>Fuentes de energía eléctrica: </b><div id='fuentenergiainfoadicionale'>No se registra.</div>`;
-					var valores = "";
-					for (const [clave, valor] of Object.entries(data)) {
-							valores += valor + ". ";
-					}
-					fuentenergiainfoadicional.innerHTML =`<b>Fuentes de energía eléctrica: </b><div id='fuentenergiainfoadicionale'>${valores}</div>`;
-				}	
-
-			}
-		);
-	var aguainfoadicional = document.getElementById("aguainfoadicional");
-	fetch('php/solicitarinfoagua.php', {
-			method: 'POST',
-			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-			body: datos 
-			})
-			.then(response => response.json())
-			.then(data => {
-				if(data==="errornodatos"){
-					aguainfoadicional.innerHTML =`<b>Agua potable: </b><div id='aguainfoadicionale'>No se registra.</div>`;
-				} else {
-					aguainfoadicional.innerHTML = `<b>Agua potable: </b><div id='aguainfoadicionale'>No se registra.</div>`;
-					var valores = "";
-					for (const [clave, valor] of Object.entries(data)) {
-							valores += valor + ". ";
-					}
-					aguainfoadicional.innerHTML =`<b>Agua potable: </b><div id='aguainfoadicionale'>${valores}</div>`;
-				}	
-
-			}
-		);
-	var internetinfoadicional = document.getElementById("internetinfoadicional");
-	fetch('php/solicitarinfointernet.php', {
-			method: 'POST',
-			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-			body: datos 
-			})
-			.then(response => response.json())
-			.then(data => {
-				if(data==="errornodatos"){
-					internetinfoadicional.innerHTML =`<b>Conexión a internet/Tipo de conexión: </b><div id='internetinfoadicionale'>No se registra.</div>`;
-				} else {
-					internetinfoadicional.innerHTML = `<b>Conexión a internet/Tipo de conexión: </b><div id='internetinfoadicionale'>No se registra.</div>`;
-					var valores = "";
-					for (const [clave, valor] of Object.entries(data)) {
-							valores += valor + ". ";
-					}
-					internetinfoadicional.innerHTML =`<b>Conexión a internet/Tipo de conexión: </b><div id='internetinfoadicionale'>${valores}</div>`;
-				}	
-
-			}
-		);
-	var bibliotecainfoadicional = document.getElementById("bibliotecainfoadicional");
-	fetch('php/solicitarinfobiblioteca.php', {
-			method: 'POST',
-			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-			body: datos 
-			})
-			.then(response => response.json())
-			.then(data => {
-				if(data==="errornodatos"){
-					bibliotecainfoadicional.innerHTML =`<b>Biblioteca escolar/Espacio físico: </b><div id='bibliotecainfoadicionale'>No se registra.</div>`;
-				} else {
-					bibliotecainfoadicional.innerHTML = `<b>Biblioteca escolar/Espacio físico: </b><div id='bibliotecainfoadicionale'>No se registra.</div>`;
-					var valores = "";
-					for (const [clave, valor] of Object.entries(data)) {
-							valores += valor + ". ";
-					}
-					bibliotecainfoadicional.innerHTML =`<b>Biblioteca escolar/Espacio físico: </b><div id='bibliotecainfoadicionale'>${valores}</div>`;
-				}	
-
-			}
-		);
-	var laboratorioinfoadicional = document.getElementById("laboratorioinfoadicional");
-	fetch('php/solicitarinfolaboratorio.php', {
-			method: 'POST',
-			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-			body: datos 
-			})
-			.then(response => response.json())
-			.then(data => {
-				if(data==="errornodatos"){
-					laboratorioinfoadicional.innerHTML =`<b>Laboratorio de informática/Espacio físico: </b><div id='laboratorioinfoadicionale'>No se registra.</div>`;
-				} else {
-					laboratorioinfoadicional.innerHTML = `<b>Laboratorio de informática/Espacio físico: </b><div id='laboratorioinfoadicionale'>No se registra.</div>`;
-					var valores = "";
-					for (const [clave, valor] of Object.entries(data)) {
-							valores += valor + ". ";
-					}
-					laboratorioinfoadicional.innerHTML =`<b>Laboratorio de informática/Espacio físico: </b><div id='laboratorioinfoadicionale'>${valores}</div>`;
-				}	
-
-			}
-		);
-    var layer = e.target;
+	document.getElementById("sitio_webinfoadicional").innerHTML = "<b>Sitio Web:</b><div id='sitio_webinfoadicionale'><a " + (featureR.properties.web && featureR.properties.web != 'Sin información'?"href='"+featureR.properties.web:"") + " ' target='_blank' rel='noopener noreferrer'> "  + (featureR.properties.sitioweb?featureR.properties.sitioweb:"No se registra.") + "</a>" + "</div>";
+	document.getElementById("resp_respnsableinfoadicional").innerHTML = "<b>Responsable: </b><div id='resp_respnsableinfoadicionale'>" + (featureR.properties.responsable?featureR.properties.responsable:"No se registra") + "." + "</div>";
+	document.getElementById("resp_telresponsableinfoadicional").innerHTML = "<b>Tel. del Responsable: </b><div id='resp_telresponsableinfoadicionale'>" + (featureR.properties.tel_resp?featureR.properties.tel_resp:"No se registra") + "." + "</div>";
   	setTimeout(function(){ layer.closePopup(); }, 20000);  
 }
 
@@ -1083,7 +904,7 @@ var clusterOtrosServ = createCluster('comp');*/
 
 
 // Función para obtener la capa de datos
-function getTodosLayers() {
+function getEstablecimientosLayers() {
     return fetch('/mapa/setInstMarkers')
         .then(response => response.json())
         .then(data => {
@@ -1188,7 +1009,7 @@ function getTodosLayers() {
 
 
 // Obtener la capa y configurarla
-getTodosLayers().then(Layers => {
+getEstablecimientosLayers().then(Layers => {
     var layersConfig = [
 		{
 		label: "Ed. Inicial",
