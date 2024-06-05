@@ -55,13 +55,20 @@ function busqueda_adicional (id) {
 
 //consultas para visualizar en el mapa
 function buscar_info_popup_inst() {
-    return db.any(`SELECT * FROM (SELECT inst.cue_anexo, (CASE WHEN inst.numero = 'Z000023' THEN 700 WHEN inst.numero = 'Z000024' THEN 700 WHEN inst.numero = 'CEF' THEN 700 WHEN inst.numero > '0' THEN inst.numero::INT END) AS numero, inst.nombre, inst.region, loc.localidad, inst.domicilio, inst.tel, cont.email, inst.web, cont.responsable, cont.tel_resp, geo.lat, geo.long 
+    return db.any(`SELECT * FROM (SELECT inst.cue_anexo, (CASE WHEN inst.numero = 'Z000023' THEN 700 WHEN inst.numero = 'Z000024' THEN 700 WHEN inst.numero = 'CEF' THEN 700 WHEN inst.numero > '0' THEN inst.numero::INT END) AS numero, inst.nombre, inst.region, loc.localidad, inst.domicilio, inst.tel, cont.email, inst.web, cont.responsable, cont.tel_resp, niv.nombre AS nivel, geo.lat, geo.long 
     FROM padron.institucion inst 
     JOIN padron.localidad loc ON inst.id_localidad = loc.id_localidad 
     JOIN padron.contacto cont ON inst.id_institucion = cont.id_institucion
-    JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion) tmp ORDER BY numero;`);
+    JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion
+	JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
+	JOIN padron.nivel niv ON ofe.id_nivel = niv.id_nivel) tmp ORDER BY numero;`);
 };
 
+function buscar_info_supervision() {
+    return db.any(`SELECT suvision.id_supervision, suvision.nombre_sup, suvision.domicilio, suvision.tel, suvision.email, suvision.gestion, suvision.region, niv.nombre AS nivel, suvisor.nombre AS supervisor, suvision.lat, suvision.long FROM padron.supervision suvision 
+    JOIN padron.supervisor suvisor ON suvision.id_supervision = suvisor.id_supervision 
+    JOIN padron.nivel niv ON suvision.id_nivel = niv.id_nivel`)
+}
 
 
 module.exports = {
@@ -75,5 +82,6 @@ module.exports = {
     buscar_todos_domicilio,
     busqueda_simple,
     buscar_info_popup_inst,
-    busqueda_adicional
+    busqueda_adicional,
+    buscar_info_supervision
 };

@@ -908,6 +908,7 @@ function getEstablecimientosLayers() {
     return fetch('/mapa/setInstMarkers')
         .then(response => response.json())
         .then(data => {
+			console.log(data);
 			var todosLayers = [];
 			var dataInicial = [];
 			var dataPrimaria = [];
@@ -919,21 +920,26 @@ function getEstablecimientosLayers() {
 			var dataOtrosServ = [];
 			var dataArtistica = [];
 			data.features.forEach(escuelas => {
+				console.log(escuelas.properties.nivel);
 				switch (true) {
 					//numeracion inicial 400 a 499 / 4000 a 4999 / 1400 a 1499 / 2400 a 2499
-					case ((escuelas.properties.numero >= 400 && escuelas.properties.numero <= 499) || (escuelas.properties.numero >= 4000 && escuelas.properties.numero <= 4999) || (escuelas.properties.numero >= 1400 && escuelas.properties.numero <= 1499) || (escuelas.properties.numero >= 2400 && escuelas.properties.numero <= 2499)):
+					//case ((escuelas.properties.numero >= 400 && escuelas.properties.numero <= 499) || (escuelas.properties.numero >= 4000 && escuelas.properties.numero <= 4999) || (escuelas.properties.numero >= 1400 && escuelas.properties.numero <= 1499) || (escuelas.properties.numero >= 2400 && escuelas.properties.numero <= 2499)):
+					case (escuelas.properties.nivel == 'Inicial'):
 						dataInicial.push(escuelas);
 						break;
 					//numeracion primaria 0 a 299 / 1000 a 1299 / 2000 a 2099
-					case ((escuelas.properties.numero >= 0 && escuelas.properties.numero <= 299) || (escuelas.properties.numero >= 1000 && escuelas.properties.numero <= 1299) || (escuelas.properties.numero >= 2000 && escuelas.properties.numero <= 2099)):
+					//case ((escuelas.properties.numero >= 0 && escuelas.properties.numero <= 299) || (escuelas.properties.numero >= 1000 && escuelas.properties.numero <= 1299) || (escuelas.properties.numero >= 2000 && escuelas.properties.numero <= 2099)):
+					case (escuelas.properties.nivel == 'Primario'):
 						dataPrimaria.push(escuelas)
 						break;
 					//numeracion secundaria 700 a 799 / 7000 a 7999 / 1700 a 1799 / 2700 a 2799
-					case ((escuelas.properties.numero >= 700 && escuelas.properties.numero <= 799) || (escuelas.properties.numero >= 7000 && escuelas.properties.numero <= 7999) || (escuelas.properties.numero >= 1700 && escuelas.properties.numero <= 1799) || (escuelas.properties.numero >= 2700 && escuelas.properties.numero <= 2799)):
+					//case ((escuelas.properties.numero >= 700 && escuelas.properties.numero <= 799) || (escuelas.properties.numero >= 7000 && escuelas.properties.numero <= 7999) || (escuelas.properties.numero >= 1700 && escuelas.properties.numero <= 1799) || (escuelas.properties.numero >= 2700 && escuelas.properties.numero <= 2799)):
+					case (escuelas.properties.nivel == 'Secundario'):
 						dataSecundaria.push(escuelas)
 						break;
 					//numeracion Adultos - formacion profesional 600 a 699 / 1600 a 1699
-					case ((escuelas.properties.numero >= 600 && escuelas.properties.numero <= 699) || (escuelas.properties.numero >= 1600 && escuelas.properties.numero <= 1699)):
+					//case ((escuelas.properties.numero >= 600 && escuelas.properties.numero <= 699) || (escuelas.properties.numero >= 1600 && escuelas.properties.numero <= 1699)):
+					case (escuelas.properties.nivel == 'Formación profesional'):
 						dataFormProf.push(escuelas);
 						break;
 					//numeracion especial 500 a 599 / 1500 a 1500
@@ -949,7 +955,7 @@ function getEstablecimientosLayers() {
 						dataDomHosp.push(escuelas);
 						break;
 					//lo que no cae en lo anterior cae en otros servicios educativos
-					case (true):
+					case (escuelas.properties.nivel == 'Otros servicios educativos'):
 						dataOtrosServ.push(escuelas);
 						break;	
 					default:

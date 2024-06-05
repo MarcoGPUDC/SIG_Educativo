@@ -52,9 +52,9 @@ router.get('/mapa/setInstMarkers', async (req, res) => {
     }
 });
 
-router.get('/mapa/setInstInicMarkers', async (req, res) => {
+router.get('/mapa/setSupervMarkers', async (req, res) => {
     try {
-        const result = await consultar.buscar_info_popup_inst_sec();
+        const result = await consultar.buscar_info_supervision();
 
         // Verificar los datos obtenidos
         //console.log('Resultados obtenidos:', result);
@@ -73,19 +73,15 @@ router.get('/mapa/setInstInicMarkers', async (req, res) => {
                     coordinates: [coords[0], coords[1]]
                 },
                 properties: {
-                    id: row.id_institucion,
-                    cueanexo: row.cue_anexo,
-                    nombre: row.nombre,
-                    numero: row.numero,
-                    region: row.region,
-                    localidad: row.localidad,
+                    id: row.id_supervision,
+                    nombre_sup: row.nombre_sup,
                     direccion: row.domicilio,
+                    region: row.region,
                     nivel: row.nivel,
                     telefono: row.tel,
                     email: row.email,
-                    sitioweb: row.web,
-                    responsable: row.responsable,
-                    tel_resp: row.tel_resp
+                    responsable: row.supervisor,
+                    gestion: row.gestion
                 }
             };
            geoJSON.features.push(newFeature) 
