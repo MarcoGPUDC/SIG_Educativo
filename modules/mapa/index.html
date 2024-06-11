@@ -6,21 +6,21 @@
 	<meta name="description" content="Herramienta de visualización, gestión y análisis de información georreferenciada relativa al sistema educativo a nivel local, regional y provincial">
   	<meta name="author" content="Dirección de Estadística y Evaluación Educativa del Ministerio de Educación del Gobierno del Chubut">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link type="text/css" rel="stylesheet" href="/css/leaflet.css" />
-	<link type="text/css" rel="stylesheet" href="/css/mapa.css" />  		
-	<link type="text/css" rel="stylesheet" href="/css/leaflet.legend.css" />
-	<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css">
-	<link type="text/css" rel="stylesheet" href="/css/Control.FullScreen.css" />
-	<link type="text/css" rel="stylesheet" href="/css/easy-button.css" />
-	<link type="text/css" rel="stylesheet" href="/css/iconLayers.css" />
+	<link type="text/css" rel="stylesheet" href="css/leaflet.css" />
+	<link type="text/css" rel="stylesheet" href="css/mapa.css" />  		
+	<link type="text/css" rel="stylesheet" href="css/leaflet.legend.css" />
+	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css">
+	<link type="text/css" rel="stylesheet" href="css/Control.FullScreen.css" />
+	<link type="text/css" rel="stylesheet" href="css/easy-button.css" />
+	<link type="text/css" rel="stylesheet" href="css/iconLayers.css" />
 	<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
 	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 	<link href='http://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css' rel='stylesheet' />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"> </script>
-	<script src="/js/xlsx.full.min.js"></script>
-    <script src="/js/filesaver.js"></script>
-    <script src="/js/leaflet.js"></script>
-    <script src="/js/leaflet.browser.print.js"></script>
+	<script src="js/xlsx.full.min.js"></script>
+    <script src="js/filesaver.js"></script>
+    <script src="js/leaflet.js"></script>
+    <script src="js/leaflet.browser.print.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 	<script type="application/javascript" src="modules/buscador/utilities/js/buscador_loader.js"></script>
 	<script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
@@ -43,22 +43,22 @@
 <body onload="buttonclick()">
 <!-- head -->	
 	
-		<img src="../utilities/img/top-bar-top-2024.png" class="w-100" height="10px" alt=""/>
+		<img src="utilities/img/top-bar-top-2024.png" class="w-100" height="10px" alt=""/>
   <div class="row">
 		<div class="col-5 float-left">
-			<img src="../utilities/img/SIG Educativo vf-transparencia PNG.png" class="pb-2" width="130" height="72" alt=""/>	
+			<img src="utilities/img/SIG Educativo vf-transparencia PNG.png" class="pb-2" width="130" height="72" alt=""/>	
 		</div>
 		<div class="col-6">
 			<a class="btn mt-3 float-right" href="/mapa" role="button">Mapa Interactivo</a>
-			<a class="btn mt-3 float-right" href="/mapoteca" role="button">Mapoteca</a>
+			<a class="btn mt-3 float-right" href="http://chubut.edu.ar/sigeducativo/" target="_blank" role="button">Mapoteca</a>
 		</div>
 		
 		<div class="col mt-4">
 		  <div class="btn-group dropdown float-right mr-2">
-			   <img class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="../utilities/img/030-menu.png" width="20" height="20" alt=""/>
+			   <img class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="utilities/img/030-menu.png" width="20" height="20" alt=""/>
 			<div class="dropdown-menu dropdown-menu-start">
-				<a class="dropdown-item" href="mailto:sc.estadisticas@chubut.edu.ar.com">Reportar error</a>
-			  <a class="dropdown-item" href="#">Solicitar cartografia</a>
+				<a class="dropdown-item" href="https://forms.gle/fWhpuyaF46z6t5RP9" target="_blank">Reportar error</a>
+			  <a class="dropdown-item" href="https://forms.gle/YTHn8HcWRKKtgBUD8" target="_blank">Solicitar cartografia</a>
 			</div>
 		  </div>
 		</div>
