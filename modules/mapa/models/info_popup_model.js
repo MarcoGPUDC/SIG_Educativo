@@ -93,5 +93,45 @@ router.get('/mapa/setSupervMarkers', async (req, res) => {
     }
 });
 
+router.get('/mapa/setDelegMarkers', async (req,res) => {
+    try {
+        const result = await consultar.buscar_info_delegacion();
+
+        // Verificar los datos obtenidos
+        //console.log('Resultados obtenidos:', result);
+        let geoJSON = {
+            "type": "FeatureCollection",
+            "features": [
+            ]
+          };
+        
+        result.forEach(row => {
+            var coords = [row.long, row.lat];
+            var newFeature = {
+                type: "Feature",
+                geometry: {
+                    type: "Point",
+                    coordinates: [coords[0], coords[1]]
+                },
+                properties: {
+                    id: row.id_delegacion,
+                    nombre: row.nombre,
+                    direccion: row.direccion,
+                    region: row.region,
+                    localidad: row.localidad,
+                    tel: row.tel,
+                    email: row.email,
+                    responsable: row.delegado
+                }
+            };
+           geoJSON.features.push(newFeature) 
+        })
+        res.json(geoJSON);
+    } catch (err) {
+        console.error('Error al obtener los datos', err);
+        res.status(500).json({ error: 'Database error' });
+    } 
+});
+
 module.exports = router;
 

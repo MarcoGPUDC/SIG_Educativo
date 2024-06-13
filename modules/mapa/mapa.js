@@ -8,6 +8,14 @@ var mymap = new L.map('map'/*, {
 	}
 }*/); 
 
+// Function to hide the loading screen
+function hideLoadingScreen() {
+	document.getElementById('loading-screen').style.display = 'none';
+}
+
+// Check if the map is completely loaded
+mymap.whenReady(hideLoadingScreen);
+
 // Tile mapas
 
 var osmUrl ='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -88,13 +96,13 @@ var centrarMapaButton = L.easyButton({
 centrarMapaButton.addTo(mymap);
 
 
-const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1Ijoic2lnLWUtYWRtaW4iLCJhIjoiY2x3cWd2dXl5MDI2NTJrcHFrajhxbWp5dSJ9.R_tS8eyc4BaaaRY1yd3NZw';
+/*const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1Ijoic2lnLWUtYWRtaW4iLCJhIjoiY2x3cWd2dXl5MDI2NTJrcHFrajhxbWp5dSJ9.R_tS8eyc4BaaaRY1yd3NZw';
 
 if (!MAPBOX_ACCESS_TOKEN) {
 	console.error('Debes proporcionar un token de acceso válido para Mapbox.');
 }
 var geocoder = L.Control.Geocoder.mapbox('MAPBOX_ACCESS_TOKEN');
-
+*/
 // Maneja el evento de búsqueda cuando el usuario presiona Enter
 document.getElementById('address').addEventListener('keydown', function(event) {
 		
@@ -450,14 +458,14 @@ function closepoputNL(e) {
 
 function popup_supervision (feature, layer) {
 	layer.bindPopup(
-		"<div class='p-3'><h6 style='color:#0d6efd'>Supervisión " + (feature.properties.tipoSuperv?feature.properties.tipoSuperv:"") +  " " +
-		(feature.properties.nombreSupe?feature.properties.nombreSupe:"")+
+		"<div class='p-3'><h6 style='color:#0d6efd'> " + " " +
+		(feature.properties.nombre_sup?feature.properties.nombre_sup:"")+
 		"</h6><table>" + 
-		"<tr><td><b>Nivel:</b> "+(feature.properties.Nivel?feature.properties.Nivel:"No se registra")+"</td></tr>" + 
-		"<tr><td><b>Región:</b> "+(feature.properties.numReg?feature.properties.numReg:"No se registra")+"</td></tr>" + 
+		"<tr><td><b>Nivel:</b> "+(feature.properties.nivel?feature.properties.nivel:"No se registra")+"</td></tr>" + 
+		"<tr><td><b>Región:</b> "+(feature.properties.region?feature.properties.region:"No se registra")+"</td></tr>" + 
 		"<tr><td><b>Dirección:</b> "+(feature.properties.direccion?feature.properties.direccion:"No se registra")+"</td></tr>" +
-		"<tr><td><b>Responsable:</b> "+(feature.properties.Responsabl?feature.properties.Responsabl:"No se registra")+"</td></tr>" + 
-		"<tr><td><b>Télefono:</b> "+(feature.properties.Tel?feature.properties.Tel:"No se registra")+"</td></tr>" + 
+		//"<tr><td><b>Responsable:</b> "+(feature.properties.Responsable?feature.properties.Responsable:"No se registra")+"</td></tr>" + 
+		"<tr><td><b>Télefono:</b> "+(feature.properties.telefono?feature.properties.telefono:"No se registra")+"</td></tr>" + 
 		"<tr><td><b>Email:</b><a " + (feature.properties.email?"href='mailto:"+feature.properties.email:"") + " '> "  + (feature.properties.email?feature.properties.email:"No se registra") + "</a></td></tr>" +
 		"</table></div>",
 		{minWidth: 270, maxWidth: 270}
@@ -505,7 +513,7 @@ var sup_secundaria = L.geoJSON(supervicion_secundaria, {
 		pointToLayer: function (feature, latlng) {
 				return L.marker(latlng, {
 					icon: L.icon({
-					    iconUrl: "icons/supervision_sec.svg",
+					    iconUrl: "icons/supervision_secundaria.svg",
 					    iconSize:     [22, 22], 
 					    iconAnchor:   [11, 0], 
 					    popupAnchor:  [0, 0] 
@@ -565,11 +573,12 @@ var min_educacion = L.geoJSON(ministerio_educacion, {
 
 function popup_del_admnistrativas (feature, layer) {
 	layer.bindPopup(
-		"<div class='p-3'><h6 style='color:#0d6efd'>"+ (feature.properties.nombre_del?feature.properties.nombre_del:"No se registra") +
-		"</h6><table><tr><td><b>Región:</b> "+ (feature.properties.numReg?feature.properties.numReg:"") + " (" + (feature.properties.nombreReg?feature.properties.nombreReg:"") + ")" + 
+		"<div class='p-3'><h6 style='color:#0d6efd'>"+ (feature.properties.nombre?feature.properties.nombre:"No se registra") +
+		"</h6><table><tr><td><b>Región:</b> "+ (feature.properties.region?feature.properties.region:"") + 
 		"</td></tr><tr><td><b>Dirección:</b> "+ (feature.properties.direccion?feature.properties.direccion:"No se registra") +
 		"<tr><td><b>Email:</b><a " + (feature.properties.email?"href='mailto:"+feature.properties.email:"") + " '> "  + (feature.properties.email?feature.properties.email:"No se registra") + "</a></td></tr>" +
-		"</td></tr><tr><td><b>Teléfono:</b> "+ (feature.properties.Tel?feature.properties.Tel:"No se registra") +
+		"</td></tr><tr><td><b>Delegado:</b> "+ (feature.properties.responsable?feature.properties.responsable:"No se registra") +
+		"</td></tr><tr><td><b>Teléfono:</b> "+ (feature.properties.tel?feature.properties.tel:"No se registra") +
 		"</td></tr></table></div>",
 		{minWidth: 270, maxWidth: 270}
 	);
@@ -594,12 +603,12 @@ var del_admnistrativas = L.geoJSON(delegaciones_administrativas, {
 
 
 // agrega capas a layer
-baselayer.addLayer(sup_secundaria);
-baselayer.addLayer(del_admnistrativas);
+/*baselayer.addLayer(sup_secundaria);
 baselayer.addLayer(sup_privada);
 baselayer.addLayer(sup_primaria);
-baselayer.addLayer(sup_inicial);
+baselayer.addLayer(sup_inicial);*/
 baselayer.addLayer(min_educacion);
+//baselayer.addLayer(del_admnistrativas);
 
 
 // Layer bibliotecas pedagogicas
@@ -842,7 +851,7 @@ var otros_serv_comp = L.geoJSON(ed_otros_serv_comp, {
 
 */	
 //crear cluster de markers, es decir que los iconos del layer se agrupan o desagrupan segun se haga zoom out o zoom in
-function createCluster(nivel) {
+function createCluster(tipo, nivel) {
 	var cluster = L.markerClusterGroup({
 		showCoverageOnHover: false, // Desactiva la visualización del radio en el hover
 		disableClusteringAtZoom: 13, // Desactiva la agrupación a partir de cierto nivel de zoom
@@ -850,8 +859,8 @@ function createCluster(nivel) {
 		maxClusterRadius: 30, // Establece el radio máximo de agrupación
 		iconCreateFunction: function(cluster) {
 			return L.divIcon({ 
-				html: `<img src="./icons/establecimientos_${nivel}.svg">`, // Utiliza un ícono personalizado
-				className: 'establecimientos-icons', // Clase CSS para el ícono
+				html: `<img src="./icons/${tipo}_${nivel}.svg">`, // Utiliza un ícono personalizado
+				className: `${tipo}-icons`, // Clase CSS para el ícono
 				iconSize: L.point(3, 3) // Tamaño del ícono
 			});
 		}
@@ -859,13 +868,13 @@ function createCluster(nivel) {
 	return cluster;
 }
 //function createLayer(cluster, data, nivel) 
-function createLayer(data, nivel) {
-	var cluster = createCluster(nivel);
+function createLayer(data, tipo, nivel) {
+	var cluster = createCluster(tipo, nivel);
 	var layer = L.geoJSON(data, {
 		pointToLayer: function (feature, latlng) {
 			var marker = L.marker(latlng, {
 				icon: L.icon({
-					iconUrl: `icons/establecimientos_${nivel}.svg`,
+					iconUrl: `icons/${tipo}_${nivel}.svg`,
 					iconSize: [22, 22],
 					iconAnchor: [11, 0],
 					popupAnchor: [0, 0]
@@ -875,7 +884,7 @@ function createLayer(data, nivel) {
 			cluster.addLayer(marker);
 			return marker;
 		},
-		onEachFeature: onEachFeatureL
+		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas :onEachFeatureL
 	});
 	return cluster;
 }
@@ -905,10 +914,9 @@ var clusterOtrosServ = createCluster('comp');*/
 
 // Función para obtener la capa de datos
 function getEstablecimientosLayers() {
-    return fetch('/mapa/setInstMarkers')
+    var layersEst = fetch('/mapa/setInstMarkers')
         .then(response => response.json())
         .then(data => {
-			console.log(data);
 			var todosLayers = [];
 			var dataInicial = [];
 			var dataPrimaria = [];
@@ -920,7 +928,6 @@ function getEstablecimientosLayers() {
 			var dataOtrosServ = [];
 			var dataArtistica = [];
 			data.features.forEach(escuelas => {
-				console.log(escuelas.properties.nivel);
 				switch (true) {
 					//numeracion inicial 400 a 499 / 4000 a 4999 / 1400 a 1499 / 2400 a 2499
 					//case ((escuelas.properties.numero >= 400 && escuelas.properties.numero <= 499) || (escuelas.properties.numero >= 4000 && escuelas.properties.numero <= 4999) || (escuelas.properties.numero >= 1400 && escuelas.properties.numero <= 1499) || (escuelas.properties.numero >= 2400 && escuelas.properties.numero <= 2499)):
@@ -965,21 +972,21 @@ function getEstablecimientosLayers() {
             //console.log('Fetched data:', data.features); // Log después de obtener los datos
 
             // Crea la capa GeoJSON y añádela al cluster
-			var inicialLayer = createLayer(dataInicial, 'inicial');
+			var inicialLayer = createLayer(dataInicial,'establecimientos', 'inicial');
 			//console.log('Created layer:', inicialLayer); // Log después de crear secundariaLayer
-			var primariaLayer = createLayer(dataPrimaria, 'primaria');
+			var primariaLayer = createLayer(dataPrimaria,'establecimientos', 'primaria');
 			//console.log('Created layer:', primariaLayer); // Log después de crear secundariaLayer
-			var secundariaLayer = createLayer(dataSecundaria, 'sec');
+			var secundariaLayer = createLayer(dataSecundaria,'establecimientos', 'sec');
 			//console.log('Created layer:', secundariaLayer); // Log después de crear secundariaLayer
-			var especialLayer = createLayer(dataEspecial, 'especial');
+			var especialLayer = createLayer(dataEspecial,'establecimientos', 'especial');
 			//console.log('Created layer:', especialLayer); // Log después de crear secundariaLayer
-			var SNULayer = createLayer(dataSNU, 'superior');
+			var SNULayer = createLayer(dataSNU,'establecimientos', 'superior');
 			//console.log('Created layer:', SNULayer); // Log después de crear secundariaLayer
-			var domHospLayer = createLayer(dataDomHosp, 'dom_hosp');
+			var domHospLayer = createLayer(dataDomHosp,'establecimientos', 'dom_hosp');
 			//console.log('Created layer:', domHospLayer); // Log después de crear secundariaLayer
-			var formProfLayer = createLayer(dataFormProf, 'form_prof');
+			var formProfLayer = createLayer(dataFormProf,'establecimientos', 'form_prof');
 			//console.log('Created layer:', formProfLayer); // Log después de crear secundariaLayer
-			var otrosServLayer = createLayer(dataOtrosServ, 'comp');
+			var otrosServLayer = createLayer(dataOtrosServ,'establecimientos', 'comp');
 			//console.log('Created layer:', otrosServLayer); // Log después de crear secundariaLayer
 			/*L.geoJSON(dataSecundaria, {
                 pointToLayer: function (feature, latlng) {
@@ -997,25 +1004,165 @@ function getEstablecimientosLayers() {
                 },
                 onEachFeature: onEachFeatureL
             });*/
-			todosLayers.push(inicialLayer);//0
-			todosLayers.push(primariaLayer);//1
-			todosLayers.push(secundariaLayer);//2
-			todosLayers.push(SNULayer);//3
-			todosLayers.push(especialLayer);//4
-			todosLayers.push(formProfLayer);//5
-			todosLayers.push(domHospLayer);//6
-			todosLayers.push(otrosServLayer);//7
+			
+			todosLayers.push([[inicialLayer],[{label: 'Ed. inicial', url: 'inicial'}]]);//0
+			todosLayers.push([[primariaLayer],[{label: 'Ed. primaria', url: 'primaria'}]]);//1
+			todosLayers.push([[secundariaLayer],[{label: 'Ed. secundaria', url: 'sec'}]]);//2
+			todosLayers.push([[SNULayer],[{label: 'Superior no universitario', url: 'superior'}]]);//3
+			todosLayers.push([[especialLayer],[{label: 'Ed. especial', url: 'especial'}]]);//4
+			todosLayers.push([[formProfLayer],[{label: 'Formacion profesional', url: 'form_prof'}]]);//5
+			todosLayers.push([[domHospLayer],[{label: 'Ed. domiciliaria/hospitalaria', url: 'dom_hosp'}]]);//6
+			todosLayers.push([[otrosServLayer],[{label: 'Otros servicios educativos', url: 'comp'}]]);//7
             return todosLayers;
         })
         .catch(error => {
             console.error('Error fetching data:', error);
             return null;
         });
+	return layersEst;
 }
 
+function getSupervisionLayers(){
+	var layersSuperv = fetch('/mapa/setSupervMarkers')
+	.then(response => response.json())
+	.then( data => {
+		var todosLayers = [];
+		var superInicial = [];
+		var superPrimaria = [];
+		var superSecundaria = [];
+		var superPrivada = [];
+		data.features.forEach(supervision => {
+			switch (true) {
+				case (supervision.properties.nivel == 'Inicial' && supervision.properties.gestion == 'Estatal'):
+					superInicial.push(supervision);
+					break;
+				case (supervision.properties.nivel == 'Primario' && supervision.properties.gestion == 'Estatal'):
+					superPrimaria.push(supervision)
+					break;
+				case (supervision.properties.nivel == 'Secundario' && supervision.properties.gestion == 'Estatal'):
+					superSecundaria.push(supervision)
+					break;
+				case (supervision.properties.gestion == 'Privada'):
+					superPrivada.push(supervision);
+					break;
+				default:
+					console.log('no se encontraron instituciones: ' + supervision.properties.gestion);
+				}})
+			var superInicialLayer = createLayer(superInicial, 'supervision', 'inicial');
+			var superSecundariaLayer = createLayer(superSecundaria, 'supervision', 'secundario');
+			var superPrimariaLayer = createLayer(superPrimaria, 'supervision', 'primaria');
+			var superPrivadaLayer = createLayer(superPrivada, 'supervision', 'privada');
+			todosLayers.push([[superInicialLayer],[{label: 'inicial', url: 'inicial'}]]);
+			todosLayers.push([[superPrimariaLayer],[{label: 'primaria', url: 'primaria'}]]);
+			todosLayers.push([[superSecundariaLayer],[{label: 'secundaria', url: 'secundario'}]]);
+			todosLayers.push([[superPrivadaLayer],[{label: 'privada', url: 'privada'}]]);
+			todosLayers.forEach(layers => {
+				mymap.addLayer(layers[0][0]);
+			})
+			return todosLayers
+	})
+	.catch(error => {
+		console.error('Error fetching data:', error);
+		return null;
+	});
+	return layersSuperv
+}
+
+function getDelegacionLayers(){
+	var layerDel = fetch ('/mapa/setDelegMarkers')
+	.then(response => response.json())
+	.then( data => {
+		var delegacionLayer = createLayer(data, 'delegacion' , '');
+		mymap.addLayer(delegacionLayer);
+		return delegacionLayer
+	})
+	.catch(error => {
+		console.error('Error fetching data:', error);
+		return null;
+	});
+	return layerDel
+}
+
+async function generarTodosLayers() {
+    var layersConfig = [];
+
+	// Obtener supervisiones y crear configuraciones de capas
+    const supervision = await getSupervisionLayers();
+    supervision.forEach(supervision => {
+		var layer = supervision[0][0];
+        layersConfig.push({
+            label: `Supervisíon ${supervision[1][0].label}`,
+            type: "image",
+            url: `icons/supervision_${supervision[1][0].url}.svg`,
+            layers_type: "organizacion",
+            layers: layer,
+            inactive: false,
+        });
+    });
+
+    // Obtener establecimientos y crear configuraciones de capas
+    const establecimientos = await getEstablecimientosLayers();
+    establecimientos.forEach(establecimiento => {
+		var layer = establecimiento[0][0];
+        layersConfig.push({
+            label: `${establecimiento[1][0].label}`,
+            type: "image",
+            url: `icons/establecimientos_${establecimiento[1][0].url}.svg`,
+            layers_type: "establecimiento",
+            layers: layer,
+            inactive: true,
+        });
+			
+    });
+
+	const delegaciones = await getDelegacionLayers();
+	layersConfig.push({
+		label: 'Delegaciones administrativas',
+		type: 'image',
+		url: 'icons/delegacion_.svg',
+		layers_type: "organizacion",
+		layers: delegaciones,
+		inactive: false
+	})
+
+	layersConfig.push ({
+		label: "Regiones Educativas",
+		type: "polygon",
+		sides: 4,
+		color: "#FFFFFF",
+		fillColor: "#FF0000",
+		weight: 1,
+		layers_type: "general",
+		layers: [polygon, textLabelR1, textLabelR2 ,textLabelR3, textLabelR4, textLabelR5, textLabelR6],
+		inactive: false,
+        })
+    layersConfig.push({
+        label: "Departamentos",
+		type: "polygon",
+		sides: 4,
+		color: "#FFF252",
+		fillColor: "#FFF252",
+		weight: 1,
+		layers_type: "general",
+		layers: [departament],
+		inactive: true,
+        })
+	layersConfig.push({
+		label: "Ministerio de Educación",
+		type: "image",
+		url: "icons/ministerio.svg",
+		layers_type: "organizacion",
+		layers: [min_educacion],
+		inactive: false,
+        })
+
+    
+
+    return layersConfig;
+}
 
 // Obtener la capa y configurarla
-getEstablecimientosLayers().then(Layers => {
+/*getEstablecimientosLayers().then(Layers => {
     var layersConfig = [
 		{
 		label: "Ed. Inicial",
@@ -1098,10 +1245,23 @@ getEstablecimientosLayers().then(Layers => {
     } else {
         console.error('No se econtraron capas de instituciones');
     }
-});
+});*/
 
 //mymap.addLayer(markersCluster);
-
+var legends;
+async function initMap() {
+    // Generar y añadir leyendas
+    legends = await generarTodosLayers();
+    var legend = new L.control.Legend({
+        position: "topleft",
+        title: "Capas",
+        collapsed: true,
+        symbolWidth: 17, 
+        opacity: 1,
+        column: false,
+        legends: legends
+    }).addTo(mymap);
+}
 
 
 
@@ -1242,37 +1402,8 @@ var artistica = L.geoJSON(ed_artistica, {
 
 //baselayer.addLayer(epja);
 // Agregar leyenda a mapa 
-
-var	legends = [{
-		label: "Regiones Educativas",
-		type: "polygon",
-		sides: 4,
-		color: "#FFFFFF",
-		fillColor: "#FF0000",
-		weight: 1,
-		layers_type: "general",
-		layers: [polygon, textLabelR1, textLabelR2 ,textLabelR3, textLabelR4, textLabelR5, textLabelR6],
-		inactive: false,
-        },
-        {
-        label: "Departamentos",
-		type: "polygon",
-		sides: 4,
-		color: "#FFF252",
-		fillColor: "#FFF252",
-		weight: 1,
-		layers_type: "general",
-		layers: [departament],
-		inactive: true,
-        },
-        {
-		label: "Ministerio de Educación",
-		type: "image",
-		url: "icons/ministerio.svg",
-		layers_type: "organizacion",
-		layers: [min_educacion],
-		inactive: false,
-        },
+/*
+var	legends = [
         {
 		label: "Delegaciones Administrativas",
 		type: "image",
@@ -1281,7 +1412,7 @@ var	legends = [{
 		layers: [del_admnistrativas],
 		inactive: false,
         },
-		{
+		/*{
 		label: "Supervisión Inicial",
 		type: "image",
 		url: "icons/supervision_inicial.svg",
@@ -1300,7 +1431,7 @@ var	legends = [{
         {
 		label: "Supervisión Secundaria",
 		type: "image",
-		url: "icons/supervision_sec.svg",
+		url: "icons/supervision_secundaria.svg",
 		layers_type: "organizacion",
 		layers: [sup_secundaria],
 		inactive: false,
@@ -1347,19 +1478,50 @@ legend = L.control.Legend({
 	column: false,
 	legends: legends
     })
-    .addTo(mymap);
+    .addTo(mymap);*/
 
 // Agrega los tres botonones despues del legend
 
-mostrarConsultaButton.addTo(mymap);
-//mostrarFiltroButton.addTo(mymap);
-controlbrowserPrint.addTo(mymap)
+
+async function cargarBotonesMapa() {
+    // Simula una carga de datos asíncrona, por ejemplo, desde un servidor
+    await initMap();
+    mostrarConsultaButton.addTo(mymap);
+	//mostrarFiltroButton.addTo(mymap);
+	controlbrowserPrint.addTo(mymap);
+
+	let print = document.getElementsByClassName('leaflet-control-browser-print')[0]
+
+	let ul = document.createElement('UL')
+	ul.classList = 'browser-print-holder'
+	let li = document.createElement('LI')
+	li.classList = 'browser-print-mode'
+	li.style.display = 'none'
+	let a = document.createElement('A')
+	a.textContent = 'Descargar Mapa de Establecimientos'
+	a.classList = 'descarga'
+	a.setAttribute('download','EstablecimientosEducativos.pdf')
+	a.setAttribute('href', 'public/img/EstablecimientosEducativos.pdf')
+	li.append(a)
+	ul.append(li)
 
 
+	print.append(ul)
+
+	print.addEventListener('mouseover', () =>{
+		li.style.display = 'inline-block'
+	})
+
+	print.addEventListener('mouseout', () =>{
+		li.style.display = 'none'
+	})
+}
+
+cargarBotonesMapa();
 // Consultas ---------------------------------------------------------------------------------
 
 // Consulta de establecimiento por cueanexo
-
+/*
 function cue_valido(c){
 	//si tiene 9 caracteres y son todos numeros es TRUE
 	return (c.match(/^[0-9]+$/) != null && c.length == 9);
@@ -2206,16 +2368,16 @@ function itemsearchcomplexselected(data, name){
 	mymap.fitBounds(bounds);
 	// aca lng va primero que lat, por eso es que se dan vuelta 
 	mymap.setView(new L.LatLng(bounds.getCenter().lng,bounds.getCenter().lat));
-}
+}*/
 
 // Quitar capas  desde legend
 
-function eliminarlayer(namelayer){
+/*function eliminarlayer(namelayer){
 	legends = legends.filter(function(value, index, arr){ 
         return value.label != namelayer;
     });
 	agregarNuevaLegend();
-}
+}*/
 
 // actualiza legends dede legend
 
@@ -2228,7 +2390,7 @@ function actualizarLegends(label, inactive){
 }
 
 // Agregar nueva legend
-
+/*
 function agregarNuevaLegend(){
 	if(legend instanceof L.Control.Legend){mymap.removeControl(legend);}
 	legend = new L.control.Legend({
@@ -2244,7 +2406,7 @@ function agregarNuevaLegend(){
     mostrarConsultaButton.addTo(mymap);
 	//mostrarFiltroButton.addTo(mymap);
 	controlbrowserPrint.addTo(mymap)
-}
+}*/
 
 // Mostrar poput info layer de legend
 
@@ -3336,30 +3498,3 @@ function nomostrarestablecimientosinfofiltro(){
 	document.getElementById("map").style.display = "block";
 	document.getElementById("establecimientosinfofiltro").style.display = 'none';
 }
-
-
-//Boton para la descarga personalizada
-let print = document.getElementsByClassName('leaflet-control-browser-print')[0]
-
-let ul = document.createElement('UL')
-ul.classList = 'browser-print-holder'
-let li = document.createElement('LI')
-li.classList = 'browser-print-mode'
-li.style.display = 'none'
-let a = document.createElement('A')
-a.textContent = 'Descargar Mapa de Establecimientos'
-a.classList = 'descarga'
-a.setAttribute('download','EstablecimientosEducativos_por_Región.pdf')
-a.setAttribute('href', './EstablecimientosEducativos.pdf')
-li.append(a)
-ul.append(li)
-
-print.append(ul)
-
-print.addEventListener('mouseover', () =>{
-	li.style.display = 'inline-block'
-})
-
-print.addEventListener('mouseout', () =>{
-	li.style.display = 'none'
-})

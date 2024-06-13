@@ -65,9 +65,13 @@ function buscar_info_popup_inst() {
 };
 
 function buscar_info_supervision() {
-    return db.any(`SELECT suvision.id_supervision, suvision.nombre_sup, suvision.domicilio, suvision.tel, suvision.email, suvision.gestion, suvision.region, niv.nombre AS nivel, suvisor.nombre AS supervisor, suvision.lat, suvision.long FROM padron.supervision suvision 
-    JOIN padron.supervisor suvisor ON suvision.id_supervision = suvisor.id_supervision 
+    return db.any(`SELECT suvision.id_supervision, suvision.nombre_sup, suvision.domicilio, suvision.tel, suvision.email, suvision.gestion, suvision.region, niv.nombre AS nivel, suvision.lat, suvision.long FROM padron.supervision suvision 
     JOIN padron.nivel niv ON suvision.id_nivel = niv.id_nivel`)
+}
+
+function buscar_info_delegacion(){
+    return db.any(`SELECT del.id_delegacion, del.region, del.direccion, del.email, del.nombre, del.tel, del.delegado, del.long, del.lat, loc.localidad
+        FROM padron.delegacion del JOIN padron.localidad loc ON del.id_localidad = loc.id_localidad`)
 }
 
 
@@ -83,5 +87,6 @@ module.exports = {
     busqueda_simple,
     buscar_info_popup_inst,
     busqueda_adicional,
-    buscar_info_supervision
+    buscar_info_supervision,
+    buscar_info_delegacion
 };
