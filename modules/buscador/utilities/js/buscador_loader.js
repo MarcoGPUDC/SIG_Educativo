@@ -9,7 +9,7 @@ async function obtenerDatosBuscador() {
     if (datosBuscador) {
         return Promise.resolve(datosBuscador);
     } else {
-        return fetch('/buscador/cargaDatos')
+        return fetch('buscador/cargaDatos')
             .then(response => {
                 // Maneja la respuesta recibida del servidor
                 if (!response.ok) {
@@ -71,7 +71,7 @@ function verInfo(event) {
                     element.valor.forEach(valores =>{
                         if (valores[boton] == num.value) {
                             const buscar = cifrarDato(valores.id.toString(), 'SIGE2024');
-                            window.location.href = `/info?num=${buscar}`;
+                            window.location.href = `info?num=${valores.id}`;
                         }
                     })
                         

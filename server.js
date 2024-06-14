@@ -1,10 +1,19 @@
 var express = require('express');
 var app = express();
 const path = require('path');
+var raiz = 'http://sistemas.chubut.edu.ar/mapa/'
+var https = require('https');
+var fs = require('fs');
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.static(path.join(__dirname,'modules','mapa')));
 app.use(express.static(path.join(__dirname,'modules','buscador')));
 app.use(express.static(path.join(__dirname,'modules','mapoteca')));
+const keyPath = path.join(__dirname, 'server.key');
+const certPath = path.join(__dirname, 'server.cert');
+const options = {
+    key: fs.readFileSync(keyPath),
+    cert: fs.readFileSync(certPath)
+}
 // Middleware para servir archivos estáticos con tipo MIME correcto
 app.use('/modules/buscador', express.static(path.join(__dirname, 'modules/buscador'), {
   setHeaders: (res, path) => {
@@ -69,3 +78,6 @@ const port = 3000;
 app.listen(port, () => {
     console.log(`Servidor Express escuchando en el puerto ${port}`);
   });
+/*https.createServer(options, app).listen(port, () => {
+    console.log(`Servidor HTTPS Express corriendo en puerto ${port}`)
+});*/

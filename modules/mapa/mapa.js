@@ -914,7 +914,7 @@ var clusterOtrosServ = createCluster('comp');*/
 
 // Función para obtener la capa de datos
 function getEstablecimientosLayers() {
-    var layersEst = fetch('/mapa/setInstMarkers')
+    return fetch('mapa/setInstMarkers')
         .then(response => response.json())
         .then(data => {
 			var todosLayers = [];
@@ -1274,7 +1274,7 @@ var mostrarConsultaButton = L.easyButton({
       icon: "<img class='icon' src='icons/search-icon.png' style='width:18px; height:18px;'>",
       title: 'Busqueda',
       onClick: function(btn, map) {
-        fetch('/buscador')
+        fetch('buscador')
           .then(response => response.text())
           .then(html => {
             // Insertar el HTML obtenido en el cuerpo del modal

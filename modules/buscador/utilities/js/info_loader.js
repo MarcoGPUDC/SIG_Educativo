@@ -10,8 +10,8 @@ function descifrarDato(datoCifrado, clave) {
 
 async function completarDatosInstitucion() {
     const parametros = new URLSearchParams(window.location.search);
-    var id = descifrarDato(parametros.get('num') , 'SIGE2024');
-    console.log(id);
+    //var id = descifrarDato(parametros.get('num') , 'SIGE2024');
+    var id = parametros.get('num')
     fetch(`info/obtenerDatos?num=${id}`)
     .then(response => {
         // Maneja la respuesta recibida del servidor
