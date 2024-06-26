@@ -27,6 +27,18 @@ router.get('/cargaDatos', async (req, res) => {
   }
 });
 
+router.get('/datos', async (req, res) => {
+  try {
+    // Obtener todas las tareas utilizando el modelo de datos
+    const data = await informacion.busqueda_simple_todo();
+    res.send(data);
+  } catch (error) {
+    // Manejar cualquier error que ocurra durante la obtención de las tareas
+    console.error('Error al obtener los datos:', error);
+    res.status(500).send('Error al obtener los datos.');
+  }
+});
+
 
 
 

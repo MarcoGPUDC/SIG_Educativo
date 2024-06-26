@@ -365,6 +365,9 @@ info.update = function(props){
                             	"</td></tr><tr><td><b>Educación Artística:</b> "+ (props.Artística?props.Artística:"Sin Localizaciones")+
                             	"</td></tr><tr><td><b>EPJA:</b> "+ (props.EPJA?props.EPJA:"Sin Localizaciones")+
                             	"</td></tr><tr><td><b>Otros Servicios Educativos:</b> "+ (props.OServEduc?props.OServEduc:"Sin Localizaciones")+
+								"</td></tr><tr><td><b>Edificios:</b> "+ (props.Edificios?props.Edificios:"Sin Localizaciones")+
+								"</td></tr><tr><td><b>Sedes:</b> "+ (props.Sedes?props.Sedes:"Sin Localizaciones")+
+								"</td></tr><tr><td><b>Anexos:</b> "+ (props.Anexos?props.Anexos:"Sin Localizaciones")+
                             	"</td></tr><tr><td><b>Población:</b> "+ (props.Población?props.Población:"Sin Localizaciones")+
                             	"</td></tr><tr><td><b>Superficie:</b> "+ (props.Superficie?props.Superficie:"Sin Localizaciones")+
                             	"</td></tr></table>"
@@ -674,10 +677,10 @@ function mostrarDiv(idcue){
 	}
 }
 
-function closepoput(e) {
+function closepoput(e, layer) {
 	featureR = e.target.feature;
 	document.getElementById("cueanexoinfoadicional").innerHTML = "<b>Cueanexo: </b><div id='cueanexoinfoadicionale'>" + (featureR.properties.cueanexo?featureR.properties.cueanexo:"No se registra") + "." + "</div>";
-	document.getElementById("calleinfoadicional").innerHTML = "<b>Domicilio: </b><div id='calleinfoadicionale'>" + (featureR.properties.calle?featureR.properties.direccion:"No se registra") + "." + "</div>";	
+	document.getElementById("calleinfoadicional").innerHTML = "<b>Domicilio: </b><div id='calleinfoadicionale'>" + (featureR.properties.direccion?featureR.properties.direccion:"No se registra") + "." + "</div>";	
 	document.getElementById("funinfoadicional").innerHTML = "<b>Activo/No activo: </b><div id='funinfoadicionale'>" + (featureR.properties.funcion?featureR.properties.funcion:"No se registra") + "." + "</div>";
 	document.getElementById("fnainfoadicional").innerHTML = "<div id='fnainfoadicionale'>" + (featureR.properties.nombre?featureR.properties.nombre:"No se registra.") + " (Nro: " + (featureR.properties.numero?featureR.properties.numero:"No se registra.") + ")" + "</div>";
 	document.getElementById("cod_postalinfoadicional").innerHTML = "<b>CP: </b><div id='cod_postalinfoadicionale'>" + (featureR.properties.cp?featureR.properties.cp:"No se registra") + "." + "</div>";
@@ -686,9 +689,9 @@ function closepoput(e) {
 	document.getElementById("amginfoadicional").innerHTML = "<b>Ambito: </b><div id='amginfoadicionale'>" + (featureR.properties.ambito?featureR.properties.ambito:"No se registra") + "." + "</div>";
 	document.getElementById("Regioninfoadicional").innerHTML = "<b>Region: </b><div id='Regioninfoadicionale'>" + (featureR.properties.region?featureR.properties.region:"No se registra") + "." + "</div>";
 	document.getElementById("Modalidadinfoadicional").innerHTML = "<b>Tipo de Educación/Modalidad: </b><div id='Modalidadinfoadicionale'>" + (featureR.properties.modalidad?featureR.properties.modalidad:"No se registra") + "." + "</div>";
-	document.getElementById("Nivelesinfoadicional").innerHTML = "<b>Nivel: </b><div id='Nivelesinfoadicionale'>" + (featureR.properties.nivel?featureR.properties.Nivel:"No se registra") + "." + "</div>";
+	document.getElementById("Nivelesinfoadicional").innerHTML = "<b>Nivel: </b><div id='Nivelesinfoadicionale'>" + (featureR.properties.nivel?featureR.properties.nivel:"No se registra") + "." + "</div>";
 	document.getElementById("Ofertainfoadicional").innerHTML = "<b>Oferta: </b><div id='Ofertainfoadicionale'>" + (featureR.properties.oferta?featureR.properties.oferta:"No se registra") + "." + "</div>";
-	document.getElementById("Dependenciinfoadicional").innerHTML = "<b>Dependencia: </b><div id='Dependenciinfoadicionale'>" + (featureR.properties.Dependenci?featureR.properties.Dependenci:"No se registra") + "." + "</div>";
+	document.getElementById("Dependenciinfoadicional").innerHTML = "<b>Dependencia: </b><div id='Dependenciinfoadicionale'>" + (featureR.properties.dependencia?featureR.properties.dependencia:"No se registra") + "." + "</div>";
 	document.getElementById("gesinfoadicional").innerHTML = "<b>Sector de Gestión: </b><div id='gesinfoadicionale'>" + (featureR.properties.gestion?featureR.properties.gestion:"No se registra") + "." + "</div>";
 	document.getElementById("telefonoinfoadicional").innerHTML = "<b>Teléfono: </b><div id='telefonoinfoadicionale'>" + (featureR.properties.tel?featureR.properties.tel:"") + "." + "</div>";
 	document.getElementById("emailinfoadicional").innerHTML ="<b>Email: </b><div id='emailinfoadicionale'><a href=mailto:" + (featureR.properties.email?featureR.properties.email:"No se registra") + " '> "  + (featureR.properties.email?featureR.properties.email:"No se registra.") + "</a>" + "</div>";
@@ -701,7 +704,6 @@ function closepoput(e) {
 //ventana informativa pequeña
 function onEachFeatureL(feature, layer){
 	layer.bindPopup(
-		"<!--img src='icons/pruebaEscuela.png' class='card-img-top p-0 m-0' alt='" + (feature.properties.fna?feature.properties.fna:"No se registra") + "'-->" +
 		"<div class='p-3'>"+
   		"<h6 style='color:#0d6efd'>"+ (feature.properties.nombre?feature.properties.nombre:"No se registra") + "</h6>" +
 	 	"<h6> Información General</h6>" + 
@@ -710,7 +712,7 @@ function onEachFeatureL(feature, layer){
 		"<tr><td><b>Número:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") + "</td></tr>" + 
 		"<tr><td><b>Región:</b> "+ (feature.properties.region?feature.properties.region:"No se registra") + "</td></tr>" +
 		"<tr><td><b>Localidad:</b> "+ (feature.properties.localidad?formatoNombre(feature.properties.localidad):"No se registra") + "</td></tr>" +
-		"<tr><td><b>Dirección:</b> "+ (feature.properties.direccion?feature.properties.direccion:"") + "</td></tr>" +
+		"<tr><td><b>Dirección:</b> "+ (feature.properties.direccion?feature.properties.direccion:"No se registra") + "</td></tr>" +
 		"<tr><td><b>Nivel:</b> "+ (feature.properties.nivel?feature.properties.nivel:"No se registra") + "</td></tr>" +
 		"</table>" +
 		"<h6 class='mt-3'> Información de Contacto</h6>" + 
@@ -722,7 +724,7 @@ function onEachFeatureL(feature, layer){
 		"<tr><td><b>Tel. del Responsable:</b> "+ (feature.properties.tel_resp?feature.properties.tel_resp:"-") + "</td></tr>" +
 		"</table>" +
   		"</div></div>" +
-  		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' onclick='mostrarInfoAdicional()'>Ver más...</a></div>" +
+  		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='/info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
   		"</div>"
   		, {minWidth: 270, maxWidth: 270}
 	);
@@ -1023,7 +1025,7 @@ function getEstablecimientosLayers() {
 }
 
 function getSupervisionLayers(){
-	var layersSuperv = fetch('/mapa/setSupervMarkers')
+	var layersSuperv = fetch('mapa/setSupervMarkers')
 	.then(response => response.json())
 	.then( data => {
 		var todosLayers = [];
@@ -1069,7 +1071,7 @@ function getSupervisionLayers(){
 }
 
 function getDelegacionLayers(){
-	var layerDel = fetch ('/mapa/setDelegMarkers')
+	var layerDel = fetch ('mapa/setDelegMarkers')
 	.then(response => response.json())
 	.then( data => {
 		var delegacionLayer = createLayer(data, 'delegacion' , '');
@@ -1518,6 +1520,87 @@ async function cargarBotonesMapa() {
 }
 
 cargarBotonesMapa();
+
+// existe layer
+
+function layerNoExiste(layer){
+    var existe=true;
+    for (i=0; i < legends.length; i++) {
+        if(legends[i].label == layer ){
+            existe = false;
+        }
+    }
+    return existe;
+}
+
+// Agregar nueva legend
+function agregarNuevaLegend(){
+	if(legend instanceof L.Control.Legend){mymap.removeControl(legend);}
+	legend = new L.control.Legend({
+	position: "topleft",
+	title: "Capas3",
+	collapsed: true,
+	symbolWidth: 17,
+	opacity: 1,
+	column: 1,
+	legends: legends
+    })
+    .addTo(mymap);
+    cargarBotonesMapa();
+}
+//ya puede ubicar una escuela, falta corregir el popup que le anexa y la creacion de la nueva capa
+function itemsearchselected(selected){
+	var id = selected.split("-")[0];
+	var por = selected.split("-")[1];
+
+	fetch(`mapa/ubicacion?id=${id}`)
+	.then(response => response.json())
+	.then(data => {
+		if(layerNoExiste(name)){
+			var cueAnexoSelect = L.geoJSON(data, {
+					pointToLayer: function (feature, latlng) {
+							return L.marker(latlng, {
+								icon: L.icon({
+									iconUrl: "icons/establecimientos_consulta.svg",
+									iconSize:     [22, 22], 
+									iconAnchor:   [11, 0], 
+									popupAnchor:  [0, 0]
+								}),
+								riseOnHover: true
+							});
+						},
+					filter: function(feature, layer) {								
+						return (feature.properties.id == id);
+					},	
+					onEachFeature: onEachFeatureL
+			});				
+			mymap.fitBounds(cueAnexoSelect.getBounds());
+			baselayer.addLayer(cueAnexoSelect);
+			mymap.setZoom(16);
+			limpiarItemsNombreEsc();
+			limpiarItemsNroEsc();
+			legends.push({label: name,
+				type: "image",
+				url:  "icons/establecimientos_consulta.svg",
+				layers_type: "consulta",
+				layers: [cueAnexoSelect],
+				inactive: false,
+				});
+			var myModalEl = document.getElementById('consultasEscuelas');
+			var modal = bootstrap.Modal.getInstance(myModalEl);
+			modal.hide();
+			agregarNuevaLegend();
+		} else {
+			if(por == "xnombre"){
+				document.getElementById("infoNomNombreRepetidoFormControlSelect").style.display= "block";
+			} else {
+				document.getElementById("infoNumNombreRepetidoFormControlSelect").style.display= "block";
+			}
+		}
+	})
+	
+}
+
 // Consultas ---------------------------------------------------------------------------------
 
 // Consulta de establecimiento por cueanexo
@@ -1601,54 +1684,7 @@ function cueAnexoSelect() {
 	}
 }
 
-//consulta de establecimiento por nombre
 
-function itemsearchselected(selected){
-	var name = selected.split("-")[0];
-	var value = selected.split("-")[1];
-	var por = selected.split("-")[2];
-	if(layerNoExiste(name)){
-		var cueAnexoSelect = L.geoJSON(localizaciones, {
-				pointToLayer: function (feature, latlng) {
-						return L.marker(latlng, {
-							icon: L.icon({
-							    iconUrl: "icons/establecimientos_consulta.svg",
-								iconSize:     [22, 22], 
-							    iconAnchor:   [11, 0], 
-							    popupAnchor:  [0, 0]
-							}),
-							riseOnHover: true
-						});
-					},
-				filter: function(feature, layer) {								
-					return (feature.properties.cueanexo == value);
-				},	
-				onEachFeature: onEachFeatureL
-		});				
-		mymap.fitBounds(cueAnexoSelect.getBounds());
-		baselayer.addLayer(cueAnexoSelect);
-		mymap.setZoom(16);
-		limpiarItemsNombreEsc();
-		limpiarItemsNroEsc();
-		legends.push({label: name,
-			type: "image",
-			url:  "icons/establecimientos_consulta.svg",
-			layers_type: "consulta",
-			layers: [cueAnexoSelect],
-			inactive: false,
-	        });
-		var myModalEl = document.getElementById('consultasEscuelas');
-		var modal = bootstrap.Modal.getInstance(myModalEl);
-		modal.hide();
-		agregarNuevaLegend();
-	} else {
-		if(por == "xnombre"){
-			document.getElementById("infoNomNombreRepetidoFormControlSelect").style.display= "block";
-		} else {
-			document.getElementById("infoNumNombreRepetidoFormControlSelect").style.display= "block";
-		}
-	}
-}
 
 function limpiarItemsNombreEsc(){
 	var fnombreescitem = document.getElementById("f-nombreesc-item");
@@ -1671,50 +1707,6 @@ function limpiarItemsNombreEsc(){
 	infoNomNombreRepetidoFormControlSelect.style.display= "none";
 }
 
-function nombreSelect() {
-	var nombreescbtn = document.getElementById("f-nombreesc-item_btn");
-	var nombreescbtnclean = document.getElementById("f-nombreesc-item_btn_clean");
-	var infoNombre = document.getElementById("infoNombre");
-	var infoNombreError = document.getElementById("infoNombreError");
-	var infoNombreErrorNonombre = document.getElementById("infoNombreErrorNonombre");
-	var nombreescblockitem = document.getElementById("nombreesc-block-item");
-	var fnombreescitem = document.getElementById("f-nombreesc-item");
-	var nombreesc = document.getElementById("f-nombreessc");
-	var miSelect = nombreesc.value;
-	if(miSelect != ""){
-		coincidencias = 0;
-		fnombreescitem.innerHTML = " ";
-		localizaciones.features.forEach(function(f){	  
-			var nombre = f.properties.fna;
-			var myRe = new RegExp(miSelect.toUpperCase());
-			if( myRe.exec(nombre.toUpperCase()) != null){
-				coincidencias += 1;
-				nombreSinGuiones = nombre.replace('-', ' ');
-				var content = "<a class='list-group-item list-group-item-action' id='" + nombreSinGuiones + "-" + f.properties.cueanexo + "-" + "xnombre" + "' onclick=itemsearchselected(this.id)  data-bs-toggle='list' role='tab' aria-controls='list-home'>"+nombre +"</a>";
-				fnombreescitem.innerHTML += content;
-			}
-		});
-		if(coincidencias > 0){
-			nombreescblockitem.style.display = "block";
-			infoNombre.style.display= "block";
-			infoNombreError.style.display= "none";
-			infoNombreErrorNonombre.style.display= "none";
-			nombreescbtn.style.display= "none";
-			nombreescbtnclean.style.display= "block";
-		} else {
-			infoNombre.style.display= "none";
-			infoNombreError.style.display= "none";
-			infoNombreErrorNonombre.style.display= "block";
-		}
-
-	} else {
-		infoNombre.style.display= "none";
-		infoNombreError.style.display= "block";
-		infoNombreErrorNonombre.style.display= "none";
-		nombreescblockitem.style.display = "none";
-	}
-
-}
 
 // consulta de establecimientos por numero
 
@@ -1741,57 +1733,9 @@ function limpiarItemsNroEsc(){
 
 // es numero
 
-function isNa(value){
-    var esnum = true;
-    if (isNaN(value) || value.length == 0) {
-        esnum = false;
-    }
-    return esnum;
-}
 
-function nroSelect(){	
-	var numeroescbtn = document.getElementById("f-nroesc-item_btn");
-	var numeroescbtnclean = document.getElementById("f-nroesc-item_btn_clean");
-	var infoNro = document.getElementById("infoNumero");
-	var infoNroError = document.getElementById("infoNumeroError");
-	var infoNroErrorNonombre = document.getElementById("infoNumeroErrorNumero");
-	var numeroescblockitem = document.getElementById("f-numeroesc-block-item");
-	var fnumeroescitem = document.getElementById("f-numeroesc-item");
-	var numeroesc = document.getElementById("select-numero");
-	var miSelect = numeroesc.value;
-	if(isNa(miSelect)){
-		coincidencias = 0;
-		fnumeroescitem.innerHTML = " ";
-		localizaciones.features.forEach(function(f){	  
-			var numero_de_escuela = f.properties.codJurid + " (" + f.properties.fna + ")";
-			var myRe = new RegExp(miSelect.toUpperCase());
-			if( myRe.exec(f.properties.codJurid) != null){
-				coincidencias += 1;
-				numero_de_escuelaSinGuiones = numero_de_escuela.replace('-', ' ');
-				var content = "<a class='list-group-item list-group-item-action' id='"+ numero_de_escuelaSinGuiones + "-" + f.properties.cueanexo + "-" + "xnumero" +"' onclick=itemsearchselected(this.id)  data-bs-toggle='list' role='tab' aria-controls='list-home'>"+numero_de_escuela +"</a>";
-				fnumeroescitem.innerHTML += content;
-			}
-		});
-		if(coincidencias > 0){
-			numeroescblockitem.style.display = "block";
-			infoNro.style.display= "block";
-			infoNroError.style.display= "none";
-			infoNroErrorNonombre.style.display= "none";
-			numeroescbtn.style.display= "none";
-			numeroescbtnclean.style.display= "block";
-		} else {
-			infoNro.style.display= "none";
-			infoNroError.style.display= "none";
-			infoNroErrorNonombre.style.display= "block";
-		}
 
-	} else {
-		infoNro.style.display= "none";
-		infoNroError.style.display= "block";
-		infoNroErrorNonombre.style.display= "none";
-		numeroescblockitem.style.display = "none";
-	}
-}
+
 
 // consulta de establecimientos por localizaciones 
 
@@ -2230,17 +2174,7 @@ formuarioOferta.addEventListener("submit", function(e) {
 
 //consulta de establecimientos por otros
 
-// existe layer
 
-function layerNoExiste(layer){
-    var existe=true;
-    for (i=0; i < legends.length; i++) {
-        if(legends[i].label == layer ){
-            existe = false;
-        }
-    }
-    return existe;
-}
 
 var formuarioOtros = document.getElementById("formOtros");
 formuarioOtros.addEventListener("submit", function(e) {
@@ -2389,24 +2323,7 @@ function actualizarLegends(label, inactive){
     }
 }
 
-// Agregar nueva legend
-/*
-function agregarNuevaLegend(){
-	if(legend instanceof L.Control.Legend){mymap.removeControl(legend);}
-	legend = new L.control.Legend({
-	position: "topleft",
-	title: "Capas3",
-	collapsed: true,
-	symbolWidth: 17,
-	opacity: 1,
-	column: 1,
-	legends: legends
-    })
-    .addTo(mymap);
-    mostrarConsultaButton.addTo(mymap);
-	//mostrarFiltroButton.addTo(mymap);
-	controlbrowserPrint.addTo(mymap)
-}*/
+
 
 // Mostrar poput info layer de legend
 
@@ -2601,6 +2518,8 @@ function downloadAsExcel(namelayer){
 	downloadAsExcelD(namelayer, datosObj);
 }
 
+//FALTA AGREGAR FUNCIOON EXPORTAR INFO COMO EXCEL
+/*
 document.getElementById("exportarinfoadicional").addEventListener("click", downloadAsExceInfoAdicional);
 function downloadAsExceInfoAdicional(){
 	var namelayer = document.getElementById("fnainfoadicional").innerText;
@@ -2635,7 +2554,7 @@ function downloadAsExceInfoAdicional(){
 	obj["aguainfoadicional"] = document.getElementById("aguainfoadicionale").innerHTML;
 	datosObj.push(obj);
 	downloadAsExcelD(namelayer, datosObj);
-}
+}*/
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -2817,7 +2736,7 @@ function nomostrarInfoAdicional(){
 }
 
 // cambiar tamaño imagen navbar
-
+/*
 if (screen.height < 576){
 	imgnavbar.style.height = '22px'; 
 }
@@ -2825,11 +2744,13 @@ if (screen.height < 576){
 window.addEventListener('resize', function(event){
 	var imgnavbar = document.getElementById("imgnavbar");
 	if (screen.height < 576){
-		imgnavbar.style.height = '22px'; 
+		imgnavbar.style.height = '22px';
+		imgnavbar.style.width = '35px'; 
 	} else {
 		imgnavbar.style.height = '32px';
+		imgnavbar.style.widtht = '45px';
 	}
-});
+});*/
 
 // control button modal inicio
 

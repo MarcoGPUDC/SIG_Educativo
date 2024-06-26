@@ -53,7 +53,6 @@ async function completarDatosInstitucion() {
     })
     .then(data => {
         //datos oferta
-        console.log(data);
         data.forEach(element => {
             if (document.getElementById('turnoinfoadicional').innerHTML == ``) {
                 document.getElementById('turnoinfoadicional').innerHTML = `${element.turno}`;
@@ -73,7 +72,7 @@ async function completarDatosInstitucion() {
             if (document.getElementById('nivelesinfoadicional').innerHTML == ``) {
                 document.getElementById('nivelesinfoadicional').innerHTML += `${element.nivel}`;
             } else if (!document.getElementById('nivelesinfoadicional').innerHTML.includes(element.nivel)) {
-                document.getElementById('nivelesinfoadicional').innerHTML = `/ ${element.nivel}`
+                document.getElementById('nivelesinfoadicional').innerHTML += `/ ${element.nivel}`
             }
         });
             

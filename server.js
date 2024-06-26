@@ -71,6 +71,9 @@ app.use('/buscador', buscador_controlador);
 const mapRoutes = require('./modules/mapa/models/info_popup_model');
 app.use('/', mapRoutes);
 
+const mapInfo = require('./modules/mapa/models/info_crear_layer');
+app.use('/', mapInfo);
+
 
 
 // Iniciar el servidor
