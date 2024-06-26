@@ -104,7 +104,7 @@ if (!MAPBOX_ACCESS_TOKEN) {
 var geocoder = L.Control.Geocoder.mapbox('MAPBOX_ACCESS_TOKEN');
 */
 // Maneja el evento de búsqueda cuando el usuario presiona Enter
-document.getElementById('address').addEventListener('keydown', function(event) {
+/*document.getElementById('address').addEventListener('keydown', function(event) {
 		
   if (event.key == 'Enter' && event.target.value.length> 2) {
 	var dirs = document.getElementById('resultados-buscador');
@@ -164,7 +164,7 @@ document.addEventListener('click', function(event) {
 // Prevenir que el click dentro del buscador cierre el div
 document.getElementById('resultados-buscador').addEventListener('click', function(event) {
 	event.stopPropagation();
-});
+});*/
 /*ar textLabelR2 = L.marker(textLatLngR2, {
     icon: L.divIcon({
         className: 'text-labels',
