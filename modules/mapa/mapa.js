@@ -1566,6 +1566,8 @@ function agregarNuevaLegend(){
 	addFullmapPrint();
 }
 
+
+//FUNCIONES PARA INTENTAR GENERAR UNA BASE DE CAPAS CREADAS
 /*function mostrarModal() {
     var myModal = new bootstrap.Modal(document.getElementById('nombreCapaModal'));
     myModal.show();
