@@ -167,7 +167,94 @@ function nombreSelect() {
 
 }
         
-        
+//resetear formularios de modales
+
+function resetForm() {
+	/*form oferta
+	var formOferta = document.getElementById("formOferta");
+	var selectsformOferta = formOferta.getElementsByTagName('select');
+	for (var i = 0; i<selectsformOferta.length; i++)
+		selectsformOferta[i].value = "todo";
+	document.getElementById("f-plan-estudio").style.display = "none";
+	document.getElementById("infoofertamodalidadNoRepFormControlSelect").style.display = "none";
+	document.getElementById("infoofertamodalidadNoConnFormControlSelect").style.display = "none";
+	document.getElementById("infoofertaplaetudioNoConnFormControlSelect").style.display = "none";
+	document.getElementById("infoofertafertaplaetudioNoRepFormControlSelect").style.display = "none";
+	document.getElementById("infoofertaNoModalidadFormControlSelect").style.display = "none";
+	document.getElementById("infoOfertaNombreRepetidoFormControlSelect").style.display = 'none';
+	var nivel = document.getElementById("f-select-nivelesc");
+	nivel.innerHTML = '';
+	nivel.setAttribute("disabled", "");
+	document.getElementById("infoofertafertadictadoNoRepFormControlSelect").style.display = 'none';
+	document.getElementById("infoofertadictadoNoConnFormControlSelect").style.display = 'none';
+	var dictado = document.getElementById("dictado");
+	dictado.innerHTML = '';
+	dictado.innerHTML += `<option selected value="todo">Sin seleccionar</option>`;
+	dictado.value = "todo";
+	document.getElementById("infonivelspinner").style.display = "none";
+	document.getElementById("infoorientacionspinner").style.display = "none";
+	document.getElementById("infodictadospinner").style.display = "none";
+	document.getElementById("consultaofertaspinner").style.display = "none";
+	//form localizacion
+	var formLocalizacion = document.getElementById("formLocalizacion");
+	var selectsformLocalizacion = formLocalizacion.getElementsByTagName('select');
+	for (var i = 0; i<selectsformLocalizacion.length; i++)
+		selectsformLocalizacion[i].value = "todo";
+	document.getElementById("infoOfertaNoDatosFinalesFormControlSelect").style.display = 'none';
+	document.getElementById("infoOfertaNoConnFinalesFormControlSelect").style.display = 'none';
+	var loc = document.getElementById("departamentoFormControlSelect");
+	var dir = document.getElementById("direccionFormControlSelect");
+	loc.innerHTML = '';
+	dir.innerHTML = '';
+	loc.setAttribute("disabled", "");
+	dir.setAttribute("disabled", "");
+	document.getElementById("inforegionFormControlSelect").style.display = 'none';
+	document.getElementById("infoLocNombreRepetidoFormControlSelect").style.display = 'none';
+	document.getElementById("inforegionNoDatosFormControlSelect").style.display = 'none';
+	document.getElementById("inforegionNoConnFormControlSelect").style.display = 'none';
+	document.getElementById("infolocNoDatosFormControlSelect").style.display = 'none';
+	document.getElementById("infolocNoConnFormControlSelect").style.display = 'none';
+	document.getElementById("infolocNoDatosFinalesFormControlSelect").style.display = 'none';
+	document.getElementById("infolocNoConnFinalesFormControlSelect").style.display = 'none';
+	document.getElementById("inforegionspinner").style.display = 'none';
+	document.getElementById("infolocspinner").style.display = 'none';
+	document.getElementById("consultalocalizacionspinner").style.display = 'none';
+	//form otros
+	var form = document.getElementById("formOtros");
+	var inputs = form.getElementsByTagName('input');
+	for (var i = 0; i<inputs.length; i++) {
+		switch (inputs[i].type) {
+			case 'text':
+			inputs[i].value = '';
+			break;
+			case 'radio':
+			case 'checkbox':
+				inputs[i].checked = false;   
+		}
+	}
+	var selects = form.getElementsByTagName('select');
+	for (var i = 0; i<selects.length; i++)
+		selects[i].value = "todo";
+	document.getElementById("paso1").style.display = 'block';
+	document.getElementById("paso2").style.display = 'none';
+	document.getElementById("paso3").style.display = 'none';
+	document.getElementById("infoOtrosNoSelecFormControlSelect").style.display = 'none';
+	document.getElementById("infotNoNombreFormControlSelect").style.display = 'none';
+	document.getElementById("infoOtrosNoResultFormControlSelect").style.display = 'none';
+	document.getElementById("infoOtrosNombreRepetidoFormControlSelect").style.display = 'none';
+	document.getElementById("infoOtrosNoConnFormControlSelect").style.display = 'none';
+	document.getElementById("consultaotrosspinner").style.display = 'none';
+	//consultas simples
+	document.getElementById("infoCueAnexo").style.display = 'block';
+	document.getElementById("infoCueAnexoError").style.display = 'none';
+	document.getElementById("infoCueAnexoErrorNoExiste").style.display = 'none';
+	document.getElementById("f-cue").value = "";
+	document.getElementById("infoCueNombreRepetidoFormControlSelect").style.display = 'none';
+	limpiarItemsNombreEsc();
+	limpiarItemsNroEsc();
+	return false;*/
+    return true
+}       
 
 function paso1apaso2(){
     var fielset1 = document.getElementById("paso1");

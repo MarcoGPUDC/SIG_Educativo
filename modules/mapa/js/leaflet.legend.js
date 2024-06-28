@@ -337,7 +337,7 @@
             buttonG.setAttribute('data-bs-target',"#collapseOneG");
             buttonG.setAttribute('aria-expanded',"true");
             buttonG.setAttribute('aria-controls',"collapseOneG");
-            buttonG.innerHTML = "Limites";
+            buttonG.innerHTML = "Límites";
             divCollapseG = L.DomUtil.create("div", "accordion-collapse collapse", subtitleG);
             divCollapseG.id = "collapseOneG";
             divCollapseG.setAttribute('aria-labelledby',"headingOneG");
