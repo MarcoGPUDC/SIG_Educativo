@@ -95,7 +95,8 @@ html(lang="es")
                                 <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" onclick="return resetForm();">Cancelar búsqueda</button>
                                 <button id="f-nroesc-item_btn_clean" type="button" class="btn btn-outline-info btn-sm" onclick="limpiarItemsNroEsc()" style="display:none">Limpiar busqueda</button>
                                 <button  id="f-infonumeroesc-item_btn"  type="button" class="btn btn-outline-primary btn-sm" onclick="verInfo(event)">Más información</button>		
-                                <button  id="f-nroesc-item_btn"  type="button" class="btn btn-outline-success btn-sm" onclick="nroSelect()">Realizar búsqueda</button>	
+                                <button  id="f-nroesc-item_btn"  type="button" class="btn btn-outline-success btn-sm" onclick="nroSelect()">Realizar búsqueda</button>
+                                <button class="btn btn-primary" data-bs-target="#nombreCapaModal" data-bs-toggle="modal">Crear capa</button>	
                             </div>
                         </div>
                         // pestaña buscar por Nombre de escuela
@@ -131,7 +132,8 @@ html(lang="es")
                                 <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" onclick="return resetForm();">Cancelar búsqueda</button>
                                 <button id="f-nombreesc-item_btn_clean" type="button" class="btn btn-outline-info btn-sm" onclick="limpiarItemsNombreEsc()" style="display:none">Limpiar busqueda</button>
                                 <button  id="f-infonombreesc-item_btn"  type="button" class="btn btn-outline-primary btn-sm" onclick="verInfo(event)">Más información</button>	
-                                <button  id="f-nombreesc-item_btn"  type="button" class="btn btn-outline-success btn-sm" onclick="nombreSelect()">Realizar búsqueda</button>	
+                                <button  id="f-nombreesc-item_btn"  type="button" class="btn btn-outline-success btn-sm" onclick="nombreSelect()">Realizar búsqueda</button>
+                                <button  id="f-nombreesc-item_btn"  type="button" class="btn btn-outline-success btn-sm" onclick="agregarOpcion()">Seleccionar capa</button>		
                             </div>
                         </div>
                         //pestaña buscar por Cue-Anexo de escuela						
@@ -412,3 +414,4 @@ html(lang="es")
                 </div>
             </div>
         </div>
+        

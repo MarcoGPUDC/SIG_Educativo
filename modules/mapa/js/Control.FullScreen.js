@@ -287,7 +287,7 @@
 
 				// muestra botones que lanzan modal
 				document.getElementById('idConsultaButton').parentNode.style.display = 'block';
-				document.getElementById('idFiltroButton').parentNode.style.display = 'block';
+				//document.getElementById('idFiltroButton').parentNode.style.display = 'block';
 
 				if (this._screenfull.isEnabled && !this.options.forcePseudoFullscreen) {
 					this._screenfull.exit();
@@ -303,7 +303,7 @@
 
 				// oculta botones que lanzan modal
 				document.getElementById('idConsultaButton').parentNode.style.display = 'none';
-				document.getElementById('idFiltroButton').parentNode.style.display = 'none';
+				//document.getElementById('idPrintButton').parentNode.style.display = 'none';
 
 
 				if (this._screenfull.isEnabled && !this.options.forcePseudoFullscreen) {
@@ -328,7 +328,7 @@
 
 				// muestra botones que lanzan modal
 				document.getElementById('idConsultaButton').parentNode.style.display = 'block';
-				document.getElementById('idFiltroButton').parentNode.style.display = 'block';
+				//document.getElementById('idFiltroButton').parentNode.style.display = 'block';
 
 				map.fire('exitFullscreen');
 				map._exitFired = true;

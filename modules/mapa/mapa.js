@@ -1,12 +1,12 @@
 // Crear mapa ------------------------------------------------------------------------------
 
-var mymap = new L.map('map'/*, {
+var mymap = new L.map('map', {
 	fullscreenControl: true,
 	fullscreenControlOptions: {
 		position: 'topleft',
 		forceSeparateButton: true
 	}
-}*/); 
+}); 
 
 // Function to hide the loading screen
 function hideLoadingScreen() {
@@ -1306,6 +1306,14 @@ var mostrarFiltroButton = L.easyButton({
             }
         }]
 });
+
+function mostrarFullscreenButton() {
+	L.control.fullscreen({
+	  position: 'topleft',
+	  title: 'Pantalla Completa',
+	  titleCancel: 'Salir de Pantalla Completa'
+	}).addTo(mymap);
+  }
 //mostrarFiltroButton.addTo(mymap);
 
 // Agregar  control impresion
@@ -1521,6 +1529,7 @@ legend = L.control.Legend({
 
 
 async function cargarBotonesMapa() {
+		//mostrarFullscreenButton();
 		// Simula una carga de datos asíncrona, por ejemplo, desde un servidor
 		await initMap();
 		mostrarConsultaButton.addTo(mymap);
@@ -1536,7 +1545,7 @@ cargarBotonesMapa();
 
 function layerNoExiste(layer){
     var existe=true;
-    for (i=0; i < legends.length; i++) {
+    for (i=0; i < legend.options.legends.length; i++) {
         if(legends[i].label == layer ){
             existe = false;
         }
@@ -1568,33 +1577,37 @@ function agregarNuevaLegend(){
 
 
 //FUNCIONES PARA INTENTAR GENERAR UNA BASE DE CAPAS CREADAS
-/*function mostrarModal() {
-    var myModal = new bootstrap.Modal(document.getElementById('nombreCapaModal'));
-    myModal.show();
-  }
 
 function agregarOpcion() {
-	mostrarModal()
     var valorInput = document.getElementById('inputValor').value;
-    if (valorInput.trim() !== '') {
-      var select = document.getElementById('selectOpciones');
-      var option = document.createElement('option');
-      option.textContent = valorInput;
-      option.value = valorInput;
-      select.appendChild(option);
-      document.getElementById('inputValor').value = ''; // Limpiar input
-	  return valorInput;
-    } else {
-      alert('Por favor ingrese un valor válido.');
-    }
-}*/
+	var select = document.getElementById('selectOpciones');
+	var option = document.createElement('option');
+	var noEsta = true;
+	for (let i = 0; i < select.options.length; i++) {
+		if (select.options[i].value == valorInput){
+			noEsta = false;
+		}
+	}
+	if (noEsta) {
+		if (valorInput != '') {
+			option.textContent = valorInput;
+			option.value = valorInput;
+			select.appendChild(option);
+			document.getElementById('inputValor').value = ''; // Limpiar input  
+		} else {
+			alert("Ingrese un nombre valido para la capa");
+		}
+	} else  {
+		alert("La capa ya existe");
+	} 
+}
 
 //ya puede ubicar una escuela, falta corregir el popup que le anexa y la creacion de la nueva capa
 var instSelected = [];
 function itemsearchselected(selected){
 	var id = selected.split("-")[0];
 	var por = selected.split("-")[1];
-	var name = prompt();
+	var name = document.getElementById('selectOpciones').value;
 	fetch(`mapa/ubicacion?id=${id}`)
 	.then(response => response.json())
 	.then(data => {
@@ -1639,26 +1652,30 @@ function itemsearchselected(selected){
 			modal.hide();*/
 			
 		} else if (!layerNoExiste(name)){
-			instSelected.push(L.geoJSON(data, {
-				pointToLayer: function (feature, latlng) {
-						return L.marker(latlng, {
-							icon: L.icon({
-								iconUrl: "icons/establecimientos_consulta.svg",
-								iconSize:     [22, 22], 
-								iconAnchor:   [11, 0], 
-								popupAnchor:  [0, 0]
-							}),
-							riseOnHover: true
-						});
-					},
-				filter: function(feature, layer) {								
-					return (feature.properties.id == id);
-				},	
-				onEachFeature: onEachFeatureL
-		}));
-		instSelected.forEach(marker => {
-			baselayer.addLayer(marker)
-		})
+			legend.options.legends.forEach(capa => {
+				if (capa.label == name) {
+					capa.layers.push(L.geoJSON(data, {
+						pointToLayer: function (feature, latlng) {
+								return L.marker(latlng, {
+									icon: L.icon({
+										iconUrl: "icons/establecimientos_consulta.svg",
+										iconSize:     [22, 22], 
+										iconAnchor:   [11, 0], 
+										popupAnchor:  [0, 0]
+									}),
+									riseOnHover: true
+								});
+							},
+						filter: function(feature, layer) {								
+							return (feature.properties.id == id);
+						},	
+						onEachFeature: onEachFeatureL
+				}));
+				capa.layers.forEach(marker => {
+					baselayer.addLayer(marker)
+				})
+				}
+			})
 		}else {
 			if(por == "xnombre"){
 				document.getElementById("infoNomNombreRepetidoFormControlSelect").style.display= "block";
