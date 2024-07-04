@@ -22,6 +22,11 @@ router.get('/mapa/ubicacion', async (req, res) => {
             },
             properties: {
                 id: result.id_institucion,
+                region: result.region,
+                localidad: result.localidad,
+                numero: result.numero,
+                nombre: result.nombre,
+                direccion: result.domicilio
             }};
            geoJSON.features.push(newFeature) 
         res.json(geoJSON);

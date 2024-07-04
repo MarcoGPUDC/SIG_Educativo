@@ -610,7 +610,7 @@ var del_admnistrativas = L.geoJSON(delegaciones_administrativas, {
 baselayer.addLayer(sup_privada);
 baselayer.addLayer(sup_primaria);
 baselayer.addLayer(sup_inicial);*/
-baselayer.addLayer(min_educacion);
+//baselayer.addLayer(min_educacion);
 //baselayer.addLayer(del_admnistrativas);
 
 
@@ -729,6 +729,22 @@ function onEachFeatureL(feature, layer){
   		, {minWidth: 270, maxWidth: 270}
 	);
 }
+
+function onEachFeatureS (feature, layer) {
+	layer.bindPopup(	
+		"<div class='p-3'>"+
+		"<h6 style='color:#0d6efd'>"+ (feature.properties.nombre?feature.properties.nombre:"No se registra") + "</h6>" +
+		"<h6> Información General</h6>" + 
+	 	"<table>"+
+		"<tr><td><b>Número:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Región:</b> "+ (feature.properties.region?feature.properties.region:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Localidad:</b> "+ (feature.properties.localidad?formatoNombre(feature.properties.localidad):"No se registra") + "</td></tr>" +
+		"<tr><td><b>Dirección:</b> "+ (feature.properties.direccion?feature.properties.direccion:"No se registra") + "</td></tr>" +
+		"</table>" +
+		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='/info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
+		"</div>", {minWidth: 270, maxWidth: 270}
+		);
+	}
 /*
 var domiciliaria_hospitalaria = L.geoJSON(ed_domiciliaria_hospitalaria, {
 		pointToLayer: function (feature, latlng) {
@@ -1055,9 +1071,9 @@ function getSupervisionLayers(){
 			todosLayers.push([[superPrimariaLayer],[{label: 'Primaria', url: 'primaria'}]]);
 			todosLayers.push([[superSecundariaLayer],[{label: 'Secundaria', url: 'secundario'}]]);
 			todosLayers.push([[superPrivadaLayer],[{label: 'Privada', url: 'privada'}]]);
-			todosLayers.forEach(layers => {
+			/*todosLayers.forEach(layers => {
 				mymap.addLayer(layers[0][0]);
-			})
+			})*/
 			return todosLayers
 	})
 	.catch(error => {
@@ -1072,7 +1088,6 @@ function getDelegacionLayers(){
 	.then(response => response.json())
 	.then( data => {
 		var delegacionLayer = createLayer(data, 'delegacion' , '');
-		mymap.addLayer(delegacionLayer);
 		return delegacionLayer
 	})
 	.catch(error => {
@@ -1082,86 +1097,162 @@ function getDelegacionLayers(){
 	return layerDel
 }
 
-async function generarTodosLayers() {
+async function generarTodosLayers(layerParam) {
     var layersConfig = [];
-
-	
-
-    // Obtener establecimientos y crear configuraciones de capas
-    const establecimientos = await getEstablecimientosLayers();
-    establecimientos.forEach(establecimiento => {
-		var layer = establecimiento[0][0];
-        layersConfig.push({
-            label: `${establecimiento[1][0].label}`,
-            type: "image",
-            url: `icons/establecimientos_${establecimiento[1][0].url}.svg`,
-            layers_type: "establecimiento",
-            layers: layer,
-            inactive: true,
-        });
-			
-    });
-
+	const establecimientos = await getEstablecimientosLayers();
 	const delegaciones = await getDelegacionLayers();
+	const supervision = await getSupervisionLayers();
+	var i = 0;
+	if (layerParam != null) {
+		establecimientos.forEach(establecimiento => {
+			var inactivo = true;
+			if (establecimiento[1][0].url == layerParam) {	
+				inactivo = false
+			}
+			var layer = establecimiento[0][0];
+			layersConfig.push({
+				label: `${establecimiento[1][0].label}`,
+				type: "image",
+				url: `icons/establecimientos_${establecimiento[1][0].url}.svg`,
+				layers_type: "establecimiento",
+				layers: layer,
+				inactive: inactivo,
+			});
+			(establecimiento[1][0].url == layerParam?layer.addTo(mymap):i+=1);
+		});
 
-	layersConfig.push({
-		label: "Ministerio de Educación",
-		type: "image",
-		url: "icons/ministerio.svg",
-		layers_type: "organizacion",
-		layers: [min_educacion],
-		inactive: false,
-        })
+		layersConfig.push({
+			label: "Ministerio de Educación",
+			type: "image",
+			url: "icons/ministerio.svg",
+			layers_type: "organizacion",
+			layers: [min_educacion],
+			inactive: true,
+			})
 
-	layersConfig.push({
-		label: 'Delegaciones Administrativas',
-		type: 'image',
-		url: 'icons/delegacion_.svg',
-		layers_type: "organizacion",
-		layers: delegaciones,
-		inactive: false
-	})
+		layersConfig.push({
+			label: 'Delegaciones Administrativas',
+			type: 'image',
+			url: 'icons/delegacion_.svg',
+			layers_type: "organizacion",
+			layers: delegaciones,
+			inactive: true
+		})
 
-	layersConfig.push ({
-		label: "Regiones Educativas",
-		type: "polygon",
-		sides: 4,
-		color: "#FFFFFF",
-		fillColor: "#FF0000",
-		weight: 1,
-		layers_type: "general",
-		layers: [polygon, textLabelR1, textLabelR2 ,textLabelR3, textLabelR4, textLabelR5, textLabelR6],
-		inactive: false,
-        })
+		layersConfig.push ({
+			label: "Regiones Educativas",
+			type: "polygon",
+			sides: 4,
+			color: "#FFFFFF",
+			fillColor: "#FF0000",
+			weight: 1,
+			layers_type: "general",
+			layers: [polygon, textLabelR1, textLabelR2 ,textLabelR3, textLabelR4, textLabelR5, textLabelR6],
+			inactive: true
+			})
 
-    layersConfig.push({
-        label: "Departamentos",
-		type: "polygon",
-		sides: 4,
-		color: "#FFF252",
-		fillColor: "#FFF252",
-		weight: 1,
-		layers_type: "general",
-		layers: [departament],
-		inactive: true,
-        })
+		layersConfig.push({
+			label: "Departamentos",
+			type: "polygon",
+			sides: 4,
+			color: "#FFF252",
+			fillColor: "#FFF252",
+			weight: 1,
+			layers_type: "general",
+			layers: [departament],
+			inactive: true,
+			})
+
+		supervision.forEach(supervision => {
+			var layer = supervision[0][0];
+			layersConfig.push({
+				label: `Supervisíon ${supervision[1][0].label}`,
+				type: "image",
+				url: `icons/supervision_${supervision[1][0].url}.svg`,
+				layers_type: "organizacion",
+				layers: layer,
+				inactive: true,
+			});
+		});
+		return layersConfig;
+
+	} else {
+			// Obtener establecimientos y crear configuraciones de capas
+			establecimientos.forEach(establecimiento => {
+				var layer = establecimiento[0][0];
+				layersConfig.push({
+					label: `${establecimiento[1][0].label}`,
+					type: "image",
+					url: `icons/establecimientos_${establecimiento[1][0].url}.svg`,
+					layers_type: "establecimiento",
+					layers: layer,
+					inactive: true,
+				});
+					
+			});
+
+			min_educacion.addTo(mymap);
+			layersConfig.push({
+				label: "Ministerio de Educación",
+				type: "image",
+				url: "icons/ministerio.svg",
+				layers_type: "organizacion",
+				layers: [min_educacion],
+				inactive: false,
+				})
+
+			delegaciones.addTo(mymap);
+			layersConfig.push({
+				label: 'Delegaciones Administrativas',
+				type: 'image',
+				url: 'icons/delegacion_.svg',
+				layers_type: "organizacion",
+				layers: delegaciones,
+				inactive: false
+			})
+
+			layersConfig.push ({
+				label: "Regiones Educativas",
+				type: "polygon",
+				sides: 4,
+				color: "#FFFFFF",
+				fillColor: "#FF0000",
+				weight: 1,
+				layers_type: "general",
+				layers: [polygon, textLabelR1, textLabelR2 ,textLabelR3, textLabelR4, textLabelR5, textLabelR6],
+				inactive: false,
+				})
+
+			layersConfig.push({
+				label: "Departamentos",
+				type: "polygon",
+				sides: 4,
+				color: "#FFF252",
+				fillColor: "#FFF252",
+				weight: 1,
+				layers_type: "general",
+				layers: [departament],
+				inactive: true,
+				})
+
+			supervision.forEach(supervision => {
+				var layer = supervision[0][0];
+				layer.addTo(mymap);
+				layersConfig.push({
+					label: `Supervisíon ${supervision[1][0].label}`,
+					type: "image",
+					url: `icons/supervision_${supervision[1][0].url}.svg`,
+					layers_type: "organizacion",
+					layers: layer,
+					inactive: false,
+				});
+			});
+			return layersConfig;
+		}
+	}
 
 	// Obtener supervisiones y crear configuraciones de capas
-    const supervision = await getSupervisionLayers();
-    supervision.forEach(supervision => {
-		var layer = supervision[0][0];
-        layersConfig.push({
-            label: `Supervisíon ${supervision[1][0].label}`,
-            type: "image",
-            url: `icons/supervision_${supervision[1][0].url}.svg`,
-            layers_type: "organizacion",
-            layers: layer,
-            inactive: false,
-        });
-    });
-    return layersConfig;
-}
-
+    
 // Obtener la capa y configurarla
 /*getEstablecimientosLayers().then(Layers => {
     var layersConfig = [
@@ -1253,16 +1344,23 @@ var legends;
 var legend;
 async function initMap() {
     // Generar y añadir leyendas
-    legends = await generarTodosLayers();
-    legend = new L.control.Legend({
-        position: "topleft",
-        title: "Capas",
-        collapsed: true,
-        symbolWidth: 17, 
-        opacity: 1,
-        column: false,
-        legends: legends
-    }).addTo(mymap);
+	const urlParams = new URLSearchParams(window.location.search);
+	const layerParam = urlParams.get('capa');
+	legends = await generarTodosLayers(layerParam);
+    try {
+    	legend = new L.control.Legend({
+			position: "topleft",
+			title: "Capas",
+			collapsed: true,
+			symbolWidth: 17, 
+			opacity: 1,
+			column: false,
+			legends: legends
+    	}).addTo(mymap);
+	} catch (error) {
+		console.error('Error al cargar las capas:', error);
+	}
+	
 }
 
 
@@ -1539,8 +1637,8 @@ async function cargarBotonesMapa() {
 
 		
 }
-
 cargarBotonesMapa();
+
 // existe layer
 
 function layerNoExiste(layer){
@@ -1623,11 +1721,8 @@ function itemsearchselected(selected){
 								}),
 								riseOnHover: true
 							});
-						},
-					filter: function(feature, layer) {								
-						return (feature.properties.id == id);
-					},	
-					onEachFeature: onEachFeatureL
+						},	
+					onEachFeature: onEachFeatureS
 			}));
 			if (instSelected.length == 1) {
 				mymap.fitBounds(instSelected[0].getBounds());
@@ -1665,14 +1760,11 @@ function itemsearchselected(selected){
 									}),
 									riseOnHover: true
 								});
-							},
-						filter: function(feature, layer) {								
-							return (feature.properties.id == id);
-						},	
-						onEachFeature: onEachFeatureL
+							},	
+						onEachFeature: onEachFeatureS
 				}));
 				capa.layers.forEach(marker => {
-					baselayer.addLayer(marker)
+					marker.addTo(mymap);
 				})
 				}
 			})
@@ -1684,7 +1776,7 @@ function itemsearchselected(selected){
 			}
 		}
 	})
-	
+	instSelected = [];
 }
 
 function updateButtonInLegend(label, newContent) {
@@ -1727,12 +1819,10 @@ function limpiarItemsNroEsc(){
 	var infoNroErrorNonombre = document.getElementById("infoNumeroErrorNumero");
 	var numeroescblockitem = document.getElementById("f-numeroesc-block-item");
 	var fnumeroescitem = document.getElementById("f-numeroesc-item");
-	var numeroesc = document.getElementById("f-numeroesc");
 	fnumeroescitem.innerHTML = " ";
 	numeroescbtnclean.style.display= "none";
 	numeroescbtn.style.display= "block";
 	numeroescblockitem.style.display= "none";
-	numeroesc.value = "";
 	infoNro.style.display= "block";
 	infoNroError.style.display= "none";
 	infoNroErrorNonombre.style.display= "none";

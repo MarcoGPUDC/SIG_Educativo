@@ -132,7 +132,6 @@ function nombreSelect() {
     var fnombreescitem = document.getElementById("f-nombreesc-item");
     var nombreesc = document.getElementById("select-nombre");
     var miSelect = nombreesc.value;
-    console.log(miSelect);
     if(miSelect != ""){
         coincidencias = 0;
         fnombreescitem.innerHTML = " ";

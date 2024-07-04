@@ -42,7 +42,7 @@ function busqueda_simple_todo () {
 };
 
 function buscar_ubicacion(id) {
-    return db.one (`SELECT inst.id_institucion, geo.lat, geo.long FROM padron.institucion inst JOIN padron.georeferencia geo ON geo.id_institucion = inst.id_institucion WHERE inst.id_institucion = $1;`, id)
+    return db.one (`SELECT inst.id_institucion, inst.nombre, inst.numero, inst.domicilio, loc.localidad, inst.region, geo.lat, geo.long FROM padron.institucion inst JOIN padron.georeferencia geo ON geo.id_institucion = inst.id_institucion JOIN padron.localidad loc ON loc.id_localidad = inst.id_localidad WHERE inst.id_institucion = $1;`, id)
 }
 
 //consultas especificas con inyeccion
