@@ -1,3 +1,6 @@
+/*FUENTES*/
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
 body {
 	padding: 0;
 	margin: 0;
@@ -299,8 +302,8 @@ html, body{
     height: 100%;
     top: 0;
     left: 0;
-    background-color: rgba(255, 255, 255, 0.9);
-    z-index: 9999;
+    background-color: rgba(255, 255, 255, 1);
+    z-index: 1000;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -319,3 +322,44 @@ html, body{
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+.title-mapa {
+    color: #000000;
+    font-size: xx-large;
+    font-family: "Public Sans";
+    position: relative;
+    top: 15px;
+    left: 14%;
+}
+
+.header {
+    position: absolute;
+    width: 100vw;
+    background-color: rgba(255, 255, 255, 0.5); /* Fondo semitransparente */
+    z-index: 999; /* Asegura que esté sobre el mapa */
+}
+
+.infoModal{
+    height: 465px;
+}
+
+@media (max-width: 765px) {
+    .title-mapa {
+        color: #000000;
+        font-size: large;
+        font-family: "Public Sans";
+        position: relative;
+        top: 10px;
+        left: 8%;
+    }
+
+    .header .logo {
+        width: 75px;
+        height: 46px;
+    }
+
+    .infoModal{
+        height: 390px;
+    }
+
+  }

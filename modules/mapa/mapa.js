@@ -2638,14 +2638,14 @@ function mostrarpoputquestion(msg){
 
 // Descargar excel desde legend 
 
-function downloadAsExcel(namelayer){
-	var datosLabel = "";
-	switch (namelayer) {
+async function downloadAsExcel(namelayer){
+	var datosLabel = [];
+	/*switch (namelayer) {
 		case "Ministerio de Educación":
 		datosLabel = ministerio_educacion.features;
 		break;
 		case "Supervisión Inicial":
-		datosLabel = supervicion_inicial.features;
+		datosLabel = legend.options.legends;
 		break;
 		case "Supervisión Primaria":
 		datosLabel = supervicion_primaria.features;
@@ -2699,18 +2699,36 @@ function downloadAsExcel(namelayer){
 			datosL.push(obj.feature);
 		}
 		datosLabel = datosL;
-	}
+	}*/
+	var localizaciones = [];
+	localizaciones.push(await getEstablecimientosLayers())
+	//localizaciones.push(await getDelegacionLayers())
+	localizaciones.push(await getSupervisionLayers())
+	localizaciones.forEach(establecimientos => {
+		establecimientos.forEach(data => {
+				var temp = data[0][0]._needsClustering;
+				temp.forEach(data =>{
+					delete data.feature.properties.id
+				})
+		})
+		establecimientos.forEach(data => {
+			if (data[1][0].label == namelayer) {
+				datosLabel = data[0][0]._needsClustering;
+			}
+		})
+	 })
+	console.log(datosLabel);
 	var len = datosLabel.length;
-	var datosObj = []
+	var datosObj = [];
 	for (var i = 0; i < len; i++){
-		datosObj.push(datosLabel[i].properties);
+		datosObj.push(datosLabel[i].feature.properties);
 	}
 	downloadAsExcelD(namelayer, datosObj);
 }
 
 //FALTA AGREGAR FUNCIOON EXPORTAR INFO COMO EXCEL
-/*
-document.getElementById("exportarinfoadicional").addEventListener("click", downloadAsExceInfoAdicional);
+
+/*document.getElementById("exportarinfoadicional").addEventListener("click", downloadAsExceInfoAdicional);
 function downloadAsExceInfoAdicional(){
 	var namelayer = document.getElementById("fnainfoadicional").innerText;
 	var datosObj = [];
@@ -2744,8 +2762,8 @@ function downloadAsExceInfoAdicional(){
 	obj["aguainfoadicional"] = document.getElementById("aguainfoadicionale").innerHTML;
 	datosObj.push(obj);
 	downloadAsExcelD(namelayer, datosObj);
-}*/
-
+}
+*/
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 

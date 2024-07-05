@@ -83,4 +83,61 @@ async function completarDatosInstitucion() {
 
         };
 
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
+
+function saveAsExcel(buffer, filename){
+    const data = new Blob([buffer], {type:EXCEL_TYPE});
+    saveAs (data,filename + '_export_' + new Date().getTime()+EXCEL_EXTENSION);
+}
+
+function downloadAsExcelD(filename, data){
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = {
+        Sheets:{        
+            'data': worksheet
+        },
+        SheetNames:['data'] 
+    };
+    const excelBuffer = XLSX.write(workbook,{ bookType: 'xlsx', type: 'array'});
+    saveAsExcel(excelBuffer, filename);    
+}
+
+
+//document.getElementById("exportarinfoadicional").addEventListener("click", downloadAsExceInfoAdicional);
+function downloadAsExceInfoAdicional(){
+	var namelayer = document.getElementById("fnainfoadicional").innerText;
+	var datosObj = [];
+	var obj = {};
+	obj["cueanexo"] = document.getElementById("cueanexoinfoadicional").innerHTML; 
+	//obj["fna"] = document.getElementById("fnainfoadicional").innerHTML;
+	obj["domicilio"] = document.getElementById("calleinfoadicional").innerHTML; 
+	obj["fun"] = document.getElementById("funinfoadicional").innerHTML; 
+	obj["codigoPostal"] = document.getElementById("cod_postalinfoadicional").innerHTML;
+	obj["localidad"] = document.getElementById("Localidadinfoadicional").innerHTML; 
+	obj["departemento"] = document.getElementById("departamentoinfoadicional").innerHTML; 
+	obj["ambito"] = document.getElementById("amginfoadicional").innerHTML; 
+	obj["region"] = document.getElementById("Regioninfoadicional").innerHTML; 
+	obj["modalidad"] = document.getElementById("modalidadinfoadicional").innerHTML; 
+	obj["niveles"] = document.getElementById("nivelesinfoadicional").innerHTML; 
+	obj["jornadainfoadicional"] = document.getElementById("jornadainfoadicional").innerHTML;
+	obj["turnoinfoadicional"] = document.getElementById("turnoinfoadicional").innerHTML;
+	//obj["oferta"] = document.getElementById("ofertainfoadicional").innerHTML; 
+	//obj["dependencia"] = document.getElementById("dependenciinfoadicional").innerHTML; 
+	//obj["gestion"] = document.getElementById("gesinfoadicional").innerHTML;
+	obj["telefono"] = document.getElementById("telefonoinfoadicional").innerHTML; 
+	obj["email"] = document.getElementById("emailinfoadicional").innerText; 
+	obj["web"] = document.getElementById("sitio_webinfoadicional").innerText; 
+	obj["responsable"] = document.getElementById("resp_respnsableinfoadicional").innerHTML; 
+	obj["tel_responsable"] = document.getElementById("resp_telresponsableinfoadicional").innerHTML; 
+	obj["bibliotecainfoadicional"] = document.getElementById("bibliotecainfoadicional").innerHTML;
+	obj["laboratorioinfoadicional"] = document.getElementById("laboratorioinfoadicional").innerHTML;
+	obj["internetinfoadicional"] = document.getElementById("internetinfoadicional").innerHTML;
+	obj["energiainfoadicional"] = document.getElementById("energiainfoadicional").innerHTML;
+	obj["fuentenergiainfoadicional"] = document.getElementById("fuentenergiainfoadicional").innerHTML;
+	obj["aguainfoadicional"] = document.getElementById("aguainfoadicional").innerHTML;
+	datosObj.push(obj);
+	downloadAsExcelD(namelayer, datosObj);
+}
+
 completarDatosInstitucion();

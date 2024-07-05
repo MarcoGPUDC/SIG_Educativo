@@ -1,4 +1,11 @@
 .modal-content{
     width: 900px;
-    right: 280px;
+    right: 40%;
+}
+
+@media (max-width: 765px) {
+    .modal-content{
+        width: 500px;
+        right: 0%;
+    }
 }
