@@ -2495,13 +2495,12 @@ function itemsearchcomplexselected(data, name){
 }*/
 
 // Quitar capas  desde legend
-
-/*function eliminarlayer(namelayer){
+function eliminarlayer(namelayer){
 	legends = legends.filter(function(value, index, arr){ 
         return value.label != namelayer;
     });
 	agregarNuevaLegend();
-}*/
+}
 
 // actualiza legends dede legend
 
@@ -2623,10 +2622,10 @@ function mostrarpoputquestion(msg){
 						<a href='#AyudaCapas' class="text-decoration-none fw-light text-end fs-6 fst-italic">Volver al principio</a>
 						<p id="AyudaEliminarCapa" class="text-center text-break fw-bold fs-6 fst-italic lh-sm user-select-none pt-3">Eliminar capas de consulta</p>
 						<p class="text-break fs-6 fst-italic lh-sm user-select-none">1. Hacer clic sobre el listado de capas para desplegarlo.</p>
-						<img class="img-fluid mb-2" src="icons/lxcapaecc0.png" alt="busqueda mapa educativo interactivo chubut">
+						<img class="img-fluid mb-2" src="icons/lxayd0.png" alt="busqueda mapa educativo interactivo chubut">
 						<p class="text-break fs-6 fst-italic lh-sm user-select-none">2. Hacer clic sobre el grupo de capas 'Consulta' para desplegarlo.</p>
 						<img class="img-fluid mb-2" src="icons/lxcapaecc1.png" alt="busqueda mapa educativo interactivo chubut">
-						<p class="text-break fs-6 fst-italic lh-sm user-select-none">3. Hacer clic sobre el botón 'Eliminar capa', en el ejemplo, se desea eliminar la capa 'Escuela para la vida'.</p>
+						<p class="text-break fs-6 fst-italic lh-sm user-select-none">3. Hacer clic sobre el botón 'Eliminar capa', en el ejemplo, se desea eliminar la capa 'Capa de consulta'.</p>
 						<img class="img-fluid mb-2" src="icons/lxcapaecc2.png" alt="busqueda mapa educativo interactivo chubut">
 						<p class="text-break fs-6 fst-italic lh-sm user-select-none">4. Se abre el dialogo solicitando que se confirme la acción, en el caso de que se desee continuar, hacer clic sobre el botón 'Confirmar' para eliminar la capa.</p>
 						<img class="img-fluid mb-2" src="icons/lxcapaecc3.png" alt="busqueda mapa educativo interactivo chubut">
@@ -2640,6 +2639,7 @@ function mostrarpoputquestion(msg){
 
 async function downloadAsExcel(namelayer){
 	var datosLabel = [];
+	var datosObj = [];
 	/*switch (namelayer) {
 		case "Ministerio de Educación":
 		datosLabel = ministerio_educacion.features;
@@ -2700,26 +2700,36 @@ async function downloadAsExcel(namelayer){
 		}
 		datosLabel = datosL;
 	}*/
-	var localizaciones = [];
-	localizaciones.push(await getEstablecimientosLayers())
-	//localizaciones.push(await getDelegacionLayers())
-	localizaciones.push(await getSupervisionLayers())
-	localizaciones.forEach(establecimientos => {
-		establecimientos.forEach(data => {
-				var temp = data[0][0]._needsClustering;
-				temp.forEach(data =>{
-					delete data.feature.properties.id
-				})
+	if (namelayer == "Delegaciones Administrativas") {
+		var delegacion = await getDelegacionLayers();
+		datosLabel = delegacion._needsClustering;
+		datosLabel.forEach(temp => {
+				delete temp.feature.properties.id
 		})
-		establecimientos.forEach(data => {
-			if (data[1][0].label == namelayer) {
-				datosLabel = data[0][0]._needsClustering;
-			}
+	} else if (namelayer == "Ministerio de Educación"){
+		datosLabel = ministerio_educacion.features;
+		datosObj.push(datosLabel[0].properties);
+		downloadAsExcelD(namelayer, datosObj);
+		return 0
+	} else {
+		var localizaciones = [];
+		localizaciones.push(await getEstablecimientosLayers())
+		localizaciones.push(await getSupervisionLayers())
+		localizaciones.forEach(establecimientos => {
+			establecimientos.forEach(data => {
+					var temp = data[0][0]._needsClustering;
+					temp.forEach(data =>{
+						delete data.feature.properties.id
+					})
+			})
+			establecimientos.forEach(data => {
+				if (data[1][0].label == namelayer || ("Supervisíon " + data[1][0].label) == namelayer) {
+					datosLabel = data[0][0]._needsClustering;
+				}
+			})
 		})
-	 })
-	console.log(datosLabel);
+	}
 	var len = datosLabel.length;
-	var datosObj = [];
 	for (var i = 0; i < len; i++){
 		datosObj.push(datosLabel[i].feature.properties);
 	}
@@ -2793,7 +2803,7 @@ function verMapa(){
 }
 
 // maneja pasos de modal	
-
+/*
 function paso1apaso2(){
 	var fielset1 = document.getElementById("paso1");
 	var fielset2 = document.getElementById("paso2");
@@ -2820,7 +2830,7 @@ function paso3apaso2(){
 	var fielset3 = document.getElementById("paso3");
 	fielset3.style.display = 'none';
 	fielset2.style.display = 'block';
-}
+}*/
 
 function showElementsById(ids) {
 	var idList = ids.split(" ");
