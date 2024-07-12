@@ -745,6 +745,21 @@ function onEachFeatureS (feature, layer) {
 		"</div>", {minWidth: 270, maxWidth: 270}
 		);
 	}
+
+	function onEachFeatureO (feature, layer) {
+		layer.bindPopup(	
+			"<div class='p-3'>"+
+			"<h6 style='color:#0d6efd'>"+ (feature.properties.nombre?feature.properties.nombre:"No se registra") + "</h6>" +
+			"<h6> Información General</h6>" + 
+			 "<table>"+
+			"<tr><td><b>Número:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") + "</td></tr>" +
+			"<tr><td><b>Nivel:</b> "+ (feature.properties.nivel?feature.properties.nivel:"No se registra") + "</td></tr>" +
+			"<tr><td><b>Modalidad:</b> "+ (feature.properties.modalidad?feature.properties.modalidad:"No se registra") + "</td></tr>" +
+			"</table>" +
+			"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='/info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
+			"</div>", {minWidth: 270, maxWidth: 270}
+			);
+		}
 /*
 var domiciliaria_hospitalaria = L.geoJSON(ed_domiciliaria_hospitalaria, {
 		pointToLayer: function (feature, latlng) {
@@ -866,6 +881,7 @@ var otros_serv_comp = L.geoJSON(ed_otros_serv_comp, {
 
 */	
 //crear cluster de markers, es decir que los iconos del layer se agrupan o desagrupan segun se haga zoom out o zoom in
+var clusterLayers = {};
 function createCluster(tipo, nivel) {
 	var cluster = L.markerClusterGroup({
 		showCoverageOnHover: false, // Desactiva la visualización del radio en el hover
@@ -880,8 +896,10 @@ function createCluster(tipo, nivel) {
 			});
 		}
 	});
+	clusterLayers[`${tipo}_${nivel}`] = cluster;
 	return cluster;
 }
+
 //function createLayer(cluster, data, nivel) 
 function createLayer(data, tipo, nivel) {
 	var cluster = createCluster(tipo, nivel);
@@ -1405,6 +1423,7 @@ var mostrarFiltroButton = L.easyButton({
         }]
 });
 
+
 function mostrarFullscreenButton() {
 	L.control.fullscreen({
 	  position: 'topleft',
@@ -1700,7 +1719,7 @@ function agregarOpcion() {
 	} 
 }
 
-//ya puede ubicar una escuela, falta corregir el popup que le anexa y la creacion de la nueva capa
+
 var instSelected = [];
 function itemsearchselected(selected){
 	var id = selected.split("-")[0];
@@ -1779,13 +1798,117 @@ function itemsearchselected(selected){
 	instSelected = [];
 }
 
+//buscar por oferta FALTA QUE SE REFRESQUEN LOS MARCADORES CUANDO SE AÑADE POR SEGUNDA VEZ INFO A LA CAPA
+clusterOferta = [];
+function ofertaSelect(){
+    var resultModalidad = document.getElementById("f-select-modalidadesc").value;
+    var resultNivel = document.getElementById("f-select-nivelesc").value;
+	var name = document.getElementById('selectOpciones').value;
+	var ofeSelected = [];
+    fetch(`buscador/oferta?nivel=${resultNivel}&modalidad=${resultModalidad}`)
+        .then(response => response.json())
+        .then((escuelas) => {
+			if (layerNoExiste(name)) {
+				var cluster = L.markerClusterGroup({
+					showCoverageOnHover: false, // Desactiva la visualización del radio en el hover
+					disableClusteringAtZoom: 13, // Desactiva la agrupación a partir de cierto nivel de zoom
+					spiderfyOnMaxZoom: false, // No agrupa los marcadores al hacer zoom máximo
+					maxClusterRadius: 30, // Establece el radio máximo de agrupación
+					iconCreateFunction: function(cluster) {
+						return L.divIcon({ 
+							html: `<img src="./icons/establecimientos_consulta.svg">`, // Utiliza un ícono personalizado
+							className: `search-icons`, // Clase CSS para el ícono
+							iconSize: L.point(3, 3) // Tamaño del ícono
+						});
+					}
+				});
+				escuelas.features.forEach(data => {			
+					ofeSelected.push(L.geoJSON(data, {
+						pointToLayer: function (feature, latlng) {
+								var marker = L.marker(latlng, {
+									icon: L.icon({
+										iconUrl: "icons/establecimientos_consulta.svg",
+										iconSize:     [22, 22], 
+										iconAnchor:   [11, 0], 
+										popupAnchor:  [0, 0]
+									}),
+									riseOnHover: true
+								});
+								cluster.addLayer(marker);
+								return marker
+							},	
+						onEachFeature: onEachFeatureO
+					}));
+					cluster.addTo(mymap);
+					clusterOferta[`${name}`] = cluster
+				})
+				updateButtonInLegend(name,{label: name,
+					type: "image",
+					url:  "icons/establecimientos_consulta.svg",
+					layers_type: "consulta",
+					layers: cluster,
+					inactive: false,
+					});
+			} else {
+				Object.keys(clusterOferta).forEach( nameLayer => {
+					if (nameLayer == name) {
+						var capaTemp = clusterOferta[nameLayer];
+						escuelas.features.forEach(data => {
+							var marker = L.geoJSON(data, {
+								pointToLayer: function (feature, latlng) {
+										return L.marker(latlng, {
+											icon: L.icon({
+												iconUrl: "icons/establecimientos_consulta.svg",
+												iconSize:     [22, 22], 
+												iconAnchor:   [11, 0], 
+												popupAnchor:  [0, 0]
+											}),
+											riseOnHover: true
+										});
+									},	
+								onEachFeature: onEachFeatureO								
+							})
+							capaTemp.addLayer(marker);
+						})
+						clusterOferta[nameLayer].remove(mymap);
+						clusterOferta[nameLayer] = capaTemp;
+						clusterOferta[nameLayer].addTo(mymap);
+					}
+				})
+				/*legend.options.legends.forEach(capa => {	
+					if (capa.label == name) {
+						console.log(capa)
+						escuelas.features.forEach(data => {
+							var marker = L.geoJSON(data, {
+								pointToLayer: function (feature, latlng) {
+										return L.marker(latlng, {
+											icon: L.icon({
+												iconUrl: "icons/establecimientos_consulta.svg",
+												iconSize:     [22, 22], 
+												iconAnchor:   [11, 0], 
+												popupAnchor:  [0, 0]
+											}),
+											riseOnHover: true
+										});
+									},	
+								onEachFeature: onEachFeatureO
+								
+							})
+							capa.layers._needsClustering.push(marker)
+						})
+					}
+				})*/
+				
+			}			
+		});
+	ofeSelected = [];
+}
+
 function updateButtonInLegend(label, newContent) {
     var legends = legend.options.legends;
 	// Actualizar el contenido del botón directamente
 	legends.push(newContent);
 	agregarNuevaLegend();
-
-
 }
 
 
@@ -2502,7 +2625,7 @@ function eliminarlayer(namelayer){
 	agregarNuevaLegend();
 }
 
-// actualiza legends dede legend
+// actualiza legends desde legend
 
 function actualizarLegends(label, inactive){
     for (i=0; i < legends.length; i++) {

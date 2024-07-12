@@ -161,71 +161,74 @@ html(lang="es")
                         </div>
                         //pestaña consultar por oferta						
                         <div class="tab-pane fade" id="oferta" role="tabpanel" aria-labelledby="oferta-tab">
-                            <form id="formOferta">
+                            <div id="formOferta">
                                 <h5 class="mt-3"> Oferta Educativa: </h5>
                                 <div class="p-3 shadow-sm mb-3">
                                     <div class="row ">
                                         <div class="form-group col-sm-6">
                                             <label for="buscadormodalidad">Modalidad:</label>
-                                            <input list="f-select-modalidadesc" id="buscadormodalidad" name="buscadormodalidad" placeholder="Ingrese la modalidad">
-                                            <datalist id="f-select-modalidadesc">
-                                            //aca se cargan los elementos "option" desde el js que carga el buscador
-                                            </datalist>
+                                            //-<input list="f-select-modalidadesc" id="buscadormodalidad" name="buscadormodalidad" placeholder="Ingrese la modalidad">
+                                            <select list="buscadormodalidad" id="f-select-modalidadesc" name="buscadormodalidad" placeholder="Ingrese la modalidad">
+                                                <option selected value="todo">Sin seleccionar</option>
+                                                //-aca se cargan los elementos "option" desde el js que carga el buscador
+                                            </select>
                                             <small id="infoofertaNoModalidadFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Debe seleccionar una modalidad.</small>
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="buscadornivel">Nivel:</label>
-                                            <input list="f-select-nivelesc" id="buscadornivel" name="buscadornivel" placeholder="Ingrese el nivel">
-                                            <datalist id="f-select-nivelesc">
-                                            //aca se cargan los elementos "option" desde el js que carga el buscador
-                                            </datalist>
+                                            <select list="buscadornivel" id="f-select-nivelesc" name="buscadornivel" placeholder="Ingrese el nivel">
+                                                <option selected value="todo">Sin seleccionar</option>
+                                                //-aca se cargan los elementos "option" desde el js que carga el buscador
+                                            </select>
                                             <small id="infoofertamodalidadNoConnFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
                                             <small id="infoofertamodalidadNoRepFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
                                         </div>
                                     </div>
-                                </div>				
-                                <div id="f-plan-estudio" style="display: none;">
-                                    <h5 class="mt-1">Planes de estudio:</h5>
-                                    <div class="p-3 shadow-sm mb-3">
-                                        <div class="row ">
-                                            <div class="form-group col-sm-6">
-                                                <label for="orientacion">Orientación</label>
-                                                <select class="form-control form-select form-select-sm" id="orientacion" name="orientacion" aria-label=".form-select-sm example">
-                                                    <option selected value="todo">Sin seleccionar</option>
-                                                </select>
-                                                <div id="infoorientacionspinner" class="spinner-border text-primary spinner-border-sm" role="status" style="display: none;">
-                                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                //-				
+                                    <div id="f-plan-estudio" style="display: none;">
+                                        <h5 class="mt-1">Planes de estudio:</h5>
+                                        <div class="p-3 shadow-sm mb-3">
+                                            <div class="row ">
+                                                <div class="form-group col-sm-6">
+                                                    <label for="orientacion">Orientación</label>
+                                                    <select class="form-control form-select form-select-sm" id="orientacion" name="orientacion" aria-label=".form-select-sm example">
+                                                        <option selected value="todo">Sin seleccionar</option>
+                                                    </select>
+                                                    <div id="infoorientacionspinner" class="spinner-border text-primary spinner-border-sm" role="status" style="display: none;">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                    <small id="infoofertaplaetudioNoConnFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+                                                    <small id="infoofertafertaplaetudioNoRepFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
                                                 </div>
-                                                <small id="infoofertaplaetudioNoConnFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
-                                                <small id="infoofertafertaplaetudioNoRepFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
-                                            </div>
-                                            <div class="form-group col-sm-6">
-                                                <label for="dictado">Modalidad de dictado</label>
-                                                <select class="form-control form-select form-select-sm" id="dictado" name="dictado" aria-label=".form-select-sm example">
-                                                    <option value="todo" selected>Sin seleccionar</option>
-                                                    <option value="Presencial">Presencial</option>
-                                                    <option value="A distancia">A distancia</option>	
-                                                </select>
-                                                <div id="infodictadospinner" class="spinner-border text-primary spinner-border-sm" role="status" style="display: none;">
-                                                    <span class="visually-hidden">Loading...</span>
+                                                <div class="form-group col-sm-6">
+                                                    <label for="dictado">Modalidad de dictado</label>
+                                                    <select class="form-control form-select form-select-sm" id="dictado" name="dictado" aria-label=".form-select-sm example">
+                                                        <option value="todo" selected>Sin seleccionar</option>
+                                                        <option value="Presencial">Presencial</option>
+                                                        <option value="A distancia">A distancia</option>	
+                                                    </select>
+                                                    <div id="infodictadospinner" class="spinner-border text-primary spinner-border-sm" role="status" style="display: none;">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                    <small id="infoofertadictadoNoConnFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+                                                    <small id="infoofertafertadictadoNoRepFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
                                                 </div>
-                                                <small id="infoofertadictadoNoConnFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
-                                                <small id="infoofertafertadictadoNoRepFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                    <small id="infoOfertaNombreRepetidoFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Ya existe esta capa.</small>
-                                    <small id="infoOfertaNoDatosFinalesFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
-                                    <small id="infoOfertaNoConnFinalesFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+                                <small id="infoOfertaNombreRepetidoFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Ya existe esta capa.</small>
+                                <small id="infoOfertaNoDatosFinalesFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
+                                <small id="infoOfertaNoConnFinalesFormControlSelect" class="form-text mb-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                     <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" onclick="return resetForm();">Cancelar búsqueda</button>
                                     <button  id="f-infoofertaesc-item_btn"  type="button" class="btn btn-outline-primary btn-sm" onclick="verInfo(event)">Más información</button>
-                                    <button type="submit" class="btn btn-outline-success btn-sm"><span id="consultaofertaspinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span> Realizar búsqueda</button>
+                                    <button  id="f-nombreesc-item_btn"  type="button" class="btn btn-outline-success btn-sm" onclick="ofertaSelect()">Realizar búsqueda</button>
+                                    <button class="btn btn-outline-warning" data-bs-target="#nombreCapaModal" data-bs-toggle="modal">Seleccionar capa</button>	
                                 </div>
-                            </form>
+                            </div>
                         </div>
-                        //pestaña consultar por localizacion						
+                        //-pestaña consultar por localizacion						
                         <div class="tab-pane fade" id="localizacion" role="tabpanel" aria-labelledby="localizacion-tab">
                             <form id="formLocalizacion">
                                 <h5 class="mt-3">Locación geográfica: </h5>

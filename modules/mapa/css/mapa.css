@@ -278,6 +278,11 @@ html, body{
     height: 21.99px;
 }
 
+.search-icons img {
+    width: 21.99px;
+    height: 21.99px;
+}
+
 .buscador-direccion {
     margin-left: 45px;
 }

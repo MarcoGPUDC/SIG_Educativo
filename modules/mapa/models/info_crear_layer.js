@@ -5,9 +5,6 @@ const consultar = require('../../../public/js/consulta_model');
 router.get('/mapa/ubicacion', async (req, res) => {
     try {
         const result = await consultar.buscar_ubicacion(req.query.id);
-
-        // Verificar los datos obtenidos
-        //console.log('Resultados obtenidos:', result);
         let geoJSON = {
             "type": "FeatureCollection",
             "features": [
@@ -35,6 +32,8 @@ router.get('/mapa/ubicacion', async (req, res) => {
         res.status(500).json({ error: 'Database error' });
     }
 });
+
+
 
 module.exports = router;
 

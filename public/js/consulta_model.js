@@ -45,14 +45,17 @@ function buscar_ubicacion(id) {
     return db.one (`SELECT inst.id_institucion, inst.nombre, inst.numero, inst.domicilio, loc.localidad, inst.region, geo.lat, geo.long FROM padron.institucion inst JOIN padron.georeferencia geo ON geo.id_institucion = inst.id_institucion JOIN padron.localidad loc ON loc.id_localidad = inst.id_localidad WHERE inst.id_institucion = $1;`, id)
 }
 
-//consultas especificas con inyeccion
 
+
+//consultas especificas con inyeccion
+//busca info especifica de un establecimiento por su id
 function busqueda_simple (id) {
     return db.one(`SELECT inst.*, COALESCE(c.responsable, 'Sin Informacion') AS responsable, COALESCE(c.email, 'Sin Informacion') AS email, COALESCE(c.tel_resp, 000000000) AS tel_resp FROM padron.v_institucion_completa AS inst
         JOIN padron.contacto c ON c.id_institucion = inst.cue
         WHERE inst.cue = $1;`,id);
 };
 
+//busca info adicional de un establecimiento por su id
 function busqueda_adicional (id) {
     return db.any(`SELECT inst.id_institucion, inst.cue_anexo, func.jornada, turno.nombre AS turno, nivel.nombre AS nivel, mod.nombre AS modalidad FROM padron.institucion inst 
     JOIN padron.funcionamiento func ON inst.id_institucion = func.id_institucion
@@ -63,6 +66,7 @@ function busqueda_adicional (id) {
 };
 
 //consultas para visualizar en el mapa
+//info para anexar al popup de las instituciones
 function buscar_info_popup_inst() {
     return db.any(`SELECT * FROM (SELECT inst.cue_anexo, (CASE WHEN inst.numero = 'Z000023' THEN 700 WHEN inst.numero = 'Z000024' THEN 700 WHEN inst.numero = 'CEF' THEN 700 WHEN inst.numero > '0' THEN inst.numero::INT END) AS numero, inst.nombre, inst.region, loc.localidad, inst.domicilio, inst.tel, cont.email, inst.web, cont.responsable, cont.tel_resp, niv.nombre AS nivel, geo.lat, geo.long, inst.id_institucion 
     FROM padron.institucion inst 
@@ -72,16 +76,25 @@ function buscar_info_popup_inst() {
 	JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
 	JOIN padron.nivel niv ON ofe.id_nivel = niv.id_nivel) tmp ORDER BY numero;`);
 };
-
+//info para anexar al popup de las supervisiones
 function buscar_info_supervision() {
     return db.any(`SELECT suvision.id_supervision, suvision.nombre_sup, suvision.domicilio, suvision.tel, suvision.email, suvision.gestion, suvision.region, niv.nombre AS nivel, suvision.lat, suvision.long FROM padron.supervision suvision 
     JOIN padron.nivel niv ON suvision.id_nivel = niv.id_nivel`)
 }
 
+//info para anexar al popup de las delegaciones
 function buscar_info_delegacion(){
     return db.any(`SELECT del.id_delegacion, del.region, del.direccion, del.email, del.nombre, del.tel, del.delegado, del.long, del.lat, loc.localidad
         FROM padron.delegacion del JOIN padron.localidad loc ON del.id_localidad = loc.id_localidad`)
 }
+
+//funcion para buscar por oferta educativa
+    function buscar_oferta(modalidad, nivel) {
+        return db.any(`SELECT inst.id_institucion, inst.nombre, inst.numero, niv.nombre AS nivel, moda.nombre AS modalidad, geo.long, geo.lat FROM padron.institucion inst JOIN padron.oferta ofe ON inst.id_institucion = ofe.id_institucion
+            JOIN padron.modalidades_educativas moda ON moda.id_modalidad = ofe.id_modalidad
+            JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion
+            JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel WHERE niv.nombre = $1 AND moda.nombre = $2`, [nivel, modalidad])
+    }
 
 
 module.exports = {
@@ -99,5 +112,6 @@ module.exports = {
     buscar_info_supervision,
     buscar_info_delegacion,
     busqueda_simple_todo,
-    buscar_ubicacion
+    buscar_ubicacion,
+    buscar_oferta
 };

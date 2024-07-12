@@ -39,7 +39,39 @@ router.get('/datos', async (req, res) => {
   }
 });
 
-
+router.get('/oferta', async (req, res) => {
+  try {
+      var nivel = req.query.nivel;
+      var modalidad = req.query.modalidad;
+      const resultOfe = await informacion.buscar_oferta(modalidad, nivel);
+      let geoJSON = {
+      "type": "FeatureCollection",
+      "features": [
+      ]
+      };
+      resultOfe.forEach(result => {
+        var coords = [result.long, result.lat];
+        var newFeature = {
+          type: "Feature",
+          geometry: {
+              type: "Point",
+              coordinates: [coords[0], coords[1]]
+          },
+          properties: {
+              id: result.id_institucion,
+              numero: result.numero,
+              nombre: result.nombre,
+              nivel: result.nivel,
+              modalidad: result.modalidad
+          }};
+      geoJSON.features.push(newFeature) 
+      })
+      res.json(geoJSON);
+  } catch (error) {
+    console.error('Error al obtener los datos: ', error);
+    res.status(500).send('Error al obtener los datos.');
+  }
+})
 
 
 module.exports = router;
