@@ -133,5 +133,45 @@ router.get('/mapa/setDelegMarkers', async (req,res) => {
     } 
 });
 
+router.get('/mapa/setBiblioMarkers', async (req,res) => {
+    try {
+        const result = await consultar.buscar_todos_biblioteca();
+
+        // Verificar los datos obtenidos
+        //console.log('Resultados obtenidos:', result);
+        let geoJSON = {
+            "type": "FeatureCollection",
+            "features": [
+            ]
+          };
+        
+        result.forEach(row => {
+            var coords = [row.long, row.lat];
+            var newFeature = {
+                type: "Feature",
+                geometry: {
+                    type: "Point",
+                    coordinates: [coords[0], coords[1]]
+                },
+                properties: {
+                    id: row.id_biblioteca,
+                    nombre: row.nombre,
+                    direccion: row.domicilio,
+                    region: row.region,
+                    cp: row.cp,
+                    localidad: row.localidad,
+                    email: row.email,
+                    horario: row.horario
+                }
+            };
+           geoJSON.features.push(newFeature) 
+        })
+        res.json(geoJSON);
+    } catch (err) {
+        console.error('Error al obtener los datos', err);
+        res.status(500).json({ error: 'Database error' });
+    } 
+});
+
 module.exports = router;
 

@@ -45,9 +45,12 @@ function buscar_ubicacion(id) {
     return db.one (`SELECT inst.id_institucion, inst.nombre, inst.numero, inst.domicilio, loc.localidad, inst.region, geo.lat, geo.long FROM padron.institucion inst JOIN padron.georeferencia geo ON geo.id_institucion = inst.id_institucion JOIN padron.localidad loc ON loc.id_localidad = inst.id_localidad WHERE inst.id_institucion = $1;`, id)
 }
 
-
+function buscar_todos_biblioteca() {
+    return db.any (`SELECT bi.id_biblioteca, bi.nombre, bi.domicilio, bi.cp, loc.localidad, bi.email, bi.horario, bi.region, bi.long, bi.lat FROM padron.biblioteca bi JOIN padron.localidad loc ON loc.id_localidad = bi.id_localidad`)
+}
 
 //consultas especificas con inyeccion
+
 //busca info especifica de un establecimiento por su id
 function busqueda_simple (id) {
     return db.one(`SELECT inst.*, COALESCE(c.responsable, 'Sin Informacion') AS responsable, COALESCE(c.email, 'Sin Informacion') AS email, COALESCE(c.tel_resp, 000000000) AS tel_resp FROM padron.v_institucion_completa AS inst
@@ -113,5 +116,6 @@ module.exports = {
     buscar_info_delegacion,
     busqueda_simple_todo,
     buscar_ubicacion,
-    buscar_oferta
+    buscar_oferta,
+    buscar_todos_biblioteca
 };

@@ -618,13 +618,12 @@ baselayer.addLayer(sup_inicial);*/
 
 function popup_bib_pedagogicas (feature, layer) {
 	layer.bindPopup(
-		"<div class='p-3'><h6 style='color:#0d6efd'>Biblioteca Pedagógica "+ (feature.properties.nombreBibl?feature.properties.nombreBibl:"") +
+		"<div class='p-3'><h6 style='color:#0d6efd'>Biblioteca Pedagógica "+ (feature.properties.nombre?feature.properties.nombre:"") +
 		"</h6><table>" + 
-		"<tr><td><b>Número:</b> "+ (feature.properties.numBibl?feature.properties.numBibl:"No se registra") +
-		"</td></tr><tr><td><b>Región:</b> "+ (feature.properties.numReg?feature.properties.numReg:"No se registra") +
-		"</td></tr><tr><td><b>Localidad:</b> "+ (feature.properties.Localidad?feature.properties.Localidad:"No se registra") +
+		"</td></tr><tr><td><b>Región:</b> "+ (feature.properties.region?feature.properties.region:"No se registra") +
+		"</td></tr><tr><td><b>Localidad:</b> "+ (feature.properties.localidad?feature.properties.localidad:"No se registra") +
 		"</td></tr><tr><td><b>Dirección:</b> "+ (feature.properties.direccion?feature.properties.direccion:"No se registra") +
-		"</td></tr><tr><td><b>Cod. Postal:</b> "+ (feature.properties.codPostal?feature.properties.codPostal:"No se registra") +
+		"</td></tr><tr><td><b>Cod. Postal:</b> "+ (feature.properties.cp?feature.properties.cp:"No se registra") +
 		"<tr><td><b>Email:</b><a " + (feature.properties.email?"href='mailto:"+feature.properties.email:"") + " '> "  + (feature.properties.email?feature.properties.email:"No se registra") + "</a></td></tr>" +
 		"</td></tr><tr><td><b>Horario:</b> "+ (feature.properties.horario?feature.properties.horario:"No se registra") +
 		"</td></tr></table></div>",
@@ -917,7 +916,7 @@ function createLayer(data, tipo, nivel) {
 			cluster.addLayer(marker);
 			return marker;
 		},
-		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas :onEachFeatureL
+		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas : (tipo === 'biblioteca') ? popup_bib_pedagogicas : onEachFeatureL
 	});
 	return cluster;
 }
@@ -1115,11 +1114,26 @@ function getDelegacionLayers(){
 	return layerDel
 }
 
+function getBibliotecaLayer(){
+	var biLayer = fetch (`mapa/setBiblioMarkers`)
+	.then (response => response.json())
+	.then( data => {
+		var bibliotecaLayer = createLayer(data, 'biblioteca','');
+		return bibliotecaLayer
+	})
+	.catch(error => {
+		console.error('Error fetching data:', error);
+		return null;
+	});
+	return biLayer
+}
+
 async function generarTodosLayers(layerParam) {
     var layersConfig = [];
 	const establecimientos = await getEstablecimientosLayers();
 	const delegaciones = await getDelegacionLayers();
 	const supervision = await getSupervisionLayers();
+	const bibliotecas = await getBibliotecaLayer();
 	var i = 0;
 	if (layerParam != null) {
 		establecimientos.forEach(establecimiento => {
@@ -1154,6 +1168,15 @@ async function generarTodosLayers(layerParam) {
 			url: 'icons/delegacion_.svg',
 			layers_type: "organizacion",
 			layers: delegaciones,
+			inactive: true
+		})
+
+		layersConfig.push({
+			label: 'Bibliotecas Pedagogicas',
+			type: 'image',
+			url: 'icons/biblioteca_.svg',
+			layers_type: "organizacion",
+			layers: bibliotecas,
 			inactive: true
 		})
 
@@ -1192,6 +1215,18 @@ async function generarTodosLayers(layerParam) {
 				inactive: true,
 			});
 		});
+
+		/*bibliotecas.forEach(biblioteca => {
+			var layer = biblioteca[0][0];
+			layersConfig.push({
+				label: `Supervisíon ${biblioteca[1][0].label}`,
+				type: "image",
+				url: `icons/supervision_${biblioteca[1][0].url}.svg`,
+				layers_type: "organizacion",
+				layers: layer,
+				inactive: true,
+			});
+		})*/
 		return layersConfig;
 
 	} else {
@@ -1240,6 +1275,15 @@ async function generarTodosLayers(layerParam) {
 				layers: [polygon, textLabelR1, textLabelR2 ,textLabelR3, textLabelR4, textLabelR5, textLabelR6],
 				inactive: false,
 				})
+
+			layersConfig.push({
+				label: 'Bibliotecas Pedagogicas',
+				type: 'image',
+				url: 'icons/biblioteca_.svg',
+				layers_type: "organizacion",
+				layers: bibliotecas,
+				inactive: true
+			})
 
 			layersConfig.push({
 				label: "Departamentos",
@@ -1647,14 +1691,11 @@ legend = L.control.Legend({
 
 async function cargarBotonesMapa() {
 		//mostrarFullscreenButton();
-		// Simula una carga de datos asíncrona, por ejemplo, desde un servidor
 		await initMap();
 		mostrarConsultaButton.addTo(mymap);
 		//mostrarFiltroButton.addTo(mymap);
 		controlbrowserPrint.addTo(mymap);
-		addFullmapPrint();
-
-		
+		addFullmapPrint();		
 }
 cargarBotonesMapa();
 
