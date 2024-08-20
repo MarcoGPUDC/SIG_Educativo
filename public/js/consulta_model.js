@@ -77,7 +77,9 @@ function buscar_info_popup_inst() {
     JOIN padron.contacto cont ON inst.id_institucion = cont.id_institucion
     JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion
 	JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
-	JOIN padron.nivel niv ON ofe.id_nivel = niv.id_nivel) tmp ORDER BY numero;`);
+	JOIN padron.nivel niv ON ofe.id_nivel = niv.id_nivel
+    WHERE inst.funcion = 'Activo') tmp
+    ORDER BY numero`);
 };
 //info para anexar al popup de las supervisiones
 function buscar_info_supervision() {
@@ -92,12 +94,41 @@ function buscar_info_delegacion(){
 }
 
 //funcion para buscar por oferta educativa
-    function buscar_oferta(modalidad, nivel) {
-        return db.any(`SELECT inst.id_institucion, inst.nombre, inst.numero, niv.nombre AS nivel, moda.nombre AS modalidad, geo.long, geo.lat FROM padron.institucion inst JOIN padron.oferta ofe ON inst.id_institucion = ofe.id_institucion
-            JOIN padron.modalidades_educativas moda ON moda.id_modalidad = ofe.id_modalidad
-            JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion
-            JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel WHERE niv.nombre = $1 AND moda.nombre = $2`, [nivel, modalidad])
-    }
+function buscar_oferta(modalidad, nivel) {
+    return db.any(`SELECT inst.id_institucion, inst.nombre, inst.numero, niv.nombre AS nivel, moda.nombre AS modalidad, geo.long, geo.lat FROM padron.institucion inst JOIN padron.oferta ofe ON inst.id_institucion = ofe.id_institucion
+        JOIN padron.modalidades_educativas moda ON moda.id_modalidad = ofe.id_modalidad
+        JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion
+        JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel WHERE niv.nombre = $1 AND moda.nombre = $2`, [nivel, modalidad])
+}
+//busquedas para el filtro
+function buscar_info_filtro(){
+    return db.any(`SELECT inst.id_institucion, 'Región ' || inst.region AS región, inst.ambito, inst.numero, COALESCE(mat.varones, 0) AS masculino, COALESCE(mat.mujeres, 0) AS femenino, COALESCE(mat.no_binario, 0) AS no_binario, func.gestion, niv.nombre AS nivel FROM padron.matricula mat 
+        RIGHT JOIN padron.institucion inst ON inst.id_institucion = mat.id_institucion 
+        JOIN padron.funcionamiento func ON func.id_institucion = inst.id_institucion 
+        JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
+		JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel
+		ORDER BY inst.numero`)
+}
+
+function filtro_establecimiento_gestion() {
+    return db.any(`SELECT 'Región ' || inst.region, COUNT(CASE WHEN func.gestion = 'Estatal' THEN 1 ELSE NULL END) AS Estatal, COUNT(CASE WHEN func.gestion = 'Privado' THEN 1 ELSE NULL END) AS Privada, COUNT(CASE WHEN func.gestion = 'Gestión social/cooperativa' THEN 1 ELSE NULL END) AS Social_Cooperativa FROM padron.matricula mat 
+        RIGHT JOIN padron.institucion inst ON inst.id_institucion = mat.id_institucion 
+        JOIN padron.funcionamiento func ON func.id_institucion = inst.id_institucion 
+        JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
+		JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel
+		GROUP BY inst.region
+		ORDER BY inst.region`)
+}
+
+function filtro_establecimiento_ambito() {
+    return db.any(`SELECT 'Región ' || inst.region AS Región, COUNT(CASE WHEN inst.ambito = 'Rural' THEN 1 ELSE NULL END) AS Rural, COUNT(CASE WHEN inst.ambito = 'Urbano' THEN 1 ELSE NULL END) AS Urbano, COUNT(CASE WHEN inst.ambito = 'Rural Disperso' THEN 1 ELSE NULL END) AS Rural_disperso, COUNT(CASE WHEN inst.ambito = 'Rural Aglomerado' THEN 1 ELSE NULL END) AS Rural_aglomerado FROM padron.matricula mat 
+        RIGHT JOIN padron.institucion inst ON inst.id_institucion = mat.id_institucion 
+        JOIN padron.funcionamiento func ON func.id_institucion = inst.id_institucion 
+        JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
+		JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel
+		GROUP BY inst.region
+		ORDER BY inst.region`)
+}
 
 
 module.exports = {
@@ -117,5 +148,9 @@ module.exports = {
     busqueda_simple_todo,
     buscar_ubicacion,
     buscar_oferta,
-    buscar_todos_biblioteca
+    buscar_todos_biblioteca,
+    buscar_info_filtro,
+    filtro_establecimiento_gestion,
+    filtro_establecimiento_ambito
+
 };

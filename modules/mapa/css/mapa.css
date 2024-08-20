@@ -243,6 +243,9 @@ html, body{
     margin-bottom: 0px !important;
 }
 
+#filtroInformacion .modal-content {
+    left: 0px;
+}
 
 .leaflet-control-browser-print a{
     background: url(../icons/print-icon.png) no-repeat 5px !important;
@@ -344,13 +347,17 @@ html, body{
 
 .header {
     position: absolute;
-    width: 100vw;
+    width: 101%;
     background-color: rgba(255, 255, 255, 0.5); /* Fondo semitransparente */
     z-index: 999; /* Asegura que esté sobre el mapa */
 }
 
 .infoModal{
     height: 465px;
+}
+
+.logo {
+    margin-left: 10px;
 }
 
 @media (max-width: 765px) {
@@ -363,9 +370,10 @@ html, body{
         left: 8%;
     }
 
-    .header .logo {
+    .logo {
         width: 75px;
         height: 46px;
+        
     }
 
     .infoModal{

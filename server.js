@@ -57,9 +57,10 @@ app.get('/mapa', function(req, res) {
     res.sendFile(__dirname + '/modules/mapa/index.html');
 });
 
+/*
 app.get('/mapoteca', function(req, res){
   res.sendFile(__dirname + '/modules/mapoteca/views/mapoteca_index.html')
-});
+});*/
 
 
 const informacion_controlador = require('./modules/buscador/controllers/informacion_controlador')
@@ -74,6 +75,8 @@ app.use('/', mapRoutes);
 const mapInfo = require('./modules/mapa/models/info_crear_layer');
 app.use('/', mapInfo);
 
+const filtroInfo = require('./modules/mapa/models/info_filtro');
+app.use('/', filtroInfo);
 
 
 // Iniciar el servidor

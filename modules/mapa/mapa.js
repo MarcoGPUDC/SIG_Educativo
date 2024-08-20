@@ -723,7 +723,7 @@ function onEachFeatureL(feature, layer){
 		"<tr><td><b>Tel. del Responsable:</b> "+ (feature.properties.tel_resp?feature.properties.tel_resp:"-") + "</td></tr>" +
 		"</table>" +
   		"</div></div>" +
-  		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='/info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
+  		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='/sigeducativo/info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
   		"</div>"
   		, {minWidth: 270, maxWidth: 270}
 	);
@@ -740,7 +740,7 @@ function onEachFeatureS (feature, layer) {
 		"<tr><td><b>Localidad:</b> "+ (feature.properties.localidad?formatoNombre(feature.properties.localidad):"No se registra") + "</td></tr>" +
 		"<tr><td><b>Dirección:</b> "+ (feature.properties.direccion?feature.properties.direccion:"No se registra") + "</td></tr>" +
 		"</table>" +
-		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='/info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
+		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='/sigeducativo/info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
 		"</div>", {minWidth: 270, maxWidth: 270}
 		);
 	}
@@ -755,7 +755,7 @@ function onEachFeatureS (feature, layer) {
 			"<tr><td><b>Nivel:</b> "+ (feature.properties.nivel?feature.properties.nivel:"No se registra") + "</td></tr>" +
 			"<tr><td><b>Modalidad:</b> "+ (feature.properties.modalidad?feature.properties.modalidad:"No se registra") + "</td></tr>" +
 			"</table>" +
-			"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='/info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
+			"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='/sigeducativo/info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
 			"</div>", {minWidth: 270, maxWidth: 270}
 			);
 		}
@@ -1313,93 +1313,8 @@ async function generarTodosLayers(layerParam) {
 		}
 	}
 
-	// Obtener supervisiones y crear configuraciones de capas
-    
+ 
 // Obtener la capa y configurarla
-/*getEstablecimientosLayers().then(Layers => {
-    var layersConfig = [
-		{
-		label: "Ed. Inicial",
-		type: "image",
-		url: "icons/establecimientos_inicial.svg",
-		layers_type: "establecimiento",
-		layers: [Layers[0]],
-		inactive: true,
-		},
-		{
-		label: "Ed. Primaria",
-		type: "image",
-		url: "icons/establecimientos_primaria.svg",
-		layers_type: "establecimiento",
-		layers: [Layers[1]],
-		inactive: true,
-		},
-		{
-		label: "Ed. Secundaria",
-		type: "image",
-		url: "icons/establecimientos_sec.svg",
-		layers_type: "establecimiento",
-		layers: [Layers[2]],
-		inactive: true,
-		},
-		{
-		label: "Ed. Superior No Universitaria",
-		type: "image",
-		url: "icons/establecimientos_superior.svg",
-		layers_type: "establecimiento",
-		layers: [Layers[3]],
-		inactive: true,
-		},
-		{
-		label: "Ed. Especial",
-		type: "image",
-		url: "icons/establecimientos_especial.svg",
-		layers_type: "establecimiento",
-		layers: [Layers[4]],
-		inactive: true,
-		},
-		{
-		label: "Formación Profesional",
-		type: "image",
-		url: "icons/establecimientos_form_prof.svg",
-		layers_type: "establecimiento",
-		layers: [Layers[5]],
-		inactive: true,
-		},
-		{
-		label: "Ed. Domiciliaria y Hospitalaria",
-		type: "image",
-		url: "icons/establecimientos_dom_hosp.svg",
-		layers_type: "establecimiento",
-		layers: [Layers[6]],
-		inactive: true,
-		},
-		{
-		label: "Otros Servicios Educativos",
-		type: "image",
-		url: "icons/establecimientos_comp.svg",
-		layers_type: "establecimiento",
-		layers: [Layers[7]],
-		inactive: true,
-		}
-	];
-
-    // Añadir la capa al mapa si está definida
-    if (Layers) {
-		var legend = new L.control.Legend({
-			position: "topleft",
-			title: "Capas2",
-			collapsed: true,
-			symbolWidth: 17, 
-			opacity: 1,
-			column: false,
-			legends: layersConfig
-			})
-			.addTo(mymap);
-    } else {
-        console.error('No se econtraron capas de instituciones');
-    }
-});*/
 
 //mymap.addLayer(markersCluster);
 var legends;
@@ -1475,7 +1390,7 @@ function mostrarFullscreenButton() {
 	  titleCancel: 'Salir de Pantalla Completa'
 	}).addTo(mymap);
   }
-//mostrarFiltroButton.addTo(mymap);
+mostrarFiltroButton.addTo(mymap);
 
 // Agregar  control impresion
 
@@ -1576,119 +1491,7 @@ function removeButtonById(buttonId) {
         buttonToRemove.parentNode.removeChild(buttonToRemove);}
 }
 
-var epja = L.geoJSON(ed_epja, {
-	pointToLayer: function (feature, latlng) {
-		return L.marker(latlng, {
-			icon: L.icon({
-				iconUrl: "icons/establecimientos_epja.svg",
-				iconSize:     [22, 22], 
-				iconAnchor:   [11, 0], 
-				popupAnchor:  [0, 0] 
-			}),
-			riseOnHover: true
-		});
-	},	
-	onEachFeature: onEachFeatureL
-});
-var artistica = L.geoJSON(ed_artistica, {
-	pointToLayer: function (feature, latlng) {
-		return L.marker(latlng, {
-			icon: L.icon({
-				iconUrl: "icons/establecimientos_artistica.svg",
-				iconSize:     [22, 22], 
-				iconAnchor:   [11, 0], 
-				popupAnchor:  [0, 0] 
-			}),
-			riseOnHover: true
-		});
-	},	
-	onEachFeature: onEachFeatureL
-});		
-//baselayer.addLayer(artistica);
-
-//baselayer.addLayer(epja);
-// Agregar leyenda a mapa 
-/*
-var	legends = [
-        {
-		label: "Delegaciones Administrativas",
-		type: "image",
-		url: "icons/delegacion_.svg",
-		layers_type: "organizacion",
-		layers: [del_admnistrativas],
-		inactive: false,
-        },
-		/*{
-		label: "Supervisión Inicial",
-		type: "image",
-		url: "icons/supervision_inicial.svg",
-		layers_type: "organizacion",
-		layers: [sup_inicial],
-		inactive: false,
-		},
-        {
-		label: "Supervisión Primaria",
-		type: "image",
-		url: "icons/supervision_primaria.svg",
-		layers_type: "organizacion",
-		layers: [sup_primaria],
-		inactive: false,
-        },
-        {
-		label: "Supervisión Secundaria",
-		type: "image",
-		url: "icons/supervision_secundaria.svg",
-		layers_type: "organizacion",
-		layers: [sup_secundaria],
-		inactive: false,
-        },
-        {
-		label: "Supervisión Privada",
-		type: "image",
-		url: "icons/supervision_privada.svg",
-		layers_type: "organizacion",
-		layers: [sup_privada],
-		inactive: false,
-        },
-        {
-		label: "Bibliotecas Pedagógicas",
-		type: "image",
-		url: "icons/biblioteca.svg",
-		layers_type: "organizacion",
-		layers: [bib_pedagogicas],
-		inactive: true,
-        },
-		{
-		label: "Ed. permanente de Jóvenes y Adultos",
-		type: "image",
-		url: "icons/establecimientos_epja.svg",
-		layers_type: "establecimiento",
-		layers: [epja],
-		inactive: true,
-		},
-		{
-		label: "Ed. Artística",
-		type: "image",
-		url: "icons/establecimientos_artistica.svg",
-		layers_type: "establecimiento",
-		layers: [artistica],
-		inactive: true,
-		}        
-        ];
-legend = L.control.Legend({
-	position: "topleft",
-	title: "Capas1",
-	collapsed: true,
-	symbolWidth: 17, 
-	opacity: 1,
-	column: false,
-	legends: legends
-    })
-    .addTo(mymap);*/
-
 // Agrega los tres botonones despues del legend
-
-
 async function cargarBotonesMapa() {
 		//mostrarFullscreenButton();
 		await initMap();
@@ -3088,13 +2891,13 @@ function resetFormFiltro() {
 	infoestablecimientosxfiltronoconn.style.display = 'none';
 	document.getElementById("seleccionarfilah").style.display = 'none';
 	document.getElementById("seleccionarcolumnah").style.display = 'none';
-
+	document.getElementById("tablaInfoFiltro").innerHTML = ' '
 	return false;
 }
 
 
 
-var flexSwitchCheckMatricula = document.getElementById("flexSwitchCheckMatricula")
+/*var flexSwitchCheckMatricula = document.getElementById("flexSwitchCheckMatricula")
 flexSwitchCheckMatricula.addEventListener("change", function() {
 	var form = document.getElementById("seleccionardato");
 	var inputs = form.getElementsByTagName('input');
@@ -3147,7 +2950,7 @@ flexSwitchCheckMatricula.addEventListener("change", function() {
 		}
 	}
 
-})
+})*/
 var flexSwitchCheckEstablecimiento = document.getElementById("flexSwitchCheckEstablecimiento")
 flexSwitchCheckEstablecimiento.addEventListener("change", function() {
 	var form = document.getElementById("seleccionardato");
@@ -3200,7 +3003,7 @@ flexSwitchCheckEstablecimiento.addEventListener("change", function() {
 		}
 	}
 })
-var flexSwitchCheckUnidades = document.getElementById("flexSwitchCheckUnidades")
+/*var flexSwitchCheckUnidades = document.getElementById("flexSwitchCheckUnidades")
 flexSwitchCheckUnidades.addEventListener("change", function() {
 	var form = document.getElementById("seleccionardato");
 	var inputs = form.getElementsByTagName('input');
@@ -3251,7 +3054,7 @@ flexSwitchCheckUnidades.addEventListener("change", function() {
 			inputs[i].disabled = false;   
 		}
 	}
-})
+})*/
 
 
 var flexSwitchCheckNivel = document.getElementById("flexSwitchCheckNivel")
@@ -3360,357 +3163,106 @@ flexSwitchCheckRegion1.addEventListener("change", function() {
 })
 
 
-// Filtro Informacion 
+function downloadExcel(ws_data, filtro) {
+	var matriz = [];
+	matriz.push(Object.keys(ws_data[0]));
+	ws_data.forEach(fila => {
+		matriz.push(Object.values(fila));
+	})
+	console.log(matriz);
+	// Crear una hoja de trabajo
+	var ws = XLSX.utils.aoa_to_sheet(matriz);
 
+	// Crear un libro de trabajo
+	var wb = XLSX.utils.book_new();
+	XLSX.utils.book_append_sheet(wb, ws, "Hoja1");
 
-var formfiltroInformacion = document.getElementById("formfiltroInformacion");
-formfiltroInformacion.addEventListener("submit", function(e) {
+	// Escribir el libro de trabajo a un archivo binario
+	var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+
+	// Crear un Blob a partir del archivo binario
+	var blob = new Blob([wbout], { type: 'application/octet-stream' });
+
+	// Crear un enlace temporal para la descarga
+	var url = URL.createObjectURL(blob);
+	var a = document.createElement("a");
+	a.href = url;
+	a.download = `filtro_${filtro}.xlsx`;
+
+	// Disparar el evento de clic en el enlace temporal
+	document.body.appendChild(a);
+	a.click();
+
+	// Limpiar el DOM removiendo el enlace temporal
+	setTimeout(function() {
+		document.body.removeChild(a);
+		window.URL.revokeObjectURL(url);
+	}, 0);
+}
+
+//realiza la consulta dependiendo los filtros aplicados, del otro lado espera un switch
+async function filtrar_info(dato, fila, col) {
+	return fetch(`mapa/filtrar?dato=${dato}&col=${col}`)
+	.then(response => response.json())
+	.then(filtro => {
+		return filtro
+	})
+}
+
+function crearTabla(data) {
+	const table = document.createElement('table');
+	table.classList.add('table');
+	table.classList.add('table-light');
+	table.classList.add('table-hover');
+	const tbody = document.createElement('tbody');
+	const cabecera = document.createElement('tr');
+	Object.keys(data[0]).forEach(col => {
+		const column = document.createElement('td');
+		column.textContent = col;
+		cabecera.appendChild(column);
+	});
+	tbody.appendChild(cabecera);
+	data.forEach(row => {
+		const tr = document.createElement('tr');
+		Object.values(row).forEach(cell => {
+			const td = document.createElement('td');
+			td.textContent = cell;
+			tr.appendChild(td);
+		});
+		tbody.appendChild(tr);
+	});
+
+	table.appendChild(tbody);
+	document.getElementById("tablaInfoFiltro").appendChild(table);
+}
+
+var tablaInfoFiltro = document.getElementById("descargarFiltro");
+tablaInfoFiltro.addEventListener('click', function(e) {
 	e.preventDefault();
-	const datos = new URLSearchParams();
-	var nombrecolumnasE = "";
-	var nombrefilasE = ""; 
-	var nombrecantidadE = "";
-	var formDato = document.getElementById("seleccionardato");
-	var inputsDato = formDato.getElementsByTagName('input');
-	for (var i = 0; i<inputsDato.length; i++) {
-		if(inputsDato[i].checked == true){
-			datos.append("dato",document.getElementById(inputsDato[i].id).labels[0].innerHTML);
-			nombrecantidadE = document.getElementById(inputsDato[i].id).labels[0].innerHTML;
-		}      
-	}
-
-
-	var formFila = document.getElementById("seleccionarfila");
-	var inputsFila = formFila.getElementsByTagName('input');
-	for (var i = 0; i<inputsFila.length; i++) {
-		if(inputsFila[i].checked == true){
-			var nf = document.getElementById(inputsFila[i].id).labels[0].innerHTML;
-			if(nf=="Orientación técnica"){
-				nf="Orientación_técnica";
-			}
-			if(nf=="Gestión"){
-				nf="Gestion";
-			}
-			datos.append("fila", nf);
-			nombrefilasE = document.getElementById(inputsFila[i].id).labels[0].innerHTML;
-		}
-	}
-
-	var formColumna = document.getElementById("seleccionarcolumna");
-	var inputsColumna = formColumna.getElementsByTagName('input');
-	for (var i = 0; i<inputsColumna.length; i++) {
-		if(inputsColumna[i].checked == true){
-			if(nombrefilasE == ""){
-				var nc = document.getElementById(inputsColumna[i].id).labels[0].innerHTML;
-				if(nc=="Orientación técnica"){
-					nc="Orientación_técnica";
-				}
-				if(nc=="Gestión"){
-					nc="Gestion";
-				}
-				datos.append("fila", nc);
-				nombrefilasE = document.getElementById(inputsColumna[i].id).labels[0].innerHTML;
-			} else {
-				var nc = document.getElementById(inputsColumna[i].id).labels[0].innerHTML;
-				if(nc=="Orientación técnica"){
-					nc="Orientación_técnica";
-				}
-				if(nc=="Gestión"){
-					nc="Gestion";
-				}
-				datos.append("columna", nc);
-				nombrecolumnasE = document.getElementById(inputsColumna[i].id).labels[0].innerHTML;	
-			}
-		}   
-	}
-
-	var titulo = "";
-
-	if(nombrecolumnasE == ""){
-		titulo =  nombrecantidadE + ' por ' + nombrefilasE;
-	} else {
-		titulo =  nombrecantidadE + ' por ' + nombrefilasE + ' y ' + nombrecolumnasE;
-	}
-
-	var tituloinfofiltro = document.getElementById("tituloinfofiltro");
-	tituloinfofiltro.innerHTML = titulo;
-	tablatr1.innerHTML ='';
-	tablatr2.innerHTML ='';
-	tablatr3.innerHTML ='';
-	var infoestablecimientosxfiltronoselect = document.getElementById("infoestablecimientosxfiltronoselect");
-	infoestablecimientosxfiltronoselect.style.display = 'none';
-	var infoestablecimientosxfiltronoconn = document.getElementById("infoestablecimientosxfiltronoconn");
-	infoestablecimientosxfiltronoconn.style.display = 'none';
-	var phpfile = "";
-	
-	if(nombrecantidadE == "Establecimientos"){
-		if(nombrecolumnasE == ""){
-			phpfile = 'php/solicitarestablecimientosxfiltroUnaOpcion.php';
-		} else {
-			phpfile = 'php/solicitarestablecimientosxfiltro.php';
-		}
-	}
-
-	if(nombrecantidadE == "Matrícula"){
-		if(nombrecolumnasE == ""){
-			phpfile = 'php/solicitarmatriculaxfiltroUnaOpcion.php';
-		} else {
-			phpfile = 'php/solicitarmatriculaxfiltro.php';
-		}
-	}
-
-	if(nombrecantidadE == "Unidades"){
-		if(nombrecolumnasE == ""){
-			phpfile = 'php/solicitarunidadesxfiltroUnaOpcion.php';
-		} else {
-			phpfile = 'php/solicitarunidadesxfiltro.php';
-		}
-	}
-
-	if(nombrefilasE != "" && nombrecantidadE != ""){
-		fetch(phpfile, {
-			method: 'POST',
-			body: datos 
-			})
-			.then(response => response.json())
-			.then(data1 => {
-			
-				if (data1==="errornodatos"){
-					console.log(" hay errornoconn");
-					//infoOtrosNoResultFormControlSelect.style.display = 'block';
-				} else {
-//----------------					if (nombrecantidadE == "Establecimientos") {
-						// nombres de columna
-						var nombresColumna = [];
-						for (const [clave, obj] of Object.entries(data1)) {
-							//console.log(obj.total);
-							//console.log(obj.fila);
-							var nombre = obj.columna;
-							var total = obj.total;
-							if(nombre!= null && total>0){
-								if (!nombresColumna.includes(nombre)) {
-									nombresColumna.push(nombre);
-								}	
-							}
-						}
-						var lencolumnas = 0;
-						var tablatr1 = document.getElementById("tablatr1");
-						var tablatr2 = document.getElementById("tablatr2");
-						if(nombrecolumnasE != ""){
-							lencolumnas = nombresColumna.length;
-							tablatr1.innerHTML = `<th class="border-top" scope="col"></th>
-									<th class="bg-info-custom border-top border-end border-start" scope="col"></th>
-									<th class="border-top border-start text-center text-uppercase" scope="col" colspan="${lencolumnas}">${nombrecolumnasE}</th>`;
-							var subnombrecolumnasE = "";
-							for (let i = 0; i < lencolumnas; i++) {
-			    				subnombrecolumnasE += "<th class='bg-color-info-custom border-top border-start text-center text-uppercase' scope='col'>" + nombresColumna[i] + "</th>";
-							}
-							tablatr2.innerHTML = `<th class="text-uppercase" scope="col">${nombrefilasE}</th>
-									<th class="bg-info-custom border-start text-center text-uppercase" scope="col">${nombrecantidadE}</th>${subnombrecolumnasE}`;
-						} else {
-							tablatr2.innerHTML = `<th class="text-uppercase" scope="col">${nombrefilasE}</th>
-									<th class="bg-info-custom border-start text-center text-uppercase" scope="col">${nombrecantidadE}</th>`;
-						}
-						// nombres de fila
-						var nombresFila = [];
-						for (const [clave, obj] of Object.entries(data1)) {
-							var nombre = obj.fila;
-							var total = obj.total;
-							if(nombre!= null && total>0){
-								if (!nombresFila.includes(nombre)) {
-									nombresFila.push(nombre);
-								}	
-							}
-						}
-						var lenfilas = 0;
-						lenfilas = nombresFila.length;
-						// armar filas
-						var entre = "</td><td class='fw-bold border-top border-start text-center'>";
-						var filas = "";
-						// recorro filas
-						valuessubtotalfila = [];
-						if(nombrecolumnasE != ""){
-							for (let i = 0; i < lenfilas; i++) {
-								// cantidad total por fila
-								filas += "<tr><th class='fw-normal border-top'>" + nombresFila[i] + "</th><td class='bg-info-custom fw-bold border-top border-start text-center'>";
-								var subtotalfila = 0;
-								for (const [clave, obj] of Object.entries(data1)) {
-									var fila = obj.fila;
-									var total = obj.total;
-									if(nombresFila[i]== fila && total>0){
-										subtotalfila += parseInt(total); 	
-									}
-								}
-								filas += subtotalfila + entre;
-								valuessubtotalfila.push(subtotalfila);
-								// cantida por columna
-								//recorro fila x columnas
-								for (let j = 0; j < lencolumnas; j++){
-									var subtotalfilaxcolumna = 0;
-									for (const [clave, obj] of Object.entries(data1)) {
-										var fila = obj.fila;
-										var columna = obj.columna;
-										var total = obj.total;
-										if(nombresFila[i] == fila && nombresColumna[j] == columna && total>0){
-											subtotalfilaxcolumna += parseInt(total);
-										}
-									}
-									if (j == lencolumnas - 1){
-										filas += subtotalfilaxcolumna; 
-									} else {
-										filas += subtotalfilaxcolumna + entre;	
-									}
-
-								}
-							}
-						} else {
-							for (let i = 0; i < lenfilas; i++) {
-								// cantidad total por fila
-								filas += "<tr><th class='fw-normal border-top'>" + nombresFila[i] + "</th><td class='bg-info-custom fw-bold border-top border-start text-center'>";
-								var subtotalfila = 0;
-								for (const [clave, obj] of Object.entries(data1)) {
-									var fila = obj.fila;
-									var total = obj.total;
-									if(nombresFila[i]== fila && total>0){
-										subtotalfila += parseInt(total); 	
-									}
-								}
-								filas += subtotalfila;
-								valuessubtotalfila.push(subtotalfila);
-							}	
-						}
-						filas += "</td></tr>";
-						// agrego fila  de subtotal
-						var entre2 ="</td><td class='bg-primary-custom text-white text-center'>";
-						filas +=  "<tr><th class='bg-primary-custom text-white fw-bold'>TOTAL CHUBUT</th><td class='bg-dark-custom text-white fw-bold text-center'>"
-						var totaldetotales = 0;
-
-						if(nombrecolumnasE != ""){
-							for (const [clave, obj] of Object.entries(data1)) {
-								var fila = obj.fila;
-								var columna = obj.columna;
-								var total = obj.total;
-								if(total>0 && columna != null && fila != null){
-									totaldetotales += parseInt(total);
-								}
-							}
-							filas += totaldetotales + entre2;
-							valuessubtotalcolumna = [];
-							
-							for (let k = 0; k < lencolumnas; k++){
-								var subtotalcolumna = 0;
-								for (const [clave, obj] of Object.entries(data1)) {
-									var fila = obj.fila;
-									var columna = obj.columna;
-									var total = obj.total;
-									if(fila != null && nombresColumna[k] == columna && total>0){
-										subtotalcolumna += parseInt(total);
-									}
-								}
-								if (k == lencolumnas - 1){
-									filas += subtotalcolumna;
-								} else {
-									filas += subtotalcolumna + entre2;	
-								}
-								valuessubtotalcolumna.push(subtotalcolumna);
-							}
-						} else {
-							for (const [clave, obj] of Object.entries(data1)) {
-								var fila = obj.fila;
-								var total = obj.total;
-								if(total>0 && fila != null){
-									totaldetotales += parseInt(total);
-								}
-							}
-							filas += totaldetotales;
-							valuessubtotalcolumna = [];
-						}
-						filas += "</td></tr>";
-						var tablatr3 = document.getElementById("tablatr3");
-						tablatr3.innerHTML = `${filas}`;
-
-						resetFormFiltro();
-						var myModalEl = document.getElementById('filtroInformacion');
-						var modal = bootstrap.Modal.getInstance(myModalEl);
-						modal.hide();
-						var mapa = document.getElementById("map");
-						mapa.style.display = "none";
-						var establecimientosinfofiltro = document.getElementById("establecimientosinfofiltro");
-						establecimientosinfofiltro.style.display = 'block';
-
-
-						// graficos
-						var graficoporfila = document.getElementById("graficoporfila");
-						var graficoporcolumna = document.getElementById("graficoporcolumna");
-						if(lenfilas>1){
-							var datafila = [{
-								values: valuessubtotalfila,
-								labels: nombresFila,
-								name: nombrefilasE,
-								hoverinfo: false,
-								hole: .5,
-								type: 'pie'
-							}];
-							var layout = {
-								title: nombrecantidadE + ' por ' + nombrefilasE,
-						        font: {
-							      family: 'sans-serif',
-							      size: 10
-							    },
-								showlegend: true,
-								legend: {
-							        xanchor : "center",
-	                     			x : 1,
-	                     			yanchor : "top",
-	                     			y: 0.5,
-							        font: {
-								      family: 'sans-serif',
-								      size: 10
-								    },
-								},
-							};
-							Plotly.newPlot(graficoporfila, datafila, layout, {responsive: true, displaylogo: false});	
-						}
-						if(lencolumnas>1){
-							var datacolumna = [{
-								values: valuessubtotalcolumna,
-								labels: nombresColumna,
-								name: nombrecolumnasE,
-								hoverinfo: false,
-								hole: .5,
-								type: 'pie'
-							}];
-							var layout = {
-								title: nombrecantidadE + ' por ' + nombrecolumnasE,
-						        font: {
-							      family: 'sans-serif',
-							      size: 10
-							    },
-								showlegend: true,
-								legend: {
-							        xanchor : "center",
-	                     			x : 1,
-	                     			yanchor : "top",
-	                     			y: 0.5,
-							        font: {
-								      family: 'sans-serif',
-								      size: 10
-								    },
-								},
-							};
-							Plotly.newPlot(graficoporcolumna, datacolumna, layout, {responsive: true, displaylogo: false});
-					}
-				}
-			})
-			.catch(err => {
-          		infoestablecimientosxfiltronoconn.style.display = 'block';
-        	}
-        );	
-	} else {
-		infoestablecimientosxfiltronoselect.style.display = 'block';
-	}
+	const selectedCheckbox = document.querySelector('.form-check-input:checked');
+	downloadExcel(datosFiltrados, selectedCheckbox.value);
 })
 
+
+//Se dispara al solicitar "Filtrar informacion" realiza una consulta y descarga directamente en excel
+var datosFiltrados;
+var formfiltroInformacion = document.getElementById("formFiltroInformacion");
+formfiltroInformacion.addEventListener("submit", async function(e) {
+	e.preventDefault();
+	const selectedCheckbox = document.querySelector('.form-check-input:checked');
+	var infoestablecimientosxfiltronoselect = document.getElementById("infoestablecimientosxfiltronoselect");
+	var fila = document.querySelector('.check-row:checked');
+	var col = document.querySelector('.check-column:checked');
+		if(selectedCheckbox){
+			datosFiltrados = await filtrar_info(selectedCheckbox.value,fila.value,col.value);
+			console.log("Filtrado!")
+			crearTabla(datosFiltrados);
+		} else {
+			infoestablecimientosxfiltronoselect.style.display = 'block';
+		}
+		
+	})
+	
 function nomostrarestablecimientosinfofiltro(){
 	document.getElementById("map").style.display = "block";
 	document.getElementById("establecimientosinfofiltro").style.display = 'none';
