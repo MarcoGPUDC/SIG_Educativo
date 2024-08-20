@@ -3216,7 +3216,9 @@ function crearTabla(data) {
 	table.classList.add('table-hover');
 	const tbody = document.createElement('tbody');
 	const cabecera = document.createElement('tr');
+	console.log(data);
 	Object.keys(data[0]).forEach(col => {
+		console.log(col);
 		const column = document.createElement('td');
 		column.textContent = col;
 		cabecera.appendChild(column);

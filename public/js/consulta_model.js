@@ -102,7 +102,7 @@ function buscar_oferta(modalidad, nivel) {
 }
 //busquedas para el filtro
 function buscar_info_filtro(){
-    return db.any(`SELECT inst.id_institucion, 'Región ' || inst.region AS región, inst.ambito, inst.numero, COALESCE(mat.varones, 0) AS masculino, COALESCE(mat.mujeres, 0) AS femenino, COALESCE(mat.no_binario, 0) AS no_binario, func.gestion, niv.nombre AS nivel FROM padron.matricula mat 
+    return db.any(`SELECT 'Región ' || inst.region AS Región, inst.ambito, inst.numero, COALESCE(mat.varones, 0) AS masculino, COALESCE(mat.mujeres, 0) AS femenino, COALESCE(mat.no_binario, 0) AS no_binario, func.gestion, niv.nombre AS nivel FROM padron.matricula mat 
         RIGHT JOIN padron.institucion inst ON inst.id_institucion = mat.id_institucion 
         JOIN padron.funcionamiento func ON func.id_institucion = inst.id_institucion 
         JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
@@ -111,7 +111,7 @@ function buscar_info_filtro(){
 }
 
 function filtro_establecimiento_gestion() {
-    return db.any(`SELECT 'Región ' || inst.region, COUNT(CASE WHEN func.gestion = 'Estatal' THEN 1 ELSE NULL END) AS Estatal, COUNT(CASE WHEN func.gestion = 'Privado' THEN 1 ELSE NULL END) AS Privada, COUNT(CASE WHEN func.gestion = 'Gestión social/cooperativa' THEN 1 ELSE NULL END) AS Social_Cooperativa FROM padron.matricula mat 
+    return db.any(`SELECT 'Región ' || inst.region AS Región, COUNT(CASE WHEN func.gestion = 'Estatal' THEN 1 ELSE NULL END) AS Estatal, COUNT(CASE WHEN func.gestion = 'Privado' THEN 1 ELSE NULL END) AS Privada, COUNT(CASE WHEN func.gestion = 'Gestión social/cooperativa' THEN 1 ELSE NULL END) AS Social_Cooperativa FROM padron.matricula mat 
         RIGHT JOIN padron.institucion inst ON inst.id_institucion = mat.id_institucion 
         JOIN padron.funcionamiento func ON func.id_institucion = inst.id_institucion 
         JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
