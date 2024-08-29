@@ -942,7 +942,103 @@ var clusterOtrosServ = createCluster('comp');*/
     }
 });*/
 
+function getRegiones() {
+	fetch('mapa/regiones')
+	.then(response => response.json())
+	.then(regiones => {
+		regiones.features.forEach(data => {
+			const capaRegiones = L.geoJSON(data, {
+				style: function(feature) {
+					console.log(feature);
+					if (feature.properties.numreg == 'I') {
+						return {
+							color: 'green',
+							weight: 0.6,
+							opacity: 0.7
+						}
+					} else {
+						return {
+							color: 'red',
+							weight: 2,
+							opacity: 1
+						  };
+					}
+				  
+				},
+				onEachFeature: function (feature, layer) {
+				  // Aquí puedes añadir un popup o cualquier otro comportamiento deseado
+				  layer.bindPopup(`<strong>Nombre Región:</strong> ${feature.properties.numreg}`);
+				}
+			})
+			capaRegiones.addTo(mymap);
+		})
+	})
+}
 
+function getDepartamentos() {
+	fetch('mapa/departamentos')
+	.then(response => response.json())
+	.then(regiones => {
+		console.log(regiones);
+		regiones.features.forEach(data => {
+			console.log(data.geometry);
+			const capaRegiones = L.geoJSON(data, {
+				style: function(feature) {
+				  return {
+					color: 'blue',
+					weight: 2,
+					opacity: 1
+				  };
+				},
+				onEachFeature: function (feature, layer) {
+				  // Aquí puedes añadir un popup o cualquier otro comportamiento deseado
+				  layer.bindPopup(`<strong>Nombre Región:</strong> ${feature.properties.nombrereg}`);
+				}
+			})
+			capaRegiones.addTo(mymap);
+			const bounds = capaRegiones.getBounds();
+			if (bounds.isValid()) {
+				 mymap.fitBounds(bounds);
+			} else {
+				console.log("No fitBounds");
+			}
+		})
+	})
+}
+
+function RunLayerTest() {
+	fetch('mapa/capaprueba')
+	.then(response => response.json())
+	.then(regiones => {
+		console.log(regiones);
+		regiones.features.forEach(data => {
+			console.log(data.geometry);
+			const capaRegiones = L.geoJSON(data, {
+				style: function(feature) {
+					switch (feature.properties.nombrereg) {
+						case 'I':
+							return {color: "#ff0000"};
+							break;
+						case 'II':
+							return {color: "#0000ff", weight: 1, opacity: 0.6};
+							break;
+					};
+				},
+				onEachFeature: function (feature, layer) {
+				  // Aquí puedes añadir un popup o cualquier otro comportamiento deseado
+				  layer.bindPopup(`<strong>Nombre Región:</strong> ${feature.properties.nombre}`);
+				}
+			})
+			capaRegiones.addTo(mymap);
+			const bounds = capaRegiones.getBounds();
+			if (bounds.isValid()) {
+				 mymap.fitBounds(bounds);
+			} else {
+				console.log("No fitBounds");
+			}
+		})
+	})
+}
 
 // Función para obtener la capa de datos
 function getEstablecimientosLayers() {

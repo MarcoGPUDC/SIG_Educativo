@@ -130,6 +130,22 @@ function filtro_establecimiento_ambito() {
 		ORDER BY inst.region`)
 }
 
+//consultas capas postgis
+function capa_regiones() {                                                                                                                                      //ST_AsGeoJSON(ST_Transform(geom, 4326)) transformar
+    return db.any(`SELECT                                                                                                                                             
+    id, numreg, nombrereg, totallocal, primario, inicial, secundario, superior, formación, población, superficie, artística, "domic/hosp", epja, especial, oserveduc, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom
+    FROM regiones_Educativas;`)
+}
+
+function capa_departamentos() {                                                                                                                                    
+    return db.any(`SELECT *, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom
+    FROM departamentos;`)
+}
+
+function capa_prueba() {                                                                                                                           
+    return db.any(`SELECT *, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom
+    FROM public."Prueba_poligono";`)
+}
 
 module.exports = {
     buscar_todos_numero,
@@ -151,6 +167,9 @@ module.exports = {
     buscar_todos_biblioteca,
     buscar_info_filtro,
     filtro_establecimiento_gestion,
-    filtro_establecimiento_ambito
+    filtro_establecimiento_ambito,
+    capa_regiones,
+    capa_departamentos,
+    capa_prueba
 
 };
