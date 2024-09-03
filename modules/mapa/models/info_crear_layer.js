@@ -50,9 +50,9 @@ router.get('/mapa/regiones', async (req, res) => {
                 geometry: geom,
                 properties: {
                     id: row.id,
-                    numreg: row.numreg,
+                    numReg: row.numreg,
                     nombrereg: row.nombrereg,
-                    totallocal: row.totallocal,
+                    totalLocal: row.totallocal,
                     primario: row.primario,
                     inicial: row.inicial,
                     secundario: row.secundario,
@@ -60,11 +60,11 @@ router.get('/mapa/regiones', async (req, res) => {
                     formacion: row.formación,
                     poblacion: row.población,
                     superficie: row.superficie,
-                    artística: row.artística,
-                    domhosp: row.domhosp,
+                    artistica: row.artística,
+                    domHosp: row.domhosp,
                     epja: row.epja,
                     especial: row.especial,
-                    oserveduc: row.oserveduc
+                    oServEduc: row.oserveduc
                 }
             };
            geoJSON.features.push(newFeature) 
@@ -90,7 +90,10 @@ router.get('/mapa/departamentos', async (req, res) => {
                 type: "Feature",
                 geometry: geom,
                 properties: {
-                    id: row.id
+                    gid: row.gid,
+                    nomdep: row.nomdep,
+                    cabecera: row.cabecera,
+                    superficie: row.superficie
                 }
             };
            geoJSON.features.push(newFeature) 

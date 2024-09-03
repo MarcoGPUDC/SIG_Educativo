@@ -85,14 +85,14 @@ html(lang="es")
                                 <div class="p-3 shadow-sm mb-3">
                                     <div class="row ">
                                         <div class="form-group col-sm-12">
-                                            <select class="form-select" size = "5" id="f-numeroesc-item" role="tablist"></select>
+                                            <div class="container" size = "5" id="f-numeroesc-item" role="tablist"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <small id="infoNumNombreRepetidoFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Ya existe esta capa</small>
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" onclick="return resetForm();">Cancelar búsqueda</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal">Cancelar búsqueda</button>
                                 <button id="f-nroesc-item_btn_clean" type="button" class="btn btn-outline-info btn-sm" onclick="limpiarItemsNroEsc()" style="display:none">Limpiar busqueda</button>
                                 <button  id="f-infonumeroesc-item_btn"  type="button" class="btn btn-outline-primary btn-sm" onclick="verInfo(event)">Más información</button>		
                                 <button  id="f-nroesc-item_btn"  type="button" class="btn btn-outline-success btn-sm" onclick="nroSelect()">Realizar búsqueda</button>
@@ -122,14 +122,14 @@ html(lang="es")
                                 <div class="p-3 shadow-sm mb-3">
                                     <div class="row ">
                                         <div class="col-sm-12">
-                                            <select class="form-select" size="5" id="f-nombreesc-item" role="tablist"></select>
+                                            <div class="container" size = "5" id="f-nombreesc-item" role="tablist"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <small id="infoNomNombreRepetidoFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Ya existe esta capa</small>
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" onclick="return resetForm();">Cancelar búsqueda</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal">Cancelar búsqueda</button>
                                 <button id="f-nombreesc-item_btn_clean" type="button" class="btn btn-outline-info btn-sm" onclick="limpiarItemsNombreEsc()" style="display:none">Limpiar busqueda</button>
                                 <button  id="f-infonombreesc-item_btn"  type="button" class="btn btn-outline-primary btn-sm" onclick="verInfo(event)">Más información</button>	
                                 <button  id="f-nombreesc-item_btn"  type="button" class="btn btn-outline-success btn-sm" onclick="nombreSelect()">Realizar búsqueda</button>
@@ -148,6 +148,16 @@ html(lang="es")
                                             <small id="infoCueAnexoError" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> El CUE-Anexo no es válido</small>
                                             <small id="infoCueAnexoErrorNoExiste" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> El CUE-Anexo no existe</small>
                                         </div>	
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3" id="cueesc-block-item" style="display: none;">
+                                <h5>Seleccionar establecimiento:</h5>
+                                <div class="p-3 shadow-sm mb-3">
+                                    <div class="row ">
+                                        <div class="col-sm-12">
+                                            <div class="container" size = "5" id="f-cueesc-item" role="tablist"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

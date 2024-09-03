@@ -8,6 +8,7 @@ app.use(express.static(path.join(__dirname,'public')));
 app.use(express.static(path.join(__dirname,'modules','mapa')));
 app.use(express.static(path.join(__dirname,'modules','buscador')));
 app.use(express.static(path.join(__dirname,'modules','mapoteca')));
+app.use(express.static(path.join(__dirname,'node_modules')));
 const keyPath = path.join(__dirname, 'server.key');
 const certPath = path.join(__dirname, 'server.cert');
 const options = {
@@ -28,6 +29,13 @@ app.use('/public', express.static(path.join(__dirname, 'public'), {
     if (path.endsWith('.css')) {
       res.setHeader('Content-Type', 'text/css');
     } else if (path.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    }
+  }
+}));
+app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.js')) {
       res.setHeader('Content-Type', 'application/javascript');
     }
   }

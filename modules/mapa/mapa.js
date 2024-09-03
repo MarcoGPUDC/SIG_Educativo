@@ -9,6 +9,8 @@ var mymap = new L.map('map', {
 }); 
 
 // Function to hide the loading screen
+
+
 function hideLoadingScreen() {
 	document.getElementById('loading-screen').style.display = 'none';
 }
@@ -218,12 +220,12 @@ function highlightFeatureD(e) {
 
 // Variable de departamento
 
-var departament;
+var capaDepartamentos;
 
 // Configurar los cambios de resaltar y de zoom de la capa
 
 function resetHighlightD(e){
-    departament.resetStyle(e.target);
+    capaDepartamentos.resetStyle(e.target);
     infoD.update();
 }
 function zoomToFeatureD(e){
@@ -270,10 +272,6 @@ function estilo_departamentos (feature) {
 	};
 };
 
-departament =  L.geoJson(departamentos, {
-    style: estilo_departamentos,
-    onEachFeature: onEachFeatureD
-});//.addTo(mymap);
 
 
 // Agregar nombre region
@@ -355,21 +353,21 @@ info.update = function(props){
                             (props ? 
                             	"<table><tr><td><b>Región:</b> " + props.numReg + " (" + props.nombreReg + ")"+ 
                             	"</td></tr><tr><td><b>Total Localizaciones:</b> "+ (props.totalLocal?props.totalLocal:"Sin Localizaciones") +
-                            	"</td></tr><tr><td><b>Educación Inicial:</b> "+ (props.Inicial?props.Inicial:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Educación Primaria:</b> "+ (props.Primario?props.Primario:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Educación Secundaria:</b> "+ (props.Secundario?props.Secundario:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Educación Superior:</b> "+ (props.Superior?props.Superior:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Formación Profesional:</b> "+ (props.Formación?props.Formación:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Educación Domiciliaria y Hospitalaria:</b> "+ (props.DomHosp?props.DomHosp:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Educación Especial:</b> "+ (props.Especial?props.Especial:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Educación Artística:</b> "+ (props.Artística?props.Artística:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>EPJA:</b> "+ (props.EPJA?props.EPJA:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Otros Servicios Educativos:</b> "+ (props.OServEduc?props.OServEduc:"Sin Localizaciones")+
-								"</td></tr><tr><td><b>Edificios:</b> "+ (props.Edificios?props.Edificios:"Sin Localizaciones")+
-								"</td></tr><tr><td><b>Sedes:</b> "+ (props.Sedes?props.Sedes:"Sin Localizaciones")+
-								"</td></tr><tr><td><b>Anexos:</b> "+ (props.Anexos?props.Anexos:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Población:</b> "+ (props.Población?props.Población:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Superficie:</b> "+ (props.Superficie?props.Superficie:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Inicial:</b> "+ (props.inicial?props.inicial:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Primaria:</b> "+ (props.primario?props.primario:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Secundaria:</b> "+ (props.secundario?props.secundario:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Superior:</b> "+ (props.superior?props.superior:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Formación Profesional:</b> "+ (props.formacion?props.formacion:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Domiciliaria y Hospitalaria:</b> "+ (props.domHosp?props.domHosp:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Especial:</b> "+ (props.especial?props.especial:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Artística:</b> "+ (props.artistica?props.artistica:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>EPJA:</b> "+ (props.epja?props.epja:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Otros Servicios Educativos:</b> "+ (props.oServEduc?props.oServEduc:"Sin Localizaciones")+
+								"</td></tr><tr><td><b>Edificios:</b> "+ (props.edificios?props.edificios:"Sin Localizaciones")+
+								"</td></tr><tr><td><b>Sedes:</b> "+ (props.sedes?props.sedes:"Sin Localizaciones")+
+								"</td></tr><tr><td><b>Anexos:</b> "+ (props.anexos?props.anexos:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Población:</b> "+ (props.poblacion?props.poblacion:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Superficie:</b> "+ (props.superficie?props.superficie:"Sin Localizaciones")+
                             	"</td></tr></table>"
                             : "<br>Pase el puntero por una región");
 };
@@ -393,13 +391,12 @@ function highlightFeature(e) {
 }
 
 // Variable de region
-
-var polygon;
+var capaRegiones;
 
 // Configurar los cambios de resaltar y de zoom de la capa
 
 function resetHighlight(e){
-    polygon.resetStyle(e.target);
+    capaRegiones.resetStyle(e.target);
     info.update();
 }
 function zoomToFeature(e){
@@ -443,10 +440,17 @@ function estilo_region (feature) {
 
 // Agregar regiones a mapa
 
-polygon = L.geoJson(regiones_educativas, {
-    style: estilo_region,
-    onEachFeature: onEachFeature
-}).addTo(mymap);
+async function getRegiones() {
+	return fetch('mapa/regiones')
+	.then(response => response.json())
+	.then(regiones => {
+		const capaRegiones = L.geoJSON(regiones, {
+			style: estilo_region,
+			onEachFeature: onEachFeature
+		}).addTo(mymap);
+		return capaRegiones
+	})
+}
 
 
 
@@ -942,77 +946,25 @@ var clusterOtrosServ = createCluster('comp');*/
     }
 });*/
 
-function getRegiones() {
-	fetch('mapa/regiones')
-	.then(response => response.json())
-	.then(regiones => {
-		regiones.features.forEach(data => {
-			const capaRegiones = L.geoJSON(data, {
-				style: function(feature) {
-					console.log(feature);
-					if (feature.properties.numreg == 'I') {
-						return {
-							color: 'green',
-							weight: 0.6,
-							opacity: 0.7
-						}
-					} else {
-						return {
-							color: 'red',
-							weight: 2,
-							opacity: 1
-						  };
-					}
-				  
-				},
-				onEachFeature: function (feature, layer) {
-				  // Aquí puedes añadir un popup o cualquier otro comportamiento deseado
-				  layer.bindPopup(`<strong>Nombre Región:</strong> ${feature.properties.numreg}`);
-				}
-			})
-			capaRegiones.addTo(mymap);
-		})
-	})
-}
+
 
 function getDepartamentos() {
-	fetch('mapa/departamentos')
+	return fetch('mapa/departamentos')
 	.then(response => response.json())
-	.then(regiones => {
-		console.log(regiones);
-		regiones.features.forEach(data => {
-			console.log(data.geometry);
-			const capaRegiones = L.geoJSON(data, {
-				style: function(feature) {
-				  return {
-					color: 'blue',
-					weight: 2,
-					opacity: 1
-				  };
-				},
-				onEachFeature: function (feature, layer) {
-				  // Aquí puedes añadir un popup o cualquier otro comportamiento deseado
-				  layer.bindPopup(`<strong>Nombre Región:</strong> ${feature.properties.nombrereg}`);
-				}
-			})
-			capaRegiones.addTo(mymap);
-			const bounds = capaRegiones.getBounds();
-			if (bounds.isValid()) {
-				 mymap.fitBounds(bounds);
-			} else {
-				console.log("No fitBounds");
-			}
+	.then(departamentos => {
+		capaDepartamentos = L.geoJSON(departamentos, {
+			style: estilo_departamentos,
+			onEachFeature: onEachFeatureD
 		})
+		return capaDepartamentos
 	})
-}
+	}
 
 function RunLayerTest() {
 	fetch('mapa/capaprueba')
 	.then(response => response.json())
 	.then(regiones => {
-		console.log(regiones);
 		regiones.features.forEach(data => {
-			console.log(data.geometry);
 			const capaRegiones = L.geoJSON(data, {
 				style: function(feature) {
 					switch (feature.properties.nombrereg) {
@@ -1030,12 +982,6 @@ function RunLayerTest() {
 				}
 			})
 			capaRegiones.addTo(mymap);
-			const bounds = capaRegiones.getBounds();
-			if (bounds.isValid()) {
-				 mymap.fitBounds(bounds);
-			} else {
-				console.log("No fitBounds");
-			}
 		})
 	})
 }
@@ -1223,6 +1169,21 @@ function getBibliotecaLayer(){
 	});
 	return biLayer
 }
+/*var geoLayer = L.Geoserver.wms("http://172.16.0.36:8585/geoserver/sigeducativo/wms?service=WMS&version=1.1.0&request=GetMap&layers=sigeducativo%3Aprueba&bbox=-71.4211409202716%2C-45.0006197834424%2C-66.7081843146745%2C-42.6982215707371&width=768&height=375&srs=EPSG%3A4326&styles=&format=application/openlayers", {
+    layers: 'workspace:layer_name',
+    format: 'jpeg/png',
+    transparent: true,
+	attribution: "Capa proporcionada por GeoServer",
+	style: {
+        color: 'blue',
+        weight: 2
+    }
+})
+//lat: -43.62555557370128
+//lng: -68.08227539062501
+geoLayer.setZIndex(999);
+geoLayer.addTo(mymap);	
+console.log(geoLayer);*/
 
 async function generarTodosLayers(layerParam) {
     var layersConfig = [];
@@ -1230,6 +1191,9 @@ async function generarTodosLayers(layerParam) {
 	const delegaciones = await getDelegacionLayers();
 	const supervision = await getSupervisionLayers();
 	const bibliotecas = await getBibliotecaLayer();
+	capaRegiones = await getRegiones()
+	capaDepartamentos = await getDepartamentos()
+	
 	var i = 0;
 	if (layerParam != null) {
 		establecimientos.forEach(establecimiento => {
@@ -1284,7 +1248,7 @@ async function generarTodosLayers(layerParam) {
 			fillColor: "#FF0000",
 			weight: 1,
 			layers_type: "general",
-			layers: [polygon, textLabelR1, textLabelR2 ,textLabelR3, textLabelR4, textLabelR5, textLabelR6],
+			layers: [capaRegiones, textLabelR1, textLabelR2 ,textLabelR3, textLabelR4, textLabelR5, textLabelR6],
 			inactive: true
 			})
 
@@ -1296,7 +1260,7 @@ async function generarTodosLayers(layerParam) {
 			fillColor: "#FFF252",
 			weight: 1,
 			layers_type: "general",
-			layers: [departament],
+			layers: [capaDepartamentos],
 			inactive: true,
 			})
 
@@ -1368,7 +1332,7 @@ async function generarTodosLayers(layerParam) {
 				fillColor: "#FF0000",
 				weight: 1,
 				layers_type: "general",
-				layers: [polygon, textLabelR1, textLabelR2 ,textLabelR3, textLabelR4, textLabelR5, textLabelR6],
+				layers: [capaRegiones, textLabelR1, textLabelR2 ,textLabelR3, textLabelR4, textLabelR5, textLabelR6],
 				inactive: false,
 				})
 
@@ -1389,7 +1353,7 @@ async function generarTodosLayers(layerParam) {
 				fillColor: "#FFF252",
 				weight: 1,
 				layers_type: "general",
-				layers: [departament],
+				layers: [capaDepartamentos],
 				inactive: true,
 				})
 
@@ -1683,13 +1647,9 @@ function itemsearchselected(selected){
 						},	
 					onEachFeature: onEachFeatureS
 			}));
-			if (instSelected.length == 1) {
-				mymap.fitBounds(instSelected[0].getBounds());
-			}
 			instSelected.forEach(marker => {
 				baselayer.addLayer(marker)
 			})
-			mymap.setZoom(16);
 			//limpiarItemsNombreEsc();
 			//limpiarItemsNroEsc();
 			updateButtonInLegend(name,{label: name,
@@ -1733,9 +1693,16 @@ function itemsearchselected(selected){
 			} else {
 				document.getElementById("infoNumNombreRepetidoFormControlSelect").style.display= "block";
 			}
-		}
+		}	
 	})
 	instSelected = [];
+}
+
+function itemSearchUbicacion(ubi) {
+	var lat = ubi.split("/")[0];
+	var long = ubi.split("/")[1];
+	mymap.setView([lat, long], 16);
+	resetForm();
 }
 
 //buscar por oferta FALTA QUE SE REFRESQUEN LOS MARCADORES CUANDO SE AÑADE POR SEGUNDA VEZ INFO A LA CAPA
@@ -1748,98 +1715,104 @@ function ofertaSelect(){
     fetch(`buscador/oferta?nivel=${resultNivel}&modalidad=${resultModalidad}`)
         .then(response => response.json())
         .then((escuelas) => {
-			if (layerNoExiste(name)) {
-				var cluster = L.markerClusterGroup({
-					showCoverageOnHover: false, // Desactiva la visualización del radio en el hover
-					disableClusteringAtZoom: 13, // Desactiva la agrupación a partir de cierto nivel de zoom
-					spiderfyOnMaxZoom: false, // No agrupa los marcadores al hacer zoom máximo
-					maxClusterRadius: 30, // Establece el radio máximo de agrupación
-					iconCreateFunction: function(cluster) {
-						return L.divIcon({ 
-							html: `<img src="./icons/establecimientos_consulta.svg">`, // Utiliza un ícono personalizado
-							className: `search-icons`, // Clase CSS para el ícono
-							iconSize: L.point(3, 3) // Tamaño del ícono
-						});
-					}
-				});
-				escuelas.features.forEach(data => {			
-					ofeSelected.push(L.geoJSON(data, {
-						pointToLayer: function (feature, latlng) {
-								var marker = L.marker(latlng, {
-									icon: L.icon({
-										iconUrl: "icons/establecimientos_consulta.svg",
-										iconSize:     [22, 22], 
-										iconAnchor:   [11, 0], 
-										popupAnchor:  [0, 0]
-									}),
-									riseOnHover: true
-								});
-								cluster.addLayer(marker);
-								return marker
-							},	
-						onEachFeature: onEachFeatureO
-					}));
-					cluster.addTo(mymap);
-					clusterOferta[`${name}`] = cluster
-				})
-				updateButtonInLegend(name,{label: name,
-					type: "image",
-					url:  "icons/establecimientos_consulta.svg",
-					layers_type: "consulta",
-					layers: cluster,
-					inactive: false,
+			console.log(escuelas.features.length);
+			if (escuelas.features.length > 0){
+				document.getElementById("infoOfertaNoDatosFinalesFormControlSelect").style.display = "none";
+				if (layerNoExiste(name)) {
+					var cluster = L.markerClusterGroup({
+						showCoverageOnHover: false, // Desactiva la visualización del radio en el hover
+						disableClusteringAtZoom: 13, // Desactiva la agrupación a partir de cierto nivel de zoom
+						spiderfyOnMaxZoom: false, // No agrupa los marcadores al hacer zoom máximo
+						maxClusterRadius: 30, // Establece el radio máximo de agrupación
+						iconCreateFunction: function(cluster) {
+							return L.divIcon({ 
+								html: `<img src="./icons/establecimientos_consulta.svg">`, // Utiliza un ícono personalizado
+								className: `search-icons`, // Clase CSS para el ícono
+								iconSize: L.point(3, 3) // Tamaño del ícono
+							});
+						}
 					});
+					escuelas.features.forEach(data => {			
+						ofeSelected.push(L.geoJSON(data, {
+							pointToLayer: function (feature, latlng) {
+									var marker = L.marker(latlng, {
+										icon: L.icon({
+											iconUrl: "icons/establecimientos_consulta.svg",
+											iconSize:     [22, 22], 
+											iconAnchor:   [11, 0], 
+											popupAnchor:  [0, 0]
+										}),
+										riseOnHover: true
+									});
+									cluster.addLayer(marker);
+									return marker
+								},	
+							onEachFeature: onEachFeatureO
+						}));
+						cluster.addTo(mymap);
+						clusterOferta[`${name}`] = cluster
+					})
+					updateButtonInLegend(name,{label: name,
+						type: "image",
+						url:  "icons/establecimientos_consulta.svg",
+						layers_type: "consulta",
+						layers: cluster,
+						inactive: false,
+						});
+				} else {
+					Object.keys(clusterOferta).forEach( nameLayer => {
+						if (nameLayer == name) {
+							var capaTemp = clusterOferta[nameLayer];
+							escuelas.features.forEach(data => {
+								var marker = L.geoJSON(data, {
+									pointToLayer: function (feature, latlng) {
+											return L.marker(latlng, {
+												icon: L.icon({
+													iconUrl: "icons/establecimientos_consulta.svg",
+													iconSize:     [22, 22], 
+													iconAnchor:   [11, 0], 
+													popupAnchor:  [0, 0]
+												}),
+												riseOnHover: true
+											});
+										},	
+									onEachFeature: onEachFeatureO								
+								})
+								capaTemp.addLayer(marker);
+							})
+							clusterOferta[nameLayer].remove(mymap);
+							clusterOferta[nameLayer] = capaTemp;
+							clusterOferta[nameLayer].addTo(mymap);
+						}
+					})
+					/*legend.options.legends.forEach(capa => {	
+						if (capa.label == name) {
+							console.log(capa)
+							escuelas.features.forEach(data => {
+								var marker = L.geoJSON(data, {
+									pointToLayer: function (feature, latlng) {
+											return L.marker(latlng, {
+												icon: L.icon({
+													iconUrl: "icons/establecimientos_consulta.svg",
+													iconSize:     [22, 22], 
+													iconAnchor:   [11, 0], 
+													popupAnchor:  [0, 0]
+												}),
+												riseOnHover: true
+											});
+										},	
+									onEachFeature: onEachFeatureO
+									
+								})
+								capa.layers._needsClustering.push(marker)
+							})
+						}
+					})*/
+					
+				}
 			} else {
-				Object.keys(clusterOferta).forEach( nameLayer => {
-					if (nameLayer == name) {
-						var capaTemp = clusterOferta[nameLayer];
-						escuelas.features.forEach(data => {
-							var marker = L.geoJSON(data, {
-								pointToLayer: function (feature, latlng) {
-										return L.marker(latlng, {
-											icon: L.icon({
-												iconUrl: "icons/establecimientos_consulta.svg",
-												iconSize:     [22, 22], 
-												iconAnchor:   [11, 0], 
-												popupAnchor:  [0, 0]
-											}),
-											riseOnHover: true
-										});
-									},	
-								onEachFeature: onEachFeatureO								
-							})
-							capaTemp.addLayer(marker);
-						})
-						clusterOferta[nameLayer].remove(mymap);
-						clusterOferta[nameLayer] = capaTemp;
-						clusterOferta[nameLayer].addTo(mymap);
-					}
-				})
-				/*legend.options.legends.forEach(capa => {	
-					if (capa.label == name) {
-						console.log(capa)
-						escuelas.features.forEach(data => {
-							var marker = L.geoJSON(data, {
-								pointToLayer: function (feature, latlng) {
-										return L.marker(latlng, {
-											icon: L.icon({
-												iconUrl: "icons/establecimientos_consulta.svg",
-												iconSize:     [22, 22], 
-												iconAnchor:   [11, 0], 
-												popupAnchor:  [0, 0]
-											}),
-											riseOnHover: true
-										});
-									},	
-								onEachFeature: onEachFeatureO
-								
-							})
-							capa.layers._needsClustering.push(marker)
-						})
-					}
-				})*/
-				
-			}			
+				document.getElementById("infoOfertaNoDatosFinalesFormControlSelect").style.display = "block";
+			}					
 		});
 	ofeSelected = [];
 }
@@ -1895,101 +1868,7 @@ function limpiarItemsNroEsc(){
 
 // Consultas ---------------------------------------------------------------------------------
 
-// Consulta de establecimiento por cueanexo
 /*
-function cue_valido(c){
-	//si tiene 9 caracteres y son todos numeros es TRUE
-	return (c.match(/^[0-9]+$/) != null && c.length == 9);
-}
-
-function cueAnexoSelect() {
-	var infoCueAnexo = document.getElementById("infoCueAnexo");
-	var infoCueAnexoError = document.getElementById("infoCueAnexoError");
-	var infoCueAnexoErrorNoExiste = document.getElementById("infoCueAnexoErrorNoExiste");
-	var infoCueNombreRepetidoFormControlSelect = document.getElementById("infoCueNombreRepetidoFormControlSelect");
-	infoCueNombreRepetidoFormControlSelect.style.display = 'none';
-	var fcue = document.getElementById("f-cue");
-	var miSelect = fcue.value;
-	var res = false;
-	if(layerNoExiste(miSelect)){
-		if(cue_valido(miSelect)){
-			infoCueAnexo.style.display = 'block';
-			infoCueAnexoError.style.display = 'none';
-			infoCueAnexoErrorNoExiste.style.display = 'none';
-			var nombre = "";
-			var cueAnexoSelect = L.geoJSON(localizaciones, {
-					pointToLayer: function (feature, latlng) {
-							return L.marker(latlng, {
-								icon: L.icon({
-								    iconUrl: "icons/establecimientos_consulta.svg",
-								    iconSize:     [22, 22], 
-								    iconAnchor:   [11, 0], 
-								    popupAnchor:  [0, 0] 
-								}),
-								riseOnHover: true
-							});
-						},
-					filter: function(feature, layer) {								
-				 		// si encontro al menos uno
-				 		if((feature.properties.cueanexo == miSelect) && res == false){
-				 			nombre = feature.properties.cueanexo;
-				 			res = true;	
-				 		}
-						return (feature.properties.cueanexo == miSelect);
-					},	
-					onEachFeature: onEachFeatureL	
-			});		
-			if(res){
-				mymap.fitBounds(cueAnexoSelect.getBounds());
-				mymap.setZoom(16);
-				//baselayer.clearLayers();
-				baselayer.addLayer(cueAnexoSelect);
-				fcue.value = '';
-				legends.push({label: nombre,
-					type: "image",
-					url:  "icons/establecimientos_consulta.svg",
-					layers_type: "consulta",
-					layers: [cueAnexoSelect],
-					inactive: false,
-				});
-				var myModalEl = document.getElementById('consultasEscuelas');
-				var modal = bootstrap.Modal.getInstance(myModalEl);
-				modal.hide();
-				agregarNuevaLegend();
-			} else {
-				infoCueNombreRepetidoFormControlSelect.style.display = 'none';
-				infoCueAnexo.style.display = 'none';
-				infoCueAnexoError.style.display = 'none';
-				infoCueAnexoErrorNoExiste.style.display = 'block';
-			}
-		}else{
-			infoCueNombreRepetidoFormControlSelect.style.display = 'none';
-			infoCueAnexo.style.display = 'none';
-			infoCueAnexoErrorNoExiste.style.display = 'none';
-			infoCueAnexoError.style.display = 'block';
-		}
-	} else {
-		infoCueAnexo.style.display = 'none';
-		infoCueAnexoErrorNoExiste.style.display = 'none';
-		infoCueAnexoError.style.display = 'none';
-		infoCueNombreRepetidoFormControlSelect.style.display = 'block';
-	}
-}
-
-
-
-
-
-// consulta de establecimientos por numero
-
-
-
-// es numero
-
-
-
-
-
 // consulta de establecimientos por localizaciones 
 
 document.getElementById("regionFormControlSelect").addEventListener("change", habilitarLocalidad);

@@ -37,8 +37,9 @@ function buscar_todos_domicilio () {
 };
 
 function busqueda_simple_todo () {
-    return db.any(`SELECT inst.*, COALESCE(c.responsable, 'Sin Informacion') AS responsable, COALESCE(c.email, 'Sin Informacion') AS email, COALESCE(c.tel_resp, 000000000) AS tel_resp FROM padron.v_institucion_completa AS inst
-        JOIN padron.contacto c ON c.id_institucion = inst.cue;`);
+    return db.any(`SELECT inst.*, COALESCE(c.responsable, 'Sin Informacion') AS responsable, COALESCE(c.email, 'Sin Informacion') AS email, COALESCE(c.tel_resp, 000000000) AS tel_resp, geo.lat, geo.long FROM padron.v_institucion_completa AS inst
+        JOIN padron.contacto c ON c.id_institucion = inst.cue
+        JOIN padron.georeferencia geo ON geo.id_institucion = c.id_institucion;`);
 };
 
 function buscar_ubicacion(id) {
@@ -133,7 +134,7 @@ function filtro_establecimiento_ambito() {
 //consultas capas postgis
 function capa_regiones() {                                                                                                                                      //ST_AsGeoJSON(ST_Transform(geom, 4326)) transformar
     return db.any(`SELECT                                                                                                                                             
-    id, numreg, nombrereg, totallocal, primario, inicial, secundario, superior, formación, población, superficie, artística, "domic/hosp", epja, especial, oserveduc, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom
+    id, numreg, nombrereg, totallocal, primario, inicial, secundario, superior, formación, población, superficie, artística, "domic/hosp" AS domhosp, epja, especial, oserveduc, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom
     FROM regiones_Educativas;`)
 }
 
