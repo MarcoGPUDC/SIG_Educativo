@@ -1081,7 +1081,7 @@ function getDelegacionLayers(){
 }
 //(`/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=sigeducativo%3Abibliotecas_pedagogicas&maxFeatures=50&outputFormat=application%2Fjson&srsname=EPSG:4326`)
 function getBibliotecaLayer(){
-	var biLayer = fetch ('/mapa/setBiblioMarkers')
+	var biLayer = fetch ('mapa/setBiblioMarkers')
 	.then (response => response.json())
 	.then( data => {
 		var bibliotecaLayer = createLayer(data, 'biblioteca','');
