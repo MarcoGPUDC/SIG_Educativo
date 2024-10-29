@@ -940,6 +940,7 @@ function getEstablecimientosLayers() {
     return fetch('mapa/setInstMarkers')
         .then(response => response.json())
         .then(data => {
+			var filter = true;
 			var todosLayers = [];
 			var dataInicial = [];
 			var dataPrimaria = [];
@@ -950,6 +951,9 @@ function getEstablecimientosLayers() {
 			var dataFormProf = [];
 			var dataOtrosServ = [];
 			var dataArtistica = [];
+			var dataEPJA = [];
+			var dataContexto = [];
+			var dataRural = [];
 			data.features.forEach(escuelas => {
 				switch (true) {
 					//numeracion inicial 400 a 499 / 4000 a 4999 / 1400 a 1499 / 2400 a 2499
@@ -969,30 +973,52 @@ function getEstablecimientosLayers() {
 						break;
 					//numeracion Adultos - formacion profesional 600 a 699 / 1600 a 1699
 					//case ((escuelas.properties.numero >= 600 && escuelas.properties.numero <= 699) || (escuelas.properties.numero >= 1600 && escuelas.properties.numero <= 1699)):
-					case (escuelas.properties.nivel == 'Formación profesional' || (escuelas.properties.numero >= 600 && escuelas.properties.numero <= 699) || (escuelas.properties.numero >= 1600 && escuelas.properties.numero <= 1699)):
+					case (escuelas.properties.nivel == 'Superior'):
+						dataSNU.push(escuelas);
+						break;
+					default:
+						filter = false;
+					}
+				switch (true) {
+					//numeracion Adultos - formacion profesional 600 a 699 / 1600 a 1699
+					//case ((escuelas.properties.numero >= 600 && escuelas.properties.numero <= 699) || (escuelas.properties.numero >= 1600 && escuelas.properties.numero <= 1699)):
+					case (escuelas.properties.modalidad == 'ETP'):
 						dataFormProf.push(escuelas);
 						break;
 					//numeracion especial 500 a 599 / 1500 a 1500
-					case ((escuelas.properties.numero >= 500 && escuelas.properties.numero <= 599) || (escuelas.properties.numero >= 1500 && escuelas.properties.numero <= 1599)):
+					case (escuelas.properties.modalidad == 'Especial'):
 						dataEspecial.push(escuelas);
 						break;
-					//superior no universitario SNU 800 a 899 / 1800 a 1899
-					case ((escuelas.properties.numero >= 800 && escuelas.properties.numero <= 899) || (escuelas.properties.numero >= 1800 && escuelas.properties.numero <= 1899)):
-						dataSNU.push(escuelas);
-						break;
 					//numeracion domiciliaria/hospitalaria 300 a 399
-					case (escuelas.properties.numero >= 300 && escuelas.properties.numero <= 399):
+					case (escuelas.properties.modalidad == 'Domiciliaria/hospitalaria'):
 						dataDomHosp.push(escuelas);
 						break;
+					case (escuelas.properties.modalidad == 'Artistica'):
+						dataArtistica.push(escuelas);
+						break;
+					case (escuelas.properties.modalidad == 'EPJA'):
+						dataEPJA.push(escuelas);
+						break;
+					case (escuelas.properties.modalidad == 'Contexto de encierro'):
+						dataContexto.push(escuelas);
+						break;
+					case (escuelas.properties.modalidad == 'Rural'):
+						dataRural.push(escuelas);
+						break;
 					//lo que no cae en lo anterior cae en otros servicios educativos
-					case (escuelas.properties.modalidad == 'Otros servicios educativos' || escuelas.properties.numero >= 6000):
+					case (escuelas.properties.modalidad == 'Otros servicios educativos'):
 						dataOtrosServ.push(escuelas);
-						break;	
+						break;
 					default:
-        				console.log('no se encontraron instituciones ' + escuelas.properties.modalidad);
-					}})
+						if (!filter) {
+							console.log('No se clasifico la escuela N° ' + escuelas.properties.numero);
+							console.log('Modalidad: '+ escuelas.properties.modalidad);
+							console.log('Nivel: '+ escuelas.properties.nivel);
+						}
+					}
+				filter = true;
+			})
 					
-
             // Crea la capa GeoJSON y añádela al cluster
 			var inicialLayer = createLayer(dataInicial,'establecimientos', 'inicial');
 			var primariaLayer = createLayer(dataPrimaria,'establecimientos', 'primaria');
@@ -1002,15 +1028,23 @@ function getEstablecimientosLayers() {
 			var domHospLayer = createLayer(dataDomHosp,'establecimientos', 'dom_hosp');
 			var formProfLayer = createLayer(dataFormProf,'establecimientos', 'form_prof');
 			var otrosServLayer = createLayer(dataOtrosServ,'establecimientos', 'comp');
+			var artisticaLayer = createLayer(dataArtistica,'establecimientos', 'artistica')
+			var epjaLayer = createLayer(dataEPJA,'establecimientos', 'epja')
+			var contextoLayer = createLayer(dataContexto, 'establecimientos', 'contexto')
+			var ruralLayer = createLayer(dataRural, 'establecimientos', 'rurales')
 			// agrega las capas a un array de capas para guardar las referencias
 			todosLayers.push([[inicialLayer],[{label: 'Ed. Inicial', url: 'inicial'}]]);//0
 			todosLayers.push([[primariaLayer],[{label: 'Ed. Primaria', url: 'primaria'}]]);//1
 			todosLayers.push([[secundariaLayer],[{label: 'Ed. Secundaria', url: 'sec'}]]);//2
 			todosLayers.push([[SNULayer],[{label: 'Superior No Universitario', url: 'superior'}]]);//3
 			todosLayers.push([[especialLayer],[{label: 'Ed. Especial', url: 'especial'}]]);//4
-			todosLayers.push([[formProfLayer],[{label: 'Formacion Profesional', url: 'form_prof'}]]);//5
-			todosLayers.push([[domHospLayer],[{label: 'Ed. Domiciliaria/Hospitalaria', url: 'dom_hosp'}]]);//6
-			todosLayers.push([[otrosServLayer],[{label: 'Otros Servicios Educativos', url: 'comp'}]]);//7
+			todosLayers.push([[formProfLayer],[{label: 'Ed. Técnico Profesional', url: 'form_prof'}]]);//5
+			todosLayers.push([[domHospLayer],[{label: 'Ed. Domiciliaria/Hospitalaria', url: 'dom_hosp'}]]);//6	
+			todosLayers.push([[artisticaLayer],[{label: 'Artistica', url: 'artistica'}]]);//7
+			todosLayers.push([[epjaLayer],[{label: 'Escuela Permanente p/ Jovenes Adultos', url: 'epja'}]]);//8
+			todosLayers.push([[contextoLayer],[{label: 'Contexto de encierro', url: 'contexto'}]]);//9
+			todosLayers.push([[ruralLayer],[{label: 'Rural', url: 'rurales'}]]);//9
+			todosLayers.push([[otrosServLayer],[{label: 'Otros Servicios Educativos', url: 'comp'}]]);//10
             return todosLayers;
         })
         .catch(error => {
