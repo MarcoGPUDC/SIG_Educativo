@@ -9,6 +9,8 @@ var mymap = new L.map('map', {
 }); 
 
 // Function to hide the loading screen
+
+
 function hideLoadingScreen() {
 	document.getElementById('loading-screen').style.display = 'none';
 }
@@ -159,17 +161,8 @@ document.addEventListener('click', function(event) {
 	if (!buscadorDireccion.contains(event.target)) {
 		resultadosBuscador.classList.add('d-none');
 	}
-});
-
-// Prevenir que el click dentro del buscador cierre el div
-document.getElementById('resultados-buscador').addEventListener('click', function(event) {
-	event.stopPropagation();
 });*/
-/*ar textLabelR2 = L.marker(textLatLngR2, {
-    icon: L.divIcon({
-        className: 'text-labels',
-        html: '<div>II</div>'
-    }),*/
+
 
 // Agregar departaentos a mapa 
 
@@ -202,6 +195,19 @@ infoD.update = function(props){
 
 infoD.addTo(mymap); 
 
+//obtener informacion de espacios de trabajo de geoserver
+/*fetch('geoserver/ows?service=WMS&version=1.1.1&request=GetCapabilities')
+  .then(response => response.text())
+  .then(xmlText => {
+    // Procesa el XML aquí para contar las capas
+    // Por ejemplo, usa un parser XML y recorre las etiquetas <Layer>
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+    const layers = xmlDoc.getElementsByTagName("Layer");
+    console.log(`Número de capas en geoserver: ${layers.length}`);
+  })
+  .catch(error => console.error('Error al obtener las capacidades:', error));*/
+
 
 // Funcion de interaccion del puntero con la capa para resaltar el dapartamento
 
@@ -211,19 +217,19 @@ function highlightFeatureD(e) {
         weight: 1,
         color: '#666',
         dashArray: '',
-        fillOpacity: 0.7
+        fillOpacity: 0.3
     });
     infoD.update(layer.feature.properties);
 }
 
 // Variable de departamento
 
-var departament;
+var capaDepartamentos;
 
 // Configurar los cambios de resaltar y de zoom de la capa
 
 function resetHighlightD(e){
-    departament.resetStyle(e.target);
+    capaDepartamentos.resetStyle(e.target);
     infoD.update();
 }
 function zoomToFeatureD(e){
@@ -270,16 +276,23 @@ function estilo_departamentos (feature) {
 	};
 };
 
-departament =  L.geoJson(departamentos, {
-    style: estilo_departamentos,
-    onEachFeature: onEachFeatureD
-});//.addTo(mymap);
+
+ 
+  
+
 
 
 // Agregar nombre region
-
+var posRegiones = [
+	[-42.263364, -70.828274],
+	[-42.340042, -65.70081],
+	[-43.678353, -70.742548],
+	[-43.533583, -67.91289],
+	[-45.32692, -70.31852],
+	[-45.339412, -67.964911]
+]
 var textLatLngR1 = [-42.263364, -70.828274];  
-var textLabelR1 = L.marker(textLatLngR1, {
+var textLabelR1 = L.marker(posRegiones[0], {
     icon: L.divIcon({
         className: 'text-labels',
         html: '<div>I</div>'
@@ -288,7 +301,7 @@ var textLabelR1 = L.marker(textLatLngR1, {
 });
 baselayer.addLayer(textLabelR1);
 var textLatLngR2 = [-42.340042, -65.70081];  
-var textLabelR2 = L.marker(textLatLngR2, {
+var textLabelR2 = L.marker(posRegiones[1], {
     icon: L.divIcon({
         className: 'text-labels',
         html: '<div>II</div>'
@@ -297,7 +310,7 @@ var textLabelR2 = L.marker(textLatLngR2, {
 });
 baselayer.addLayer(textLabelR2);
 var textLatLngR3 = [-43.678353, -70.742548];  
-var textLabelR3 = L.marker(textLatLngR3, {
+var textLabelR3 = L.marker(posRegiones[2], {
     icon: L.divIcon({
         className: 'text-labels',
         html: '<div>III</div>'
@@ -306,7 +319,7 @@ var textLabelR3 = L.marker(textLatLngR3, {
 });
 baselayer.addLayer(textLabelR3);
 var textLatLngR4 = [-43.533583, -67.91289];  
-var textLabelR4 = L.marker(textLatLngR4, {
+var textLabelR4 = L.marker(posRegiones[3], {
     icon: L.divIcon({
         className: 'text-labels',
         html: '<div>IV</div>'
@@ -315,7 +328,7 @@ var textLabelR4 = L.marker(textLatLngR4, {
 });
 baselayer.addLayer(textLabelR4);
 var textLatLngR5 = [-45.32692, -70.31852];  
-var textLabelR5 = L.marker(textLatLngR5, {
+var textLabelR5 = L.marker(posRegiones[4], {
     icon: L.divIcon({
         className: 'text-labels',
         html: '<div>V</div>'
@@ -324,7 +337,7 @@ var textLabelR5 = L.marker(textLatLngR5, {
 });
 baselayer.addLayer(textLabelR5);
 var textLatLngR6 = [-45.339412, -67.964911];  
-var textLabelR6 = L.marker(textLatLngR6, {
+var textLabelR6 = L.marker(posRegiones[5], {
     icon: L.divIcon({
         className: 'text-labels',
         html: '<div>VI</div>'
@@ -353,23 +366,23 @@ info.onAdd = function(map){
 info.update = function(props){
     this._div.innerHTML = "<b>Información de la Región</h7></b>" + 
                             (props ? 
-                            	"<table><tr><td><b>Región:</b> " + props.numReg + " (" + props.nombreReg + ")"+ 
-                            	"</td></tr><tr><td><b>Total Localizaciones:</b> "+ (props.totalLocal?props.totalLocal:"Sin Localizaciones") +
-                            	"</td></tr><tr><td><b>Educación Inicial:</b> "+ (props.Inicial?props.Inicial:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Educación Primaria:</b> "+ (props.Primario?props.Primario:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Educación Secundaria:</b> "+ (props.Secundario?props.Secundario:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Educación Superior:</b> "+ (props.Superior?props.Superior:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Formación Profesional:</b> "+ (props.Formación?props.Formación:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Educación Domiciliaria y Hospitalaria:</b> "+ (props.DomHosp?props.DomHosp:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Educación Especial:</b> "+ (props.Especial?props.Especial:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Educación Artística:</b> "+ (props.Artística?props.Artística:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>EPJA:</b> "+ (props.EPJA?props.EPJA:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Otros Servicios Educativos:</b> "+ (props.OServEduc?props.OServEduc:"Sin Localizaciones")+
-								"</td></tr><tr><td><b>Edificios:</b> "+ (props.Edificios?props.Edificios:"Sin Localizaciones")+
-								"</td></tr><tr><td><b>Sedes:</b> "+ (props.Sedes?props.Sedes:"Sin Localizaciones")+
-								"</td></tr><tr><td><b>Anexos:</b> "+ (props.Anexos?props.Anexos:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Población:</b> "+ (props.Población?props.Población:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Superficie:</b> "+ (props.Superficie?props.Superficie:"Sin Localizaciones")+
+                            	"<table><tr><td><b>Región:</b> " + props.numreg + " (" + props.nombrereg + ")"+ 
+                            	"</td></tr><tr><td><b>Total Localizaciones:</b> "+ (props.totallocal?props.totallocal:"Sin Localizaciones") +
+                            	"</td></tr><tr><td><b>Educación Inicial:</b> "+ (props.inicial?props.inicial:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Primaria:</b> "+ (props.primario?props.primario:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Secundaria:</b> "+ (props.secundario?props.secundario:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Superior:</b> "+ (props.superior?props.superior:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Formación Profesional:</b> "+ (props.formacion?props.formacion:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Domiciliaria y Hospitalaria:</b> "+(props.domhosp?props.domhosp:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Especial:</b> "+ (props.especial?props.especial:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Artística:</b> "+ (props.artistica?props.artistica:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>EPJA:</b> "+ (props.epja?props.epja:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Otros Servicios Educativos:</b> "+ (props.oserveduc?props.oserveduc:"Sin Localizaciones")+
+								"</td></tr><tr><td><b>Edificios:</b> "+ (props.edificios?props.edificios:"Sin Localizaciones")+
+								"</td></tr><tr><td><b>Sedes:</b> "+ (props.sedes?props.sedes:"Sin Localizaciones")+
+								"</td></tr><tr><td><b>Anexos:</b> "+ (props.anexos?props.anexos:"Sin Localizaciones")+
+                            	//"</td></tr><tr><td><b>Población:</b> "+ (props.poblacion?props.poblacion:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Superficie:</b> "+ (props.superficie?props.superficie:"Sin Localizaciones")+
                             	"</td></tr></table>"
                             : "<br>Pase el puntero por una región");
 };
@@ -387,19 +400,18 @@ function highlightFeature(e) {
         weight: 2,
         color: '#666',
         dashArray: '',
-        fillOpacity: 0.5
+        fillOpacity: 0.3
     });
     info.update(layer.feature.properties);
 }
 
 // Variable de region
-
-var polygon;
+var capaRegiones;
 
 // Configurar los cambios de resaltar y de zoom de la capa
 
 function resetHighlight(e){
-    polygon.resetStyle(e.target);
+    capaRegiones.resetStyle(e.target);
     info.update();
 }
 function zoomToFeature(e){
@@ -427,28 +439,121 @@ function colorRegion(d) {
 // Estilo por region
 
 function estilo_region (feature) {		
-			if (feature.properties.numReg == 'I' || feature.properties.numReg == 'III' || feature.properties.numReg == 'VI') {
-				return{fillColor: colorRegion(feature.properties.numReg), 
-				color: colorRegion(feature.properties.numReg), 
+			if (feature.properties.numreg == 'I' || feature.properties.numreg == 'III' || feature.properties.numreg == 'VI') {
+				return{fillColor: colorRegion(feature.properties.numreg), 
+				color: colorRegion(feature.properties.numreg), 
 				opacity :  0.2,
 				fillOpacity: 0.3,}
 			} else {
-				return {fillColor: colorRegion(feature.properties.numReg), 
-				color: colorRegion(feature.properties.numReg), 
+				return {fillColor: colorRegion(feature.properties.numreg), 
+				color: colorRegion(feature.properties.numreg), 
 				opacity :  0.2,
 				fillOpacity: 0.2,}
 			}
 			
 	};
 
+async function getGeoserverLayer(layer, workspace) {
+	const viewLayer = L.tileLayer.wms("/geoserver/sigeducativo/ows", {
+		layers: `${workspace}:${layer}`,
+		format: 'image/png',
+		transparent: true,	
+		version: '1.1.1',
+		styles: layer,
+		attribution: "SIG Educativo"
+	})
+	let tipo = layer.split("_")[0];
+	let nivel = layer.split("_")[1];
+	let dataLayer;
+	try {
+		const geoResponse = await fetch(`/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${workspace}%3A${layer}&maxFeatures=300&outputFormat=application%2Fjson&srsname=EPSG:4326`);
+		const dataGeoJSON = await geoResponse.json();
+		switch (tipo) {
+			case "regiones":
+				viewLayer.addTo(mymap);
+				dataLayer = L.geoJSON(dataGeoJSON, {
+					onEachFeature: function (feature, layer) {
+						// Configurar eventos de interacción con cada feature
+						layer.on({mouseover: highlightFeature});
+			
+						// Resetear el estilo cuando el mouse sale de la feature
+						layer.on('mouseout', function (e) {
+							dataLayer.resetStyle(e.target);
+							info.update();
+						});
+					
+					},
+					style: function() {
+						return { color: 'transparent' }; // Hacer la capa invisible
+					}
+				}).addTo(mymap);
+				break;
+			default:
+					dataLayer = createLayer(dataGeoJSON, tipo, (nivel)?nivel:'')
+					dataLayer.addTo(mymap);
+				break;
+		}
+
+	} catch (error) {
+		console.error("Error al cargar la capa: ", error);
+        return;
+	}
+	return dataLayer;
+}
+
+
 // Agregar regiones a mapa
 
-polygon = L.geoJson(regiones_educativas, {
-    style: estilo_region,
-    onEachFeature: onEachFeature
-}).addTo(mymap);
+/*node async function getRegiones() {
+	const viewRegionLayer = L.tileLayer.wms("/geoserver/sigeducativo/ows", {
+		layers: 'sigeducativo:regiones_educativas',
+		format: 'image/png',
+		transparent: true,
+		version: '1.1.1',
+		styles: 'regiones_educativas',
+		attribution: "SIG Educativo"
+	})
+	let dataRegionLayer;
+    try {
+        const response = await fetch('/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=sigeducativo%3Aregiones_educativas&maxFeatures=50&outputFormat=application%2Fjson&srsname=EPSG:4326');
+        const regiones = await response.json();
+        // Crear la capa GeoJSON con los datos recibidos
+        dataRegionLayer = L.geoJSON(regiones, {
+            onEachFeature: function (feature, layer) {
+				// Configurar eventos de interacción con cada feature
+				layer.on({mouseover: highlightFeature});
+	
+				// Resetear el estilo cuando el mouse sale de la feature
+				layer.on('mouseout', function (e) {
+					dataRegionLayer.resetStyle(e.target);
+					info.update();
+				});
+			
+			},
+			style: function() {
+				return { color: 'transparent' }; // Hacer la capa invisible
+			}
+		})
+    } catch (error) {
+        console.error("Error al cargar la capa WFS: ", error);
+        return;
+    }
+	var combinedLayer = L.layerGroup([viewRegionLayer, dataRegionLayer]);
+	combinedLayer.addTo(mymap);
+	return combinedLayer
+}*/
 
-
+async function getRegiones() {
+	return fetch('mapa/regiones')
+	.then(response => response.json())
+	.then(regiones => {
+		const capaRegiones = L.geoJSON(regiones, {
+			style: estilo_region,
+			onEachFeature: onEachFeature
+		}).addTo(mymap);
+		return capaRegiones
+	})
+}
 
 // Agregar organizaciones educativas a mapa
 
@@ -477,72 +582,7 @@ function popup_supervision (feature, layer) {
         popupopen : closepoputNL,
     });
 };			
-var sup_inicial = L.geoJSON(supervicion_inicial, {
-		pointToLayer: function (feature, latlng) {
-				return L.marker(latlng, {
-					icon: L.icon({
-					    iconUrl: "icons/supervision_inicial.svg",
-					    iconSize:     [22, 22], 
-					    iconAnchor:   [11, 0], 
-					    popupAnchor:  [0, 0] 
-					}),
-					riseOnHover: true
-				});
-			},	
-		onEachFeature: popup_supervision
-});		
 
-
-// Layer supervision primaria	
-
-var sup_primaria = L.geoJSON(supervicion_primaria, {
-		pointToLayer: function (feature, latlng) {
-				return L.marker(latlng, {
-					icon: L.icon({
-					    iconUrl: "icons/supervision_primaria.svg",
-					    iconSize:     [22, 22], 
-					    iconAnchor:   [11, 0], 
-					    popupAnchor:  [0, 0] 
-					}),
-					riseOnHover: true
-				});
-			},
-		onEachFeature: popup_supervision
-});		
-
-// Layer supervision secundaria	
-
-var sup_secundaria = L.geoJSON(supervicion_secundaria, {
-		pointToLayer: function (feature, latlng) {
-				return L.marker(latlng, {
-					icon: L.icon({
-					    iconUrl: "icons/supervision_secundaria.svg",
-					    iconSize:     [22, 22], 
-					    iconAnchor:   [11, 0], 
-					    popupAnchor:  [0, 0] 
-					}),
-					riseOnHover: true
-				});
-			},
-		onEachFeature: popup_supervision	
-});		
-
-// Layer supervision privada
-
-var sup_privada = L.geoJSON(supervicion_privada, {
-		pointToLayer: function (feature, latlng) {
-				return L.marker(latlng, {
-					icon: L.icon({
-					    iconUrl: "icons/supervision_privada.svg",
-					    iconSize:     [22, 22], 
-					    iconAnchor:   [11, 0], 
-					    popupAnchor:  [0, 0] 
-					}),
-					riseOnHover: true
-				});
-			},
-		onEachFeature: popup_supervision
-});
 
 // Layer ministerio educacion
 
@@ -589,43 +629,20 @@ function popup_del_admnistrativas (feature, layer) {
         popupopen : closepoputNL,
     });
 };			
-var del_admnistrativas = L.geoJSON(delegaciones_administrativas, {
-		pointToLayer: function (feature, latlng) {
-				return L.marker(latlng, {
-					icon: L.icon({
-					    iconUrl: "icons/delegacion_.svg",
-					    iconSize:     [22, 22], 
-					    iconAnchor:   [11, 0], 
-					    popupAnchor:  [0, 0] 
-					}),
-					riseOnHover: true
-				});
-			},
-		onEachFeature: popup_del_admnistrativas
-});
-
-
-// agrega capas a layer
-/*baselayer.addLayer(sup_secundaria);
-baselayer.addLayer(sup_privada);
-baselayer.addLayer(sup_primaria);
-baselayer.addLayer(sup_inicial);*/
-//baselayer.addLayer(min_educacion);
-//baselayer.addLayer(del_admnistrativas);
-
 
 // Layer bibliotecas pedagogicas
 
 function popup_bib_pedagogicas (feature, layer) {
 	layer.bindPopup(
-		"<div class='p-3'><h6 style='color:#0d6efd'>Biblioteca Pedagógica "+ (feature.properties.nombre?feature.properties.nombre:"") +
+		"<div class='p-3'><h6 style='color:#0d6efd'>Biblioteca Pedagógica "+ (feature.properties.nombrebibl?feature.properties.nombrebibl:"") +
 		"</h6><table>" + 
-		"</td></tr><tr><td><b>Región:</b> "+ (feature.properties.region?feature.properties.region:"No se registra") +
+		"</td></tr><tr><td><b>Región:</b> "+ (feature.properties.numreg?feature.properties.numreg:"No se registra") +
 		"</td></tr><tr><td><b>Localidad:</b> "+ (feature.properties.localidad?feature.properties.localidad:"No se registra") +
 		"</td></tr><tr><td><b>Dirección:</b> "+ (feature.properties.direccion?feature.properties.direccion:"No se registra") +
-		"</td></tr><tr><td><b>Cod. Postal:</b> "+ (feature.properties.cp?feature.properties.cp:"No se registra") +
+		"</td></tr><tr><td><b>Cod. Postal:</b> "+ (feature.properties.codpostal?feature.properties.codpostal:"No se registra") +
 		"<tr><td><b>Email:</b><a " + (feature.properties.email?"href='mailto:"+feature.properties.email:"") + " '> "  + (feature.properties.email?feature.properties.email:"No se registra") + "</a></td></tr>" +
 		"</td></tr><tr><td><b>Horario:</b> "+ (feature.properties.horario?feature.properties.horario:"No se registra") +
+		//"</td></tr><tr><td><input type='checkbox' id='bibliotecaAreaPrueba' value='"+feature.properties.area+"' >Mostrar Área</input>" +
 		"</td></tr></table></div>",
 		{minWidth: 270, maxWidth: 270}
 	);
@@ -633,34 +650,22 @@ function popup_bib_pedagogicas (feature, layer) {
         popupopen : closepoputNL,
     });
 };
-
-var bib_pedagogicas = L.geoJSON(bibliotecas_pedagogicas, {
-		pointToLayer: function (feature, latlng) {
-				return L.marker(latlng, {
-					icon: L.icon({
-					    iconUrl: "icons/biblioteca.svg",
-					    iconSize:     [22, 22], 
-					    iconAnchor:   [11, 0], 
-					    popupAnchor:  [0, 0] 
-					}),
-					riseOnHover: true
-				});
-			},
-		onEachFeature: popup_bib_pedagogicas
-});		
-//baselayer.addLayer(bib_pedagogicas);
-
 // Agregar establecimientos educativos a mapa 
 
 function formatoNombre(cadena) {
-	let splitCad = cadena.split(" ");
-	let minusCad = splitCad.map(palabra => {
-    	return palabra.toLowerCase();
-	})
-	let mayusCad = minusCad.map(palabra => {
-    return palabra[0].toUpperCase() + palabra.slice(1);
-	})
-	return mayusCad.join(" ");
+	if (cadena) {
+		let splitCad = cadena.split(" ");
+		let minusCad = splitCad.map(palabra => {
+			return palabra.toLowerCase();
+		})
+		let mayusCad = minusCad.map(palabra => {
+		return palabra[0].toUpperCase() + palabra.slice(1);
+		})
+		return mayusCad.join(" ");
+	} else {
+		return false
+	}
+		
 };
 
 function mostrarDiv(idcue){
@@ -728,6 +733,33 @@ function onEachFeatureL(feature, layer){
   		, {minWidth: 270, maxWidth: 270}
 	);
 }
+function onEachFeatureEst(feature, layer){
+	layer.bindPopup(
+		"<div class='p-3'>"+
+  		"<h6 style='color:#0d6efd'>"+ (feature.properties.fna?feature.properties.fna:"No se registra") + "</h6>" +
+	 	"<h6> Información General</h6>" + 
+	 	"<table>"+
+		"<tr><td><b>CUE - Anexo:</b> "+ (feature.properties.cueanexo?feature.properties.cueanexo:"No se registra") + "</td></tr>"+
+		"<tr><td><b>Número:</b> "+ (feature.properties.codjurid?feature.properties.codjurid:"No se registra") + "</td></tr>" + 
+		"<tr><td><b>Región:</b> "+ (feature.properties.región?feature.properties.región:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Localidad:</b> "+ (feature.properties.localidad?formatoNombre(feature.properties.localidad):"No se registra") + "</td></tr>" +
+		"<tr><td><b>Dirección:</b> "+ (feature.properties.calle?feature.properties.calle + " " + feature.properties.num_calle:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Nivel:</b> "+ (feature.properties.nivel?feature.properties.nivel:"No se registra") + "</td></tr>" +
+		"</table>" +
+		"<h6 class='mt-3'> Información de Contacto</h6>" + 
+		"<table>" +
+		"<tr><td><b>Teléfono:</b> "+ (feature.properties.telefono?feature.properties.telefono:"") + "</td></tr>" +
+		"<tr><td><b>Email:</b><a " + (feature.properties.email?"href='mailto:"+feature.properties.email:"") + " '> "  + (feature.properties.email?feature.properties.email:"No se registra") + "</a></td></tr>" +
+		"<tr><td><b>Sitio Web:</b>" + "<a " + (feature.properties.sitioweb && feature.properties.sitioweb != 'Sin información'?"href='"+feature.properties.sitioweb:"") + " ' target='_blank' rel='noopener noreferrer'> "  + (feature.properties.sitioweb?feature.properties.sitioweb:"No se registra") + "</a>"+ "</td></tr>" +
+		"<tr><td><b>Responsable:</b> "+ (feature.properties.responsabl?feature.properties.responsabl:"") + "</td></tr>" +
+		"<tr><td><b>Tel. del Responsable:</b> "+ (feature.properties.resp_tel?feature.properties.resp_tel:"-") + "</td></tr>" +
+		"</table>" +
+  		"</div></div>" +
+  		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='/sigeducativo/info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
+  		"</div>"
+  		, {minWidth: 270, maxWidth: 270}
+	);
+}
 
 function onEachFeatureS (feature, layer) {
 	layer.bindPopup(	
@@ -759,126 +791,51 @@ function onEachFeatureS (feature, layer) {
 			"</div>", {minWidth: 270, maxWidth: 270}
 			);
 		}
-/*
-var domiciliaria_hospitalaria = L.geoJSON(ed_domiciliaria_hospitalaria, {
-		pointToLayer: function (feature, latlng) {
-			return L.marker(latlng, {
-				icon: L.icon({
-				    iconUrl: "icons/establecimientos_dom_hosp.svg",
-				    iconSize:     [22, 22], 
-					iconAnchor:   [11, 0], 
-				    popupAnchor:  [0, 0] 
-				}),
-				riseOnHover: true
-			});
-		},	
-		onEachFeature: onEachFeatureL
-});	
 
-//baselayer.addLayer(domiciliaria_hospitalaria);
-var especial = L.geoJSON(ed_especial, {
-		pointToLayer: function (feature, latlng) {
-			return L.marker(latlng, {
-				icon: L.icon({
-				    iconUrl: "icons/establecimientos_especial.svg",
-				    iconSize:     [22, 22], 
-					iconAnchor:   [11, 0], 
-				    popupAnchor:  [0, 0] 
-				}),
-				riseOnHover: true
-			});
-		},	
-		onEachFeature: onEachFeatureL
-});	
+function showZoom(){
+	var zoom = mymap.getZoom();
+	console.log(zoom);
+}
 
-//baselayer.addLayer(especial);
-var inicial = L.geoJSON(ed_inicial, {
-		pointToLayer: function (feature, latlng) {
-			return L.marker(latlng, {
-				icon: L.icon({
-				    iconUrl: "icons/establecimientos_inicial.svg",
-				    iconSize:     [22, 22], 
-					iconAnchor:   [11, 0], 
-				    popupAnchor:  [0, 0] 
-				}),
-				riseOnHover: true
-			});
-		},	
-		onEachFeature: onEachFeatureL
-});		
+//Mover marcador
+function moverMarcador(marcador) {
+	var latlngOriginal = marcador.getLatLng();
+	var latoriginal = latlngOriginal.lat;
+	var lngoriginal = latlngOriginal.lng;
+	var zoomLevel = mymap.getZoom();
+	if (zoomLevel == 7){
+		marcador.setLatLng([latoriginal, lngoriginal - 0.25]);
+	} else if (zoomLevel == 8){
+		marcador.setLatLng([latoriginal, lngoriginal - 0.13]);
+	} else if (zoomLevel == 9){
+		marcador.setLatLng([latoriginal, lngoriginal - 0.07]);
+	} else if (zoomLevel == 10){
+		marcador.setLatLng([latoriginal, lngoriginal - 0.032]);
+	} else if (zoomLevel == 11){
+		marcador.setLatLng([latoriginal, lngoriginal - 0.016]);
+	} else if (zoomLevel == 12){
+		marcador.setLatLng([latoriginal, lngoriginal - 0.008]);
+	} else if (zoomLevel == 13){
+		marcador.setLatLng([latoriginal, lngoriginal - 0.0040]);
+	} else if (zoomLevel == 14){
+		marcador.setLatLng([latoriginal, lngoriginal - 0.0021]);
+	} else if (zoomLevel == 15){
+		marcador.setLatLng([latoriginal, lngoriginal - 0.0010]);
+	} else if (zoomLevel == 16){
+		marcador.setLatLng([latoriginal, lngoriginal - 0.00051]);
+	} else if (zoomLevel == 17){
+		marcador.setLatLng([latoriginal, lngoriginal - 0.00028]);
+	} else if (zoomLevel == 18){
+		marcador.setLatLng([latoriginal, lngoriginal - 0.00013]);
+	} else if (zoomLevel == 19){
+		marcador.setLatLng([latoriginal, lngoriginal - 0.000074]);
+	} else if (zoomLevel == 20){
+		marcador.setLatLng([latoriginal, lngoriginal - 0.000034]);
+	}
+	
+}
 
-//baselayer.addLayer(inicial);
-var primaria = L.geoJSON(ed_primaria, {
-		pointToLayer: function (feature, latlng) {
-			return L.marker(latlng, {
-				icon: L.icon({
-				    iconUrl: "icons/establecimientos_primaria.svg",
-				    iconSize:     [22, 22], 
-					iconAnchor:   [11, 0], 
-				    popupAnchor:  [0, 0] 
-				}),
-				riseOnHover: true
-			});
-		},	
-		onEachFeature: onEachFeatureL
-});
-//baselayer.addLayer(secundaria);
-var superior = L.geoJSON(ed_superior, {
-		pointToLayer: function (feature, latlng) {
-			return L.marker(latlng, {
-				icon: L.icon({
-				    iconUrl: "icons/establecimientos_superior.svg",
-				    iconSize:     [22, 22], 
-					iconAnchor:   [11, 0], 
-				    popupAnchor:  [0, 0] 
-				}),
-				riseOnHover: true
-			});
-		},	
-		onEachFeature: onEachFeatureL
-});	
-
-//baselayer.addLayer(superior);
-
-
-var form_prof = L.geoJSON(ed_form_prof, {
-		pointToLayer: function (feature, latlng) {
-			return L.marker(latlng, {
-				icon: L.icon({
-				    iconUrl: "icons/establecimientos_form_prof.svg",
-				    iconSize:     [22, 22], 
-					iconAnchor:   [11, 0], 
-				    popupAnchor:  [0, 0] 
-				}),
-				riseOnHover: true
-			});
-		},	
-		onEachFeature: onEachFeatureL
-});	
-
-//baselayer.addLayer(form_prof);
-var otros_serv_comp = L.geoJSON(ed_otros_serv_comp, {
-		pointToLayer: function (feature, latlng) {
-			return L.marker(latlng, {
-				icon: L.icon({
-				    iconUrl: "icons/establecimientos_comp.svg",
-				    iconSize:     [22, 22], 
-					iconAnchor:   [11, 0], 
-				    popupAnchor:  [0, 0] 
-				}),
-				riseOnHover: true
-			});
-		},	
-		onEachFeature: onEachFeatureL
-});		
-//baselayer.addLayer(otros_serv_comp);
-
-
-
-//baselayer.addLayer(form_prof);
-
-
-*/	
+	
 //crear cluster de markers, es decir que los iconos del layer se agrupan o desagrupan segun se haga zoom out o zoom in
 var clusterLayers = {};
 function createCluster(tipo, nivel) {
@@ -898,12 +855,14 @@ function createCluster(tipo, nivel) {
 	clusterLayers[`${tipo}_${nivel}`] = cluster;
 	return cluster;
 }
-
-//function createLayer(cluster, data, nivel) 
+var globalMarkers = [];
+var areasControl= {}
+//crear capa, se crea a partir de un geoJSON, se indica tipo de dependencia (institucion, supervision, delegacion) y nivel para obtener el icono correspondiente
 function createLayer(data, tipo, nivel) {
 	var cluster = createCluster(tipo, nivel);
 	var layer = L.geoJSON(data, {
 		pointToLayer: function (feature, latlng) {
+			var moved = false;
 			var marker = L.marker(latlng, {
 				icon: L.icon({
 					iconUrl: `icons/${tipo}_${nivel}.svg`,
@@ -911,136 +870,72 @@ function createLayer(data, tipo, nivel) {
 					iconAnchor: [11, 0],
 					popupAnchor: [0, 0]
 				}),
-				riseOnHover: true
+				riseOnHover: true,	
 			});
+			marker.on('mouseover', function(){
+				var latlng = marker.getLatLng();
+				globalMarkers.forEach(referencia => {
+					if (latlng.lat === referencia.getLatLng().lat && latlng.lng === referencia.getLatLng().lng && marker._leaflet_id !== referencia._leaflet_id && marker.feature.properties.nivel !== referencia.feature.properties.nivel){
+						moverMarcador(marker);
+						moved = true;
+					}
+				})
+			})
+			marker.on('mouseout', function(){
+				if (moved){
+					marker.setLatLng([latlng.lat, latlng.lng])
+				}
+					
+			});
+			marker.on('add', function(){
+				globalMarkers.push(marker);
+				areasControl[marker._leaflet_id] = {isActive: false, area: 0}
+			})
+			marker.on('remove', function(){
+				globalMarkers = globalMarkers.filter(item => item._leaflet_id !== marker._leaflet_id)
+			})
+			/*marker.on('popupopen', function() {
+				var checkbox = document.getElementById("bibliotecaAreaPrueba");
+				var circle;
+				// Actualizar el checkbox según el estado actual del marcador
+				checkbox.checked = areasControl[marker._leaflet_id].isActive;
+				// Agregar evento al checkbox
+				checkbox.addEventListener('change', function() {
+				  areasControl[marker._leaflet_id].isActive = this.checked;
+
+		  
+				  // Aquí puedes ejecutar cualquier acción que necesites cuando cambie el estado del checkbox
+				  if (this.checked) {
+					circle = mostrarArea(latlng, checkbox.value);
+					areasControl[marker._leaflet_id].area = circle
+					circle.addTo(mymap);
+				  } else {
+					mymap.removeLayer(areasControl[marker._leaflet_id].area);
+				  }
+				});
+			});*/
+
 			cluster.addLayer(marker);
 			return marker;
 		},
-		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas : (tipo === 'biblioteca') ? popup_bib_pedagogicas : onEachFeatureL
-	});
+		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas : (tipo === 'biblioteca') ? popup_bib_pedagogicas : (tipo === 'establec') ? onEachFeatureEst : onEachFeatureL
+		});
 	return cluster;
-}
-/*var clusterSecundaria = createCluster('sec');
-var clusterInicial = createCluster('inicial');
-var clusterPrimaria = createCluster('primaria');
-var clusterEspecial = createCluster('especial');
-var clusterSNU = createCluster('superior');
-var clusterDomHosp = createCluster('dom_hosp');
-var clusterFormProf = createCluster('form_prof');
-var clusterOtrosServ = createCluster('comp');*/
-/*L.markerClusterGroup({
-    showCoverageOnHover: false, // Desactiva la visualización del radio en el hover
-    disableClusteringAtZoom: 13, // Desactiva la agrupación a partir de cierto nivel de zoom
-    spiderfyOnMaxZoom: false, // No agrupa los marcadores al hacer zoom máximo
-    maxClusterRadius: 30, // Establece el radio máximo de agrupación
-	iconCreateFunction: function(cluster) {
-        return L.divIcon({ 
-            html: '<img src="./icons/establecimientos_sec.svg">', // Utiliza un ícono personalizado
-            className: 'establecimientos-icons', // Clase CSS para el ícono
-            iconSize: L.point(3, 3) // Tamaño del ícono
-        });
-    }
-});*/
-
-function getRegiones() {
-	fetch('mapa/regiones')
-	.then(response => response.json())
-	.then(regiones => {
-		regiones.features.forEach(data => {
-			const capaRegiones = L.geoJSON(data, {
-				style: function(feature) {
-					console.log(feature);
-					if (feature.properties.numreg == 'I') {
-						return {
-							color: 'green',
-							weight: 0.6,
-							opacity: 0.7
-						}
-					} else {
-						return {
-							color: 'red',
-							weight: 2,
-							opacity: 1
-						  };
-					}
-				  
-				},
-				onEachFeature: function (feature, layer) {
-				  // Aquí puedes añadir un popup o cualquier otro comportamiento deseado
-				  layer.bindPopup(`<strong>Nombre Región:</strong> ${feature.properties.numreg}`);
-				}
-			})
-			capaRegiones.addTo(mymap);
-		})
-	})
 }
 
 function getDepartamentos() {
-	fetch('mapa/departamentos')
+	return fetch('mapa/departamentos')
 	.then(response => response.json())
-	.then(regiones => {
-		console.log(regiones);
-		regiones.features.forEach(data => {
-			console.log(data.geometry);
-			const capaRegiones = L.geoJSON(data, {
-				style: function(feature) {
-				  return {
-					color: 'blue',
-					weight: 2,
-					opacity: 1
-				  };
-				},
-				onEachFeature: function (feature, layer) {
-				  // Aquí puedes añadir un popup o cualquier otro comportamiento deseado
-				  layer.bindPopup(`<strong>Nombre Región:</strong> ${feature.properties.nombrereg}`);
-				}
-			})
-			capaRegiones.addTo(mymap);
-			const bounds = capaRegiones.getBounds();
-			if (bounds.isValid()) {
-				 mymap.fitBounds(bounds);
-			} else {
-				console.log("No fitBounds");
-			}
+	.then(departamentos => {
+		capaDepartamentos = L.geoJSON(departamentos, {
+			style: estilo_departamentos,
+			onEachFeature: onEachFeatureD
 		})
+		return capaDepartamentos
 	})
-}
+	}
 
-function RunLayerTest() {
-	fetch('mapa/capaprueba')
-	.then(response => response.json())
-	.then(regiones => {
-		console.log(regiones);
-		regiones.features.forEach(data => {
-			console.log(data.geometry);
-			const capaRegiones = L.geoJSON(data, {
-				style: function(feature) {
-					switch (feature.properties.nombrereg) {
-						case 'I':
-							return {color: "#ff0000"};
-							break;
-						case 'II':
-							return {color: "#0000ff", weight: 1, opacity: 0.6};
-							break;
-					};
-				},
-				onEachFeature: function (feature, layer) {
-				  // Aquí puedes añadir un popup o cualquier otro comportamiento deseado
-				  layer.bindPopup(`<strong>Nombre Región:</strong> ${feature.properties.nombre}`);
-				}
-			})
-			capaRegiones.addTo(mymap);
-			const bounds = capaRegiones.getBounds();
-			if (bounds.isValid()) {
-				 mymap.fitBounds(bounds);
-			} else {
-				console.log("No fitBounds");
-			}
-		})
-	})
-}
-
-// Función para obtener la capa de datos
+// Función para obtener las capas por nivel y modalidad
 function getEstablecimientosLayers() {
     return fetch('mapa/setInstMarkers')
         .then(response => response.json())
@@ -1074,7 +969,7 @@ function getEstablecimientosLayers() {
 						break;
 					//numeracion Adultos - formacion profesional 600 a 699 / 1600 a 1699
 					//case ((escuelas.properties.numero >= 600 && escuelas.properties.numero <= 699) || (escuelas.properties.numero >= 1600 && escuelas.properties.numero <= 1699)):
-					case (escuelas.properties.nivel == 'Formación profesional'):
+					case (escuelas.properties.nivel == 'Formación profesional' || (escuelas.properties.numero >= 600 && escuelas.properties.numero <= 699) || (escuelas.properties.numero >= 1600 && escuelas.properties.numero <= 1699)):
 						dataFormProf.push(escuelas);
 						break;
 					//numeracion especial 500 a 599 / 1500 a 1500
@@ -1090,49 +985,24 @@ function getEstablecimientosLayers() {
 						dataDomHosp.push(escuelas);
 						break;
 					//lo que no cae en lo anterior cae en otros servicios educativos
-					case (escuelas.properties.nivel == 'Otros servicios educativos'):
+					case (escuelas.properties.modalidad == 'Otros servicios educativos' || escuelas.properties.numero >= 6000):
 						dataOtrosServ.push(escuelas);
 						break;	
 					default:
-        				console.log('no se encontraron instituciones');
+        				console.log('no se encontraron instituciones ' + escuelas.properties.modalidad);
 					}})
 					
-            //console.log('Fetched data:', data.features); // Log después de obtener los datos
 
             // Crea la capa GeoJSON y añádela al cluster
 			var inicialLayer = createLayer(dataInicial,'establecimientos', 'inicial');
-			//console.log('Created layer:', inicialLayer); // Log después de crear secundariaLayer
 			var primariaLayer = createLayer(dataPrimaria,'establecimientos', 'primaria');
-			//console.log('Created layer:', primariaLayer); // Log después de crear secundariaLayer
 			var secundariaLayer = createLayer(dataSecundaria,'establecimientos', 'sec');
-			//console.log('Created layer:', secundariaLayer); // Log después de crear secundariaLayer
 			var especialLayer = createLayer(dataEspecial,'establecimientos', 'especial');
-			//console.log('Created layer:', especialLayer); // Log después de crear secundariaLayer
 			var SNULayer = createLayer(dataSNU,'establecimientos', 'superior');
-			//console.log('Created layer:', SNULayer); // Log después de crear secundariaLayer
 			var domHospLayer = createLayer(dataDomHosp,'establecimientos', 'dom_hosp');
-			//console.log('Created layer:', domHospLayer); // Log después de crear secundariaLayer
 			var formProfLayer = createLayer(dataFormProf,'establecimientos', 'form_prof');
-			//console.log('Created layer:', formProfLayer); // Log después de crear secundariaLayer
 			var otrosServLayer = createLayer(dataOtrosServ,'establecimientos', 'comp');
-			//console.log('Created layer:', otrosServLayer); // Log después de crear secundariaLayer
-			/*L.geoJSON(dataSecundaria, {
-                pointToLayer: function (feature, latlng) {
-                    var marker = L.marker(latlng, {
-                        icon: L.icon({
-                            iconUrl: "icons/establecimientos_sec.svg",
-                            iconSize: [22, 22],
-                            iconAnchor: [11, 0],
-                            popupAnchor: [0, 0]
-                        }),
-                        riseOnHover: true
-                    });
-					clusterSecundaria.addLayer(marker);
-                    return marker;
-                },
-                onEachFeature: onEachFeatureL
-            });*/
-			
+			// agrega las capas a un array de capas para guardar las referencias
 			todosLayers.push([[inicialLayer],[{label: 'Ed. Inicial', url: 'inicial'}]]);//0
 			todosLayers.push([[primariaLayer],[{label: 'Ed. Primaria', url: 'primaria'}]]);//1
 			todosLayers.push([[secundariaLayer],[{label: 'Ed. Secundaria', url: 'sec'}]]);//2
@@ -1149,7 +1019,7 @@ function getEstablecimientosLayers() {
         });
 	return layersEst;
 }
-
+// genera las capas de las supervisiones
 function getSupervisionLayers(){
 	var layersSuperv = fetch('mapa/setSupervMarkers')
 	.then(response => response.json())
@@ -1195,7 +1065,7 @@ function getSupervisionLayers(){
 	});
 	return layersSuperv
 }
-
+//genera las caoas de las delegaciones
 function getDelegacionLayers(){
 	var layerDel = fetch ('mapa/setDelegMarkers')
 	.then(response => response.json())
@@ -1209,9 +1079,9 @@ function getDelegacionLayers(){
 	});
 	return layerDel
 }
-
+//(`/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=sigeducativo%3Abibliotecas_pedagogicas&maxFeatures=50&outputFormat=application%2Fjson&srsname=EPSG:4326`)
 function getBibliotecaLayer(){
-	var biLayer = fetch (`mapa/setBiblioMarkers`)
+	var biLayer = fetch ('/mapa/setBiblioMarkers')
 	.then (response => response.json())
 	.then( data => {
 		var bibliotecaLayer = createLayer(data, 'biblioteca','');
@@ -1220,16 +1090,22 @@ function getBibliotecaLayer(){
 	.catch(error => {
 		console.error('Error fetching data:', error);
 		return null;
-	});
+	})
 	return biLayer
 }
 
+
+
+//funcion que finalmente crea las capas y las agrega al mapa
 async function generarTodosLayers(layerParam) {
     var layersConfig = [];
 	const establecimientos = await getEstablecimientosLayers();
 	const delegaciones = await getDelegacionLayers();
 	const supervision = await getSupervisionLayers();
 	const bibliotecas = await getBibliotecaLayer();
+	capaRegiones = await getRegiones();
+	capaDepartamentos = await getDepartamentos();
+	
 	var i = 0;
 	if (layerParam != null) {
 		establecimientos.forEach(establecimiento => {
@@ -1284,7 +1160,7 @@ async function generarTodosLayers(layerParam) {
 			fillColor: "#FF0000",
 			weight: 1,
 			layers_type: "general",
-			layers: [polygon, textLabelR1, textLabelR2 ,textLabelR3, textLabelR4, textLabelR5, textLabelR6],
+			layers: [capaRegiones, textLabelR1, textLabelR2 ,textLabelR3, textLabelR4, textLabelR5, textLabelR6],
 			inactive: true
 			})
 
@@ -1296,7 +1172,7 @@ async function generarTodosLayers(layerParam) {
 			fillColor: "#FFF252",
 			weight: 1,
 			layers_type: "general",
-			layers: [departament],
+			layers: [capaDepartamentos],
 			inactive: true,
 			})
 
@@ -1312,17 +1188,6 @@ async function generarTodosLayers(layerParam) {
 			});
 		});
 
-		/*bibliotecas.forEach(biblioteca => {
-			var layer = biblioteca[0][0];
-			layersConfig.push({
-				label: `Supervisíon ${biblioteca[1][0].label}`,
-				type: "image",
-				url: `icons/supervision_${biblioteca[1][0].url}.svg`,
-				layers_type: "organizacion",
-				layers: layer,
-				inactive: true,
-			});
-		})*/
 		return layersConfig;
 
 	} else {
@@ -1368,7 +1233,7 @@ async function generarTodosLayers(layerParam) {
 				fillColor: "#FF0000",
 				weight: 1,
 				layers_type: "general",
-				layers: [polygon, textLabelR1, textLabelR2 ,textLabelR3, textLabelR4, textLabelR5, textLabelR6],
+				layers: [capaRegiones, textLabelR1, textLabelR2 ,textLabelR3, textLabelR4, textLabelR5, textLabelR6],
 				inactive: false,
 				})
 
@@ -1389,7 +1254,7 @@ async function generarTodosLayers(layerParam) {
 				fillColor: "#FFF252",
 				weight: 1,
 				layers_type: "general",
-				layers: [departament],
+				layers: [capaDepartamentos],
 				inactive: true,
 				})
 
@@ -1409,12 +1274,10 @@ async function generarTodosLayers(layerParam) {
 		}
 	}
 
- 
-// Obtener la capa y configurarla
 
-//mymap.addLayer(markersCluster);
 var legends;
 var legend;
+//agrega la botonera de capas
 async function initMap() {
     // Generar y añadir leyendas
 	const urlParams = new URLSearchParams(window.location.search);
@@ -1478,7 +1341,7 @@ var mostrarFiltroButton = L.easyButton({
         }]
 });
 
-
+//agrega boton de pantalla completa
 function mostrarFullscreenButton() {
 	L.control.fullscreen({
 	  position: 'topleft',
@@ -1550,6 +1413,7 @@ var controlbrowserPrint = L.control.browserPrint({
     ]
 }, browserPrint);
 
+//añade impresion del mapa completo
 function addFullmapPrint(){
 	let print = document.getElementsByClassName('leaflet-control-browser-print')[0]
 
@@ -1578,8 +1442,36 @@ function addFullmapPrint(){
 		})
 }
 
-//controlbrowserPrint.addTo(mymap);
+//añade impresion del manual
+function addGuidePrint(){
+	let print = document.getElementsByClassName('leaflet-control-browser-print')[0]
 
+		let ul = document.createElement('UL')
+		ul.classList = 'browser-print-holder'
+		let li = document.createElement('LI')
+		li.classList = 'browser-print-mode'
+		li.style.display = 'none'
+		let a = document.createElement('A')
+		a.textContent = 'Descargar Manual de Usuario'
+		a.classList = 'descarga'
+		a.setAttribute('download','Manual de Usuario SIG.pdf')
+		a.setAttribute('href', 'public/pdf/ManualDeUsuarioMapaInteractivo.pdf')
+		li.append(a)
+		ul.append(li)
+
+
+		print.append(ul)
+
+		print.addEventListener('mouseover', () =>{
+			li.style.display = 'inline-block'
+		})
+
+		print.addEventListener('mouseout', () =>{
+			li.style.display = 'none'
+		})
+}
+
+//eliminar boton segun id
 function removeButtonById(buttonId) {
     var buttonToRemove = document.getElementById(buttonId);
     if (buttonToRemove) {
@@ -1594,7 +1486,8 @@ async function cargarBotonesMapa() {
 		mostrarConsultaButton.addTo(mymap);
 		//mostrarFiltroButton.addTo(mymap);
 		controlbrowserPrint.addTo(mymap);
-		addFullmapPrint();		
+		addFullmapPrint();
+		addGuidePrint();		
 }
 cargarBotonesMapa();
 
@@ -1610,7 +1503,7 @@ function layerNoExiste(layer){
     return existe;
 }
 
-// Agregar nueva legend
+// Agrega o refresca la botonera
 function agregarNuevaLegend(){
 	if(legend instanceof L.Control.Legend){
 		mymap.removeControl(legend);
@@ -1630,10 +1523,11 @@ function agregarNuevaLegend(){
 	mostrarConsultaButton.addTo(mymap);
 	controlbrowserPrint.addTo(mymap);
 	addFullmapPrint();
+	addGuidePrint();
 }
 
 
-//FUNCIONES PARA INTENTAR GENERAR UNA BASE DE CAPAS CREADAS
+//FUNCIONES PARA GENERAR UNA BASE DE CAPAS CREADAS POR EL USUARIO
 
 function agregarOpcion() {
     var valorInput = document.getElementById('inputValor').value;
@@ -1661,6 +1555,7 @@ function agregarOpcion() {
 
 
 var instSelected = [];
+//funcion que busca la ubicacion del resultado del buscador
 function itemsearchselected(selected){
 	var id = selected.split("-")[0];
 	var por = selected.split("-")[1];
@@ -1683,15 +1578,9 @@ function itemsearchselected(selected){
 						},	
 					onEachFeature: onEachFeatureS
 			}));
-			if (instSelected.length == 1) {
-				mymap.fitBounds(instSelected[0].getBounds());
-			}
 			instSelected.forEach(marker => {
 				baselayer.addLayer(marker)
 			})
-			mymap.setZoom(16);
-			//limpiarItemsNombreEsc();
-			//limpiarItemsNroEsc();
 			updateButtonInLegend(name,{label: name,
 				type: "image",
 				url:  "icons/establecimientos_consulta.svg",
@@ -1699,11 +1588,6 @@ function itemsearchselected(selected){
 				layers: instSelected,
 				inactive: false,
 				});
-			//agregarNuevaLegend();
-			
-			/*var myModalEl = document.getElementById('consultasEscuelas');
-			var modal = bootstrap.Modal.getInstance(myModalEl);
-			modal.hide();*/
 			
 		} else if (!layerNoExiste(name)){
 			legend.options.legends.forEach(capa => {
@@ -1733,12 +1617,20 @@ function itemsearchselected(selected){
 			} else {
 				document.getElementById("infoNumNombreRepetidoFormControlSelect").style.display= "block";
 			}
-		}
+		}	
 	})
 	instSelected = [];
 }
 
-//buscar por oferta FALTA QUE SE REFRESQUEN LOS MARCADORES CUANDO SE AÑADE POR SEGUNDA VEZ INFO A LA CAPA
+//busca ubicacion obtenida a partir de una cadena "latitud/longitud"
+function itemSearchUbicacion(ubi) {
+	var lat = ubi.split("/")[0];
+	var long = ubi.split("/")[1];
+	mymap.setView([lat, long], 16);
+	resetForm();
+}
+
+//buscar por oferta
 clusterOferta = [];
 function ofertaSelect(){
     var resultModalidad = document.getElementById("f-select-modalidadesc").value;
@@ -1748,105 +1640,85 @@ function ofertaSelect(){
     fetch(`buscador/oferta?nivel=${resultNivel}&modalidad=${resultModalidad}`)
         .then(response => response.json())
         .then((escuelas) => {
-			if (layerNoExiste(name)) {
-				var cluster = L.markerClusterGroup({
-					showCoverageOnHover: false, // Desactiva la visualización del radio en el hover
-					disableClusteringAtZoom: 13, // Desactiva la agrupación a partir de cierto nivel de zoom
-					spiderfyOnMaxZoom: false, // No agrupa los marcadores al hacer zoom máximo
-					maxClusterRadius: 30, // Establece el radio máximo de agrupación
-					iconCreateFunction: function(cluster) {
-						return L.divIcon({ 
-							html: `<img src="./icons/establecimientos_consulta.svg">`, // Utiliza un ícono personalizado
-							className: `search-icons`, // Clase CSS para el ícono
-							iconSize: L.point(3, 3) // Tamaño del ícono
-						});
-					}
-				});
-				escuelas.features.forEach(data => {			
-					ofeSelected.push(L.geoJSON(data, {
-						pointToLayer: function (feature, latlng) {
-								var marker = L.marker(latlng, {
-									icon: L.icon({
-										iconUrl: "icons/establecimientos_consulta.svg",
-										iconSize:     [22, 22], 
-										iconAnchor:   [11, 0], 
-										popupAnchor:  [0, 0]
-									}),
-									riseOnHover: true
-								});
-								cluster.addLayer(marker);
-								return marker
-							},	
-						onEachFeature: onEachFeatureO
-					}));
-					cluster.addTo(mymap);
-					clusterOferta[`${name}`] = cluster
-				})
-				updateButtonInLegend(name,{label: name,
-					type: "image",
-					url:  "icons/establecimientos_consulta.svg",
-					layers_type: "consulta",
-					layers: cluster,
-					inactive: false,
+			if (escuelas.features.length > 0){
+				document.getElementById("infoOfertaNoDatosFinalesFormControlSelect").style.display = "none";
+				if (layerNoExiste(name)) {
+					var cluster = L.markerClusterGroup({
+						showCoverageOnHover: false, // Desactiva la visualización del radio en el hover
+						disableClusteringAtZoom: 13, // Desactiva la agrupación a partir de cierto nivel de zoom
+						spiderfyOnMaxZoom: false, // No agrupa los marcadores al hacer zoom máximo
+						maxClusterRadius: 30, // Establece el radio máximo de agrupación
+						iconCreateFunction: function(cluster) {
+							return L.divIcon({ 
+								html: `<img src="./icons/establecimientos_consulta.svg">`, // Utiliza un ícono personalizado
+								className: `search-icons`, // Clase CSS para el ícono
+								iconSize: L.point(3, 3) // Tamaño del ícono
+							});
+						}
 					});
+					escuelas.features.forEach(data => {			
+						ofeSelected.push(L.geoJSON(data, {
+							pointToLayer: function (feature, latlng) {
+									var marker = L.marker(latlng, {
+										icon: L.icon({
+											iconUrl: "icons/establecimientos_consulta.svg",
+											iconSize:     [22, 22], 
+											iconAnchor:   [11, 0], 
+											popupAnchor:  [0, 0]
+										}),
+										riseOnHover: true
+									});
+									cluster.addLayer(marker);
+									return marker
+								},	
+							onEachFeature: onEachFeatureO
+						}));
+						cluster.addTo(mymap);
+						clusterOferta[`${name}`] = cluster
+					})
+					updateButtonInLegend(name,{label: name,
+						type: "image",
+						url:  "icons/establecimientos_consulta.svg",
+						layers_type: "consulta",
+						layers: cluster,
+						inactive: false,
+						});
+				} else {
+					Object.keys(clusterOferta).forEach( nameLayer => {
+						if (nameLayer == name) {
+							var capaTemp = clusterOferta[nameLayer];
+							escuelas.features.forEach(data => {
+								var marker = L.geoJSON(data, {
+									pointToLayer: function (feature, latlng) {
+											return L.marker(latlng, {
+												icon: L.icon({
+													iconUrl: "icons/establecimientos_consulta.svg",
+													iconSize:     [22, 22], 
+													iconAnchor:   [11, 0], 
+													popupAnchor:  [0, 0]
+												}),
+												riseOnHover: true
+											});
+										},	
+									onEachFeature: onEachFeatureO								
+								})
+								capaTemp.addLayer(marker);
+							})
+							clusterOferta[nameLayer].remove(mymap);
+							clusterOferta[nameLayer] = capaTemp;
+							clusterOferta[nameLayer].addTo(mymap);
+						}
+					})
+				}
 			} else {
-				Object.keys(clusterOferta).forEach( nameLayer => {
-					if (nameLayer == name) {
-						var capaTemp = clusterOferta[nameLayer];
-						escuelas.features.forEach(data => {
-							var marker = L.geoJSON(data, {
-								pointToLayer: function (feature, latlng) {
-										return L.marker(latlng, {
-											icon: L.icon({
-												iconUrl: "icons/establecimientos_consulta.svg",
-												iconSize:     [22, 22], 
-												iconAnchor:   [11, 0], 
-												popupAnchor:  [0, 0]
-											}),
-											riseOnHover: true
-										});
-									},	
-								onEachFeature: onEachFeatureO								
-							})
-							capaTemp.addLayer(marker);
-						})
-						clusterOferta[nameLayer].remove(mymap);
-						clusterOferta[nameLayer] = capaTemp;
-						clusterOferta[nameLayer].addTo(mymap);
-					}
-				})
-				/*legend.options.legends.forEach(capa => {	
-					if (capa.label == name) {
-						console.log(capa)
-						escuelas.features.forEach(data => {
-							var marker = L.geoJSON(data, {
-								pointToLayer: function (feature, latlng) {
-										return L.marker(latlng, {
-											icon: L.icon({
-												iconUrl: "icons/establecimientos_consulta.svg",
-												iconSize:     [22, 22], 
-												iconAnchor:   [11, 0], 
-												popupAnchor:  [0, 0]
-											}),
-											riseOnHover: true
-										});
-									},	
-								onEachFeature: onEachFeatureO
-								
-							})
-							capa.layers._needsClustering.push(marker)
-						})
-					}
-				})*/
-				
-			}			
+				document.getElementById("infoOfertaNoDatosFinalesFormControlSelect").style.display = "block";
+			}					
 		});
 	ofeSelected = [];
 }
-
+//actualiza los botones que debe mostrar la botonera
 function updateButtonInLegend(label, newContent) {
     var legends = legend.options.legends;
-	// Actualizar el contenido del botón directamente
 	legends.push(newContent);
 	agregarNuevaLegend();
 }
@@ -1893,670 +1765,6 @@ function limpiarItemsNroEsc(){
 	infoNumNombreRepetidoFormControlSelect.style.display= "none";
 }
 
-// Consultas ---------------------------------------------------------------------------------
-
-// Consulta de establecimiento por cueanexo
-/*
-function cue_valido(c){
-	//si tiene 9 caracteres y son todos numeros es TRUE
-	return (c.match(/^[0-9]+$/) != null && c.length == 9);
-}
-
-function cueAnexoSelect() {
-	var infoCueAnexo = document.getElementById("infoCueAnexo");
-	var infoCueAnexoError = document.getElementById("infoCueAnexoError");
-	var infoCueAnexoErrorNoExiste = document.getElementById("infoCueAnexoErrorNoExiste");
-	var infoCueNombreRepetidoFormControlSelect = document.getElementById("infoCueNombreRepetidoFormControlSelect");
-	infoCueNombreRepetidoFormControlSelect.style.display = 'none';
-	var fcue = document.getElementById("f-cue");
-	var miSelect = fcue.value;
-	var res = false;
-	if(layerNoExiste(miSelect)){
-		if(cue_valido(miSelect)){
-			infoCueAnexo.style.display = 'block';
-			infoCueAnexoError.style.display = 'none';
-			infoCueAnexoErrorNoExiste.style.display = 'none';
-			var nombre = "";
-			var cueAnexoSelect = L.geoJSON(localizaciones, {
-					pointToLayer: function (feature, latlng) {
-							return L.marker(latlng, {
-								icon: L.icon({
-								    iconUrl: "icons/establecimientos_consulta.svg",
-								    iconSize:     [22, 22], 
-								    iconAnchor:   [11, 0], 
-								    popupAnchor:  [0, 0] 
-								}),
-								riseOnHover: true
-							});
-						},
-					filter: function(feature, layer) {								
-				 		// si encontro al menos uno
-				 		if((feature.properties.cueanexo == miSelect) && res == false){
-				 			nombre = feature.properties.cueanexo;
-				 			res = true;	
-				 		}
-						return (feature.properties.cueanexo == miSelect);
-					},	
-					onEachFeature: onEachFeatureL	
-			});		
-			if(res){
-				mymap.fitBounds(cueAnexoSelect.getBounds());
-				mymap.setZoom(16);
-				//baselayer.clearLayers();
-				baselayer.addLayer(cueAnexoSelect);
-				fcue.value = '';
-				legends.push({label: nombre,
-					type: "image",
-					url:  "icons/establecimientos_consulta.svg",
-					layers_type: "consulta",
-					layers: [cueAnexoSelect],
-					inactive: false,
-				});
-				var myModalEl = document.getElementById('consultasEscuelas');
-				var modal = bootstrap.Modal.getInstance(myModalEl);
-				modal.hide();
-				agregarNuevaLegend();
-			} else {
-				infoCueNombreRepetidoFormControlSelect.style.display = 'none';
-				infoCueAnexo.style.display = 'none';
-				infoCueAnexoError.style.display = 'none';
-				infoCueAnexoErrorNoExiste.style.display = 'block';
-			}
-		}else{
-			infoCueNombreRepetidoFormControlSelect.style.display = 'none';
-			infoCueAnexo.style.display = 'none';
-			infoCueAnexoErrorNoExiste.style.display = 'none';
-			infoCueAnexoError.style.display = 'block';
-		}
-	} else {
-		infoCueAnexo.style.display = 'none';
-		infoCueAnexoErrorNoExiste.style.display = 'none';
-		infoCueAnexoError.style.display = 'none';
-		infoCueNombreRepetidoFormControlSelect.style.display = 'block';
-	}
-}
-
-
-
-
-
-// consulta de establecimientos por numero
-
-
-
-// es numero
-
-
-
-
-
-// consulta de establecimientos por localizaciones 
-
-document.getElementById("regionFormControlSelect").addEventListener("change", habilitarLocalidad);
-function habilitarLocalidad() {
-	document.getElementById("inforegionspinner").style.display = 'block';
-	var reg = document.getElementById("regionFormControlSelect");
-	var loc = document.getElementById("departamentoFormControlSelect");
-	var dir = document.getElementById("direccionFormControlSelect");
-	var inforegionNoDatosFormControlSelect = document.getElementById("inforegionNoDatosFormControlSelect");
-	var inforegionNoConnFormControlSelect = document.getElementById("inforegionNoConnFormControlSelect");
-	inforegionNoDatosFormControlSelect.style.display = 'none';
-	inforegionNoConnFormControlSelect.style.display = 'none';
-	dir.innerHTML = '';
-	dir.setAttribute("disabled", "");
-	switch (reg.value) {	
-		case 'todo':
-		loc.innerHTML = '';
-		dir.innerHTML = '';
-		loc.setAttribute("disabled", "");
-		dir.setAttribute("disabled", "");
-		document.getElementById("inforegionspinner").style.display = 'none';
-		break;
-		default:
-		loc.removeAttribute("disabled");
-		fetch('php/solicitarlocalidades.php', {
-			method: 'POST',
-			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-			body: "region=" + reg.value
-			})
-			.then(response => response.json())
-			.then(data => {
-				if(data==="errornodatos"){
-					document.getElementById("inforegionspinner").style.display = 'none';
-					inforegionNoDatosFormControlSelect.style.display = 'block'
-				} else {
-					loc.innerHTML = '';
-					loc.innerHTML += `<option selected value="todo">Sin seleccionar</option>`;
-					for (const [clave, valor] of Object.entries(data)) {
-						loc.innerHTML += `<option value="${clave}">${valor}</option>`;
-					}
-					inforegionNoDatosFormControlSelect.style.display = 'none';
-					inforegionNoConnFormControlSelect.style.display = 'none';
-					document.getElementById("inforegionspinner").style.display = 'none';	
-				}
-			})
-			.catch(err => {
-				document.getElementById("inforegionspinner").style.display = 'none';
-          		inforegionNoConnFormControlSelect.style.display = 'block';
-        	}
-        );
-	}
-}
-
-document.getElementById("departamentoFormControlSelect").addEventListener("change", habilitarDirecciones);
-function habilitarDirecciones() {
-	document.getElementById("infolocspinner").style.display = 'block';
-	var reg = document.getElementById("regionFormControlSelect");
-	var loc = document.getElementById("departamentoFormControlSelect");
-	var dir = document.getElementById("direccionFormControlSelect");
-	var infolocNoDatosFormControlSelect = document.getElementById("infolocNoDatosFormControlSelect");
-	var infolocNoConnFormControlSelect = document.getElementById("infolocNoConnFormControlSelect");
-	infolocNoDatosFormControlSelect.style.display = 'none';
-	infolocNoConnFormControlSelect.style.display = 'none';
-	switch (loc.value) {	
-		case 'todo':
-		dir.innerHTML = '';
-		dir.setAttribute("disabled", "");
-		document.getElementById("infolocspinner").style.display = 'none';
-		break;
-		default:
-		dir.removeAttribute("disabled");
-		const datos = new URLSearchParams("region="+ reg.value + "&localidad=" + loc.value);
-		fetch('php/solicitardirecciones.php', {
-			method: 'POST',
-			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-			body: datos 
-			})
-			.then(response => response.json())
-			.then(data => {
-				if(data==="errornodatos"){
-					document.getElementById("infolocspinner").style.display = 'none';
-					infolocNoDatosFormControlSelect.style.display = 'block';
-				} else {
-					dir.innerHTML = '';
-					dir.innerHTML += `<option selected value="todo">Sin seleccionar</option>`;
-					for (const [clave, valor] of Object.entries(data)) {
-						if(valor == ' '){
-							dir.innerHTML += `<option value="sinddomicilioregistrado">Sin domicilio registrado</option>`;
-						} else {
-							dir.innerHTML += `<option value="${clave}">${valor}</option>`;
-						}
-					}
-					infolocNoDatosFormControlSelect.style.display = 'none';
-					infolocNoConnFormControlSelect.style.display = 'none';
-					document.getElementById("infolocspinner").style.display = 'none';
-				}	
-			})
-			.catch(err => {
-				document.getElementById("infolocspinner").style.display = 'none';
-          		infolocNoConnFormControlSelect.style.display = 'block';
-        	}
-        );
-	}
-}
-
-var formuarioLoc = document.getElementById("formLocalizacion");
-formuarioLoc.addEventListener("submit", function(e) {
-	e.preventDefault();
-	document.getElementById("consultalocalizacionspinner").style.display = 'block';
-	var datos = new FormData(formuarioLoc);
-	var inforegionFormControlSelect = document.getElementById("inforegionFormControlSelect");
-	var infoLocNombreRepetidoFormControlSelect = document.getElementById("infoLocNombreRepetidoFormControlSelect");
-	infoLocNombreRepetidoFormControlSelect.style.display = 'none';	
-	var infolocNoDatosFinalesFormControlSelect = document.getElementById("infolocNoDatosFinalesFormControlSelect");
-	var infolocNoConnFinalesFormControlSelect = document.getElementById("infolocNoConnFinalesFormControlSelect");
-	infolocNoDatosFinalesFormControlSelect.style.display = 'none';
-	infolocNoConnFinalesFormControlSelect.style.display = 'none';
-	var r = datos.get('regionFormControlSelect')!='todo'?datos.get('regionFormControlSelect'):'';
-	var l = datos.get('departamentoFormControlSelect')!=null && datos.get('departamentoFormControlSelect')!='todo'?" - " + datos.get('departamentoFormControlSelect'):'';
-	var d = datos.get('direccionFormControlSelect')!=null && datos.get('direccionFormControlSelect')!='todo'?" - "+datos.get('direccionFormControlSelect'):'';
-	var nombre = r + l + d;
-	if(layerNoExiste(nombre)){
-		fetch('php/solicitarestablacimientosxloc.php', {
-			method: 'POST',
-			body: datos 
-			})
-			.then(response => response.json())
-			.then(data => {
-				if(data==="errornoregion"){
-					document.getElementById("consultalocalizacionspinner").style.display = 'none';
-					inforegionFormControlSelect.style.display = 'block';
-				} else if (data==="errornodatos"){
-					document.getElementById("consultalocalizacionspinner").style.display = 'none';
-					infolocNoDatosFinalesFormControlSelect.style.display = 'block';
-				} else { 
-					itemsearchcomplexselected(data, nombre);
-					inforegionFormControlSelect.style.display = 'none';
-					var reg = document.getElementById("regionFormControlSelect");
-					var loc = document.getElementById("departamentoFormControlSelect");
-					var dir = document.getElementById("direccionFormControlSelect");
-					dir.innerHTML = '';
-					dir.setAttribute("disabled", "");
-					loc.innerHTML = '';
-					loc.setAttribute("disabled", "");
-					reg.value ="todo";
-					infoLocNombreRepetidoFormControlSelect.style.display = 'none';
-					infolocNoDatosFinalesFormControlSelect.style.display = 'none';
-					infolocNoConnFinalesFormControlSelect.style.display = 'none';
-					document.getElementById("consultalocalizacionspinner").style.display = 'none';
-					var myModalEl = document.getElementById('consultasEscuelas');
-					var modal = bootstrap.Modal.getInstance(myModalEl);
-					modal.hide();
-				}
-			})
-			.catch(err => {
-				document.getElementById("consultalocalizacionspinner").style.display = 'none';
-          		infolocNoConnFinalesFormControlSelect.style.display = 'block';
-          		document.getElementById("infolocNoConnFormControlSelect").style.display = 'none';
-          		document.getElementById("inforegionNoConnFormControlSelect").style.display = 'none';
-        	}
-        );
-	} else {
-		document.getElementById("consultalocalizacionspinner").style.display = 'none';
-		infoLocNombreRepetidoFormControlSelect.style.display = 'block';
-	} 	
-})
-
-// consulta de establecimientos por oferta
-
-document.getElementById("f-tipo").addEventListener("change", habilitarNivel);
-function habilitarNivel(){
-	document.getElementById("infonivelspinner").style.display = 'block';
-	var mod = document.getElementById("f-tipo");
-	var nivel = document.getElementById("f-nivel");
-	var infoofertamodalidadNoRep = document.getElementById("infoofertamodalidadNoRepFormControlSelect");
-	var infoofertamodalidadNoConn = document.getElementById("infoofertamodalidadNoConnFormControlSelect");
-	infoofertamodalidadNoRep.style.display = 'none';
-	infoofertamodalidadNoConn.style.display = 'none';
-	var fplanestudio = document.getElementById("f-plan-estudio");
-	fplanestudio.style.display = 'none';
-	var orientacion = document.getElementById("orientacion");
-	var dictado = document.getElementById("dictado");
-	orientacion.value = "todo";
-	dictado.value = "todo";
-	nivel.innerHTML = '';
-	nivel.setAttribute("disabled", "");
-	switch (mod.value) {	
-		case 'todo':
-		nivel.innerHTML = '';
-		nivel.setAttribute("disabled", "");
-		orientacion.innerHTML = '';
-		orientacion.innerHTML += `<option selected value="todo">Sin seleccionar</option>`;
-		orientacion.value = "todo";
-		dictado.value = "todo";
-		fplanestudio.style.display = 'none';
-		document.getElementById("infonivelspinner").style.display = 'none';	
-		break;
-		default:
-		fetch('php/solicitarniveles.php', {
-			method: 'POST',
-			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-			body: "modalidad=" + mod.value
-			})
-			.then(response => response.json())
-			.then(data => {
-				if(data==="errornodatos"){
-					document.getElementById("infonivelspinner").style.display = 'none';
-					nivel.innerHTML = '';
-					nivel.setAttribute("disabled", "");
-					infoofertamodalidadNoRep.style.display = 'block';
-				} else {
-					nivel.innerHTML = '';
-					nivel.innerHTML += `<option selected value="todo">Sin seleccionar</option>`;
-					for (const [clave, valor] of Object.entries(data)) {
-						document.getElementsById("infoofertaplaetudioNoConnFormControlSelect").innerText += `<option value="${clave}">${valor}</option>`;		 
-						nivel.innerHTML += `<option value="${clave}">${valor}</option>`;
-					}
-					infoofertamodalidadNoRep.style.display = 'none';
-					infoofertamodalidadNoConn.style.display = 'none';
-					nivel.removeAttribute("disabled");
-					document.getElementById("infonivelspinner").style.display = 'none';
-				}
-			})
-			.catch(err => {
-				document.getElementById("infonivelspinner").style.display = 'none';
-          		infoofertamodalidadNoConn.style.display = 'block';
-        	}
-        );
-	}
-}
-
-document.getElementById("f-nivel").addEventListener("change", habilitarPlanesEstudio);
-function habilitarPlanesEstudio(){
-	document.getElementById("infoorientacionspinner").style.display = 'block';
-	var mod = document.getElementById("f-tipo");
-	var nivel = document.getElementById("f-nivel");
-	var word = "secundari"
-	var word1 = "snu"
-	var fplanestudio = document.getElementById("f-plan-estudio");
-	var orientacion = document.getElementById("orientacion");
-	var dictado = document.getElementById("dictado");
-	var infoofertaplaetudioNoConnFormControlSelect = document.getElementById("infoofertaplaetudioNoConnFormControlSelect");
-	var infoofertafertaplaetudioNoRepFormControlSelect = document.getElementById("infoofertafertaplaetudioNoRepFormControlSelect");
-	infoofertaplaetudioNoConnFormControlSelect.style.display = 'none';
-	infoofertafertaplaetudioNoRepFormControlSelect.style.display = 'none';
-	orientacion.innerHTML = '';
-	orientacion.innerHTML += `<option selected value="todo">Sin seleccionar</option>`;
-	orientacion.value = "todo";
-	dictado.innerHTML = '';
-	dictado.innerHTML += `<option selected value="todo">Sin seleccionar</option>`;
-	dictado.value = "todo";
-	fplanestudio.style.display = 'none';
-	switch (nivel.value) {	
-		case 'todo':
-		orientacion.innerHTML = '';
-		orientacion.innerHTML += `<option selected value="todo">Sin seleccionar</option>`;
-		orientacion.value = "todo";
-		dictado.innerHTML = '';
-		dictado.innerHTML += `<option selected value="todo">Sin seleccionar</option>`;
-		dictado.value = "todo";
-		fplanestudio.style.display = 'none';
-		document.getElementById("infoorientacionspinner").style.display = 'none';
-		break;
-		default:
-		var valorn = nivel.value.toLowerCase();
-		if(valorn.includes(word) || valorn.includes(word1)){
-			var archivo = "";
-			if(valorn.includes(word)){
-				archivo = 'php/solicitarPlanesEstudio.php';
-			} else {
-				archivo = 'php/solicitarPlanesEstudioSNU.php' 
-			}
-			const datos = new URLSearchParams("modalidad="+ mod.value + "&nivel=" + nivel.value);
-			fetch(archivo, {
-				method: 'POST',
-				headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-				body: datos
-				})
-				.then(response => response.json())
-				.then(data => {
-					if(data==="errornodatos"){
-						document.getElementById("infoorientacionspinner").style.display = 'none';
-						orientacion.innerHTML = '';
-						orientacion.innerHTML += `<option selected value="todo">Sin seleccionar</option>`;
-						orientacion.value = "todo";
-						infoofertafertaplaetudioNoRepFormControlSelect.style.display = 'block';
-					} else {
-						orientacion.innerHTML = '';
-						orientacion.innerHTML += `<option selected value="todo">Sin seleccionar</option>`;
-						for (const [clave, valor] of Object.entries(data)) {
-							orientacion.innerHTML += `<option value="${clave}">${valor}</option>`;
-						}
-						infoofertaplaetudioNoConnFormControlSelect.style.display = 'none';
-						infoofertafertaplaetudioNoRepFormControlSelect.style.display = 'none';
-						document.getElementById("infoorientacionspinner").style.display = 'none';
-					}
-				})
-				.catch(err => {
-					document.getElementById("infoorientacionspinner").style.display = 'none';
-	          		infoofertaplaetudioNoConnFormControlSelect.style.display = 'block';
-	        	}
-	        );
-			document.getElementById("infoorientacionspinner").style.display = 'none';
-			fplanestudio.style.display = 'block';
-		}
-	}
-}
-
-document.getElementById("orientacion").addEventListener("change", habilitarDictado);
-function habilitarDictado(){
-	document.getElementById("infodictadospinner").style.display = 'block';
-	var mod = document.getElementById("f-tipo");
-	var nivel = document.getElementById("f-nivel");
-	var orientacion = document.getElementById("orientacion");
-	var dictado = document.getElementById("dictado");
-	var infoofertafertadictadoNoRepFormControlSelect = document.getElementById("infoofertafertadictadoNoRepFormControlSelect");	        
-	infoofertafertadictadoNoRepFormControlSelect.style.display = 'none';
-	var infoofertadictadoNoConnFormControlSelect = document.getElementById("infoofertadictadoNoConnFormControlSelect");
-	infoofertadictadoNoConnFormControlSelect.style.display = 'none';
-	switch (orientacion.value) {	
-		case 'todo':
-		dictado.innerHTML = '';
-		dictado.innerHTML += `<option selected value="todo">Sin seleccionar</option>`;
-		dictado.value = "todo";
-		document.getElementById("infodictadospinner").style.display = 'none';
-		break;
-		default:
-		const datos = new URLSearchParams("modalidad="+ mod.value + "&nivel=" + nivel.value + "&orientacion=" + orientacion.value);
-		fetch('php/solicitardictado.php', {
-			method: 'POST',
-			body: datos 
-			})
-			.then(response => response.json())
-			.then(data => {
-				if (data==="errornodatos"){
-					document.getElementById("infodictadospinner").style.display = 'none';
-					dictado.innerHTML = '';
-					dictado.innerHTML += `<option selected value="todo">Sin seleccionar</option>`;
-					dictado.value = "todo";
-					infoofertafertadictadoNoRepFormControlSelect.style.display = 'block';
-				} else { 
-					dictado.innerHTML = '';
-					dictado.innerHTML += `<option selected value="todo">Sin seleccionar</option>`;
-					for (const [clave, valor] of Object.entries(data)) {
-						dictado.innerHTML += `<option value="${clave}">${valor}</option>`;
-					}
-					infoofertadictadoNoConnFormControlSelect.style.display = 'none';
-					infoofertafertadictadoNoRepFormControlSelect.style.display = 'none';
-					document.getElementById("infodictadospinner").style.display = 'none';
-				}
-			})
-			.catch(err => {
-				document.getElementById("infodictadospinner").style.display = 'none';
-          		infoofertadictadoNoConnFormControlSelect.style.display = 'block';
-        	}
-        );	
-	}
-}
-
-var formuarioOferta = document.getElementById("formOferta");
-formuarioOferta.addEventListener("submit", function(e) {
-	e.preventDefault();
-	document.getElementById("consultaofertaspinner").style.display = 'block';
-	var datos = new FormData(formuarioOferta);
-	var t = datos.get('f-tipo')!='todo'?datos.get('f-tipo'):''
-	var n = datos.get('f-nivel')!='todo'?' - ' +datos.get('f-nivel'):''
-	var o = datos.get('orientacion')!='todo'?' - ' +datos.get('orientacion'):''
-	var d = datos.get('dictado')!='todo'?' - ' +datos.get('dictado'):''
-	var nombre = t +  n  + o  + d;
-	var infoofertaNoModalidadFormControlSelect = document.getElementById("infoofertaNoModalidadFormControlSelect");
-	infoofertaNoModalidadFormControlSelect.style.display = "none";
-	var infoOfertaNombreRepetidoFormControlSelect = document.getElementById("infoOfertaNombreRepetidoFormControlSelect");
-	infoOfertaNombreRepetidoFormControlSelect.style.display = 'none';
-	var infoOfertaNoDatosFinalesFormControlSelect = document.getElementById("infoOfertaNoDatosFinalesFormControlSelect");	        
-	infoOfertaNoDatosFinalesFormControlSelect.style.display = 'none';
-	var infoOfertaNoConnFinalesFormControlSelect = document.getElementById("infoOfertaNoConnFinalesFormControlSelect");
-	infoOfertaNoConnFinalesFormControlSelect.style.display = 'none';
-	if(layerNoExiste(nombre)){
-		if(datos.get('f-tipo') != "todo"){
-			infoofertaNoModalidadFormControlSelect.style.display = "none";
-			fetch('php/solicitarestablacimientosxoferta.php', {
-				method: 'POST',
-				body: datos 
-				})
-				.then(response => response.json())
-				.then(data => {
-					if(data==="errornotipo"){
-						document.getElementById("consultaofertaspinner").style.display = 'none';
-						infoofertaNoModalidadFormControlSelect.style.display = 'block';
-					} else if (data==="errornodatos"){
-						document.getElementById("consultaofertaspinner").style.display = 'none';
-						infoOfertaNoDatosFinalesFormControlSelect.style.display = 'block';
-					} else { 
-						itemsearchcomplexselected(data, nombre);
-				
-						var nivel = document.getElementById("f-nivel");
-						nivel.innerHTML = '';
-						nivel.setAttribute("disabled", "");
-						var orientacion = document.getElementById("orientacion");
-						orientacion.innerHTML = '';
-						orientacion.innerHTML += `<option selected value="todo">Sin seleccionar</option>`;
-						orientacion.value = "todo";
-						document.getElementById("dictado").value = "todo";
-						document.getElementById("f-plan-estudio").style.display = 'none';
-						document.getElementById("f-tipo").value = "todo";
-						document.getElementById("infoofertaplaetudioNoConnFormControlSelect").style.display = 'none';
-	          			document.getElementById("infoofertamodalidadNoConnFormControlSelect").style.display = 'none';
-						infoOfertaNoConnFinalesFormControlSelect.style.display = 'none';
-						infoOfertaNoDatosFinalesFormControlSelect.style.display = 'none';
-						infoofertaNoModalidadFormControlSelect.style.display = 'none';
-						infoOfertaNombreRepetidoFormControlSelect.style.display = 'none';
-						document.getElementById("consultaofertaspinner").style.display = 'none';
-						var myModalEl = document.getElementById('consultasEscuelas');
-						var modal = bootstrap.Modal.getInstance(myModalEl);
-						modal.hide();
-					}
-				})
-				.catch(err => {
-					document.getElementById("consultaofertaspinner").style.display = 'none';
-	          		infoOfertaNoConnFinalesFormControlSelect.style.display = 'block';
-	          		document.getElementById("infoofertaplaetudioNoConnFormControlSelect").style.display = 'none';
-	          		document.getElementById("infoofertamodalidadNoConnFormControlSelect").style.display = 'none';
-	          		document.getElementById("infoofertadictadoNoConnFormControlSelect").style.display = 'none';
-	        	}
-	        );
-		} else {
-			document.getElementById("consultaofertaspinner").style.display = 'none';
-			infoofertaNoModalidadFormControlSelect.style.display = 'block';
-		}
-	} else {
-		document.getElementById("consultaofertaspinner").style.display = 'none';
-		infoOfertaNombreRepetidoFormControlSelect.style.display = 'block';
-	}
-})
-
-//consulta de establecimientos por otros
-
-
-
-var formuarioOtros = document.getElementById("formOtros");
-formuarioOtros.addEventListener("submit", function(e) {
-	e.preventDefault();
-	document.getElementById("consultaotrosspinner").style.display = 'block';
-	var datos = new FormData(formuarioOtros);
-	var infotNoSelectedFormControlSelect = document.getElementById("infoOtrosNoSelecFormControlSelect");
-	var infotNoNombreFormControlSelect = document.getElementById("infotNoNombreFormControlSelect");
-	var infoOtrosNoResultFormControlSelect = document.getElementById("infoOtrosNoResultFormControlSelect");
-	var infoOtrosNombreRepetidoFormControlSelect = document.getElementById("infoOtrosNombreRepetidoFormControlSelect");
-	var infoOtrosNoConnFormControlSelect = document.getElementById("infoOtrosNoConnFormControlSelect");
-	infoOtrosNombreRepetidoFormControlSelect.style.display = 'none';
-	infotNoSelectedFormControlSelect.style.display = 'none';	
-	infotNoNombreFormControlSelect.style.display = 'none';
-	infoOtrosNoResultFormControlSelect.style.display = 'none';
-	infoOtrosNoConnFormControlSelect.style.display = 'none';
-	var nombre = datos.get('nombrecapa');
-	console.log("iniciando conexion a postgres")
-	if(layerNoExiste(nombre)){
-		fetch('php/solicitarestablacimientosxotros.php', {
-			method: 'POST',
-			body: datos 
-			})
-			.then(response => response.json())
-			.then(data => {
-				if(data==="errornoselected"){
-					document.getElementById("consultaotrosspinner").style.display = 'none';
-					infotNoSelectedFormControlSelect.style.display = 'block';
-				} else if (data==="errornonombre"){
-					document.getElementById("consultaotrosspinner").style.display = 'none';
-					infotNoNombreFormControlSelect.style.display = 'block';
-				} else if (data==="errornodatos"){
-					document.getElementById("consultaotrosspinner").style.display = 'none';
-					infoOtrosNoResultFormControlSelect.style.display = 'block';
-				} else if(data==="errornoconsulta"){
-					document.getElementById("consultaotrosspinner").style.display = 'none';
-					infoOtrosNoResultFormControlSelect.style.display = 'block';
-				}  else {
-					itemsearchcomplexselected(data, nombre);
-					infotNoSelectedFormControlSelect.style.display = 'none';	
-					infotNoNombreFormControlSelect.style.display = 'none';
-					infoOtrosNoResultFormControlSelect.style.display = 'none';
-					infoOtrosNombreRepetidoFormControlSelect.style.display = 'none';
-					infoOtrosNoConnFormControlSelect.style.display = 'none';
-					var form = document.getElementById("formOtros");
-					var inputs = form.getElementsByTagName('input');
-					for (var i = 0; i<inputs.length; i++) {
-						switch (inputs[i].type) {
-							case 'text':
-							inputs[i].value = '';
-							break;
-							case 'radio':
-							case 'checkbox':
-								inputs[i].checked = false;   
-						}
-					}
-					var selects = form.getElementsByTagName('select');
-					for (var i = 0; i<selects.length; i++)
-						selects[i].value = "todo";
-					var fielset1 = document.getElementById("paso1");
-					var fielset2 = document.getElementById("paso2");
-					var fielset3 = document.getElementById("paso3");
-					fielset2.style.display = 'none';
-					fielset3.style.display = 'none';
-					fielset1.style.display = 'block';
-					document.getElementById("consultaotrosspinner").style.display = 'none';
-					var myModalEl = document.getElementById('consultasEscuelas');
-					var modal = bootstrap.Modal.getInstance(myModalEl);
-					modal.hide();
-				}
-			})
-			.catch(err => {
-				document.getElementById("consultaotrosspinner").style.display = 'none';
-          		infoOtrosNoConnFormControlSelect.style.display = 'block';
-        	}
-        );
-	} else {
-		document.getElementById("consultaotrosspinner").style.display = 'none';
-		infoOtrosNombreRepetidoFormControlSelect.style.display = 'block';
-	}
-})
-
-function itemsearchcomplexselected(data, name){	
-	var locfiltered = {
-		"features": []
-	};
-
-	var pointsmarker = [];
-
-	var len = localizaciones.features.length;
-	
-	for (const [clave, valor] of Object.entries(data)) {
-		for (var i = 0; i < len; i++){
-			if(localizaciones.features[i].properties.cueanexo == valor){
-				locfiltered.features.push(localizaciones.features[i]);
-				pointsmarker.push(localizaciones.features[i].geometry.coordinates);
-			}
-		}
-	}
-
-	var estxlocalizacion = L.geoJSON(locfiltered, {
-			pointToLayer: function (feature, latlng) {
-					return L.marker(latlng, {
-						icon: L.icon({
-						    iconUrl: "icons/establecimientos_consulta.svg",
-							iconSize:     [22, 22], 
-							iconAnchor:   [11, 0], 
-							popupAnchor:  [0, 0]
-						}),
-						riseOnHover: true
-					});
-				},	
-			onEachFeature: onEachFeatureL
-	});				
-	baselayer.addLayer(estxlocalizacion);
-	legends.push({label: name,
-		type: "image",
-		url:  "icons/establecimientos_consulta.svg",
-		layers_type: "consulta",
-		layers: [estxlocalizacion],
-		inactive: false,
-        });
-	agregarNuevaLegend();
-	var bounds = new L.LatLngBounds(pointsmarker);
-	mymap.fitBounds(bounds);
-	// aca lng va primero que lat, por eso es que se dan vuelta 
-	mymap.setView(new L.LatLng(bounds.getCenter().lng,bounds.getCenter().lat));
-}*/
-
 // Quitar capas  desde legend
 function eliminarlayer(namelayer){
 	legends = legends.filter(function(value, index, arr){ 
@@ -2566,7 +1774,6 @@ function eliminarlayer(namelayer){
 }
 
 // actualiza legends desde legend
-
 function actualizarLegends(label, inactive){
     for (i=0; i < legends.length; i++) {
         if(legends[i].label == label ){
@@ -2578,7 +1785,6 @@ function actualizarLegends(label, inactive){
 
 
 // Mostrar poput info layer de legend
-
 function mostrarpoputinfo(namelayer){
 	document.getElementById("staticBackdropLabelleyend").innerHTML= namelayer;
 	var staticBMBL = document.getElementById("staticBMBL");
@@ -2642,8 +1848,7 @@ function mostrarpoputinfo(namelayer){
 	modalFiltro.toggle();
 }
 
-// Mostrar poput quetion de legend
-
+// Mostrar poput question de legend
 function mostrarpoputquestion(msg){
 	document.getElementById("staticBackdropLabelleyend").innerHTML= "Ayuda sobre " + msg;
 	var staticBMBL = document.getElementById("staticBMBL");
@@ -2703,72 +1908,33 @@ function mostrarpoputquestion(msg){
 async function downloadAsExcel(namelayer){
 	var datosLabel = [];
 	var datosObj = [];
-	/*switch (namelayer) {
-		case "Ministerio de Educación":
-		datosLabel = ministerio_educacion.features;
-		break;
-		case "Supervisión Inicial":
-		datosLabel = legend.options.legends;
-		break;
-		case "Supervisión Primaria":
-		datosLabel = supervicion_primaria.features;
-		break;
-		case "Supervisión Secundaria":
-		datosLabel = supervicion_secundaria.features;
-		break;
-		case "Supervisión Privada":
-		datosLabel = supervicion_privada.features;
-		break;
-		case "Delegaciones Administrativas":
-		datosLabel = delegaciones_administrativas.features;
-		break;
-		case "Bibliotecas Pedagógicas":
-		datosLabel = bibliotecas_pedagogicas.features;
-		break;
-		case "Ed. Domiciliaria y Hospitalaria":
-		datosLabel = ed_domiciliaria_hospitalaria.features;
-		break;
-		case "Ed. Especial":
-		datosLabel = ed_especial.features;
-		break;
-		case "Ed. Inicial":
-		datosLabel = ed_inicial.features;
-		break;
-		case "Ed. Primaria":
-		datosLabel = ed_primaria.features;
-		break;
-		case "Ed. Secundaria":
-		datosLabel = ed_secundaria.features;
-		break;
-		case "Ed. Superior no universitaria":
-		datosLabel = ed_superior.features;
-		break;
-		case "Ed. perm. de Jovenes y Adultos":
-		datosLabel = ed_epja.features;
-		break;
-		case "Formación Profesional":
-		datosLabel = ed_form_prof.features;
-		break;
-		case "Otros servicios educativos":
-		datosLabel = ed_otros_serv_comp.features;
-		break;
-		default:
-		var datosL = []; 
-		var layerN = legends.filter(function(value, index, arr){ 
-        	return value.label === namelayer;
-        });
-		var layerN_array = layerN[0].layers[0]._layers;
-		for (const [clave, obj] of Object.entries(layerN_array)) {
-			datosL.push(obj.feature);
+	var tipo;
+	var capa;
+	legend.options.legends.forEach(data => {
+		if (data.label == namelayer){
+			tipo = data.layers_type;
+			capa = data;
 		}
-		datosLabel = datosL;
-	}*/
-	if (namelayer == "Delegaciones Administrativas") {
+	});
+	if (tipo == 'consulta') {
+		datosObj = Object.keys(capa.layers[0]._layers[capa.layers[0]._leaflet_id - 1].feature.properties);
+		datosLabel.push(datosObj);
+		capa.layers.forEach(marker => {
+			datosObj = (Object.values(marker._layers[marker._leaflet_id - 1].feature.properties))
+			datosLabel.push(datosObj);
+		})
+		downloadAsExcelD(namelayer, datosLabel);
+	}else if (namelayer == "Delegaciones Administrativas") {
 		var delegacion = await getDelegacionLayers();
 		datosLabel = delegacion._needsClustering;
 		datosLabel.forEach(temp => {
 				delete temp.feature.properties.id
 		})
+		var len = datosLabel.length;
+		for (var i = 0; i < len; i++){
+			datosObj.push(datosLabel[i].feature.properties);
+		}
+		downloadAsExcelD(namelayer, datosObj);
 	} else if (namelayer == "Ministerio de Educación"){
 		datosLabel = ministerio_educacion.features;
 		datosObj.push(datosLabel[0].properties);
@@ -2791,52 +1957,13 @@ async function downloadAsExcel(namelayer){
 				}
 			})
 		})
+		var len = datosLabel.length;
+		for (var i = 0; i < len; i++){
+			datosObj.push(datosLabel[i].feature.properties);
+		}
+		downloadAsExcelD(namelayer, datosObj);
 	}
-	var len = datosLabel.length;
-	for (var i = 0; i < len; i++){
-		datosObj.push(datosLabel[i].feature.properties);
-	}
-	downloadAsExcelD(namelayer, datosObj);
 }
-
-//FALTA AGREGAR FUNCIOON EXPORTAR INFO COMO EXCEL
-
-/*document.getElementById("exportarinfoadicional").addEventListener("click", downloadAsExceInfoAdicional);
-function downloadAsExceInfoAdicional(){
-	var namelayer = document.getElementById("fnainfoadicional").innerText;
-	var datosObj = [];
-	var obj = {};
-	obj["cueanexo"] = document.getElementById("cueanexoinfoadicionale").innerHTML; 
-	obj["fna"] = document.getElementById("fnainfoadicionale").innerHTML;
-	obj["domicilio"] = document.getElementById("calleinfoadicionale").innerHTML; 
-	obj["fun"] = document.getElementById("funinfoadicionale").innerHTML; 
-	obj["codigoPostal"] = document.getElementById("cod_postalinfoadicionale").innerHTML;
-	obj["localidad"] = document.getElementById("Localidadinfoadicionale").innerHTML; 
-	obj["departemento"] = document.getElementById("departamentoinfoadicionale").innerHTML; 
-	obj["ambito"] = document.getElementById("amginfoadicionale").innerHTML; 
-	obj["region"] = document.getElementById("Regioninfoadicionale").innerHTML; 
-	obj["modalidad"] = document.getElementById("Modalidadinfoadicionale").innerHTML; 
-	obj["niveles"] = document.getElementById("Nivelesinfoadicionale").innerHTML; 
-	obj["jornadainfoadicional"] = document.getElementById("jornadainfoadicionale").innerHTML;
-	obj["turnoinfoadicional"] = document.getElementById("turnoinfoadicionale").innerHTML;
-	obj["oferta"] = document.getElementById("Ofertainfoadicionale").innerHTML; 
-	obj["dependencia"] = document.getElementById("Dependenciinfoadicionale").innerHTML; 
-	obj["gestion"] = document.getElementById("gesinfoadicionale").innerHTML;
-	obj["telefono"] = document.getElementById("telefonoinfoadicionale").innerHTML; 
-	obj["email"] = document.getElementById("emailinfoadicionale").innerText; 
-	obj["web"] = document.getElementById("sitio_webinfoadicionale").innerText; 
-	obj["responsable"] = document.getElementById("resp_respnsableinfoadicionale").innerHTML; 
-	obj["tel_responsable"] = document.getElementById("resp_telresponsableinfoadicionale").innerHTML; 
-	obj["bibliotecainfoadicional"] = document.getElementById("bibliotecainfoadicionale").innerHTML;
-	obj["laboratorioinfoadicional"] = document.getElementById("laboratorioinfoadicionale").innerHTML;
-	obj["internetinfoadicional"] = document.getElementById("internetinfoadicionale").innerHTML;
-	obj["energiainfoadicional"] = document.getElementById("energiainfoadicionale").innerHTML;
-	obj["fuentenergiainfoadicional"] = document.getElementById("fuentenergiainfoadicionale").innerHTML;
-	obj["aguainfoadicional"] = document.getElementById("aguainfoadicionale").innerHTML;
-	datosObj.push(obj);
-	downloadAsExcelD(namelayer, datosObj);
-}
-*/
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 
@@ -2865,36 +1992,6 @@ function verMapa(){
 	mapa.classList.remove('invisible');
 }
 
-// maneja pasos de modal	
-/*
-function paso1apaso2(){
-	var fielset1 = document.getElementById("paso1");
-	var fielset2 = document.getElementById("paso2");
-	fielset1.style.display = 'none';
-	fielset2.style.display = 'block';
-}
-
-function paso2apaso3(){
-	var fielset2 = document.getElementById("paso2");
-	var fielset3 = document.getElementById("paso3");
-	fielset2.style.display = 'none';
-	fielset3.style.display = 'block';
-}
-
-function paso2apaso1(){
-	var fielset2 = document.getElementById("paso2");
-	var fielset1 = document.getElementById("paso1");
-	fielset2.style.display = 'none';
-	fielset1.style.display = 'block';
-}
-
-function paso3apaso2(){
-	var fielset2 = document.getElementById("paso2");
-	var fielset3 = document.getElementById("paso3");
-	fielset3.style.display = 'none';
-	fielset2.style.display = 'block';
-}*/
-
 function showElementsById(ids) {
 	var idList = ids.split(" ");
 	var item;
@@ -2905,7 +2002,6 @@ function showElementsById(ids) {
 		}
 	}
 }
-
 function hideElementsById(ids) {
 	var idList = ids.split(" ");
 	var item;
@@ -2930,22 +2026,6 @@ function nomostrarInfoAdicional(){
 	document.getElementById("InfoAdicional").style.display = "none";	
 }
 
-// cambiar tamaño imagen navbar
-/*
-if (screen.height < 576){
-	imgnavbar.style.height = '22px'; 
-}
-
-window.addEventListener('resize', function(event){
-	var imgnavbar = document.getElementById("imgnavbar");
-	if (screen.height < 576){
-		imgnavbar.style.height = '22px';
-		imgnavbar.style.width = '35px'; 
-	} else {
-		imgnavbar.style.height = '32px';
-		imgnavbar.style.widtht = '45px';
-	}
-});*/
 
 // control button modal inicio
 
@@ -2963,6 +2043,7 @@ function buttonHidden(){
 // modal filtro
 
 function resetFormFiltro() {
+	graficosGenerados = [];
 	var form = document.getElementById("seleccionarfila");
 	var inputs = form.getElementsByTagName('input');
 	for (var i = 0; i<inputs.length; i++) {
@@ -3047,6 +2128,7 @@ flexSwitchCheckMatricula.addEventListener("change", function() {
 	}
 
 })*/
+//comportamiento del input "establecimiento" del modal filtro
 var flexSwitchCheckEstablecimiento = document.getElementById("flexSwitchCheckEstablecimiento")
 flexSwitchCheckEstablecimiento.addEventListener("change", function() {
 	var form = document.getElementById("seleccionardato");
@@ -3152,7 +2234,7 @@ flexSwitchCheckUnidades.addEventListener("change", function() {
 	}
 })*/
 
-
+//comportamiento del input "nivel" del modal filtro
 var flexSwitchCheckNivel = document.getElementById("flexSwitchCheckNivel")
 flexSwitchCheckNivel.addEventListener("change", function() {
 	var form = document.getElementById("seleccionarfila");
@@ -3173,7 +2255,7 @@ flexSwitchCheckNivel.addEventListener("change", function() {
 		}
 	}
 })
-
+//comportamiento del input "región" del modal filtro en las filas
 var flexSwitchCheckRegion = document.getElementById("flexSwitchCheckRegion")
 flexSwitchCheckRegion.addEventListener("change", function() {
 	var form = document.getElementById("seleccionarfila");
@@ -3194,7 +2276,7 @@ flexSwitchCheckRegion.addEventListener("change", function() {
 		}
 	}
 })
-
+//comportamiento del input "ambito" del modal filtro
 var flexSwitchCheckAmbito1 = document.getElementById("flexSwitchCheckAmbito1")
 flexSwitchCheckAmbito1.addEventListener("change", function() {
 	var form = document.getElementById("seleccionarcolumna");
@@ -3215,7 +2297,7 @@ flexSwitchCheckAmbito1.addEventListener("change", function() {
 		}
 	}
 })
-
+//comportamiento del input "gestion" del modal filtro
 var flexSwitchCheckGestion1 = document.getElementById("flexSwitchCheckGestion1")
 flexSwitchCheckGestion1.addEventListener("change", function() {
 	var form = document.getElementById("seleccionarcolumna");
@@ -3236,7 +2318,7 @@ flexSwitchCheckGestion1.addEventListener("change", function() {
 		}
 	}
 })
-
+//comportamiento del input "región" del modal filtro en las columnas
 var flexSwitchCheckRegion1 = document.getElementById("flexSwitchCheckRegion1")
 flexSwitchCheckRegion1.addEventListener("change", function() {
 	var form = document.getElementById("seleccionarcolumna");
@@ -3265,7 +2347,6 @@ function downloadExcel(ws_data, filtro) {
 	ws_data.forEach(fila => {
 		matriz.push(Object.values(fila));
 	})
-	console.log(matriz);
 	// Crear una hoja de trabajo
 	var ws = XLSX.utils.aoa_to_sheet(matriz);
 
@@ -3304,7 +2385,7 @@ async function filtrar_info(dato, fila, col) {
 		return filtro
 	})
 }
-
+//crea talba del modal filtro
 function crearTabla(data) {
 	const table = document.createElement('table');
 	table.classList.add('table');
@@ -3312,9 +2393,7 @@ function crearTabla(data) {
 	table.classList.add('table-hover');
 	const tbody = document.createElement('tbody');
 	const cabecera = document.createElement('tr');
-	console.log(data);
 	Object.keys(data[0]).forEach(col => {
-		console.log(col);
 		const column = document.createElement('td');
 		column.textContent = col;
 		cabecera.appendChild(column);
@@ -3343,6 +2422,7 @@ tablaInfoFiltro.addEventListener('click', function(e) {
 
 
 //Se dispara al solicitar "Filtrar informacion" realiza una consulta y descarga directamente en excel
+var graficosGenerados = [];
 var datosFiltrados;
 var formfiltroInformacion = document.getElementById("formFiltroInformacion");
 formfiltroInformacion.addEventListener("submit", async function(e) {
@@ -3353,15 +2433,182 @@ formfiltroInformacion.addEventListener("submit", async function(e) {
 	var col = document.querySelector('.check-column:checked');
 		if(selectedCheckbox){
 			datosFiltrados = await filtrar_info(selectedCheckbox.value,fila.value,col.value);
-			console.log("Filtrado!")
+			let labels = Object.keys(datosFiltrados[0]);
+			labels.splice(0,1);
+			let idGrafico;
+			let reg = 0;
+			datosFiltrados.forEach(grafico => {
+				grafico = Object.values(grafico);
+				idGrafico = grafico[0];
+				grafico.splice(0,1)
+				graficosGenerados.push(createPieChart(grafico, labels, idGrafico, posRegiones[reg]))
+				reg +=1;
+			})
 			crearTabla(datosFiltrados);
 		} else {
 			infoestablecimientosxfiltronoselect.style.display = 'block';
 		}
 		
 	})
-	
+
 function nomostrarestablecimientosinfofiltro(){
 	document.getElementById("map").style.display = "block";
 	document.getElementById("establecimientosinfofiltro").style.display = 'none';
+}
+/*Funcion para mostrat los graficos generados
+var mostrarGraficos = document.getElementById("mostrarGraficosBoton");
+mostrarGraficos.addEventListener('click', function(e) {
+	graficosGenerados.forEach(grafico => {
+		baselayer.addLayer(grafico.display);
+		Plotly.newPlot(grafico.htmlElement, grafico.data, grafico.layout)
+		
+	})
+	document.getElementById("tablaInfoFiltro").innerHTML = ' '	
+})*/
+//cierra los grafico
+function closeChart(id){
+	var i = 0;
+	
+	baselayer.eachLayer(function (layer) {
+		if (layer.options.icon && layer.options.icon.options.className === id) {
+			baselayer.removeLayer(layer);
+			let valueToRemove = id.split('-')[2];
+			graficosGenerados = graficosGenerados.filter(item => item.htmlElement !== valueToRemove);
+		}
+	});
+}
+//crea los graficos
+function createPieChart(values, labels, htmlElement, pos){
+	var regnum = htmlElement.split(" ")[1];
+	htmlElement = htmlElement.split(" ")[0]+regnum;
+	var data = [{
+		values: values,
+		labels: labels,
+		type: 'pie',
+		automargin: true
+	}];
+  
+	var layout = {
+		height: 150,
+		width: 150,
+		margin: {"t": 0, "b": 0, "l": 0, "r": 0},
+		showlegend: false,
+		paper_bgcolor:'rgba(0,0,0,0)',
+		plot_bgcolor:'rgba(0,0,0,0)' 
+	};
+	
+	
+	var display = L.marker(pos, {
+		icon: L.divIcon({
+			className:`data-chart-${htmlElement}`,
+			html: `<div id='${htmlElement}'>Región ${regnum}  <button type="button" id="data-chart-${htmlElement}" class="btn-close btn-sm" aria-label="Close" onclick="return closeChart(this.id);"></button></div>`
+		}),
+		zIndexOffset: 99
+	})
+	var div = {
+		htmlElement,
+		data,
+		layout,
+		display
+	}
+
+	return div
+}
+//se dispara al hacer zoom, en caso de haber graficos se ajustaran
+mymap.on('zoomend', function() {
+	var posCharts = [
+		[-40, -78],
+		[-40, -75],
+		[-43, -78],
+		[-43, -75],
+		[-46, -78],
+		[-46, -75]
+	]
+	var pos = 0;
+    // Aquí puedes ejecutar el código que se activará cada vez que cambie el zoom
+    var zoomLevel = mymap.getZoom(); // Obtener el nivel de zoom actual
+	if (graficosGenerados > 0) {
+		if (zoomLevel < 7){
+			
+			// Si quieres mover los gráficos, puedes hacerlo iterando sobre ellos
+			graficosGenerados.forEach(function(grafico) {
+				baselayer.eachLayer(function (layer) {
+					if (layer.options.icon && layer.options.icon.options.className === 'data-chart-'+grafico.htmlElement) {
+						baselayer.removeLayer(layer);
+					}
+				});
+				// Eliminar el gráfico anterior y agregar uno en la nueva posición ajustada
+		
+				// Crear un nuevo marcador o actualizar el existente
+				var newPos = posCharts[pos];
+				var nuevoDisplay = L.marker(newPos, {
+					icon: L.divIcon({
+						className: `data-chart-${grafico.htmlElement}`,
+						html: `<div id='${grafico.htmlElement}'>${grafico.htmlElement}<button type="button" id="data-chart-${grafico.htmlElement}" class="btn-close btn-sm" aria-label="Close" onclick="return closeChart(this.id);"></button></div>`
+					}),
+					zIndexOffset: 99
+				});
+		
+				// Añadir el nuevo marcador al mapa
+				baselayer.addLayer(nuevoDisplay);
+		
+				// Actualizar el gráfico si es necesario
+				Plotly.newPlot(grafico.htmlElement, grafico.data, grafico.layout);
+				pos +=1
+			});
+			pos = 0;
+		} else {
+			// Puedes mover los gráficos iterando sobre ellos
+			graficosGenerados.forEach(function(grafico) {
+				baselayer.eachLayer(function (layer) {
+					if (layer.options.icon && layer.options.icon.options.className === 'data-chart-'+grafico.htmlElement) {
+						baselayer.removeLayer(layer);
+					}
+				});
+				var newPos = posRegiones[pos];
+				var nuevoDisplay = L.marker(newPos, {
+					icon: L.divIcon({
+						className: `data-chart-${grafico.htmlElement}`,
+						html: `<div id='${grafico.htmlElement}'>${grafico.htmlElement}<button type="button" id="data-chart-${grafico.htmlElement}" class="btn-close btn-sm" aria-label="Close" onclick="return closeChart(this.id);"></button></div>`
+					}),
+					zIndexOffset: 99
+				});
+		
+				baselayer.addLayer(nuevoDisplay);
+				Plotly.newPlot(grafico.htmlElement, grafico.data, grafico.layout);
+				pos +=1
+			});
+			pos = 0;
+		}
+	}	
+   
+});
+
+//AGREGAR RADIOS
+function mostrarArea(centro, area){
+	var radio = Math.sqrt(area / Math.PI);
+	// Crear el círculo en el mapa
+	var circle = L.circle(centro, {
+		radius: radio, // El radio en metros
+		color: 'blue',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	})
+	return circle;
+}
+
+
+function preparaBotonArea(){
+	var dispararArea = document.getElementById("bibliotecaAreaPrueba").addEventListener('change', function(event) {
+		if (this.checked){
+			console.log(checked);
+			let area = dispararArea.value.split("-")[0];
+			let centro = dispararArea.value.split("-")[1];
+			let circle = mostrarArea(centro,area);
+		} else {
+			console.log(checked);
+			mymap.removeLayer(circle);
+		}
+		
+	});
 }

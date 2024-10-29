@@ -11,13 +11,10 @@ router.get('/mapa/ubicacion', async (req, res) => {
             "features": [
             ]
           };
-        var coords = [result.long, result.lat];
+        const geom = JSON.parse(result.geom);
         var newFeature = {
             type: "Feature",
-            geometry: {
-                type: "Point",
-                coordinates: [coords[0], coords[1]]
-            },
+            geometry: geom,
             properties: {
                 id: result.id_institucion,
                 region: result.region,
@@ -60,11 +57,14 @@ router.get('/mapa/regiones', async (req, res) => {
                     formacion: row.formación,
                     poblacion: row.población,
                     superficie: row.superficie,
-                    artística: row.artística,
+                    artistica: row.artística,
                     domhosp: row.domhosp,
                     epja: row.epja,
                     especial: row.especial,
-                    oserveduc: row.oserveduc
+                    oserveduc: row.oserveduc,
+                    edificios: row.edificios,
+                    sedes: row.sedes,
+                    anexos: row.anexos
                 }
             };
            geoJSON.features.push(newFeature) 
@@ -90,12 +90,43 @@ router.get('/mapa/departamentos', async (req, res) => {
                 type: "Feature",
                 geometry: geom,
                 properties: {
-                    id: row.id
+                    gid: row.gid,
+                    nomdep: row.nomdep,
+                    cabecera: row.cabecera,
+                    superficie: row.superficie
                 }
             };
            geoJSON.features.push(newFeature) 
         })
         res.json(geoJSON);
+    } catch (err) {
+        console.error('Error al obtener los datos', err);
+        res.status(500).json({ error: 'Database error' });
+    }
+});
+
+router.get('/mapa/areasBib', async (req, res) => {
+    try {
+        const result = await consultar.area_bibliotecas();
+        console.log(result);
+        /*let geoJSON = {
+            "type": "FeatureCollection",
+            "features": [
+            ]
+          };
+        result.forEach(row => {
+            const geom = JSON.parse(row.geom);
+            var newFeature = {
+                type: "Feature",
+                geometry: geom,
+                properties: {
+                    id: row.id,
+                    nombre: row.nombre
+                }
+            };
+           geoJSON.features.push(newFeature) 
+        })
+        res.json(geoJSON);*/
     } catch (err) {
         console.error('Error al obtener los datos', err);
         res.status(500).json({ error: 'Database error' });

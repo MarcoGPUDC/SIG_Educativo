@@ -1,18 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const consultar = require('../../../public/js/consulta_model');
-const proj4 = require('proj4');
 
-// Definir la proyección UTM correspondiente, por ejemplo, UTM zona 21S (ajusta según tu caso)
-//const utm21S = '+proj=utm +zone=19 +south +datum=UTM +units=m +no_defs';
-//const wgs84 = proj4.WGS84;
 
 router.get('/mapa/setInstMarkers', async (req, res) => {
     try {
         const result = await consultar.buscar_info_popup_inst();
 
         // Verificar los datos obtenidos
-        //console.log('Resultados obtenidos:', result);
         let geoJSON = {
             "type": "FeatureCollection",
             "features": [
@@ -20,13 +15,10 @@ router.get('/mapa/setInstMarkers', async (req, res) => {
           };
         
         result.forEach(row => {
-            var coords = [row.long, row.lat];
+            const geom = JSON.parse(row.geom);
             var newFeature = {
                 type: "Feature",
-                geometry: {
-                    type: "Point",
-                    coordinates: [coords[0], coords[1]]
-                },
+                geometry: geom,
                 properties: {
                     id: row.id_institucion,
                     cueanexo: row.cue_anexo,
@@ -40,7 +32,8 @@ router.get('/mapa/setInstMarkers', async (req, res) => {
                     email: row.email,
                     sitioweb: row.web,
                     responsable: row.responsable,
-                    tel_resp: row.tel_resp
+                    tel_resp: row.tel_resp,
+                    modalidad: row.modalidad
                 }
             };
            geoJSON.features.push(newFeature) 
@@ -57,7 +50,6 @@ router.get('/mapa/setSupervMarkers', async (req, res) => {
         const result = await consultar.buscar_info_supervision();
 
         // Verificar los datos obtenidos
-        //console.log('Resultados obtenidos:', result);
         let geoJSON = {
             "type": "FeatureCollection",
             "features": [
@@ -98,7 +90,6 @@ router.get('/mapa/setDelegMarkers', async (req,res) => {
         const result = await consultar.buscar_info_delegacion();
 
         // Verificar los datos obtenidos
-        //console.log('Resultados obtenidos:', result);
         let geoJSON = {
             "type": "FeatureCollection",
             "features": [
@@ -136,9 +127,6 @@ router.get('/mapa/setDelegMarkers', async (req,res) => {
 router.get('/mapa/setBiblioMarkers', async (req,res) => {
     try {
         const result = await consultar.buscar_todos_biblioteca();
-
-        // Verificar los datos obtenidos
-        //console.log('Resultados obtenidos:', result);
         let geoJSON = {
             "type": "FeatureCollection",
             "features": [
@@ -155,13 +143,14 @@ router.get('/mapa/setBiblioMarkers', async (req,res) => {
                 },
                 properties: {
                     id: row.id_biblioteca,
-                    nombre: row.nombre,
+                    nombrebibl: row.nombre,
                     direccion: row.domicilio,
-                    region: row.region,
-                    cp: row.cp,
+                    numreg: row.region,
+                    codpostal: row.cp,
                     localidad: row.localidad,
                     email: row.email,
-                    horario: row.horario
+                    horario: row.horario,
+                    area: row.area
                 }
             };
            geoJSON.features.push(newFeature) 
@@ -170,7 +159,7 @@ router.get('/mapa/setBiblioMarkers', async (req,res) => {
     } catch (err) {
         console.error('Error al obtener los datos', err);
         res.status(500).json({ error: 'Database error' });
-    } 
+    }
 });
 
 module.exports = router;

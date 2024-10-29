@@ -24,8 +24,9 @@
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 	<script type="application/javascript" src="modules/buscador/utilities/js/buscador_loader.js"></script>
 	<script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
-	<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+	<!--<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>-->
 
+	
 
 
 	<link rel="shortcut icon" type="image/x-icon"  href="icons/logo_pestaña.png">
@@ -631,6 +632,7 @@
 					<div class="modal-footer">
 						<button type="button" class="btn-outline-danger" data-bs-target="#filtroInformacion" data-bs-toggle="modal" data-bs-dismiss="modal" onclick="return resetFormFiltro();">Volver</button>
 						<button type="button" id="descargarFiltro" class="btn-outline-primary">Descargar información</button>
+						<!--<button type="button" id="mostrarGraficosBoton" class="btn-outline-primary" data-bs-dismiss="modal">visualizar información</button>-->
 					</div>
 				</div>
 			</div>
@@ -638,7 +640,7 @@
 	</form>
 
 <!-- informe info filtro y graficos-->
-	<div id="establecimientosinfofiltro" style="display:none">
+	<div id="establecimientosinfofiltro" style="display:none; width: 800px">
 		<div class="container">
 			<h4 id="tituloinfofiltro" class="m-3" style="color:#0d6efd"></h4>
 			<div class="container-fluid">

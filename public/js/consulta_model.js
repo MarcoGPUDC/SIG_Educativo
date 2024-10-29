@@ -37,16 +37,22 @@ function buscar_todos_domicilio () {
 };
 
 function busqueda_simple_todo () {
-    return db.any(`SELECT inst.*, COALESCE(c.responsable, 'Sin Informacion') AS responsable, COALESCE(c.email, 'Sin Informacion') AS email, COALESCE(c.tel_resp, 000000000) AS tel_resp FROM padron.v_institucion_completa AS inst
-        JOIN padron.contacto c ON c.id_institucion = inst.cue;`);
+    return db.any(`SELECT inst.*, COALESCE(c.responsable, 'Sin Informacion') AS responsable, COALESCE(c.email, 'Sin Informacion') AS email, COALESCE(c.tel_resp, 000000000) AS tel_resp, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.v_institucion_completa AS inst
+        JOIN padron.contacto c ON c.id_institucion = inst.cue
+        JOIN padron.georeferencia geo ON geo.id_institucion = c.id_institucion;`);
 };
 
 function buscar_ubicacion(id) {
-    return db.one (`SELECT inst.id_institucion, inst.nombre, inst.numero, inst.domicilio, loc.localidad, inst.region, geo.lat, geo.long FROM padron.institucion inst JOIN padron.georeferencia geo ON geo.id_institucion = inst.id_institucion JOIN padron.localidad loc ON loc.id_localidad = inst.id_localidad WHERE inst.id_institucion = $1;`, id)
+    return db.one (`SELECT inst.id_institucion, inst.nombre, inst.numero, inst.domicilio, loc.localidad, inst.region, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.institucion inst JOIN padron.georeferencia geo ON geo.id_institucion = inst.id_institucion JOIN padron.localidad loc ON loc.id_localidad = inst.id_localidad WHERE inst.id_institucion = $1;`, id)
 }
 
 function buscar_todos_biblioteca() {
-    return db.any (`SELECT bi.id_biblioteca, bi.nombre, bi.domicilio, bi.cp, loc.localidad, bi.email, bi.horario, bi.region, bi.long, bi.lat FROM padron.biblioteca bi JOIN padron.localidad loc ON loc.id_localidad = bi.id_localidad`)
+    return db.any (`SELECT bi.id_biblioteca, bi.nombre, bi.domicilio, bi.cp, loc.localidad, bi.email, bi.horario, bi.region, bi.long, bi.lat, ST_area(rad.geom) AS area FROM padron.biblioteca bi 
+                    JOIN padron.localidad loc ON loc.id_localidad = bi.id_localidad
+                    JOIN public.radio_bibliotecas rad ON rad.numbibl = bi.id_biblioteca`)
+}
+function area_bibliotecas() {
+    return db.any ('SELECT numbibl, ST_Area(abib.geom)  FROM radio_bibliotecas abib');
 }
 
 //consultas especificas con inyeccion
@@ -71,14 +77,16 @@ function busqueda_adicional (id) {
 //consultas para visualizar en el mapa
 //info para anexar al popup de las instituciones
 function buscar_info_popup_inst() {
-    return db.any(`SELECT * FROM (SELECT inst.cue_anexo, (CASE WHEN inst.numero = 'Z000023' THEN 700 WHEN inst.numero = 'Z000024' THEN 700 WHEN inst.numero = 'CEF' THEN 700 WHEN inst.numero > '0' THEN inst.numero::INT END) AS numero, inst.nombre, inst.region, loc.localidad, inst.domicilio, inst.tel, cont.email, inst.web, cont.responsable, cont.tel_resp, niv.nombre AS nivel, geo.lat, geo.long, inst.id_institucion 
+    return db.any(`SELECT * FROM (SELECT inst.cue_anexo, (CASE WHEN inst.numero = 'Z000023' THEN 700 WHEN inst.numero = 'Z000024' THEN 700 WHEN inst.numero = 'CEF' THEN 700 WHEN inst.numero > '0' THEN inst.numero::INT END) AS numero, inst.nombre, inst.region, loc.localidad, inst.domicilio, inst.tel, cont.email, inst.web, cont.responsable, cont.tel_resp, niv.nombre AS nivel, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom, inst.id_institucion, moda.nombre AS modalidad
     FROM padron.institucion inst 
     JOIN padron.localidad loc ON inst.id_localidad = loc.id_localidad 
     JOIN padron.contacto cont ON inst.id_institucion = cont.id_institucion
     JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion
 	JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
 	JOIN padron.nivel niv ON ofe.id_nivel = niv.id_nivel
+    JOIN padron.modalidades_educativas moda ON moda.id_modalidad = ofe.id_modalidad
     WHERE inst.funcion = 'Activo') tmp
+    GROUP BY tmp.nivel, tmp.cue_anexo, tmp.numero, tmp.nombre, tmp.region, tmp.localidad, tmp.domicilio, tmp.tel, tmp.email, tmp.web, tmp.responsable, tmp.tel_resp, tmp.geom, tmp.id_institucion, tmp.modalidad
     ORDER BY numero`);
 };
 //info para anexar al popup de las supervisiones
@@ -133,7 +141,7 @@ function filtro_establecimiento_ambito() {
 //consultas capas postgis
 function capa_regiones() {                                                                                                                                      //ST_AsGeoJSON(ST_Transform(geom, 4326)) transformar
     return db.any(`SELECT                                                                                                                                             
-    id, numreg, nombrereg, totallocal, primario, inicial, secundario, superior, formación, población, superficie, artística, "domic/hosp", epja, especial, oserveduc, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom
+    id, numreg, nombrereg, totallocal, primario, inicial, secundario, superior, formación, población, superficie, artística, "domic/hosp" AS domhosp, epja, especial, oserveduc, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom
     FROM regiones_Educativas;`)
 }
 
@@ -170,6 +178,7 @@ module.exports = {
     filtro_establecimiento_ambito,
     capa_regiones,
     capa_departamentos,
-    capa_prueba
+    capa_prueba,
+    area_bibliotecas
 
 };

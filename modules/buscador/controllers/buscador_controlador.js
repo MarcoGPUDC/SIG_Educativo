@@ -50,13 +50,10 @@ router.get('/oferta', async (req, res) => {
       ]
       };
       resultOfe.forEach(result => {
-        var coords = [result.long, result.lat];
+        const geom = JSON.parse(row.geom);
         var newFeature = {
           type: "Feature",
-          geometry: {
-              type: "Point",
-              coordinates: [coords[0], coords[1]]
-          },
+          geometry: geom,
           properties: {
               id: result.id_institucion,
               numero: result.numero,

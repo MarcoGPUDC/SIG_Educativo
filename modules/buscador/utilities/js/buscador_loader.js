@@ -70,7 +70,7 @@ function verInfo(event) {
     window.open(`info?num=${select.value}`, '_blank');
 };
 
-
+//buscar por numero
 function isNa(value){
     var esnum = true;
     if (isNaN(value) || value.length == 0) {
@@ -96,8 +96,16 @@ function nroSelect(){
         .then((escuelas) => {
             escuelas.forEach(data => {
                 if (data.numero == miSelect) {
+                    // Cadena JSON
+                    let jsonString = data.geom;
+                    // Convertir la cadena JSON a un objeto JavaScript
+                    let geoObject = JSON.parse(jsonString);
+                    const long = geoObject.coordinates[0]
+                    const lat = geoObject.coordinates[1]
                     coincidencias += 1;
-                    var content = "<option class='list-group-item list-group-item-action' id='"+ data.cue + "-" + "xnumero" +"' value='"+ data.cue + "'onclick=itemsearchselected(this.id)  data-bs-toggle='list' role='tab' aria-controls='list-home'>"+ data.numero + " - " + data.nombre + " - " + data.cue_anexo + " - " + data.localidad + "</option>";
+                    var content =   "<ul class='list-group list-group-horizontal'>" +
+                                    "<li class='list-group-item list-group-item-primary botonAñadirBuscador' id='"+ data.cue + "-" + "xnumero" +"' value='"+ data.cue + "'onclick=itemsearchselected(this.id)  data-bs-toggle='list' role='tab' aria-controls='list-home'>"+ data.numero + " - " + data.nombre + " - " + data.cue_anexo + " - " + data.localidad + "</li>" +
+                                    "<button type='button' class='list-group-item list-group-item-warning botonIrBuscador' data-bs-dismiss='modal' id='botonIr"+data.cue+"' value='"+lat+"/"+long+"'onclick=itemSearchUbicacion(this.value) aria-current='true'>Ir</button> </ul>"
                     fnumeroescitem.innerHTML += content;
                 }
             })
@@ -122,7 +130,7 @@ function nroSelect(){
         numeroescblockitem.style.display = "none";
     }
 }
-
+//buscar por nombre
 function nombreSelect() {
     var nombreescbtn = document.getElementById("f-nombreesc-item_btn");
     var nombreescbtnclean = document.getElementById("f-nombreesc-item_btn_clean");
@@ -141,8 +149,17 @@ function nombreSelect() {
         .then((escuelas) => {
             escuelas.forEach(data => {
                 if (data.nombre == miSelect) {
+                     // Cadena JSON
+                     let jsonString = data.geom;
+                     // Convertir la cadena JSON a un objeto JavaScript
+                     let geoObject = JSON.parse(jsonString);
+                     const long = geoObject.coordinates[0]
+                     const lat = geoObject.coordinates[1]
+                     coincidencias += 1;
                     coincidencias += 1;
-                    var content = "<option class='list-group-item list-group-item-action' id='"+ data.cue + "-" + "xnombre" +"' value='"+ data.cue + "'onclick=itemsearchselected(this.id)  data-bs-toggle='list' role='tab' aria-controls='list-home'>"+ data.numero + " - " + data.nombre + " - " + data.cue_anexo + " - " + data.localidad + "</option>";
+                    var content = "<ul class='list-group list-group-horizontal'>" +
+                                    "<li class='list-group-item list-group-item-primary botonAñadirBuscador' id='"+ data.cue + "-" + "xnumero" +"' value='"+ data.cue + "'onclick=itemsearchselected(this.id)  data-bs-toggle='list' role='tab' aria-controls='list-home'>"+ data.numero + " - " + data.nombre + " - " + data.cue_anexo + " - " + data.localidad + "</li>" +
+                                    "<button type='button' class='list-group-item list-group-item-warning botonIrBuscador' data-bs-dismiss='modal' id='botonIr"+data.cue+"' value='"+lat+"/"+long+"'onclick=itemSearchUbicacion(this.value) aria-current='true'>Ir</button> </ul>"
                     fnombreescitem.innerHTML += content;
                 }
             })
@@ -165,6 +182,60 @@ function nombreSelect() {
         nombreescblockitem.style.display = "none";
     }
 
+}
+
+//buscar por cue
+function cue_valido(c){
+	//si tiene 9 caracteres y son todos numeros es TRUE
+	return (c.match(/^[0-9]+$/) != null && c.length == 9);
+}
+
+function cueAnexoSelect() {
+	var infoCueAnexo = document.getElementById("infoCueAnexo");
+	var infoCueAnexoError = document.getElementById("infoCueAnexoError");
+	var infoCueAnexoErrorNoExiste = document.getElementById("infoCueAnexoErrorNoExiste");
+	var infoCueNombreRepetidoFormControlSelect = document.getElementById("infoCueNombreRepetidoFormControlSelect");
+	infoCueNombreRepetidoFormControlSelect.style.display = 'none';
+	var fcue = document.getElementById("select-cue");
+	var miSelect = fcue.value;
+    var fcueescitem = document.getElementById("f-cueesc-item");
+    var coincidencias = 0;
+	if(cue_valido(miSelect)){
+        infoCueAnexo.style.display = 'block';
+        infoCueAnexoError.style.display = 'none';
+        infoCueAnexoErrorNoExiste.style.display = 'none';
+        fetch('buscador/datos')
+        .then(response => response.json())
+        .then((escuelas) => {
+            escuelas.forEach(data => {
+                if (data.cue_anexo == miSelect) {
+                     // Cadena JSON
+                     let jsonString = data.geom;
+                     // Convertir la cadena JSON a un objeto JavaScript
+                     let geoObject = JSON.parse(jsonString);
+                     const long = geoObject.coordinates[0]
+                     const lat = geoObject.coordinates[1]
+                     coincidencias += 1;
+                    coincidencias += 1;
+                    var content = "<ul class='list-group list-group-horizontal'>" +
+                                    "<li class='list-group-item list-group-item-primary botonAñadirBuscador' id='"+ data.cue + "-" + "xnumero" +"' value='"+ data.cue + "'onclick=itemsearchselected(this.id)  data-bs-toggle='list' role='tab' aria-controls='list-home'>"+ data.numero + " - " + data.nombre + " - " + data.cue_anexo + " - " + data.localidad + "</li>" +
+                                    "<button type='button' class='list-group-item list-group-item-warning botonIrBuscador' data-bs-dismiss='modal' id='botonIr"+data.cue+"' value='"+lat+"/"+long+"'onclick=itemSearchUbicacion(this.value) aria-current='true'>Ir</button> </ul>"
+                    fcueescitem.innerHTML += content;
+                }
+            })
+        })
+        if (coincidencias > 0){
+            document.getElementById('cueesc-block-item').style.display = 'block';
+        } else {
+            infoCueAnexoErrorNoExiste.style.display = 'block';
+        }
+        
+    }else{
+        infoCueNombreRepetidoFormControlSelect.style.display = 'none';
+        infoCueAnexo.style.display = 'none';
+        infoCueAnexoErrorNoExiste.style.display = 'none';
+        infoCueAnexoError.style.display = 'block';
+    }
 }
 
 
