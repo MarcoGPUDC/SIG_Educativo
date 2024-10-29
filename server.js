@@ -94,7 +94,7 @@ app.use('/', filtroInfo);
 
 
 // Iniciar el servidor
-const port = 3000;
+const port = 3005;
 app.listen(port, () => {
     console.log(`Servidor Express escuchando en el puerto ${port}`);
   });
