@@ -141,7 +141,7 @@ function filtro_establecimiento_ambito() {
 //consultas capas postgis
 function capa_regiones() {                                                                                                                                      //ST_AsGeoJSON(ST_Transform(geom, 4326)) transformar
     return db.any(`SELECT                                                                                                                                             
-    id, numreg, nombrereg, totallocal, primario, inicial, secundario, superior, formación, población, superficie, artística, "domic/hosp" AS domhosp, epja, especial, oserveduc, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom
+    id, numreg, nombrereg, totallocal, primario, inicial, secundario, superior, formación, superficie, artística, "domic/hosp" AS domhosp, epja, especial, oserveduc, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom
     FROM regiones_Educativas;`)
 }
 
