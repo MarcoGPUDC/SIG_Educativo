@@ -1,7 +1,4 @@
 // ` backticks
-document.addEventListener('DOMContentLoaded', (event) => {
-    console.log("DOM cargado");   
-});
 var datosBuscador = null;
 
 

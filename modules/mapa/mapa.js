@@ -1,4 +1,13 @@
-// Crear mapa ------------------------------------------------------------------------------
+// mapa interactivo ------------------------------------------------------------------------------
+
+//espera 3 segundos antes de mostrar la pantalla
+
+function hideLoadingScreen() {
+	document.getElementById('loading-screen').style.display = 'none';
+}
+setTimeout(hideLoadingScreen,2500);
+
+//setea el mapa
 
 var mymap = new L.map('map', {
 	fullscreenControl: true,
@@ -8,15 +17,6 @@ var mymap = new L.map('map', {
 	}
 }); 
 
-// Function to hide the loading screen
-
-
-function hideLoadingScreen() {
-	document.getElementById('loading-screen').style.display = 'none';
-}
-
-// Check if the map is completely loaded
-mymap.whenReady(hideLoadingScreen);
 
 // Tile mapas
 

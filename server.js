@@ -4,6 +4,7 @@ const path = require('path');
 var raiz = 'http://sistemas.chubut.edu.ar/mapa/'
 var https = require('https');
 var fs = require('fs');
+const jwt = require('jsonwebtoken');
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.static(path.join(__dirname,'modules','mapa')));
 app.use(express.static(path.join(__dirname,'modules','buscador')));
@@ -47,7 +48,13 @@ app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), {
   }
 }));
 
-app.use('/mapoteca', express.static(path.join(__dirname, 'modules','mapoteca'), {
+
+// Configura Pug como motor de plantillas
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'modules', 'buscador', 'views'));
+//app.set('views', path.join(__dirname, 'modules', 'buscador'));
+
+app.use('/login', express.static(path.join(__dirname), {
   setHeaders: (res, path) => {
     if (path.endsWith('.css')) {
       res.setHeader('Content-Type', 'text/css');
@@ -56,26 +63,13 @@ app.use('/mapoteca', express.static(path.join(__dirname, 'modules','mapoteca'), 
 }));
 
 
-// Configura Pug como motor de plantillas
-app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'modules', 'buscador', 'views'));
-//app.set('views', path.join(__dirname, 'modules', 'buscador'));
-
-
-
-app.get('/inicio', function(req, res) {
-  res.send('Hola Mundo');
-});
-
 app.get('/mapa', function(req, res) {
     res.sendFile(__dirname + '/modules/mapa/index.html');
 });
 
-/*
-app.get('/mapoteca', function(req, res){
-  res.sendFile(__dirname + '/modules/mapoteca/views/mapoteca_index.html')
+/*app.get('/login', function(req, res) {
+  res.sendFile(__dirname + '/login.html');
 });*/
-
 
 const informacion_controlador = require('./modules/buscador/controllers/informacion_controlador')
 app.use('/info', informacion_controlador);
@@ -91,6 +85,25 @@ app.use('/', mapInfo);
 
 const filtroInfo = require('./modules/mapa/models/info_filtro');
 app.use('/', filtroInfo);
+
+/*app.get('/login', (req, res) => {
+    const token = req.query.token
+    var secretKey = 'miClaveSecreta'
+    jwt.verify(token, secretKey, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ message: 'Token no válido' });
+        }
+        // Aquí puedes trabajar con los datos del token
+        const userData = {
+            userId: decoded.userId,
+            roles: decoded.roles,
+        };
+
+        // Enviar la información relevante al frontend
+        res.render('index',{user: userData });
+    });
+});*/
+
 
 
 // Iniciar el servidor
