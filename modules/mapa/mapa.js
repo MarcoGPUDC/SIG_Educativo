@@ -847,7 +847,7 @@ function createCluster(tipo, nivel) {
 		iconCreateFunction: function(cluster) {
 			return L.divIcon({ 
 				html: `<img src="./icons/${tipo}_${nivel}.svg">`, // Utiliza un ícono personalizado
-				className: `${tipo}-icons`, // Clase CSS para el ícono
+				className: `marker-icons`, // Clase CSS para el ícono
 				iconSize: L.point(3, 3) // Tamaño del ícono
 			});
 		}
@@ -1033,25 +1033,24 @@ function getEstablecimientosLayers() {
 			var contextoLayer = createLayer(dataContexto, 'establecimientos', 'contexto')
 			var ruralLayer = createLayer(dataRural, 'establecimientos', 'rurales')
 			// agrega las capas a un array de capas para guardar las referencias
-			todosLayers.push([[inicialLayer],[{label: 'Ed. Inicial', url: 'inicial'}]]);//0
-			todosLayers.push([[primariaLayer],[{label: 'Ed. Primaria', url: 'primaria'}]]);//1
-			todosLayers.push([[secundariaLayer],[{label: 'Ed. Secundaria', url: 'sec'}]]);//2
-			todosLayers.push([[SNULayer],[{label: 'Superior No Universitario', url: 'superior'}]]);//3
-			todosLayers.push([[especialLayer],[{label: 'Ed. Especial', url: 'especial'}]]);//4
-			todosLayers.push([[formProfLayer],[{label: 'Ed. Técnico Profesional', url: 'form_prof'}]]);//5
-			todosLayers.push([[domHospLayer],[{label: 'Ed. Domiciliaria/Hospitalaria', url: 'dom_hosp'}]]);//6	
-			todosLayers.push([[artisticaLayer],[{label: 'Artistica', url: 'artistica'}]]);//7
-			todosLayers.push([[epjaLayer],[{label: 'Escuela Permanente p/ Jovenes Adultos', url: 'epja'}]]);//8
-			todosLayers.push([[contextoLayer],[{label: 'Contexto de encierro', url: 'contexto'}]]);//9
-			todosLayers.push([[ruralLayer],[{label: 'Rural', url: 'rurales'}]]);//9
-			todosLayers.push([[otrosServLayer],[{label: 'Otros Servicios Educativos', url: 'comp'}]]);//10
+			todosLayers.push([[inicialLayer],[{label: 'Ed. Inicial', url: 'inicial', legend:'nivel'}]]);//0
+			todosLayers.push([[primariaLayer],[{label: 'Ed. Primaria', url: 'primaria', legend:'nivel'}]]);//1
+			todosLayers.push([[secundariaLayer],[{label: 'Ed. Secundaria', url: 'sec', legend:'nivel'}]]);//2
+			todosLayers.push([[SNULayer],[{label: 'Superior No Universitario', url: 'superior', legend:'nivel'}]]);//3
+			todosLayers.push([[especialLayer],[{label: 'Ed. Especial', url: 'especial', legend:'modalidad'}]]);//4
+			todosLayers.push([[formProfLayer],[{label: 'Ed. Técnico Profesional', url: 'form_prof', legend:'modalidad'}]]);//5
+			todosLayers.push([[domHospLayer],[{label: 'Ed. Domiciliaria/Hospitalaria', url: 'dom_hosp', legend:'modalidad'}]]);//6	
+			todosLayers.push([[artisticaLayer],[{label: 'Artistica', url: 'artistica', legend:'modalidad'}]]);//7
+			todosLayers.push([[epjaLayer],[{label: 'Escuela Permanente p/ Jovenes Adultos', url: 'epja', legend:'modalidad'}]]);//8
+			todosLayers.push([[contextoLayer],[{label: 'Contexto de encierro', url: 'contexto', legend:'modalidad'}]]);//9
+			todosLayers.push([[ruralLayer],[{label: 'Rural', url: 'rurales', legend:'modalidad'}]]);//9
+			todosLayers.push([[otrosServLayer],[{label: 'Otros Servicios Educativos', url: 'comp', legend:'modalidad'}]]);//10
             return todosLayers;
         })
         .catch(error => {
             console.error('Error fetching data:', error);
             return null;
         });
-	return layersEst;
 }
 // genera las capas de las supervisiones
 function getSupervisionLayers(){
@@ -1139,7 +1138,6 @@ async function generarTodosLayers(layerParam) {
 	const bibliotecas = await getBibliotecaLayer();
 	capaRegiones = await getRegiones();
 	capaDepartamentos = await getDepartamentos();
-	
 	var i = 0;
 	if (layerParam != null) {
 		establecimientos.forEach(establecimiento => {
@@ -1152,7 +1150,7 @@ async function generarTodosLayers(layerParam) {
 				label: `${establecimiento[1][0].label}`,
 				type: "image",
 				url: `icons/establecimientos_${establecimiento[1][0].url}.svg`,
-				layers_type: "establecimiento",
+				layers_type: establecimiento[1][0].legend,
 				layers: layer,
 				inactive: inactivo,
 			});
@@ -1232,7 +1230,7 @@ async function generarTodosLayers(layerParam) {
 					label: `${establecimiento[1][0].label}`,
 					type: "image",
 					url: `icons/establecimientos_${establecimiento[1][0].url}.svg`,
-					layers_type: "establecimiento",
+					layers_type: establecimiento[1][0].legend,
 					layers: layer,
 					inactive: true,
 				});

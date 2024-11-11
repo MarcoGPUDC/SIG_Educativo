@@ -101,8 +101,8 @@ function nroSelect(){
                     const lat = geoObject.coordinates[1]
                     coincidencias += 1;
                     var content =   "<ul class='list-group list-group-horizontal'>" +
-                                    "<li class='list-group-item list-group-item-primary botonAñadirBuscador' id='"+ data.cue + "-" + "xnumero" +"' value='"+ data.cue + "'onclick=itemsearchselected(this.id)  data-bs-toggle='list' role='tab' aria-controls='list-home'>"+ data.numero + " - " + data.nombre + " - " + data.cue_anexo + " - " + data.localidad + "</li>" +
-                                    "<button type='button' class='list-group-item list-group-item-warning botonIrBuscador' data-bs-dismiss='modal' id='botonIr"+data.cue+"' value='"+lat+"/"+long+"'onclick=itemSearchUbicacion(this.value) aria-current='true'>Ir</button> </ul>"
+                                    "<li class='list-group-item list-group-item-primary botonAñadirBuscador' id='"+ data.id_institucion + "-" + "xnumero" +"' value='"+ data.id_institucion + "'onclick=itemsearchselected(this.id)  data-bs-toggle='list' role='tab' aria-controls='list-home'>"+ data.numero + " - " + data.nombre + " - " + data.cue_anexo + " - " + data.localidad + "</li>" +
+                                    "<button type='button' class='list-group-item list-group-item-warning botonIrBuscador' data-bs-dismiss='modal' id='botonIr"+data.id_institucion+"' value='"+lat+"/"+long+"'onclick=itemSearchUbicacion(this.value) aria-current='true'>Ir</button> </ul>"
                     fnumeroescitem.innerHTML += content;
                 }
             })
@@ -155,8 +155,8 @@ function nombreSelect() {
                      coincidencias += 1;
                     coincidencias += 1;
                     var content = "<ul class='list-group list-group-horizontal'>" +
-                                    "<li class='list-group-item list-group-item-primary botonAñadirBuscador' id='"+ data.cue + "-" + "xnumero" +"' value='"+ data.cue + "'onclick=itemsearchselected(this.id)  data-bs-toggle='list' role='tab' aria-controls='list-home'>"+ data.numero + " - " + data.nombre + " - " + data.cue_anexo + " - " + data.localidad + "</li>" +
-                                    "<button type='button' class='list-group-item list-group-item-warning botonIrBuscador' data-bs-dismiss='modal' id='botonIr"+data.cue+"' value='"+lat+"/"+long+"'onclick=itemSearchUbicacion(this.value) aria-current='true'>Ir</button> </ul>"
+                                    "<li class='list-group-item list-group-item-primary botonAñadirBuscador' id='"+ data.id_institucion + "-" + "xnumero" +"' value='"+ data.id_institucion + "'onclick=itemsearchselected(this.id)  data-bs-toggle='list' role='tab' aria-controls='list-home'>"+ data.numero + " - " + data.nombre + " - " + data.cue_anexo + " - " + data.localidad + "</li>" +
+                                    "<button type='button' class='list-group-item list-group-item-warning botonIrBuscador' data-bs-dismiss='modal' id='botonIr"+data.id_institucion+"' value='"+lat+"/"+long+"'onclick=itemSearchUbicacion(this.value) aria-current='true'>Ir</button> </ul>"
                     fnombreescitem.innerHTML += content;
                 }
             })
@@ -205,28 +205,28 @@ function cueAnexoSelect() {
         .then(response => response.json())
         .then((escuelas) => {
             escuelas.forEach(data => {
-                if (data.cue_anexo == miSelect) {
-                     // Cadena JSON
-                     let jsonString = data.geom;
-                     // Convertir la cadena JSON a un objeto JavaScript
-                     let geoObject = JSON.parse(jsonString);
-                     const long = geoObject.coordinates[0]
-                     const lat = geoObject.coordinates[1]
-                     coincidencias += 1;
+                if (data.cue_anexo === miSelect) {
+                    console.log("entro")
                     coincidencias += 1;
+                    // Cadena JSON
+                    let jsonString = data.geom;
+                    // Convertir la cadena JSON a un objeto JavaScript
+                    let geoObject = JSON.parse(jsonString);
+                    const long = geoObject.coordinates[0]
+                    const lat = geoObject.coordinates[1]
                     var content = "<ul class='list-group list-group-horizontal'>" +
-                                    "<li class='list-group-item list-group-item-primary botonAñadirBuscador' id='"+ data.cue + "-" + "xnumero" +"' value='"+ data.cue + "'onclick=itemsearchselected(this.id)  data-bs-toggle='list' role='tab' aria-controls='list-home'>"+ data.numero + " - " + data.nombre + " - " + data.cue_anexo + " - " + data.localidad + "</li>" +
-                                    "<button type='button' class='list-group-item list-group-item-warning botonIrBuscador' data-bs-dismiss='modal' id='botonIr"+data.cue+"' value='"+lat+"/"+long+"'onclick=itemSearchUbicacion(this.value) aria-current='true'>Ir</button> </ul>"
+                                    "<li class='list-group-item list-group-item-primary botonAñadirBuscador' id='"+ data.id_institucion + "-" + "xnumero" +"' value='"+ data.id_institucion + "'onclick=itemsearchselected(this.id)  data-bs-toggle='list' role='tab' aria-controls='list-home'>"+ data.numero + " - " + data.nombre + " - " + data.cue_anexo + " - " + data.localidad + "</li>" +
+                                    "<button type='button' class='list-group-item list-group-item-warning botonIrBuscador' data-bs-dismiss='modal' id='botonIr"+data.id_institucion+"' value='"+lat+"/"+long+"'onclick=itemSearchUbicacion(this.value) aria-current='true'>Ir</button> </ul>"
                     fcueescitem.innerHTML += content;
                 }
             })
-        })
+        
         if (coincidencias > 0){
             document.getElementById('cueesc-block-item').style.display = 'block';
         } else {
             infoCueAnexoErrorNoExiste.style.display = 'block';
         }
-        
+    })
     }else{
         infoCueNombreRepetidoFormControlSelect.style.display = 'none';
         infoCueAnexo.style.display = 'none';

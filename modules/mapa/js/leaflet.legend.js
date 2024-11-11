@@ -310,7 +310,7 @@
             divCollapseO.setAttribute('data-bs-parent',"#accordionLegend");
             divCollapseBodyO = L.DomUtil.create("div", "accordion-body contentcustomlegend", divCollapseO);
 
-            // categoria establecimientos
+            /* categoria establecimientos
             legendContainerE = L.DomUtil.create("div", "accordion-item m-2 mb-0 mt-0", this._contents);
             subtitleE = L.DomUtil.create("h6", "accordion-header", legendContainerE);
             subtitleE.id = "headingOneE";
@@ -325,7 +325,41 @@
             divCollapseE.id = "collapseOneE";
             divCollapseE.setAttribute('aria-labelledby',"headingOneE");
             divCollapseE.setAttribute('data-bs-parent',"#accordionLegend");
-            divCollapseBodyE = L.DomUtil.create("div", "accordion-body contentcustomlegend", divCollapseE);
+            divCollapseBodyE = L.DomUtil.create("div", "accordion-body contentcustomlegend", divCollapseE);*/
+
+            // categoria Nivel
+            legendContainerN = L.DomUtil.create("div", "accordion-item m-2 mb-0 mt-0", this._contents);
+            subtitleN = L.DomUtil.create("h6", "accordion-header", legendContainerN);
+            subtitleN.id = "headingOneN";
+            buttonN = L.DomUtil.create("button", "botoncustomlegend bg-light", subtitleN);
+            buttonN.setAttribute('type',"button");
+            buttonN.setAttribute('data-bs-toggle',"collapse");
+            buttonN.setAttribute('data-bs-target',"#collapseOneN");
+            buttonN.setAttribute('aria-expanded',"true");
+            buttonN.setAttribute('aria-controls',"collapseOneN");
+            buttonN.innerHTML = "Nivel";
+            divCollapseN = L.DomUtil.create("div", "accordion-collapse collapse", subtitleN);
+            divCollapseN.id = "collapseOneN";
+            divCollapseN.setAttribute('aria-labelledby',"headingOneN");
+            divCollapseN.setAttribute('data-bs-parent',"#accordionLegend");
+            divCollapseBodyN = L.DomUtil.create("div", "accordion-body contentcustomlegend", divCollapseN);
+
+            // categoria Modalidad
+            legendContainerM = L.DomUtil.create("div", "accordion-item m-2 mb-0 mt-0", this._contents);
+            subtitleM = L.DomUtil.create("h6", "accordion-header", legendContainerM);
+            subtitleM.id = "headingOneM";
+            buttonM = L.DomUtil.create("button", "botoncustomlegend bg-light", subtitleM);
+            buttonM.setAttribute('type',"button");
+            buttonM.setAttribute('data-bs-toggle',"collapse");
+            buttonM.setAttribute('data-bs-target',"#collapseOneM");
+            buttonM.setAttribute('aria-expanded',"true");
+            buttonM.setAttribute('aria-controls',"collapseOneM");
+            buttonM.innerHTML = "Modalidad  ";
+            divCollapseM = L.DomUtil.create("div", "accordion-collapse collapse", subtitleM);
+            divCollapseM.id = "collapseOneM";
+            divCollapseM.setAttribute('aria-labelledby',"headingOneM");
+            divCollapseM.setAttribute('data-bs-parent',"#accordionLegend");
+            divCollapseBodyM = L.DomUtil.create("div", "accordion-body contentcustomlegend", divCollapseM);
 
              // categoria limites (antes se llamaba general)
             legendContainerG = L.DomUtil.create("div", "accordion-item m-2 mb-0 mt-0", this._contents);
@@ -371,9 +405,11 @@
                     legendContainer = divCollapseBodyG;
                 } else if(this.options.legends[i].layers_type == "organizacion"){
                     legendContainer = divCollapseBodyO;
-                } else if(this.options.legends[i].layers_type == "establecimiento"){
-                    legendContainer = divCollapseBodyE;
-                } else {
+                } else if(this.options.legends[i].layers_type == "nivel"){
+                    legendContainer = divCollapseBodyN;
+                } else if(this.options.legends[i].layers_type == "modalidad"){
+                    legendContainer = divCollapseBodyM;
+                }else {
                     cantconsultas += 1;
                     legendContainer = divCollapseBodyC;
                 }

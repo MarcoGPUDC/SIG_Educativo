@@ -139,6 +139,7 @@
 .img-legend{
     left: 0px !important; 
     top: 0px !important;
+    z-index: 10 !important;
 }
 
 .leaflet-legend-toggle-question{

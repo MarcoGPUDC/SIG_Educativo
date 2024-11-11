@@ -37,9 +37,7 @@ function buscar_todos_domicilio () {
 };
 
 function busqueda_simple_todo () {
-    return db.any(`SELECT inst.*, COALESCE(c.responsable, 'Sin Informacion') AS responsable, COALESCE(c.email, 'Sin Informacion') AS email, COALESCE(c.tel_resp, 000000000) AS tel_resp, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.v_institucion_completa AS inst
-        JOIN padron.contacto c ON c.id_institucion = inst.cue
-        JOIN padron.georeferencia geo ON geo.id_institucion = c.id_institucion;`);
+    return db.any(`SELECT inst.*, COALESCE(inst.responsable, 'Sin Informacion') AS responsable, COALESCE(inst.tel, 'Sin Informacion') AS tel_resp, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.v_establec_educativos AS inst`);
 };
 
 function buscar_ubicacion(id) {
@@ -59,19 +57,16 @@ function area_bibliotecas() {
 
 //busca info especifica de un establecimiento por su id
 function busqueda_simple (id) {
-    return db.one(`SELECT inst.*, COALESCE(c.responsable, 'Sin Informacion') AS responsable, COALESCE(c.email, 'Sin Informacion') AS email, COALESCE(c.tel_resp, 000000000) AS tel_resp FROM padron.v_institucion_completa AS inst
-        JOIN padron.contacto c ON c.id_institucion = inst.cue
-        WHERE inst.cue = $1;`,id);
+    return db.one(`SELECT inst.*, COALESCE(inst.responsable, 'Sin Informacion') AS responsable, COALESCE(inst.tel, 'Sin Informacion') AS tel_resp, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.v_establec_educativos AS inst WHERE inst.id_institucion = $1;`,id);
 };
-
 //busca info adicional de un establecimiento por su id
 function busqueda_adicional (id) {
     return db.any(`SELECT inst.id_institucion, inst.cue_anexo, func.jornada, turno.nombre AS turno, nivel.nombre AS nivel, mod.nombre AS modalidad FROM padron.institucion inst 
-    JOIN padron.funcionamiento func ON inst.id_institucion = func.id_institucion
-    JOIN padron.turno turno ON turno.id_turno = func.id_turno
+    LEFT JOIN padron.funcionamiento func ON inst.id_institucion = func.id_institucion
+    LEFT JOIN padron.turno turno ON turno.id_turno = func.id_turno
     JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
-    JOIN padron.modalidades_educativas mod ON mod.id_modalidad = ofe.id_modalidad
-    JOIN padron.nivel nivel ON ofe.id_nivel = nivel.id_nivel WHERE inst.id_institucion = $1;`,id);
+    LEFT JOIN padron.modalidades_educativas mod ON mod.id_modalidad = ofe.id_modalidad
+    LEFT JOIN padron.nivel nivel ON ofe.id_nivel = nivel.id_nivel WHERE inst.id_institucion = $1;`,id);
 };
 
 //consultas para visualizar en el mapa

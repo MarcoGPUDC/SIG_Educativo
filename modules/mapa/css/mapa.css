@@ -266,11 +266,11 @@ html, body{
     right: 100px;
 }
 
-.establecimientos-icons img{
-    width: 21.99px;
-    height: 21.99px;
+.marker-icons img{
+    width: 22px;
+    height: 22px;
 }
-
+/*
 .establec-icons img{
     width: 21.99px;
     height: 21.99px;
@@ -294,7 +294,7 @@ html, body{
 .search-icons img {
     width: 21.99px;
     height: 21.99px;
-}
+}*/
 
 .buscador-direccion {
     margin-left: 45px;
