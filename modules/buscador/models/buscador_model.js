@@ -91,13 +91,13 @@ async function datos_buscador () {
         console.error('Error al consultar las localidades:', error);
     });
 
-    /*let consultaDepartamento = buscar_todos_departamento()
+    let consultaDepartamento = consultar.buscar_todos_departamento()
     .then(result => {
         datos.push({ clave: 'departamento', valor: result }); // Agregar los departamentos a la matriz de datos
     })
     .catch(error => {
         console.error('Error al consultar los departamentos:', error);
-    });*/
+    });
 
     let consultaDomicilio = consultar.buscar_todos_domicilio()
     .then(result => {
@@ -116,7 +116,7 @@ async function datos_buscador () {
     });*/
 
     // Esperar a que ambas consultas se completen y luego retornar los datos
-    return Promise.all([consultaNumeros, consultaNombres, consultaModalidad, consultaNivel, consultaLocalidad, consultaDomicilio])
+    return Promise.all([consultaNumeros, consultaNombres, consultaModalidad, consultaNivel, consultaLocalidad, consultaDomicilio, consultaDepartamento])
         .then(() => {
             return datos; // Retornar los datos una vez que ambas consultas se hayan completado
         });

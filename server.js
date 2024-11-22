@@ -6,9 +6,11 @@ var https = require('https');
 var fs = require('fs');
 const jwt = require('jsonwebtoken');
 app.use(express.static(path.join(__dirname,'public')));
-app.use(express.static(path.join(__dirname,'modules','mapa')));
+app.use(express.static(path.join(__dirname,'modules')));
 app.use(express.static(path.join(__dirname,'modules','buscador')));
-app.use(express.static(path.join(__dirname,'modules','mapoteca')));
+app.use(express.static(path.join(__dirname,'modules','mapa')));
+//app.use(express.static(path.join(__dirname,'modules','mapoteca')));
+//app.use(express.static(path.join(__dirname,'modules','CRUD')));
 app.use(express.static(path.join(__dirname,'node_modules')));
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const keyPath = path.join(__dirname, 'server.key');
@@ -40,6 +42,18 @@ app.use('/public', express.static(path.join(__dirname, 'public'), {
     }
   }
 }));
+
+app.use('/crud', express.static(path.join(__dirname, 'modules', 'CRUD'), {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css');
+    } else if (path.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    }
+  }
+}));
+
+
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), {
   setHeaders: (res, path) => {
     if (path.endsWith('.js')) {
@@ -49,9 +63,12 @@ app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), {
 }));
 
 
+
 // Configura Pug como motor de plantillas
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'modules', 'buscador', 'views'));
+app.set('views', [__dirname + '/modules/buscador/views', __dirname + '/modules/CRUD/views']);
+//app.set('views', path.join(__dirname, 'modules', 'buscador', 'views'));
+//app.set('views', path.join(__dirname, 'modules', 'CRUD', 'views'));
 //app.set('views', path.join(__dirname, 'modules', 'buscador'));
 
 app.use('/login', express.static(path.join(__dirname), {
@@ -63,7 +80,7 @@ app.use('/login', express.static(path.join(__dirname), {
 }));
 
 
-app.get('/mapa', function(req, res) {
+app.get('/', function(req, res) {
     res.sendFile(__dirname + '/modules/mapa/index.html');
 });
 
@@ -85,6 +102,12 @@ app.use('/', mapInfo);
 
 const filtroInfo = require('./modules/mapa/models/info_filtro');
 app.use('/', filtroInfo);
+
+const servicios = require('./modules/CRUD/controllers/services.js');
+app.use('/crud/', servicios);
+
+const crudRoutes = require('./modules/CRUD/controllers/crudController');
+app.use('/crud', crudRoutes);
 
 /*app.get('/login', (req, res) => {
     const token = req.query.token

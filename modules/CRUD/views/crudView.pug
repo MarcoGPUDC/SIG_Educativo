@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Herramienta de visualización, gestión y análisis de información georreferenciada relativa al sistema educativo a nivel local, regional y provincial">
+    <meta name="author" content="Dirección de Estadística y Evaluación Educativa del Ministerio de Educación del Gobierno del Chubut">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/CRUD/utilities/css/crud.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link type="text/css" rel="stylesheet" href="/mapa/css/mapa.css"/>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
+    <link rel="shortcut icon" type="image/x-icon"  href="../icons/logo_pestaña.png">
+    <script src="/public/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="/js/leaflet.legend.js"></script>
+    <script src="/CRUD/models/crudModel.js" defer></script>
+    <title>Mapa Educativo Interactivo de la Provincia del Chubut</title>
+</head>
+
+<div class="row float-left header">
+    <div class="col-3">
+        <a href="https://chubut.edu.ar/sigeducativo/" target="_blank"><img src="/mapoteca/utilities/img/SIG Educativo vf-transparencia PNG.png" class="logo" width="130" height="76" alt=""/></a>
+    </div>
+    <div class="col-9 d-inline">
+        <h1 class=" title-mapa">Mapa Educativo Interactivo</h1>
+    </div>
+</div>
+
+<div style="padding-top:80px; padding-left:565px">
+    <button type="button" class="btn btn-primary" id="buttonC" data-bs-toggle="modal" data-bs-target="#modalCrear">CREAR</button>
+    <button type="button" class="btn btn-success" id="buttonA" data-bs-toggle="modal" data-bs-target="#modalActualizar">ACTUALIZAR</button>
+    <button type="button" class="btn btn-danger" id="buttonB" data-bs-toggle="modal" data-bs-target="#modalBorrar">BORRAR</button>
+
+
+    <div class="modal fade" id="modalCrear" tabindex="-1" aria-labelledby="modalCrearLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCrearLabel">Crear Institucion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                //-Inputs para crear una institucion
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="institucion-tab" data-bs-toggle="tab" data-bs-target="#institucion" type="button" role="tab" aria-controls="institucion" aria-selected="true">Institucion</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="director-tab" data-bs-toggle="tab" data-bs-target="#director" type="button" role="tab" aria-controls="director" aria-selected="false">Director</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="infraestructura-tab" data-bs-toggle="tab" data-bs-target="#infraestructura" type="button" role="tab" aria-controls="infraestructura" aria-selected="false">Infraestructura</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="ubicacion-tab" data-bs-toggle="tab" data-bs-target="#ubicacion" type="button" role="tab" aria-controls="ubicacion" aria-selected="false">Ubicacion</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="institucion" role="tabpanel" aria-labelledby="institucion-tab">
+                        <label for="nombreFormCrear" class="col-sm-2 col-form-label">Nombre</label>
+                        <input class="form-control" id="nombreFormCrear" type="text" placeholder="Nombre de la institucion" aria-label="default input">
+                        <label for="nombreFormCrear" class="col-sm-2 col-form-label">CUE</label>
+                        <input class="form-control" id="cueFormCrear" type="number" placeholder="Codigo Unico de Establecimiento" aria-label="default input">
+                        <label for="nombreFormCrear" class="col-sm-2 col-form-label">Anexo</label>
+                        <input class="form-control" id="anexoFormCrear" type="number" placeholder="Numero de anexo" aria-label="default input">
+                        <label for="nombreFormCrear" class="col-sm-2 col-form-label">Codigo Jurisdiccional</label>
+                        <input class="form-control" id="codJurisFormCrear" type="text" placeholder="Numero de la institucion" aria-label="default input">
+                        <label for="form-select-nivel" class="col-form-label">Nivel</label>
+                        <select id="form-select-nivel" aria-label="select nivel">
+                        </select>
+                        <label for="form-select-modalidad" class="col-form-label">Modalidad</label>
+                        <select id="form-select-modalidad" aria-label="select modalidad">
+                        </select>
+                        <label for="direccionFormCrear" class="col-sm-2 col-form-label">Direccion </label>
+                        <input class="form-control" id="direccionFormCrear" type="text" placeholder="Direccion de la institucion" aria-label="default input">
+                        <label for="form-select-localidad" class="col-form-label">Localidad</label>
+                        <select id="form-select-localidad" aria-label="select localidad">
+                        </select>
+                        <label for="form-select-departamento" class="col-form-label">Departamento</label>
+                        <select id ="form-select-departamento" aria-label="select departamento">
+                        </select>
+                    </div>
+                    <div class="tab-pane fade" id="director" role="tabpanel" aria-labelledby="director-tab">
+                        <label for="nombreDirForm" class="col-form-label">Nombre del directivo</label>
+                        <input type="text" class="form-control" id="nombreDirForm" placeholder="Nombre del directivo" aria-label="default input">
+                        <label for="apellidoDirForm" class="col-form-label">Apellido del directivo</label>
+                        <input type="text" class="form-control" id="apellidoDirForm" placeholder="Apellido del directivo" aria-label="default input">
+                        <label for="numeroDirForm" class="col-form-label">Numero de Telefono de la direccion</label><br>
+                        <input type="number" class="col-form-label" id="numeroDirForm" placeholder="2804123456" aria-label="default input"><br>
+                        <label for="emailDirForm" class="col-form-label">Correo electronico de la institucion</label><br>
+                        <input type="text" class="col-form-label" id="emailDirForm" placeholder="mi-escuela@chubut.edu.ar/correo@ejemplo.com" aria-label="default input"><br>
+                        <label for="webDirForm" class="col-form-label">Sitio Web de la institucion</label><br>
+                        <input type="text" class="col-form-label" id="webDirForm" placeholder="https://www.escuelamia.com" aria-label="default input">
+                    </div>
+                    <div class="tab-pane fade" id="infraestructura" role="tabpanel" aria-labelledby="infraestructura-tab">
+                    </div>
+                    <div class="tab-pane fade" id="ubicacion" role="tabpanel" aria-labelledby="ubicacion-tab">
+                        <div id="map" style="height:570px; width:100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Crear</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modalActualizar" tabindex="-1" aria-labelledby="modalActualizarLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalActualizarLabel">Actualizar Institucion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>cosas</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Crear</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalBorrar" tabindex="-1" aria-labelledby="modalBorrarLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalBorrarLabel">Borrar Institucion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>cosas</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Crear</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>

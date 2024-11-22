@@ -45,9 +45,8 @@ function buscar_ubicacion(id) {
 }
 
 function buscar_todos_biblioteca() {
-    return db.any (`SELECT bi.id_biblioteca, bi.nombre, bi.domicilio, bi.cp, loc.localidad, bi.email, bi.horario, bi.region, bi.long, bi.lat, ST_area(rad.geom) AS area FROM padron.biblioteca bi 
-                    JOIN padron.localidad loc ON loc.id_localidad = bi.id_localidad
-                    JOIN public.radio_bibliotecas rad ON rad.numbibl = bi.id_biblioteca`)
+    return db.any (`SELECT bi.id_biblioteca, bi.nombre, bi.domicilio, bi.cp, loc.localidad, bi.email, bi.horario, bi.region, bi.long, bi.lat FROM padron.biblioteca bi 
+                    JOIN padron.localidad loc ON loc.id_localidad = bi.id_localidad`)
 }
 function area_bibliotecas() {
     return db.any ('SELECT numbibl, ST_Area(abib.geom)  FROM radio_bibliotecas abib');
@@ -72,7 +71,7 @@ function busqueda_adicional (id) {
 //consultas para visualizar en el mapa
 //info para anexar al popup de las instituciones
 function buscar_info_popup_inst() {
-    return db.any(`SELECT * FROM (SELECT inst.cue_anexo, (CASE WHEN inst.numero = 'Z000023' THEN 700 WHEN inst.numero = 'Z000024' THEN 700 WHEN inst.numero = 'CEF' THEN 700 WHEN inst.numero > '0' THEN inst.numero::INT END) AS numero, inst.nombre, inst.region, loc.localidad, inst.domicilio, inst.tel, cont.email, inst.web, cont.responsable, cont.tel_resp, niv.nombre AS nivel, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom, inst.id_institucion, moda.nombre AS modalidad
+    return db.any(`SELECT * FROM (SELECT inst.funcion, inst.cue_anexo, (CASE WHEN inst.numero = 'Z000023' THEN 700 WHEN inst.numero = 'Z000024' THEN 700 WHEN inst.numero = 'CEF' THEN 700 WHEN inst.numero > '0' THEN inst.numero::INT END) AS numero, inst.nombre, inst.region, loc.localidad, inst.domicilio, inst.tel, cont.email, inst.web, cont.responsable, cont.tel_resp, niv.nombre AS nivel, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom, inst.id_institucion, moda.nombre AS modalidad
     FROM padron.institucion inst 
     JOIN padron.localidad loc ON inst.id_localidad = loc.id_localidad 
     JOIN padron.contacto cont ON inst.id_institucion = cont.id_institucion
@@ -81,7 +80,7 @@ function buscar_info_popup_inst() {
 	JOIN padron.nivel niv ON ofe.id_nivel = niv.id_nivel
     JOIN padron.modalidades_educativas moda ON moda.id_modalidad = ofe.id_modalidad
     WHERE inst.funcion = 'Activo') tmp
-    GROUP BY tmp.nivel, tmp.cue_anexo, tmp.numero, tmp.nombre, tmp.region, tmp.localidad, tmp.domicilio, tmp.tel, tmp.email, tmp.web, tmp.responsable, tmp.tel_resp, tmp.geom, tmp.id_institucion, tmp.modalidad
+    GROUP BY tmp.funcion, tmp.nivel, tmp.cue_anexo, tmp.numero, tmp.nombre, tmp.region, tmp.localidad, tmp.domicilio, tmp.tel, tmp.email, tmp.web, tmp.responsable, tmp.tel_resp, tmp.geom, tmp.id_institucion, tmp.modalidad
     ORDER BY numero`);
 };
 //info para anexar al popup de las supervisiones

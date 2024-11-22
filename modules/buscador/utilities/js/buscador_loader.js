@@ -205,8 +205,7 @@ function cueAnexoSelect() {
         .then(response => response.json())
         .then((escuelas) => {
             escuelas.forEach(data => {
-                if (data.cue_anexo === miSelect) {
-                    console.log("entro")
+                if (data.cue_anexo == miSelect) {
                     coincidencias += 1;
                     // Cadena JSON
                     let jsonString = data.geom;

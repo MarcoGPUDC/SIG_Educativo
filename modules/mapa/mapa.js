@@ -958,22 +958,22 @@ function getEstablecimientosLayers() {
 				switch (true) {
 					//numeracion inicial 400 a 499 / 4000 a 4999 / 1400 a 1499 / 2400 a 2499
 					//case ((escuelas.properties.numero >= 400 && escuelas.properties.numero <= 499) || (escuelas.properties.numero >= 4000 && escuelas.properties.numero <= 4999) || (escuelas.properties.numero >= 1400 && escuelas.properties.numero <= 1499) || (escuelas.properties.numero >= 2400 && escuelas.properties.numero <= 2499)):
-					case (escuelas.properties.nivel == 'Inicial'):
+					case (escuelas.properties.nivel == 'Inicial' && escuelas.properties.funcion == 'Activo'):
 						dataInicial.push(escuelas);
 						break;
 					//numeracion primaria 0 a 299 / 1000 a 1299 / 2000 a 2099
 					//case ((escuelas.properties.numero >= 0 && escuelas.properties.numero <= 299) || (escuelas.properties.numero >= 1000 && escuelas.properties.numero <= 1299) || (escuelas.properties.numero >= 2000 && escuelas.properties.numero <= 2099)):
-					case (escuelas.properties.nivel == 'Primario'):
+					case (escuelas.properties.nivel == 'Primario' && escuelas.properties.funcion == 'Activo'):
 						dataPrimaria.push(escuelas)
 						break;
 					//numeracion secundaria 700 a 799 / 7000 a 7999 / 1700 a 1799 / 2700 a 2799
 					//case ((escuelas.properties.numero >= 700 && escuelas.properties.numero <= 799) || (escuelas.properties.numero >= 7000 && escuelas.properties.numero <= 7999) || (escuelas.properties.numero >= 1700 && escuelas.properties.numero <= 1799) || (escuelas.properties.numero >= 2700 && escuelas.properties.numero <= 2799)):
-					case (escuelas.properties.nivel == 'Secundario'):
+					case (escuelas.properties.nivel == 'Secundario' && escuelas.properties.funcion == 'Activo'):
 						dataSecundaria.push(escuelas)
 						break;
 					//numeracion Adultos - formacion profesional 600 a 699 / 1600 a 1699
 					//case ((escuelas.properties.numero >= 600 && escuelas.properties.numero <= 699) || (escuelas.properties.numero >= 1600 && escuelas.properties.numero <= 1699)):
-					case (escuelas.properties.nivel == 'Superior'):
+					case (escuelas.properties.nivel == 'Superior' && escuelas.properties.funcion == 'Activo'):
 						dataSNU.push(escuelas);
 						break;
 					default:
@@ -982,31 +982,31 @@ function getEstablecimientosLayers() {
 				switch (true) {
 					//numeracion Adultos - formacion profesional 600 a 699 / 1600 a 1699
 					//case ((escuelas.properties.numero >= 600 && escuelas.properties.numero <= 699) || (escuelas.properties.numero >= 1600 && escuelas.properties.numero <= 1699)):
-					case (escuelas.properties.modalidad == 'ETP'):
+					case (escuelas.properties.modalidad == 'ETP' && escuelas.properties.funcion == 'Activo'):
 						dataFormProf.push(escuelas);
 						break;
 					//numeracion especial 500 a 599 / 1500 a 1500
-					case (escuelas.properties.modalidad == 'Especial'):
+					case (escuelas.properties.modalidad == 'Especial' && escuelas.properties.funcion == 'Activo'):
 						dataEspecial.push(escuelas);
 						break;
 					//numeracion domiciliaria/hospitalaria 300 a 399
-					case (escuelas.properties.modalidad == 'Domiciliaria/hospitalaria'):
+					case (escuelas.properties.modalidad == 'Domiciliaria/hospitalaria' && escuelas.properties.funcion == 'Activo'):
 						dataDomHosp.push(escuelas);
 						break;
-					case (escuelas.properties.modalidad == 'Artistica'):
+					case (escuelas.properties.modalidad == 'Artistica' && escuelas.properties.funcion == 'Activo'):
 						dataArtistica.push(escuelas);
 						break;
-					case (escuelas.properties.modalidad == 'EPJA'):
+					case (escuelas.properties.modalidad == 'EPJA' && escuelas.properties.funcion == 'Activo'):
 						dataEPJA.push(escuelas);
 						break;
-					case (escuelas.properties.modalidad == 'Contexto de encierro'):
+					case (escuelas.properties.modalidad == 'Contexto de encierro' && escuelas.properties.funcion == 'Activo'):
 						dataContexto.push(escuelas);
 						break;
-					case (escuelas.properties.modalidad == 'Rural'):
+					case (escuelas.properties.modalidad == 'Rural' && escuelas.properties.funcion == 'Activo'):
 						dataRural.push(escuelas);
 						break;
 					//lo que no cae en lo anterior cae en otros servicios educativos
-					case (escuelas.properties.modalidad == 'Otros servicios educativos'):
+					case (escuelas.properties.modalidad == 'Otros servicios educativos' && escuelas.properties.funcion == 'Activo'):
 						dataOtrosServ.push(escuelas);
 						break;
 					default:
@@ -1040,8 +1040,8 @@ function getEstablecimientosLayers() {
 			todosLayers.push([[especialLayer],[{label: 'Ed. Especial', url: 'especial', legend:'modalidad'}]]);//4
 			todosLayers.push([[formProfLayer],[{label: 'Ed. Técnico Profesional', url: 'form_prof', legend:'modalidad'}]]);//5
 			todosLayers.push([[domHospLayer],[{label: 'Ed. Domiciliaria/Hospitalaria', url: 'dom_hosp', legend:'modalidad'}]]);//6	
-			todosLayers.push([[artisticaLayer],[{label: 'Artistica', url: 'artistica', legend:'modalidad'}]]);//7
-			todosLayers.push([[epjaLayer],[{label: 'Escuela Permanente p/ Jovenes Adultos', url: 'epja', legend:'modalidad'}]]);//8
+			todosLayers.push([[artisticaLayer],[{label: 'Artística', url: 'artistica', legend:'modalidad'}]]);//7
+			todosLayers.push([[epjaLayer],[{label: 'Escuela Permanente p/ Jóvenes y Adultos', url: 'epja', legend:'modalidad'}]]);//8
 			todosLayers.push([[contextoLayer],[{label: 'Contexto de encierro', url: 'contexto', legend:'modalidad'}]]);//9
 			todosLayers.push([[ruralLayer],[{label: 'Rural', url: 'rurales', legend:'modalidad'}]]);//9
 			todosLayers.push([[otrosServLayer],[{label: 'Otros Servicios Educativos', url: 'comp', legend:'modalidad'}]]);//10
@@ -1176,7 +1176,7 @@ async function generarTodosLayers(layerParam) {
 		})
 
 		layersConfig.push({
-			label: 'Bibliotecas Pedagogicas',
+			label: 'Bibliotecas Pedagógicas',
 			type: 'image',
 			url: 'icons/biblioteca_.svg',
 			layers_type: "organizacion",

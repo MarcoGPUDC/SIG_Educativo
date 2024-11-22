@@ -33,7 +33,8 @@ router.get('/mapa/setInstMarkers', async (req, res) => {
                     sitioweb: row.web,
                     responsable: row.responsable,
                     tel_resp: row.tel_resp,
-                    modalidad: row.modalidad
+                    modalidad: row.modalidad,
+                    funcion: row.funcion
                 }
             };
            geoJSON.features.push(newFeature) 
