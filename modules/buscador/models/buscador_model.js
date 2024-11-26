@@ -107,6 +107,14 @@ async function datos_buscador () {
         console.error('Error al consultar las direcciones:', error);
     });
 
+    let consultaAmbito = consultar.buscar_todos_ambito()
+    .then(result => {
+        datos.push({ clave: 'ambito', valor: result }); // Agregar las direcciones a la matriz de datos
+    })
+    .catch(error => {
+        console.error('Error al consultar las direcciones:', error);
+    });
+
     /*let consultaRegion = buscar_todos_region()
     .then(result => {
         datos.push({ clave: 'region', valor: result }); // Agregar las modalidades a la matriz de datos
@@ -116,7 +124,7 @@ async function datos_buscador () {
     });*/
 
     // Esperar a que ambas consultas se completen y luego retornar los datos
-    return Promise.all([consultaNumeros, consultaNombres, consultaModalidad, consultaNivel, consultaLocalidad, consultaDomicilio, consultaDepartamento])
+    return Promise.all([consultaNumeros, consultaNombres, consultaModalidad, consultaNivel, consultaLocalidad, consultaDomicilio, consultaDepartamento, consultaAmbito])
         .then(() => {
             return datos; // Retornar los datos una vez que ambas consultas se hayan completado
         });

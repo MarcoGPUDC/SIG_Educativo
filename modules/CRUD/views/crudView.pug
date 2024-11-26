@@ -27,7 +27,7 @@
     </div>
 </div>
 
-<div style="padding-top:80px; padding-left:565px">
+<div style="padding-top:80px; padding-left:40%">
     <button type="button" class="btn btn-primary" id="buttonC" data-bs-toggle="modal" data-bs-target="#modalCrear">CREAR</button>
     <button type="button" class="btn btn-success" id="buttonA" data-bs-toggle="modal" data-bs-target="#modalActualizar">ACTUALIZAR</button>
     <button type="button" class="btn btn-danger" id="buttonB" data-bs-toggle="modal" data-bs-target="#modalBorrar">BORRAR</button>
@@ -59,27 +59,47 @@
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="institucion" role="tabpanel" aria-labelledby="institucion-tab">
                         <label for="nombreFormCrear" class="col-sm-2 col-form-label">Nombre</label>
-                        <input class="form-control" id="nombreFormCrear" type="text" placeholder="Nombre de la institucion" aria-label="default input">
+                        <input class="form-control" id="nombreFormCrear" type="text" placeholder="Nombre de la institucion" aria-label="default input" required>
                         <label for="nombreFormCrear" class="col-sm-2 col-form-label">CUE</label>
                         <input class="form-control" id="cueFormCrear" type="number" placeholder="Codigo Unico de Establecimiento" aria-label="default input">
                         <label for="nombreFormCrear" class="col-sm-2 col-form-label">Anexo</label>
-                        <input class="form-control" id="anexoFormCrear" type="number" placeholder="Numero de anexo" aria-label="default input">
-                        <label for="nombreFormCrear" class="col-sm-2 col-form-label">Codigo Jurisdiccional</label>
-                        <input class="form-control" id="codJurisFormCrear" type="text" placeholder="Numero de la institucion" aria-label="default input">
+                        <input class="form-control" id="anexoFormCrear" type="number" placeholder="Numero de anexo" aria-label="default input" required>
+                        <label for="nombreFormCrear" class="col-sm-4 col-form-label">Codigo Jurisdiccional</label>
+                        <input class="form-control" id="codJurisFormCrear" type="number" placeholder="Numero de la institucion" aria-label="default input" required>
                         <label for="form-select-nivel" class="col-form-label">Nivel</label>
                         <select id="form-select-nivel" aria-label="select nivel">
-                        </select>
+                        </select><br>
                         <label for="form-select-modalidad" class="col-form-label">Modalidad</label>
                         <select id="form-select-modalidad" aria-label="select modalidad">
-                        </select>
-                        <label for="direccionFormCrear" class="col-sm-2 col-form-label">Direccion </label>
+                        </select><br>
+                        <label for="direccionFormCrear" class="col-sm-2 col-form-label">Direccion </label><br>
                         <input class="form-control" id="direccionFormCrear" type="text" placeholder="Direccion de la institucion" aria-label="default input">
+                        <label for="cpFormCrear" class="col-sm-3 col-form-label">Codigo Postal </label>
+                        <input class="form-control" id="cpFormCrear" type="text" placeholder="Codigo postal" aria-label="default input">
                         <label for="form-select-localidad" class="col-form-label">Localidad</label>
                         <select id="form-select-localidad" aria-label="select localidad">
                         </select>
                         <label for="form-select-departamento" class="col-form-label">Departamento</label>
                         <select id ="form-select-departamento" aria-label="select departamento">
-                        </select>
+                        </select><br>
+                        <label for="form-select-region" class="col-form-label">Región</label>
+                        <select id ="form-select-region" aria-label="select region">
+                            <option value="1">I</option>
+                            <option value="2">II</option>
+                            <option value="3">III</option>
+                            <option value="4">IV</option>
+                            <option value="5">V</option>
+                            <option value="6">VI</option>
+                        </select><br>
+                        <label for="form-select-ambito" class="col-form-label">Ambito</label>
+                        <select id="form-select-ambito" aria-label="select ambito">
+                        </select><br>
+                        <label for="emailFormCrear" class="col-form-label">Correo electronico de la institucion</label><br>
+                        <input type="email" class="col-form-label" id="emailFormCrear" placeholder="mi-escuela@chubut.edu.ar/correo@ejemplo.com" aria-label="default input"><br>
+                        <label for="webFormCrear" class="col-form-label">Sitio Web de la institucion</label><br>
+                        <input type="text" class="col-form-label" id="webFormCrear" placeholder="https://www.escuelamia.com" aria-label="default input"><br>
+                        <label for="telFormCrear" class="col-form-label">Telefono de la institucion</label><br>
+                        <input type="text" class="col-form-label" id="telFormCrear" placeholder="2804123321" aria-label="default input">
                     </div>
                     <div class="tab-pane fade" id="director" role="tabpanel" aria-labelledby="director-tab">
                         <label for="nombreDirForm" class="col-form-label">Nombre del directivo</label>
@@ -88,21 +108,20 @@
                         <input type="text" class="form-control" id="apellidoDirForm" placeholder="Apellido del directivo" aria-label="default input">
                         <label for="numeroDirForm" class="col-form-label">Numero de Telefono de la direccion</label><br>
                         <input type="number" class="col-form-label" id="numeroDirForm" placeholder="2804123456" aria-label="default input"><br>
-                        <label for="emailDirForm" class="col-form-label">Correo electronico de la institucion</label><br>
-                        <input type="text" class="col-form-label" id="emailDirForm" placeholder="mi-escuela@chubut.edu.ar/correo@ejemplo.com" aria-label="default input"><br>
-                        <label for="webDirForm" class="col-form-label">Sitio Web de la institucion</label><br>
-                        <input type="text" class="col-form-label" id="webDirForm" placeholder="https://www.escuelamia.com" aria-label="default input">
+                        
                     </div>
                     <div class="tab-pane fade" id="infraestructura" role="tabpanel" aria-labelledby="infraestructura-tab">
                     </div>
                     <div class="tab-pane fade" id="ubicacion" role="tabpanel" aria-labelledby="ubicacion-tab">
                         <div id="map" style="height:570px; width:100%;"></div>
+                        <p id='ubiCrearInst'></p>
                     </div>
+                    <div id="erroresForm"></div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Crear</button>
+                <button type="button" class="btn btn-primary" onclick='createLayer()'>Crear</button>
             </div>
             </div>
         </div>

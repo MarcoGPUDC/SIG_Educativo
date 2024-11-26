@@ -36,6 +36,10 @@ function buscar_todos_domicilio () {
     return db.any('SELECT id_institucion AS id, domicilio FROM padron.institucion;');
 };
 
+function buscar_todos_ambito () {
+    return db.any('SELECT DISTINCT ambito FROM padron.institucion WHERE ambito is not null;');
+};
+
 function busqueda_simple_todo () {
     return db.any(`SELECT inst.*, COALESCE(inst.responsable, 'Sin Informacion') AS responsable, COALESCE(inst.tel, 'Sin Informacion') AS tel_resp, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.v_establec_educativos AS inst`);
 };
@@ -149,6 +153,21 @@ function capa_prueba() {
     FROM public."Prueba_poligono";`)
 }
 
+//CONSULTAS PARA CRUD
+function crear_institucion(departamento, localidad, numero, cue, anexo, funcion, region, domicilio, cp, ambito, web, email, nombre, tel, cue_anexo){
+    const id = db.query(`INSERT INTO padron.institucion(
+	id_departamento, id_localidad, numero, cue, anexo, funcion, region, domicilio, cp, ambito, web, email_inst, nombre, tel, cue_anexo)
+	VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+    RETURNING id_institucion`, [departamento, localidad, numero, cue, anexo, funcion, region, domicilio, cp, ambito, web, email, nombre, tel, cue_anexo])
+    return id;
+}
+
+function cargar_ubicacion (id_institucion, lat, long) {
+    db.query(`INSERT INTO padron.georeferencia (id_institucion, lat, long, geom)
+    VALUES ($1, ST_X(ST_Transform(ST_SetSRID(ST_MakePoint($3,$2), 4326),22172)), ST_Y(ST_Transform(ST_SetSRID(ST_MakePoint($3,$2), 4326),22172)), ST_Transform(ST_SetSRID(ST_MakePoint($3,$2), 4326),22172))`, [id_institucion, lat, long])
+}
+
+
 module.exports = {
     buscar_todos_numero,
     buscar_todos_nombre,
@@ -158,6 +177,7 @@ module.exports = {
     buscar_todos_localidad,
     buscar_todos_departamento,
     buscar_todos_domicilio,
+    buscar_todos_ambito,
     busqueda_simple,
     buscar_info_popup_inst,
     busqueda_adicional,
@@ -173,6 +193,8 @@ module.exports = {
     capa_regiones,
     capa_departamentos,
     capa_prueba,
-    area_bibliotecas
+    area_bibliotecas,
+    crear_institucion,
+    cargar_ubicacion
 
 };

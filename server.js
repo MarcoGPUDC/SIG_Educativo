@@ -12,6 +12,8 @@ app.use(express.static(path.join(__dirname,'modules','mapa')));
 //app.use(express.static(path.join(__dirname,'modules','mapoteca')));
 //app.use(express.static(path.join(__dirname,'modules','CRUD')));
 app.use(express.static(path.join(__dirname,'node_modules')));
+app.use(express.json());
+
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const keyPath = path.join(__dirname, 'server.key');
 const certPath = path.join(__dirname, 'server.cert');

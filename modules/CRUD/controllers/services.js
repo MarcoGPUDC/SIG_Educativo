@@ -31,4 +31,24 @@ router.get('/crud/convert', async (req, res) => {
     }
   });
 
+  router.get('/crud/exist', async (req, res) => {
+    const value = req.query.id;  
+    try {
+      const query = `
+        SELECT EXISTS (
+            SELECT 1
+            FROM padron.institucion
+            WHERE cue_anexo = $1
+        );
+      `;
+      const result = await pool.query(query, [value]);
+      res.json(result.rows[0]['exists']);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Error al convertir coordenadas.' });
+    }
+  });
+
+
+
   module.exports = router;

@@ -97,6 +97,7 @@ function nroSelect(){
                     let jsonString = data.geom;
                     // Convertir la cadena JSON a un objeto JavaScript
                     let geoObject = JSON.parse(jsonString);
+                    console.log(data.geom);
                     const long = geoObject.coordinates[0]
                     const lat = geoObject.coordinates[1]
                     coincidencias += 1;
