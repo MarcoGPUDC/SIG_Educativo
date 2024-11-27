@@ -145,6 +145,8 @@
             </div>
         </div>
     </div>
+
+
     <div class="modal fade" id="modalBorrar" tabindex="-1" aria-labelledby="modalBorrarLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -153,11 +155,18 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>cosas</p>
+                <label for='form-select-cueanexo'>Indique el Cue Anexo de la institucion</label>
+                <input list="form-select-cueanexo" id="cueanexoFormBorrar" class="w-100" name="buscadorinstborrar" placeholder="Ingrese el cue anexo del establecimiento">
+                <datalist id='form-select-cueanexo'>
+
+                </datalist> 
+                <button type="button" class="btn btn-outline-info" onclick="seleccionarInstitucion()">Buscar</button>
+                <div id='datosInstitucionBorrar'>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Crear</button>
+                <button id="botonBorrar" type="button" class="btn btn-primary" onclick="deleteLayer(this.value)">Borrar</button>
             </div>
             </div>
         </div>

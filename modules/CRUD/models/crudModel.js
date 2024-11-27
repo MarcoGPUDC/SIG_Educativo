@@ -39,6 +39,14 @@ async function cargarCrudForm(){
                 select.appendChild(option);
             
             })
+        } else if (filtro == 'cueanexo') {
+            data["valor"].forEach(datos =>{
+                var select = document.getElementById(`form-select-${filtro}`); //se inyecta la clave para seleccionar el formulario
+                const option = document.createElement('option');
+                option.text = datos.cueanexo;
+                option.value = datos.cueanexo;
+                select.appendChild(option);
+            })
         }
     })
 }
@@ -146,6 +154,52 @@ function validarInstitucion(data){
     return [isValid, error];
 }
 
+function buscarInstitucion (cue) {
+    //const id = cue.id;
+    console.log('buscando')
+    fetch(`obtenerDatos?id=${cue}`)
+    .then(response => {
+        // Maneja la respuesta recibida del servidor
+        if (!response.ok) {
+            throw new Error('Error al obtener los datos');
+        }
+        return response.json(); // Convierte la respuesta en formato JSON
+    })
+    .then(data => {
+        divDatos = document.getElementById('datosInstitucionBorrar')
+        divDatos.innerHTML = `
+                <h4>Esta es la institucion que desea borrar?</h4><br>
+                <p>Nombre: ${data.nombre}</p><br>
+                <p>Cod. Jurisdiccional: ${data.numero}</p><br>
+                <p>Domicilio: ${data.domicilio}</p><br>
+                <p>localidad: ${data.localidad}</p><br>
+            `
+        document.getElementById('botonBorrar').setAttribute('value', data.id_institucion)
+        console.log(data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function seleccionarInstitucion () {
+    const cue = document.getElementById('cueanexoFormBorrar');
+    datosForm.forEach(data => {
+        if (data.clave == 'cueanexo'){
+            data.valor.forEach(valor => {
+                if (valor.cueanexo == cue.value){
+                    buscarInstitucion(valor.id);
+                } else {
+                    divDatos = document.getElementById('datosInstitucionBorrar')
+                    divDatos.innerHTML = `
+                            <h4>La institucion que desea borrar no existe</h4><br>
+                        `
+                }
+            })
+        }
+    })
+}
+
 
 function createLayer () {
     var departamento = document.getElementById('form-select-departamento').value;
@@ -205,7 +259,6 @@ function createLayer () {
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
-                    console.log(response);
                     return response.json();
                 })
                 .then(responseData => console.log('Respuesta del servidor:', responseData))
@@ -245,6 +298,35 @@ function updateLayer () {
 }
 
 function deleteLayer () {
-
+    const id = document.getElementById('botonBorrar').value;
+    if (id) {
+        fetch(`delete?id=${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            // Maneja la respuesta recibida del servidor
+            if (!response.ok) {
+                throw new Error('Error al realizar la consulta');
+            }
+            return response.json(); // Convierte la respuesta en formato JSON
+        })
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    } else {
+        divDatos = document.getElementById('datosInstitucionBorrar')
+        divDatos.innerHTML = `
+                <h4>No ha seleccionado ninguna institucion</h4><br>
+            `
+    }
 }
+
+
+
 

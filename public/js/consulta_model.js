@@ -52,6 +52,15 @@ function buscar_todos_biblioteca() {
     return db.any (`SELECT bi.id_biblioteca, bi.nombre, bi.domicilio, bi.cp, loc.localidad, bi.email, bi.horario, bi.region, bi.long, bi.lat FROM padron.biblioteca bi 
                     JOIN padron.localidad loc ON loc.id_localidad = bi.id_localidad`)
 }
+
+function buscar_todos_id() {
+    return db.any (`SELECT id_institucion FROM padron.institucion`)
+}
+
+function buscar_todos_cueanexo() {
+    return db.any (`SELECT id_institucion AS id, cue_anexo AS cueanexo FROM padron.institucion`)
+}
+
 function area_bibliotecas() {
     return db.any ('SELECT numbibl, ST_Area(abib.geom)  FROM radio_bibliotecas abib');
 }
@@ -167,6 +176,14 @@ function cargar_ubicacion (id_institucion, lat, long) {
     VALUES ($1, ST_X(ST_Transform(ST_SetSRID(ST_MakePoint($3,$2), 4326),22172)), ST_Y(ST_Transform(ST_SetSRID(ST_MakePoint($3,$2), 4326),22172)), ST_Transform(ST_SetSRID(ST_MakePoint($3,$2), 4326),22172))`, [id_institucion, lat, long])
 }
 
+function borrar_institucion (id) {
+    db.tx( t => {
+        t.none(`DELETE FROM padron.georeferencia WHERE id_institucion = $1`, [id]);
+        t.none(`DELETE FROM padron.institucion WHERE id_institucion = $1`, [id]);
+    });
+}
+
+
 
 module.exports = {
     buscar_todos_numero,
@@ -178,6 +195,8 @@ module.exports = {
     buscar_todos_departamento,
     buscar_todos_domicilio,
     buscar_todos_ambito,
+    buscar_todos_id,
+    buscar_todos_cueanexo,
     busqueda_simple,
     buscar_info_popup_inst,
     busqueda_adicional,
@@ -195,6 +214,6 @@ module.exports = {
     capa_prueba,
     area_bibliotecas,
     crear_institucion,
-    cargar_ubicacion
-
+    cargar_ubicacion,
+    borrar_institucion
 };
