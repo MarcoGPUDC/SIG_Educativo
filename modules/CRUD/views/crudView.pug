@@ -40,7 +40,7 @@
                 <h5 class="modal-title" id="modalCrearLabel">Crear Institucion</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body ">
                 //-Inputs para crear una institucion
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
@@ -107,8 +107,7 @@
                         <label for="apellidoDirForm" class="col-form-label">Apellido del directivo</label>
                         <input type="text" class="form-control" id="apellidoDirForm" placeholder="Apellido del directivo" aria-label="default input">
                         <label for="numeroDirForm" class="col-form-label">Numero de Telefono de la direccion</label><br>
-                        <input type="number" class="col-form-label" id="numeroDirForm" placeholder="2804123456" aria-label="default input"><br>
-                        
+                        <input type="number" class="col-form-label" id="numeroDirForm" placeholder="2804123456" aria-label="default input"><br>                      
                     </div>
                     <div class="tab-pane fade" id="infraestructura" role="tabpanel" aria-labelledby="infraestructura-tab">
                     </div>
@@ -135,12 +134,64 @@
                 <h5 class="modal-title" id="modalActualizarLabel">Actualizar Institucion</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <p>cosas</p>
+            <div class="modal-body">    
+                <label for='form-select-cueanexo'>Indique el Cue Anexo de la institucion</label>
+                <input list="form-select-cueanexo" id="cueanexoFormModificar" class="w-100" name="buscadorinstborrar" placeholder="Ingrese el cue anexo del establecimiento">
+                <datalist id='form-select-cueanexo'>
+
+                </datalist> 
+                <button id="Modificar" type="button" class="btn btn-outline-info" onclick="seleccionarInstitucion(this.id)">Buscar</button>
+                <div id='datosInstitucionModificar'>
+                </div>
+                <div id='formDatosModificar' style='display: none;'>
+                        <div class="tab-pane fade show active" id="institucion" role="tabpanel" aria-labelledby="institucion-tab">
+                        <label for="nombreFormModificar" class="col-sm-2 col-form-label">Nombre</label>
+                        <input class="form-control" id="nombreFormModificar" type="text" placeholder="Nombre de la institucion" aria-label="default input" required>
+                        <label for="cueFormModificar" class="col-sm-2 col-form-label">CUE</label>
+                        <input class="form-control" id="cueFormModificar" type="number" placeholder="Codigo Unico de Establecimiento" aria-label="default input" readonly>
+                        <label for="anexoFormModificar" class="col-sm-2 col-form-label">Anexo</label>
+                        <input class="form-control" id="anexoFormModificar" type="number" placeholder="Numero de anexo" aria-label="default input" readonly>
+                        <label for="codJurisFormModificar" class="col-sm-4 col-form-label">Codigo Jurisdiccional</label>
+                        <input class="form-control" id="codJurisFormModificar" type="number" placeholder="Numero de la institucion" aria-label="default input" required>
+                        <label for="form-select-modificar-nivel" class="col-form-label">Nivel</label>
+                        <select id="form-select-modificar-nivel" aria-label="select nivel">
+                        </select><br>
+                        <label for="form-select-modificar-modalidad" class="col-form-label">Modalidad</label>
+                        <select id="form-select-modificar-modalidad" aria-label="select modalidad">
+                        </select><br>
+                        <label for="direccionFormModificar" class="col-sm-2 col-form-label">Direccion </label><br>
+                        <input class="form-control" id="direccionFormModificar" type="text" placeholder="Direccion de la institucion" aria-label="default input">
+                        <label for="cpFormModificar" class="col-sm-3 col-form-label">Codigo Postal </label>
+                        <input class="form-control" id="cpFormModificar" type="text" placeholder="Codigo postal" aria-label="default input">
+                        <label for="form-select-modificar-localidad" class="col-form-label">Localidad</label>
+                        <select id="form-select-modificar-localidad" aria-label="select localidad">
+                        </select>
+                        <label for="form-select-modificar-departamento" class="col-form-label">Departamento</label>
+                        <select id ="form-select-modificar-departamento" aria-label="select departamento">
+                        </select><br>
+                        <label for="form-select-modificar-region" class="col-form-label">Región</label>
+                        <select id ="form-select-modificar-region" aria-label="select region">
+                            <option value="1">I</option>
+                            <option value="2">II</option>
+                            <option value="3">III</option>
+                            <option value="4">IV</option>
+                            <option value="5">V</option>
+                            <option value="6">VI</option>
+                        </select><br>
+                        <label for="form-select-modificar-ambito" class="col-form-label">Ambito</label>
+                        <select id="form-select-modificar-ambito" aria-label="select ambito">
+                        </select><br>
+                        <label for="emailFormModificar" class="col-form-label">Correo electronico de la institucion</label><br>
+                        <input type="email" class="col-form-label" id="emailFormModificar" placeholder="mi-escuela@chubut.edu.ar/correo@ejemplo.com" aria-label="default input"><br>
+                        <label for="webFormModificar" class="col-form-label">Sitio Web de la institucion</label><br>
+                        <input type="text" class="col-form-label" id="webFormModificar" placeholder="https://www.escuelamia.com" aria-label="default input"><br>
+                        <label for="telFormModificar" class="col-form-label">Telefono de la institucion</label><br>
+                        <input type="text" class="col-form-label" id="telFormModificar" placeholder="2804123321" aria-label="default input">
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Crear</button>
+                <button id="botonModificar" type="button" class="btn btn-primary" onclick="updateLayer()">Modificar</button>
             </div>
             </div>
         </div>
@@ -160,7 +211,7 @@
                 <datalist id='form-select-cueanexo'>
 
                 </datalist> 
-                <button type="button" class="btn btn-outline-info" onclick="seleccionarInstitucion()">Buscar</button>
+                <button id="Borrar" type="button" class="btn btn-outline-info" onclick="seleccionarInstitucion(this.id)">Buscar</button>
                 <div id='datosInstitucionBorrar'>
                 </div>
             </div>

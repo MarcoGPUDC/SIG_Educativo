@@ -1,5 +1,6 @@
 //--------------------------------------------------------------MODELOS de CRUD--------------------------------------------------------------------
 
+
 var datosForm;
 async function datosCrudForm() {
     if (datosForm) {
@@ -33,10 +34,12 @@ async function cargarCrudForm(){
         if (filtro == 'modalidad' || filtro == 'localidad' || filtro == 'nivel' || filtro == 'departamento'||filtro == 'ambito'){
             data["valor"].forEach(datos =>{
                 var select = document.getElementById(`form-select-${filtro}`); //se inyecta la clave para seleccionar el formulario
+                var selectModificar = document.getElementById(`form-select-modificar-${filtro}`);
                 const option = document.createElement('option');
                 option.value = datos['id'] ? datos['id'] : datos[filtro];
                 option.text = datos[filtro];
                 select.appendChild(option);
+                selectModificar.appendChild(option)
             
             })
         } else if (filtro == 'cueanexo') {
@@ -56,13 +59,7 @@ var argenMapaUrl = 'https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capab
 var argenMapaAttrib ='<a href="http://www.ign.gob.ar/AreaServicios/Argenmap/IntroduccionV2" target="_blank">Instituto Geográfico Nacional</a> + <a href="http://www.osm.org/copyright" target="_blank">OpenStreetMap</a>';
 
 
-var map = new L.map('map', {
-	fullscreenControl: true,
-	fullscreenControlOptions: {
-		position: 'topleft',
-		forceSeparateButton: true
-	}
-});
+var map = new L.map('map');
 
 L.tileLayer(argenMapaUrl, {minZoom: 4, maxZoom: 20, attribution: argenMapaAttrib}).addTo(map);
 
@@ -70,6 +67,10 @@ map.setView([-44.2,-68], 7);
 
 
 const mapaDiv = document.getElementById('map');
+const modalMapa = document.getElementById('ubicacion-tab')
+modalMapa.addEventListener('click', () => {
+    map.invalidateSize()
+})
 var marker = new L.marker();
 mapaDiv.addEventListener('click', function () {
     // Evento al hacer clic en el mapa
@@ -96,7 +97,19 @@ mapaDiv.addEventListener('click', function () {
     });
 });
 
-
+function buscarDato (dato, valor) {
+    datosForm.forEach(data => {
+        var filtro = data['clave']; //obtiene el nombre de la clave para indicar en que formulario agregar las opciones
+        if (filtro == dato){
+            data["valor"].forEach(datos =>{
+                if (datos[filtro] == valor) {
+                    return id = datos.id;
+                }            
+            })
+        }
+    })
+    return id
+}
 
 function validarInstitucion(data){
     var isValid = true;
@@ -154,10 +167,8 @@ function validarInstitucion(data){
     return [isValid, error];
 }
 
-function buscarInstitucion (cue) {
-    //const id = cue.id;
-    console.log('buscando')
-    fetch(`obtenerDatos?id=${cue}`)
+async function buscarInstitucion (cue, accion) {
+    return fetch(`obtenerDatos?id=${cue}`)
     .then(response => {
         // Maneja la respuesta recibida del servidor
         if (!response.ok) {
@@ -166,38 +177,67 @@ function buscarInstitucion (cue) {
         return response.json(); // Convierte la respuesta en formato JSON
     })
     .then(data => {
-        divDatos = document.getElementById('datosInstitucionBorrar')
+        var sede = '';
+        if (data.anexo == '00') {
+            sede = `Edificio: Sede`
+        } else {
+            sede = `Edificio: Anexo ` + data.anexo
+        }
+        divDatos = document.getElementById(`datosInstitucion${accion}`)
         divDatos.innerHTML = `
-                <h4>Esta es la institucion que desea borrar?</h4><br>
+                <h4>Esta es la institucion que desea ${accion}?</h4><br>
                 <p>Nombre: ${data.nombre}</p><br>
-                <p>Cod. Jurisdiccional: ${data.numero}</p><br>
-                <p>Domicilio: ${data.domicilio}</p><br>
+                <p>Cod. Jurisdiccional: ${data.numero}</p><br>` +
+                sede + `<br><br><br>` +
+                `<p>Domicilio: ${data.domicilio}</p><br>
                 <p>localidad: ${data.localidad}</p><br>
             `
-        document.getElementById('botonBorrar').setAttribute('value', data.id_institucion)
-        console.log(data);
+        
+        return data.id_institucion
     })
     .catch(error => {
         console.error('Error:', error);
     });
 }
 
-function seleccionarInstitucion () {
-    const cue = document.getElementById('cueanexoFormBorrar');
-    datosForm.forEach(data => {
-        if (data.clave == 'cueanexo'){
-            data.valor.forEach(valor => {
-                if (valor.cueanexo == cue.value){
-                    buscarInstitucion(valor.id);
-                } else {
-                    divDatos = document.getElementById('datosInstitucionBorrar')
-                    divDatos.innerHTML = `
-                            <h4>La institucion que desea borrar no existe</h4><br>
-                        `
-                }
-            })
-        }
-    })
+async function seleccionarInstitucion (accion) {
+    var cue = ''
+    var escuela = {}
+    if (accion == "Borrar") {
+        cue = document.getElementById(`cueanexoFormBorrar`);
+        datosForm.forEach(data => {
+            if (data.clave == 'cueanexo'){
+                data.valor.forEach(valor => {
+                    if (valor.cueanexo == cue.value){
+                        escuela = valor.id
+                    } else {
+                        divDatos = document.getElementById('datosInstitucionBorrar')
+                        divDatos.innerHTML = `
+                                <h4>La institucion no existe</h4><br>
+                            `
+                    }
+                })
+            }
+        })
+    } else {
+        cue = document.getElementById('cueanexoFormModificar');
+        datosForm.forEach(data => {
+            if (data.clave == 'cueanexo'){
+                data.valor.forEach(valor => {
+                    if (valor.cueanexo === cue.value){
+                        escuela = valor.id
+                    } else {
+                        divDatos = document.getElementById('datosInstitucionModificar')
+                        divDatos.innerHTML = `
+                                <h4>La institucion no existe</h4><br>
+                            `
+                    }
+                })
+            }
+        })
+    }
+    const id = await buscarInstitucion(escuela, accion);
+    document.getElementById(`boton${accion}`).setAttribute('value', id)
 }
 
 
@@ -217,6 +257,8 @@ function createLayer () {
     var nombre = document.getElementById('nombreFormCrear').value;
     var tel = document.getElementById('telFormCrear').value;
     var cue_anexo = '' + cue + anexo;
+    var nivel = document.getElementById('form-select-nivel').value;
+    var modalidad = document.getElementById('form-select-modalidad').value;
     var data = {
         departamento : departamento,
         localidad: localidad,
@@ -234,8 +276,11 @@ function createLayer () {
         tel: tel,
         cue_anexo: cue_anexo,
         lat: marker._latlng.lat,
-        long: marker._latlng.lng
+        long: marker._latlng.lng,
+        nivel: nivel,
+        modalidad: modalidad
     }
+    console.log(data);
     var validacion = validarInstitucion(data);
 
     if (validacion[0]) {
@@ -289,12 +334,40 @@ function createLayer () {
     }
 }
 
-function readLayer () {
-    
-}
-
 function updateLayer () {
-
+    const id = document.getElementById('botonModificar').value;
+    fetch(`obtenerDatos?id=${id}`)
+    .then(response => {
+        // Maneja la respuesta recibida del servidor
+        if (!response.ok) {
+            throw new Error('Error al obtener los datos');
+        }
+        return response.json(); // Convierte la respuesta en formato JSON
+    })
+    .then(data => {
+        const divDatosModificar = document.getElementById('datosInstitucionModificar')
+        divDatosModificar.innerHTML = '';
+        const formDatosModificar = document.getElementById('formDatosModificar')
+        formDatosModificar.setAttribute('style', 'display: block')
+        document.getElementById('form-select-modificar-localidad').value = buscarDato('localidad', data.localidad)
+        document.getElementById('form-select-modificar-departamento').value = buscarDato('departamento', data.departamento)
+        document.getElementById('codJurisFormModificar').value = data.numero;
+        document.getElementById('cueFormModificar').value = data.cue;
+        document.getElementById('anexoFormModificar').value = data.anexo;
+        document.getElementById('form-select-modificar-region').value = data.region;
+        document.getElementById('direccionFormModificar').value = data.direccion;
+        document.getElementById('cpFormModificar').value= data.cp;
+        document.getElementById('form-select-modificar-ambito').value = data.ambito;
+        document.getElementById('webFormModificar').value = data.web;
+        document.getElementById('emailFormModificar').value = data.email;
+        document.getElementById('nombreFormModificar').value = data.nombre;
+        document.getElementById('telFormModificar').value = data.tel;
+        document.getElementById('form-select-modificar-nivel').value = buscarDato('nivel', data.nivel);
+        document.getElementById('form-select-modificar-modalidad').value = buscarDato('modalidad', data.modalidad);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 function deleteLayer () {
@@ -314,7 +387,10 @@ function deleteLayer () {
             return response.json(); // Convierte la respuesta en formato JSON
         })
         .then(data => {
-            console.log(data);
+            divDatos = document.getElementById('datosInstitucionBorrar')
+                    divDatos.innerHTML = divDatos.innerHTML + `
+                            <br><h4 style="color: red;">Ha borrado la institucion</h4><br>
+                            `
         })
         .catch(error => {
             console.error('Error:', error);

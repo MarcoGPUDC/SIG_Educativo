@@ -40,12 +40,11 @@ router.get('/obtenerDatos', async (req, res) => {
 
 
 router.post('/insert', async (req, res) => {
-  const {departamento, localidad, numero, cue, anexo, funcion, region, domicilio, cp, ambito, web, email, nombre, tel, cue_anexo, lat, long} = req.body; // Datos del cliente
+  const {departamento, localidad, numero, cue, anexo, funcion, region, domicilio, cp, ambito, web, email, nombre, tel, cue_anexo, lat, long, modalidad, nivel} = req.body;
   try {
-    //const values = [departamento, localidad, numero, cue, anexo, funcion, region, domicilio, cp, ambito, web, email, nombre, tel, cue_anexo];
-    //console.log(values);
     const result = await consulta.crear_institucion(departamento, localidad, numero, cue, anexo, funcion, region, domicilio, cp, ambito, web, email, nombre, tel, cue_anexo);
     const setUbi = await consulta.cargar_ubicacion(result[0].id_institucion, lat, long);
+    const serFunc = await consulta.cargar_oferta(result[0].id_institucion, modalidad, nivel);
     res.status(201).json({ message: 'Institucion creada', data: result});
   } catch (error) {
     console.error(error);
@@ -57,9 +56,6 @@ router.post('/insert', async (req, res) => {
 router.post('/delete', async (req, res) => {
   const id = req.query.id; // Datos del cliente
   try {
-    //const values = [departamento, localidad, numero, cue, anexo, funcion, region, domicilio, cp, ambito, web, email, nombre, tel, cue_anexo];
-    //console.log(values);
-    console.log(id);
     const result = await consulta.borrar_institucion(id);
     res.status(201).json({ message: 'Institucion borrada', data: result});
   } catch (error) {

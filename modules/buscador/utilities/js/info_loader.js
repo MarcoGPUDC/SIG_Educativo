@@ -21,6 +21,7 @@ async function completarDatosInstitucion() {
         return response.json(); // Convierte la respuesta en formato JSON
     })
     .then(data => {
+        console.log(data);
         //datos institucion
         document.getElementById('cabecera').innerText += ` ${data.numero}`;
         document.getElementById('cueanexoinfoadicional').innerHTML = `${data.cue_anexo}`;
@@ -34,7 +35,7 @@ async function completarDatosInstitucion() {
         //datos directivo
         document.getElementById('resp_respnsableinfoadicional').innerHTML = `${data.responsable}`;
         document.getElementById('telefonoinfoadicional').innerHTML = `${data.tel}`;
-        document.getElementById('emailinfoadicional').innerHTML = `${data.email}`;
+        document.getElementById('emailinfoadicional').innerHTML = `${data.email_inst}`;
         document.getElementById('sitio_webinfoadicional').innerHTML = `${data.web}`;
         document.getElementById('resp_telresponsableinfoadicional').innerHTML = `${data.tel_resp}`;
         

@@ -955,6 +955,10 @@ function getEstablecimientosLayers() {
 			var dataContexto = [];
 			var dataRural = [];
 			data.features.forEach(escuelas => {
+				
+				console.log(escuelas.properties.numero)
+				
+				
 				switch (true) {
 					//numeracion inicial 400 a 499 / 4000 a 4999 / 1400 a 1499 / 2400 a 2499
 					//case ((escuelas.properties.numero >= 400 && escuelas.properties.numero <= 499) || (escuelas.properties.numero >= 4000 && escuelas.properties.numero <= 4999) || (escuelas.properties.numero >= 1400 && escuelas.properties.numero <= 1499) || (escuelas.properties.numero >= 2400 && escuelas.properties.numero <= 2499)):

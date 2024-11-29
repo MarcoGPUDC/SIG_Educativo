@@ -25,11 +25,11 @@ function buscar_todos_region () {
 };
 
 function buscar_todos_localidad () {
-    return db.any('SELECT id_localidad AS id, localidad FROM padron.localidad ORDER BY localidad asc;');
+    return db.any('SELECT id_localidad AS id, localidad FROM padron.localidad ORDER BY id asc;');
 };
 
 function buscar_todos_departamento () {
-    return db.any('SELECT id_departamento AS id, departamento FROM padron.departamento ORDER BY departamento asc;');
+    return db.any('SELECT id_departamento AS id, departamento FROM padron.departamento ORDER BY id asc;');
 };
 
 function buscar_todos_domicilio () {
@@ -86,12 +86,12 @@ function busqueda_adicional (id) {
 function buscar_info_popup_inst() {
     return db.any(`SELECT * FROM (SELECT inst.funcion, inst.cue_anexo, (CASE WHEN inst.numero = 'Z000023' THEN 700 WHEN inst.numero = 'Z000024' THEN 700 WHEN inst.numero = 'CEF' THEN 700 WHEN inst.numero > '0' THEN inst.numero::INT END) AS numero, inst.nombre, inst.region, loc.localidad, inst.domicilio, inst.tel, cont.email, inst.web, cont.responsable, cont.tel_resp, niv.nombre AS nivel, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom, inst.id_institucion, moda.nombre AS modalidad
     FROM padron.institucion inst 
-    JOIN padron.localidad loc ON inst.id_localidad = loc.id_localidad 
-    JOIN padron.contacto cont ON inst.id_institucion = cont.id_institucion
-    JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion
-	JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
-	JOIN padron.nivel niv ON ofe.id_nivel = niv.id_nivel
-    JOIN padron.modalidades_educativas moda ON moda.id_modalidad = ofe.id_modalidad
+    LEFT JOIN padron.localidad loc ON inst.id_localidad = loc.id_localidad 
+    LEFT JOIN padron.contacto cont ON inst.id_institucion = cont.id_institucion
+    LEFT JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion
+	LEFT JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
+	LEFT JOIN padron.nivel niv ON ofe.id_nivel = niv.id_nivel
+    LEFT JOIN padron.modalidades_educativas moda ON moda.id_modalidad = ofe.id_modalidad
     WHERE inst.funcion = 'Activo') tmp
     GROUP BY tmp.funcion, tmp.nivel, tmp.cue_anexo, tmp.numero, tmp.nombre, tmp.region, tmp.localidad, tmp.domicilio, tmp.tel, tmp.email, tmp.web, tmp.responsable, tmp.tel_resp, tmp.geom, tmp.id_institucion, tmp.modalidad
     ORDER BY numero`);
@@ -179,8 +179,15 @@ function cargar_ubicacion (id_institucion, lat, long) {
 function borrar_institucion (id) {
     db.tx( t => {
         t.none(`DELETE FROM padron.georeferencia WHERE id_institucion = $1`, [id]);
+        t.none('DELETE FROM padron.oferta WHERE id_institucion = $1',[id]);
         t.none(`DELETE FROM padron.institucion WHERE id_institucion = $1`, [id]);
     });
+}
+
+function cargar_oferta(id, modalidad, nivel){
+    db.tx (t=>{
+        t.none('INSERT INTO padron.oferta (id_institucion, id_modalidad, id_nivel) VALUES ($1, $2, $3)', [id, modalidad, nivel]);
+    })
 }
 
 
@@ -215,5 +222,6 @@ module.exports = {
     area_bibliotecas,
     crear_institucion,
     cargar_ubicacion,
+    cargar_oferta,
     borrar_institucion
 };
