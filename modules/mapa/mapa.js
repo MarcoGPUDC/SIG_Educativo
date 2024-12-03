@@ -454,7 +454,7 @@ function estilo_region (feature) {
 	};
 
 async function getGeoserverLayer(layer, workspace) {
-	const viewLayer = L.tileLayer.wms("/geoserver/sigeducativo/ows", {
+	const viewLayer = L.tileLayer.wms("http://172.16.252.88:8585/geoserver/ows", {
 		layers: `${workspace}:${layer}`,
 		format: 'image/png',
 		transparent: true,	
@@ -466,7 +466,7 @@ async function getGeoserverLayer(layer, workspace) {
 	let nivel = layer.split("_")[1];
 	let dataLayer;
 	try {
-		const geoResponse = await fetch(`/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${workspace}%3A${layer}&maxFeatures=300&outputFormat=application%2Fjson&srsname=EPSG:4326`);
+		const geoResponse = await fetch(`http://172.16.252.88:8585/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${workspace}%3A${layer}&maxFeatures=300&outputFormat=application%2Fjson&srsname=EPSG:4326`);
 		const dataGeoJSON = await geoResponse.json();
 		switch (tipo) {
 			case "regiones":
@@ -955,8 +955,6 @@ function getEstablecimientosLayers() {
 			var dataContexto = [];
 			var dataRural = [];
 			data.features.forEach(escuelas => {
-				
-				console.log(escuelas.properties.numero)
 				
 				
 				switch (true) {

@@ -38,8 +38,11 @@ async function cargarCrudForm(){
                 const option = document.createElement('option');
                 option.value = datos['id'] ? datos['id'] : datos[filtro];
                 option.text = datos[filtro];
+                const optionMod = document.createElement('option');
+                optionMod.value = datos['id'] ? datos['id'] : datos[filtro];
+                optionMod.text = datos[filtro];
                 select.appendChild(option);
-                selectModificar.appendChild(option)
+                selectModificar.appendChild(optionMod)
             
             })
         } else if (filtro == 'cueanexo') {
@@ -168,73 +171,98 @@ function validarInstitucion(data){
 }
 
 async function buscarInstitucion (cue, accion) {
-    return fetch(`obtenerDatos?id=${cue}`)
-    .then(response => {
-        // Maneja la respuesta recibida del servidor
-        if (!response.ok) {
-            throw new Error('Error al obtener los datos');
-        }
-        return response.json(); // Convierte la respuesta en formato JSON
-    })
-    .then(data => {
-        var sede = '';
-        if (data.anexo == '00') {
-            sede = `Edificio: Sede`
-        } else {
-            sede = `Edificio: Anexo ` + data.anexo
-        }
+    if (!cue == ''){
+        return fetch(`obtenerDatos?id=${cue}`)
+        .then(response => {
+            // Maneja la respuesta recibida del servidor
+            if (!response.ok) {
+                throw new Error('Error al obtener los datos');
+            }
+            return response.json(); // Convierte la respuesta en formato JSON
+        })
+        .then(data => {
+            if (accion == 'Modificar') {
+                const divDatosModificar = document.getElementById('datosInstitucionModificar')
+                divDatosModificar.innerHTML = '';
+                const formDatosModificar = document.getElementById('formDatosModificar')
+                formDatosModificar.setAttribute('style', 'display: block')
+                document.getElementById('form-select-modificar-localidad').value = buscarDato('localidad', data.localidad)
+                document.getElementById('form-select-modificar-departamento').value = buscarDato('departamento', data.departamento)
+                document.getElementById('codJurisFormModificar').value = data.numero;
+                document.getElementById('cueFormModificar').value = data.cue;
+                document.getElementById('anexoFormModificar').value = data.anexo;
+                document.getElementById('form-select-modificar-region').value = data.region;
+                document.getElementById('direccionFormModificar').value = data.domicilio;
+                document.getElementById('cpFormModificar').value= data.cp;
+                document.getElementById('form-select-modificar-ambito').value = data.ambito;
+                document.getElementById('webFormModificar').value = data.web;
+                document.getElementById('emailFormModificar').value = data.email_inst;
+                document.getElementById('nombreFormModificar').value = data.nombre;
+                document.getElementById('telFormModificar').value = data.tel;
+                document.getElementById('form-select-modificar-nivel').value = buscarDato('nivel', data.nivel);
+                document.getElementById('form-select-modificar-modalidad').value = buscarDato('modalidad', data.modalidad);
+            } else {
+                divDatos = document.getElementById('datosInstitucionBorrar')
+                            divDatos.innerHTML = `
+                                    <h4>La institucion que desea borrar es la siguiente?</h4><br>
+                                    <p>Nombre: ${data.nombre}</p><br>
+                                    <p>Numero: ${data.numero}</p><br>
+                                    <p>Anexo: ${data.anexo}</p><br>
+                                    <p>Domicilio: ${data.domicilio}</p><br>
+                                `
+            }
+            return data.id_institucion
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    } else {
         divDatos = document.getElementById(`datosInstitucion${accion}`)
-        divDatos.innerHTML = `
-                <h4>Esta es la institucion que desea ${accion}?</h4><br>
-                <p>Nombre: ${data.nombre}</p><br>
-                <p>Cod. Jurisdiccional: ${data.numero}</p><br>` +
-                sede + `<br><br><br>` +
-                `<p>Domicilio: ${data.domicilio}</p><br>
-                <p>localidad: ${data.localidad}</p><br>
-            `
-        
-        return data.id_institucion
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+            divDatos.innerHTML = `
+                    <h4>La institucion no existe</h4><br>
+                `
+    }
 }
 
 async function seleccionarInstitucion (accion) {
     var cue = ''
-    var escuela = {}
+    var escuela = ''
     if (accion == "Borrar") {
-        cue = document.getElementById(`cueanexoFormBorrar`);
+        cue = document.getElementById(`cueanexoFormBorrar`).value;
         datosForm.forEach(data => {
             if (data.clave == 'cueanexo'){
                 data.valor.forEach(valor => {
-                    if (valor.cueanexo == cue.value){
+                    if (valor.cueanexo == cue){
                         escuela = valor.id
-                    } else {
-                        divDatos = document.getElementById('datosInstitucionBorrar')
-                        divDatos.innerHTML = `
-                                <h4>La institucion no existe</h4><br>
-                            `
                     }
                 })
             }
         })
-    } else {
-        cue = document.getElementById('cueanexoFormModificar');
+        /*if (escuela == '') {
+            divDatos = document.getElementById('datosInstitucionBorrar')
+            divDatos.innerHTML = `
+                    <h4>La institucion no existe</h4><br>
+                `
+        }*/
+    } else if (accion = 'Modificar') {
+        cue = document.getElementById('cueanexoFormModificar').value;
         datosForm.forEach(data => {
             if (data.clave == 'cueanexo'){
                 data.valor.forEach(valor => {
-                    if (valor.cueanexo === cue.value){
+                    if (valor.cueanexo == cue){
                         escuela = valor.id
-                    } else {
-                        divDatos = document.getElementById('datosInstitucionModificar')
-                        divDatos.innerHTML = `
-                                <h4>La institucion no existe</h4><br>
-                            `
-                    }
+                    } 
                 })
             }
         })
+        /*if (escuela == '') {
+            document.getElementById('formDatosModificar').innerHTML = '';
+            divDatos = document.getElementById('datosInstitucionModificar')
+            divDatos.innerHTML = `
+                    <h4>La institucion no existe</h4><br>
+                `
+            
+        }*/
     }
     const id = await buscarInstitucion(escuela, accion);
     document.getElementById(`boton${accion}`).setAttribute('value', id)
@@ -280,7 +308,6 @@ function createLayer () {
         nivel: nivel,
         modalidad: modalidad
     }
-    console.log(data);
     var validacion = validarInstitucion(data);
 
     if (validacion[0]) {
@@ -349,21 +376,56 @@ function updateLayer () {
         divDatosModificar.innerHTML = '';
         const formDatosModificar = document.getElementById('formDatosModificar')
         formDatosModificar.setAttribute('style', 'display: block')
-        document.getElementById('form-select-modificar-localidad').value = buscarDato('localidad', data.localidad)
-        document.getElementById('form-select-modificar-departamento').value = buscarDato('departamento', data.departamento)
-        document.getElementById('codJurisFormModificar').value = data.numero;
-        document.getElementById('cueFormModificar').value = data.cue;
-        document.getElementById('anexoFormModificar').value = data.anexo;
-        document.getElementById('form-select-modificar-region').value = data.region;
-        document.getElementById('direccionFormModificar').value = data.direccion;
-        document.getElementById('cpFormModificar').value= data.cp;
-        document.getElementById('form-select-modificar-ambito').value = data.ambito;
-        document.getElementById('webFormModificar').value = data.web;
-        document.getElementById('emailFormModificar').value = data.email;
-        document.getElementById('nombreFormModificar').value = data.nombre;
-        document.getElementById('telFormModificar').value = data.tel;
-        document.getElementById('form-select-modificar-nivel').value = buscarDato('nivel', data.nivel);
-        document.getElementById('form-select-modificar-modalidad').value = buscarDato('modalidad', data.modalidad);
+        const localidad = document.getElementById('form-select-modificar-localidad').value
+        const departamento = document.getElementById('form-select-modificar-departamento').value
+        const numero = document.getElementById('codJurisFormModificar').value
+        document.getElementById('cueFormModificar').value
+        document.getElementById('anexoFormModificar').value
+        const region = document.getElementById('form-select-modificar-region').value
+        const domicilio = document.getElementById('direccionFormModificar').value
+        const cp = document.getElementById('cpFormModificar').value
+        const ambito = document.getElementById('form-select-modificar-ambito').value
+        const web = document.getElementById('webFormModificar').value
+        const email = document.getElementById('emailFormModificar').value
+        const nombre = document.getElementById('nombreFormModificar').value 
+        const tel = document.getElementById('telFormModificar').value
+        const nivel = document.getElementById('form-select-modificar-nivel').value
+        const modalidad = document.getElementById('form-select-modificar-modalidad').value
+        var data = {
+            id: data.id_institucion,
+            departamento : departamento,
+            localidad: localidad,
+            numero: numero,
+            region: region,
+            domicilio:domicilio,
+            cp: cp,
+            ambito: ambito,
+            web: web,
+            email:email,
+            nombre: nombre,
+            tel: tel,
+            nivel: nivel,
+            modalidad: modalidad
+        }
+        fetch('update', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            divDatos = document.getElementById('datosInstitucionModificar')
+                        divDatos.innerHTML = `
+                                <h4>La institucion ha sido modificada</h4><br>
+                            `
+            return response.json();
+        })
+        .then(responseData => console.log('Respuesta del servidor:', responseData))
+        .catch(error => console.error('Error:', error));
     })
     .catch(error => {
         console.error('Error:', error);
@@ -388,9 +450,7 @@ function deleteLayer () {
         })
         .then(data => {
             divDatos = document.getElementById('datosInstitucionBorrar')
-                    divDatos.innerHTML = divDatos.innerHTML + `
-                            <br><h4 style="color: red;">Ha borrado la institucion</h4><br>
-                            `
+                    divDatos.innerHTML =`<br><h4 style="color: red;">Ha borrado la institucion</h4><br>`
         })
         .catch(error => {
             console.error('Error:', error);

@@ -190,6 +190,24 @@ function cargar_oferta(id, modalidad, nivel){
     })
 }
 
+function modificar_institucion (id, departamento, localidad, numero, region, domicilio, cp, ambito, web, email, nombre, tel){
+    db.tx (t => {
+        t.none (`UPDATE padron.institucion
+                    SET id_localidad=$1, numero=$2, region=$3, domicilio=$4, cp=$5, ambito=$6, web=$7, email_inst=$8, nombre=$9, tel=$10
+	                WHERE id_institucion = $11;
+            `, [departamento, localidad, numero, region, domicilio, cp, ambito, web, email, nombre, tel, id])
+    })
+}
+
+function modificar_oferta (id, nivel, modalidad){
+    db.tx (t => {
+        t.none (`UPDATE padron.oferta
+                    SET id_nivel= $2, id_modalidad= $3
+                    WHERE id_institucion = $1;  
+            `, [id, nivel, modalidad])
+    })
+}
+
 
 
 module.exports = {
@@ -223,5 +241,7 @@ module.exports = {
     crear_institucion,
     cargar_ubicacion,
     cargar_oferta,
-    borrar_institucion
+    borrar_institucion,
+    modificar_institucion,
+    modificar_oferta
 };

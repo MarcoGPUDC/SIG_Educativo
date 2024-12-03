@@ -52,6 +52,18 @@ router.post('/insert', async (req, res) => {
   }
 });
 
+router.post('/update', async (req, res) => {
+  const {departamento, localidad, numero, region, domicilio, cp, ambito, web, email, nombre, tel, modalidad, nivel, id} = req.body;
+  try {
+    const result = await consulta.modificar_institucion(departamento, localidad, numero, region, domicilio, cp, ambito, web, email, nombre, tel, id);
+    const serFunc = await consulta.modificar_oferta(id, nivel, modalidad);
+    res.status(201).json({ message: 'Institucion modificada', data: result});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al insertar en la base de datos' });
+  }
+});
+
 
 router.post('/delete', async (req, res) => {
   const id = req.query.id; // Datos del cliente
