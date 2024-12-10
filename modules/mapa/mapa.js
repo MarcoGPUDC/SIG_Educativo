@@ -454,7 +454,7 @@ function estilo_region (feature) {
 	};
 
 async function getGeoserverLayer(layer, workspace) {
-	const viewLayer = L.tileLayer.wms("http://172.16.252.88:8585/geoserver/ows", {
+	const viewLayer = L.tileLayer.wms("localhost:3005/geoserver/ows", {
 		layers: `${workspace}:${layer}`,
 		format: 'image/png',
 		transparent: true,	
@@ -466,7 +466,7 @@ async function getGeoserverLayer(layer, workspace) {
 	let nivel = layer.split("_")[1];
 	let dataLayer;
 	try {
-		const geoResponse = await fetch(`http://172.16.252.88:8585/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${workspace}%3A${layer}&maxFeatures=300&outputFormat=application%2Fjson&srsname=EPSG:4326`);
+		const geoResponse = await fetch(`localhost:3005/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${workspace}%3A${layer}&maxFeatures=300&outputFormat=application%2Fjson&srsname=EPSG:4326`);
 		const dataGeoJSON = await geoResponse.json();
 		switch (tipo) {
 			case "regiones":
@@ -642,7 +642,6 @@ function popup_bib_pedagogicas (feature, layer) {
 		"</td></tr><tr><td><b>Cod. Postal:</b> "+ (feature.properties.codpostal?feature.properties.codpostal:"No se registra") +
 		"<tr><td><b>Email:</b><a " + (feature.properties.email?"href='mailto:"+feature.properties.email:"") + " '> "  + (feature.properties.email?feature.properties.email:"No se registra") + "</a></td></tr>" +
 		"</td></tr><tr><td><b>Horario:</b> "+ (feature.properties.horario?feature.properties.horario:"No se registra") +
-		//"</td></tr><tr><td><input type='checkbox' id='bibliotecaAreaPrueba' value='"+feature.properties.area+"' >Mostrar Área</input>" +
 		"</td></tr></table></div>",
 		{minWidth: 270, maxWidth: 270}
 	);
@@ -727,7 +726,7 @@ function onEachFeatureL(feature, layer){
 		"<tr><td><b>Responsable:</b> "+ (feature.properties.responsable?feature.properties.responsable:"") + "</td></tr>" +
 		"<tr><td><b>Tel. del Responsable:</b> "+ (feature.properties.tel_resp?feature.properties.tel_resp:"-") + "</td></tr>" +
 		"</table>" +
-  		"</div></div>" +
+  		"</div></div>" + (feature.properties.area?"<div id='divBotonArea'></td></tr><tr><td><label for='areaInstMarker'>Mostrar Area</label><input type='checkbox' id='areaInstMarker' value='"+feature.properties.id+"'></input></div>":"</div>") +
   		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='/sigeducativo/info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
   		"</div>"
   		, {minWidth: 270, maxWidth: 270}
@@ -795,6 +794,7 @@ function onEachFeatureS (feature, layer) {
 function showZoom(){
 	var zoom = mymap.getZoom();
 	console.log(zoom);
+	return zoom;
 }
 
 //Mover marcador
@@ -856,7 +856,8 @@ function createCluster(tipo, nivel) {
 	return cluster;
 }
 var globalMarkers = [];
-var areasControl= {}
+var areasControl;
+getAreasEscolares();
 //crear capa, se crea a partir de un geoJSON, se indica tipo de dependencia (institucion, supervision, delegacion) y nivel para obtener el icono correspondiente
 function createLayer(data, tipo, nivel) {
 	var cluster = createCluster(tipo, nivel);
@@ -889,32 +890,25 @@ function createLayer(data, tipo, nivel) {
 			});
 			marker.on('add', function(){
 				globalMarkers.push(marker);
-				areasControl[marker._leaflet_id] = {isActive: false, area: 0}
 			})
 			marker.on('remove', function(){
 				globalMarkers = globalMarkers.filter(item => item._leaflet_id !== marker._leaflet_id)
 			})
-			/*marker.on('popupopen', function() {
-				var checkbox = document.getElementById("bibliotecaAreaPrueba");
-				var circle;
-				// Actualizar el checkbox según el estado actual del marcador
-				checkbox.checked = areasControl[marker._leaflet_id].isActive;
-				// Agregar evento al checkbox
-				checkbox.addEventListener('change', function() {
-				  areasControl[marker._leaflet_id].isActive = this.checked;
-
-		  
-				  // Aquí puedes ejecutar cualquier acción que necesites cuando cambie el estado del checkbox
-				  if (this.checked) {
-					circle = mostrarArea(latlng, checkbox.value);
-					areasControl[marker._leaflet_id].area = circle
-					circle.addTo(mymap);
-				  } else {
-					mymap.removeLayer(areasControl[marker._leaflet_id].area);
-				  }
-				});
-			});*/
-
+			marker.on('popupopen', function() {
+				//actualiza las areas para verificar el estado de cada una
+				getAreasLayer()
+				//se pregunta si el checkbox actual tiene en su value el id de una institucion que coincida con el de algun area
+				if (checkbox = document.getElementById("areaInstMarker")){
+					areasControl.forEach(data => {
+						//pregunta si esta en el mapa y coloca el input en el estado correcto
+						if (data.id_institucion == checkbox.value){
+							if (data.mostrar){
+								checkbox.checked = true;
+							}
+						}
+					})
+				}
+			});
 			cluster.addLayer(marker);
 			return marker;
 		},
@@ -922,6 +916,22 @@ function createLayer(data, tipo, nivel) {
 		});
 	return cluster;
 }
+
+function parseWKT(wkt) {
+	var coords = wkt
+		.replace('MULTIPOLYGON(((','')
+		.replace(')))','')
+		return coords.split(')),((').map(polygon => {
+			return polygon.split(',').map(coord => {
+				var [lng,lat] = coord.trim().split(/\s+/).map(Number)
+				if (isNaN(lng) || isNaN(lat)) {
+					throw new Error("error al convertir coordenadas")
+				}
+				return [lat,lng]
+			})
+		})
+}
+
 
 function getDepartamentos() {
 	return fetch('mapa/departamentos')
@@ -1129,7 +1139,41 @@ function getBibliotecaLayer(){
 	return biLayer
 }
 
+function getAreasLayer() {
+	var area;
+	checks = document.querySelectorAll('#areaInstMarker');
+	checks.forEach(checkbox => {
+		areasControl.forEach(data => {
+			if (data.id_institucion == checkbox.value){
+				polygonData = data.area;
+				checkbox.addEventListener('change', () => {
+					if(checkbox.checked) {
+						polygon = parseWKT(polygonData);
+						area = L.polygon(polygon, {color:'red'}).addTo(mymap);
+						data.mostrar = area._leaflet_id;
+					} else {
+						const layer = Object.values(mymap._layers).find(layer => layer._leaflet_id === data.mostrar)
+						mymap.removeLayer(layer);
+						areasControl.forEach(data => {
+							if (data.id_institucion == checkbox.value){
+								data.mostrar = false
+							}
+						})
+		
+					}
+				})
+			}
+			})
+	})
+}
 
+async function getAreasEscolares () {
+	fetch('mapa/areasInst')
+	.then(response => response.json())
+	.then(areas => {
+		areasControl = areas;
+	})
+}
 
 //funcion que finalmente crea las capas y las agrega al mapa
 async function generarTodosLayers(layerParam) {
@@ -2501,8 +2545,6 @@ mostrarGraficos.addEventListener('click', function(e) {
 })*/
 //cierra los grafico
 function closeChart(id){
-	var i = 0;
-	
 	baselayer.eachLayer(function (layer) {
 		if (layer.options.icon && layer.options.icon.options.className === id) {
 			baselayer.removeLayer(layer);
@@ -2617,32 +2659,3 @@ mymap.on('zoomend', function() {
 	}	
    
 });
-
-//AGREGAR RADIOS
-function mostrarArea(centro, area){
-	var radio = Math.sqrt(area / Math.PI);
-	// Crear el círculo en el mapa
-	var circle = L.circle(centro, {
-		radius: radio, // El radio en metros
-		color: 'blue',
-		fillColor: '#f03',
-		fillOpacity: 0.5
-	})
-	return circle;
-}
-
-
-function preparaBotonArea(){
-	var dispararArea = document.getElementById("bibliotecaAreaPrueba").addEventListener('change', function(event) {
-		if (this.checked){
-			console.log(checked);
-			let area = dispararArea.value.split("-")[0];
-			let centro = dispararArea.value.split("-")[1];
-			let circle = mostrarArea(centro,area);
-		} else {
-			console.log(checked);
-			mymap.removeLayer(circle);
-		}
-		
-	});
-}

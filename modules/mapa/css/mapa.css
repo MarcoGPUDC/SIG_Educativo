@@ -386,3 +386,11 @@ html, body{
     }
 
   }
+
+  .leaflet-popup-content label {
+    margin-left: 15px;
+  }
+  .leaflet-popup-content input {
+    margin-left: 5px;
+    display: inline-block!important;
+  }

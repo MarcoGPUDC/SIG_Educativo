@@ -105,33 +105,7 @@ router.get('/mapa/departamentos', async (req, res) => {
     }
 });
 
-router.get('/mapa/areasBib', async (req, res) => {
-    try {
-        const result = await consultar.area_bibliotecas();
-        console.log(result);
-        /*let geoJSON = {
-            "type": "FeatureCollection",
-            "features": [
-            ]
-          };
-        result.forEach(row => {
-            const geom = JSON.parse(row.geom);
-            var newFeature = {
-                type: "Feature",
-                geometry: geom,
-                properties: {
-                    id: row.id,
-                    nombre: row.nombre
-                }
-            };
-           geoJSON.features.push(newFeature) 
-        })
-        res.json(geoJSON);*/
-    } catch (err) {
-        console.error('Error al obtener los datos', err);
-        res.status(500).json({ error: 'Database error' });
-    }
-});
+
 
 router.get('/mapa/capaprueba', async (req, res) => {
     try {

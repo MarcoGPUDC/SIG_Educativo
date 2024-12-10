@@ -84,7 +84,7 @@ function busqueda_adicional (id) {
 //consultas para visualizar en el mapa
 //info para anexar al popup de las instituciones
 function buscar_info_popup_inst() {
-    return db.any(`SELECT * FROM (SELECT inst.funcion, inst.cue_anexo, (CASE WHEN inst.numero = 'Z000023' THEN 700 WHEN inst.numero = 'Z000024' THEN 700 WHEN inst.numero = 'CEF' THEN 700 WHEN inst.numero > '0' THEN inst.numero::INT END) AS numero, inst.nombre, inst.region, loc.localidad, inst.domicilio, inst.tel, cont.email, inst.web, cont.responsable, cont.tel_resp, niv.nombre AS nivel, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom, inst.id_institucion, moda.nombre AS modalidad
+    return db.any(`SELECT * FROM (SELECT inst.funcion, inst.cue_anexo, (CASE WHEN inst.numero = 'Z000023' THEN 700 WHEN inst.numero = 'Z000024' THEN 700 WHEN inst.numero = 'CEF' THEN 700 WHEN inst.numero > '0' THEN inst.numero::INT END) AS numero, inst.nombre, inst.region, loc.localidad, inst.domicilio, inst.tel, cont.email, inst.web, cont.responsable, cont.tel_resp, niv.nombre AS nivel, ST_AsGeoJSON(ST_Transform(geo.geom, 4326)) AS geom, inst.id_institucion, moda.nombre AS modalidad, ST_AsText(ST_transform(rad.geom,4326)) AS area
     FROM padron.institucion inst 
     LEFT JOIN padron.localidad loc ON inst.id_localidad = loc.id_localidad 
     LEFT JOIN padron.contacto cont ON inst.id_institucion = cont.id_institucion
@@ -92,8 +92,9 @@ function buscar_info_popup_inst() {
 	LEFT JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
 	LEFT JOIN padron.nivel niv ON ofe.id_nivel = niv.id_nivel
     LEFT JOIN padron.modalidades_educativas moda ON moda.id_modalidad = ofe.id_modalidad
+    LEFT JOIN public.radios_escolares rad ON rad.id_institucion = inst.id_institucion
     WHERE inst.funcion = 'Activo') tmp
-    GROUP BY tmp.funcion, tmp.nivel, tmp.cue_anexo, tmp.numero, tmp.nombre, tmp.region, tmp.localidad, tmp.domicilio, tmp.tel, tmp.email, tmp.web, tmp.responsable, tmp.tel_resp, tmp.geom, tmp.id_institucion, tmp.modalidad
+    GROUP BY tmp.funcion, tmp.nivel, tmp.cue_anexo, tmp.numero, tmp.nombre, tmp.region, tmp.localidad, tmp.domicilio, tmp.tel, tmp.email, tmp.web, tmp.responsable, tmp.tel_resp, tmp.geom, tmp.id_institucion, tmp.modalidad, tmp.area
     ORDER BY numero`);
 };
 //info para anexar al popup de las supervisiones
@@ -160,6 +161,10 @@ function capa_departamentos() {
 function capa_prueba() {                                                                                                                           
     return db.any(`SELECT *, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom
     FROM public."Prueba_poligono";`)
+}
+
+function capa_areas () {
+    return db.any(`SELECT id_institucion, false AS mostrar, ST_AsText(ST_transform(rad.geom,4326)) AS area FROM public.radios_escolares rad`)
 }
 
 //CONSULTAS PARA CRUD
@@ -237,6 +242,7 @@ module.exports = {
     capa_regiones,
     capa_departamentos,
     capa_prueba,
+    capa_areas,
     area_bibliotecas,
     crear_institucion,
     cargar_ubicacion,

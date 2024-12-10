@@ -34,12 +34,23 @@ router.get('/mapa/setInstMarkers', async (req, res) => {
                     responsable: row.responsable,
                     tel_resp: row.tel_resp,
                     modalidad: row.modalidad,
-                    funcion: row.funcion
+                    funcion: row.funcion,
+                    area: row.area
                 }
             };
            geoJSON.features.push(newFeature) 
         })
         res.json(geoJSON);
+    } catch (err) {
+        console.error('Error al obtener los datos', err);
+        res.status(500).json({ error: 'Database error' });
+    }
+});
+
+router.get('/mapa/areasInst', async (req, res) => {
+    try {
+        const result = await consultar.capa_areas();
+        res.send(result);
     } catch (err) {
         console.error('Error al obtener los datos', err);
         res.status(500).json({ error: 'Database error' });
