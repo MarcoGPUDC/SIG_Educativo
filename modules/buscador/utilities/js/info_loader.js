@@ -21,7 +21,6 @@ async function completarDatosInstitucion() {
         return response.json(); // Convierte la respuesta en formato JSON
     })
     .then(data => {
-        console.log(data);
         //datos institucion
         document.getElementById('cabecera').innerText += ` ${data.numero}`;
         document.getElementById('cueanexoinfoadicional').innerHTML = `${data.cue_anexo}`;
@@ -82,7 +81,44 @@ async function completarDatosInstitucion() {
         console.error('Error:', error);
     });
 
-        };
+    //fetch nuevo
+    fetch(`info/obtenerDatosInfra?num=${id}`)
+    .then(response => {
+        // Maneja la respuesta recibida del servidor
+        if (!response.ok) {
+            throw new Error('Error al obtener los datos');
+        }
+        return response.json(); // Convierte la respuesta en formato JSON
+    })
+    .then(datos => {
+        var data = datos[0]
+        console.log(data);
+        //datos oferta
+        var biblioteca = document.getElementById('bibliotecainfoadicional')
+        var laboratorio = document.getElementById('laboratorioinfoadicional')
+        var informatica = document.getElementById('informaticainfoadicional')
+        var artistica = document.getElementById('artisticainfoadicional')
+        var taller = document.getElementById('tallerinfoadicional')
+        var agua = document.getElementById('aguainfoadicional')
+        var energia = document.getElementById('energiainfoadicional')
+        var internet = document.getElementById('internetinfoadicional')
+        var calefaccion = document.getElementById('calefaccioninfoadicional')
+        data.biblioteca?biblioteca.innerHTML+=data.biblioteca:biblioteca.innerHTML+='No se registra'
+        data.laboratorio?laboratorio.innerHTML+=data.laboratorio:laboratorio.innerHTML+='No se registra'
+        data.informatica?informatica.innerHTML+=data.informatica:informatica.innerHTML+='No se registra'
+        data.artistica?artistica.innerHTML+=data.artistica:artistica.innerHTML+= 'No se registra'
+        data.taller?taller.innerHTML+=data.taller:taller.innerHTML+='No se registra'
+        data.agua?agua.innerHTML+=data.agua:agua.innerHTML+='No se registra'
+        data.energia?energia.innerHTML+=data.energia + '/ ' + data.fuente_energia:energia.innerHTML+='No se registra'
+        data.internet?internet.innerHTML+=data.internet + '/ ' + data.fuente_internet:internet.innerHTML+='No se registra'
+        data.calefaccion?calefaccion.innerHTML+=data.calefaccion: calefaccion.innerHTML+='No se registra'
+            
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
+};
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';

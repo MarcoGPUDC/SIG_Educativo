@@ -96,79 +96,7 @@ var centrarMapaButton = L.easyButton({
 	
 });
 centrarMapaButton.addTo(mymap);
-
-
-/*const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1Ijoic2lnLWUtYWRtaW4iLCJhIjoiY2x3cWd2dXl5MDI2NTJrcHFrajhxbWp5dSJ9.R_tS8eyc4BaaaRY1yd3NZw';
-
-if (!MAPBOX_ACCESS_TOKEN) {
-	console.error('Debes proporcionar un token de acceso válido para Mapbox.');
-}
-var geocoder = L.Control.Geocoder.mapbox('MAPBOX_ACCESS_TOKEN');
-*/
-// Maneja el evento de búsqueda cuando el usuario presiona Enter
-/*document.getElementById('address').addEventListener('keydown', function(event) {
-		
-  if (event.key == 'Enter' && event.target.value.length> 2) {
-	var dirs = document.getElementById('resultados-buscador');
-	dirs.innerHTML = '<p>resultados</p>';
-	dirs.classList.toggle('d-none')
-	var query = event.target.value;
-	//fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${MAPBOX_ACCESS_TOKEN}&types=address`)
-	//fetch(`https://apis.datos.gob.ar/georef/api/direcciones?direccion=${query}&departamento=rawson&provincia=chubut`)
-	//fetch(`https://apis.datos.gob.ar/georef/api/direcciones?provincia=chubut&direccion=${query}&format=jsonv2`)
-	var marcadores = [];
-	fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=jsonv2&addressdetails=1`)
-	.then(response => response.json())
-    .then(results => {
-		console.log(results);
-		//var result = results.direcciones;
-		results.forEach(function(resultado, index) {
-			if (index < 5) {
-				var button = document.createElement('button');
-				button.textContent = `${resultado.address.road}, ${resultado.address.house_number}, ${resultado.address.town}`;
-				button.setAttribute('data-index', index); // Añade el índice como un atributo de datos personalizado
-				var dataAddressValue = JSON.stringify([resultado.lat, resultado.lon]);
-				button.setAttribute('data-address', dataAddressValue);
-				button.setAttribute('class', 'btn')
-				button.addEventListener('click', function() {
-					var dataAddressValue = this.getAttribute('data-address');
-					var latlng = JSON.parse(dataAddressValue);
-					var marker;
-					marker = L.marker(latlng).addTo(mymap)
-					.bindPopup(resultado.address.road + ", " + resultado.address.town)
-					.openPopup();
-					mymap.setView(latlng, 13);
-					marcadores.push(marker);
-					marker.on('dblclick', function() {
-						// Remover el marcador del mapa
-						marker.remove();
-						// Remover la referencia del marcador del array
-						marcadores.splice(marcadores.indexOf(marker), 1);
-					});
-				});
-				dirs.appendChild(button);
-			}
-		});
-		
-	});
-  }
-});
-
-document.addEventListener('click', function(event) {
-	var buscadorDireccion = document.getElementById('buscador-direccion');
-	var resultadosBuscador = document.getElementById('resultados-buscador');
-
-	if (!buscadorDireccion.contains(event.target)) {
-		resultadosBuscador.classList.add('d-none');
-	}
-});*/
-
-
-// Agregar departaentos a mapa 
-
 // Agrega control para ver los datos al pasar el puntero por departamento
-
-
 var infoD = L.control();
 
 // Crear panel de  info
@@ -194,21 +122,6 @@ infoD.update = function(props){
 // Agregar panel a mapa despues del legend
 
 infoD.addTo(mymap); 
-
-//obtener informacion de espacios de trabajo de geoserver
-/*fetch('geoserver/ows?service=WMS&version=1.1.1&request=GetCapabilities')
-  .then(response => response.text())
-  .then(xmlText => {
-    // Procesa el XML aquí para contar las capas
-    // Por ejemplo, usa un parser XML y recorre las etiquetas <Layer>
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlText, "text/xml");
-    const layers = xmlDoc.getElementsByTagName("Layer");
-    console.log(`Número de capas en geoserver: ${layers.length}`);
-  })
-  .catch(error => console.error('Error al obtener las capacidades:', error));*/
-
-
 // Funcion de interaccion del puntero con la capa para resaltar el dapartamento
 
 function highlightFeatureD(e) {
@@ -679,30 +592,6 @@ function mostrarDiv(idcue){
 		botondisplaypoput.innerHTML = "-";	
 	}
 }
-/*
-function closepoput(e, layer) {
-	featureR = e.target.feature;
-	document.getElementById("cueanexoinfoadicional").innerHTML = "<b>Cueanexo: </b><div id='cueanexoinfoadicionale'>" + (featureR.properties.cueanexo?featureR.properties.cueanexo:"No se registra") + "." + "</div>";
-	document.getElementById("calleinfoadicional").innerHTML = "<b>Domicilio: </b><div id='calleinfoadicionale'>" + (featureR.properties.direccion?featureR.properties.direccion:"No se registra") + "." + "</div>";	
-	document.getElementById("funinfoadicional").innerHTML = "<b>Activo/No activo: </b><div id='funinfoadicionale'>" + (featureR.properties.funcion?featureR.properties.funcion:"No se registra") + "." + "</div>";
-	document.getElementById("fnainfoadicional").innerHTML = "<div id='fnainfoadicionale'>" + (featureR.properties.nombre?featureR.properties.nombre:"No se registra.") + " (Nro: " + (featureR.properties.numero?featureR.properties.numero:"No se registra.") + ")" + "</div>";
-	document.getElementById("cod_postalinfoadicional").innerHTML = "<b>CP: </b><div id='cod_postalinfoadicionale'>" + (featureR.properties.cp?featureR.properties.cp:"No se registra") + "." + "</div>";
-	document.getElementById("Localidadinfoadicional").innerHTML = "<b>Localidad: </b><div id='Localidadinfoadicionale'>" + (featureR.properties.localidad?featureR.properties.localidad:"No se registra") + "." + "</div>";
-	document.getElementById("departamentoinfoadicional").innerHTML = "<b>Departamento: </b><div id='departamentoinfoadicionale'>" + (featureR.properties.departamento?featureR.properties.departamento:"No se registra") + "." + "</div>";
-	document.getElementById("amginfoadicional").innerHTML = "<b>Ambito: </b><div id='amginfoadicionale'>" + (featureR.properties.ambito?featureR.properties.ambito:"No se registra") + "." + "</div>";
-	document.getElementById("Regioninfoadicional").innerHTML = "<b>Region: </b><div id='Regioninfoadicionale'>" + (featureR.properties.region?featureR.properties.region:"No se registra") + "." + "</div>";
-	document.getElementById("Modalidadinfoadicional").innerHTML = "<b>Tipo de Educación/Modalidad: </b><div id='Modalidadinfoadicionale'>" + (featureR.properties.modalidad?featureR.properties.modalidad:"No se registra") + "." + "</div>";
-	document.getElementById("Nivelesinfoadicional").innerHTML = "<b>Nivel: </b><div id='Nivelesinfoadicionale'>" + (featureR.properties.nivel?featureR.properties.nivel:"No se registra") + "." + "</div>";
-	document.getElementById("Ofertainfoadicional").innerHTML = "<b>Oferta: </b><div id='Ofertainfoadicionale'>" + (featureR.properties.oferta?featureR.properties.oferta:"No se registra") + "." + "</div>";
-	document.getElementById("Dependenciinfoadicional").innerHTML = "<b>Dependencia: </b><div id='Dependenciinfoadicionale'>" + (featureR.properties.dependencia?featureR.properties.dependencia:"No se registra") + "." + "</div>";
-	document.getElementById("gesinfoadicional").innerHTML = "<b>Sector de Gestión: </b><div id='gesinfoadicionale'>" + (featureR.properties.gestion?featureR.properties.gestion:"No se registra") + "." + "</div>";
-	document.getElementById("telefonoinfoadicional").innerHTML = "<b>Teléfono: </b><div id='telefonoinfoadicionale'>" + (featureR.properties.tel?featureR.properties.tel:"") + "." + "</div>";
-	document.getElementById("emailinfoadicional").innerHTML ="<b>Email: </b><div id='emailinfoadicionale'><a href=mailto:" + (featureR.properties.email?featureR.properties.email:"No se registra") + " '> "  + (featureR.properties.email?featureR.properties.email:"No se registra.") + "</a>" + "</div>";
-	document.getElementById("sitio_webinfoadicional").innerHTML = "<b>Sitio Web:</b><div id='sitio_webinfoadicionale'><a " + (featureR.properties.web && featureR.properties.web != 'Sin información'?"href='"+featureR.properties.web:"") + " ' target='_blank' rel='noopener noreferrer'> "  + (featureR.properties.sitioweb?featureR.properties.sitioweb:"No se registra.") + "</a>" + "</div>";
-	document.getElementById("resp_respnsableinfoadicional").innerHTML = "<b>Responsable: </b><div id='resp_respnsableinfoadicionale'>" + (featureR.properties.responsable?featureR.properties.responsable:"No se registra") + "." + "</div>";
-	document.getElementById("resp_telresponsableinfoadicional").innerHTML = "<b>Tel. del Responsable: </b><div id='resp_telresponsableinfoadicionale'>" + (featureR.properties.tel_resp?featureR.properties.tel_resp:"No se registra") + "." + "</div>";
-  	setTimeout(function(){ layer.closePopup(); }, 20000);  
-}*/
 
 //ventana informativa pequeña
 function onEachFeatureL(feature, layer){
@@ -2151,61 +2040,6 @@ function resetFormFiltro() {
 }
 
 
-
-/*var flexSwitchCheckMatricula = document.getElementById("flexSwitchCheckMatricula")
-flexSwitchCheckMatricula.addEventListener("change", function() {
-	var form = document.getElementById("seleccionardato");
-	var inputs = form.getElementsByTagName('input');
-	if(flexSwitchCheckMatricula.checked == true){	
-		for (var i = 0; i<inputs.length; i++) {
-			if(inputs[i] != flexSwitchCheckMatricula){
-				inputs[i].checked = false;
-				inputs[i].disabled = true;
-			}
-		}
-		document.getElementById("seleccionarfilah").style.display = 'block';
-		document.getElementById("seleccionarcolumnah").style.display = 'block';
-		document.getElementById("colflexSwitchCheckNivel").style.display = 'block';
-		document.getElementById("colfilavacia").style.display = 'none';
-		document.getElementById("colflexSwitchCheckAmbito1").style.display = 'block';
-		document.getElementById("colflexSwitchCheckGestion1").style.display = 'block';
-		document.getElementById("colflexSwitchCheckRegion1").style.display = 'block';
-		document.getElementById("colclovacia1").style.display = 'none';
-		document.getElementById("colclovacia2").style.display = 'none';
-		document.getElementById("colclovacia3").style.display = 'none';
-
-	} else {
-		for (var i = 0; i<inputs.length; i++) {
-			if(inputs[i].disabled = true){
-				inputs[i].checked = false;
-				inputs[i].disabled = false; 
-			}
-		}
-		document.getElementById("seleccionarfilah").style.display = 'none';
-		document.getElementById("seleccionarcolumnah").style.display = 'none';
-		document.getElementById("colflexSwitchCheckNivel").style.display = 'none';
-		document.getElementById("colfilavacia").style.display = 'block';
-		var form = document.getElementById("seleccionarfila");
-		var inputs = form.getElementsByTagName('input');
-		for (var i = 0; i<inputs.length; i++) {
-			inputs[i].checked = false;
-			inputs[i].disabled = false;
-		}
-		document.getElementById("colflexSwitchCheckAmbito1").style.display = 'none';
-		document.getElementById("colflexSwitchCheckGestion1").style.display = 'none';
-		document.getElementById("colflexSwitchCheckRegion1").style.display = 'none';
-		document.getElementById("colclovacia1").style.display = 'block';
-		document.getElementById("colclovacia2").style.display = 'block';
-		document.getElementById("colclovacia3").style.display = 'block';
-		var form = document.getElementById("seleccionarcolumna");
-		var inputs = form.getElementsByTagName('input');
-		for (var i = 0; i<inputs.length; i++) {
-			inputs[i].checked = false;
-			inputs[i].disabled = false;   
-		}
-	}
-
-})*/
 //comportamiento del input "establecimiento" del modal filtro
 var flexSwitchCheckEstablecimiento = document.getElementById("flexSwitchCheckEstablecimiento")
 flexSwitchCheckEstablecimiento.addEventListener("change", function() {
@@ -2259,58 +2093,6 @@ flexSwitchCheckEstablecimiento.addEventListener("change", function() {
 		}
 	}
 })
-/*var flexSwitchCheckUnidades = document.getElementById("flexSwitchCheckUnidades")
-flexSwitchCheckUnidades.addEventListener("change", function() {
-	var form = document.getElementById("seleccionardato");
-	var inputs = form.getElementsByTagName('input');
-	if(flexSwitchCheckUnidades.checked == true){	
-		for (var i = 0; i<inputs.length; i++) {
-			if(inputs[i] != flexSwitchCheckUnidades){
-				inputs[i].checked = false;
-				inputs[i].disabled = true;
-			}
-		}	
-		document.getElementById("seleccionarfilah").style.display = 'block';
-		document.getElementById("seleccionarcolumnah").style.display = 'block';
-		document.getElementById("colflexSwitchCheckNivel").style.display = 'block';
-		document.getElementById("colfilavacia").style.display = 'none';
-		document.getElementById("colflexSwitchCheckAmbito1").style.display = 'block';
-		document.getElementById("colflexSwitchCheckGestion1").style.display = 'block';
-		document.getElementById("colflexSwitchCheckRegion1").style.display = 'block';
-		document.getElementById("colclovacia1").style.display = 'none';
-		document.getElementById("colclovacia2").style.display = 'none';
-		document.getElementById("colclovacia3").style.display = 'none';
-	} else {
-		for (var i = 0; i<inputs.length; i++) {
-			if(inputs[i].disabled = true){
-				inputs[i].checked = false;
-				inputs[i].disabled = false; 
-			}
-		}
-		document.getElementById("seleccionarfilah").style.display = 'none';
-		document.getElementById("seleccionarcolumnah").style.display = 'none';
-		document.getElementById("colflexSwitchCheckNivel").style.display = 'none';
-		document.getElementById("colfilavacia").style.display = 'block';
-		var form = document.getElementById("seleccionarfila");
-		var inputs = form.getElementsByTagName('input');
-		for (var i = 0; i<inputs.length; i++) {
-			inputs[i].checked = false;
-			inputs[i].disabled = false;
-		}
-		document.getElementById("colflexSwitchCheckAmbito1").style.display = 'none';
-		document.getElementById("colflexSwitchCheckGestion1").style.display = 'none';
-		document.getElementById("colflexSwitchCheckRegion1").style.display = 'none';
-		document.getElementById("colclovacia1").style.display = 'block';
-		document.getElementById("colclovacia2").style.display = 'block';
-		document.getElementById("colclovacia3").style.display = 'block';
-		var form = document.getElementById("seleccionarcolumna");
-		var inputs = form.getElementsByTagName('input');
-		for (var i = 0; i<inputs.length; i++) {
-			inputs[i].checked = false;
-			inputs[i].disabled = false;   
-		}
-	}
-})*/
 
 //comportamiento del input "nivel" del modal filtro
 var flexSwitchCheckNivel = document.getElementById("flexSwitchCheckNivel")

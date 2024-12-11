@@ -81,6 +81,18 @@ function busqueda_adicional (id) {
     LEFT JOIN padron.nivel nivel ON ofe.id_nivel = nivel.id_nivel WHERE inst.id_institucion = $1;`,id);
 };
 
+//busca info infraestructura y equipamiento
+function busqueda_adicional_infra (id) {
+    return db.any (`SELECT inst.id_institucion, inst.cue_anexo, equi.biblioteca, equi.laboratorio, equi.informatica, equi.artistica, equi.taller, infra.agua, infra.internet, infra.fuente_internet, infra.energia, infra.fuente_energia, infra.calefaccion FROM padron.institucion inst
+        JOIN padron.equipamiento equi ON equi.id_institucion = inst.id_institucion
+        JOIN padron.infraestructura infra ON infra.id_institucion = inst. id_institucion 
+        WHERE inst.id_institucion = $1;
+        `,id
+    )
+}
+
+
+
 //consultas para visualizar en el mapa
 //info para anexar al popup de las instituciones
 function buscar_info_popup_inst() {
@@ -230,6 +242,7 @@ module.exports = {
     busqueda_simple,
     buscar_info_popup_inst,
     busqueda_adicional,
+    busqueda_adicional_infra,
     buscar_info_supervision,
     buscar_info_delegacion,
     busqueda_simple_todo,
