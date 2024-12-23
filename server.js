@@ -110,7 +110,6 @@ app.use('/', mapInfo);
 const filtroInfo = require('./modules/mapa/models/info_filtro');
 app.use('/', filtroInfo);
 
-
 //RUTAS CRUD DESCOMENTAR CUANDO SE HABILITE EL INICIO DE SESION
 /*const servicios = require('./modules/CRUD/controllers/services.js');
 app.use('/crud/', servicios);
