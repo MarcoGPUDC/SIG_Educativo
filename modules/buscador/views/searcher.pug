@@ -136,7 +136,7 @@ html(lang="es")
                                 <div class="row ">
                                     <div class="form-group col-sm-12">
                                         <div class="form-group">
-                                            <input type="text" name="f-cue" placeholder="Ingresar el CUE-Anexo del establecimiento" class="form-control" id="select-cue" autofocus>
+                                            <input type="text" name="f-cue" placeholder="Ingresar el CUE-Anexo del establecimiento" class="form-control" id="f-select-cueanexoesc" autofocus>
                                             <small id="infoCueAnexo" class="form-text text-muted" style="display: block;"><i class="bi bi-info-circle" ></i> Si existe el CUE-Anexo, se va a agregar al mapa una capa que contiene los datos de su busqueda.</small>
                                             <small id="infoCueAnexoError" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> El CUE-Anexo no es válido</small>
                                             <small id="infoCueAnexoErrorNoExiste" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> El CUE-Anexo no existe</small>
@@ -252,8 +252,13 @@ html(lang="es")
                                         </div>
                                         <div class="form-group col-sm-4">
                                             <label for="buscadorlocalidad">Localidad:</label>
-                                            <input list="f-select-localidadesc" id="buscadorlocalidad" name="buscadorlocalidad" placeholder="Ingrese el número del establecimiento">
+                                            <input list="f-select-localidadesc" id="buscadorlocalidad" name="buscadorlocalidad" placeholder="Ingrese la localidad del establecimiento">
                                             <datalist id="f-select-localidadesc">
+                                            //aca se cargan los elementos "option" desde el js que carga el buscador
+                                            </datalist>
+                                            <label for="buscadordepartamento">Localidad:</label>
+                                            <input list="f-select-departamentoesc" id="buscadordepartamento" name="buscadordepartamento" placeholder="Ingrese el departamento del establecimiento">
+                                            <datalist id="f-select-departamentoesc">
                                             //aca se cargan los elementos "option" desde el js que carga el buscador
                                             </datalist>
                                             <div id="inforegionspinner" class="spinner-border text-primary spinner-border-sm" role="status" style="display: none;">
@@ -313,8 +318,8 @@ html(lang="es")
                                         </div>
                                         <div class="row mt-2">
                                             <div class="form-group col-sm-6">
-                                                <label for="ambitoFormControlSelect">Ámbito</label>
-                                                <select class="form-control form-select form-select-sm" id="ambitoFormControlSelect" name="ambitoFormControlSelect" aria-label=".form-select-sm example">
+                                                <label for="f-select-ambitoesc">Ámbito</label>
+                                                <select class="form-control form-select form-select-sm" id="f-select-ambitoesc" name="ambitoFormControlSelect" aria-label=".form-select-sm example">
                                                     <option selected value="todo">Sin seleccionar</option>
                                                     <option value="rural">Rural</option>
                                                     <option value="urbano">Urbano</option>
