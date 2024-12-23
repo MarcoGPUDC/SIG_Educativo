@@ -1278,7 +1278,7 @@ var mostrarConsultaButton = L.easyButton({
       icon: "<img class='icon' src='icons/search-icon.png' style='width:18px; height:18px;'>",
       title: 'Búsqueda',
       onClick: function(btn, map) {
-        fetch('buscador')
+        fetch('buscador/')
           .then(response => response.text())
           .then(html => {
             // Insertar el HTML obtenido en el cuerpo del modal
