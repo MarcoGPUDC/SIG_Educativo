@@ -56,9 +56,7 @@ function obtenerBoton(cadena) {
     }
 }
 
-function cifrarDato(valor, clave) {
-    return CryptoJS.AES.encrypt(valor, clave).toString();
-}
+
 
 function verInfo(event) {
     var boton = obtenerBoton(event.target.id);

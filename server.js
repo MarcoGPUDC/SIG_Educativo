@@ -1,4 +1,5 @@
 var express = require('express');
+const cors = require('cors');
 var app = express();
 const path = require('path');
 var raiz = 'http://sistemas.chubut.edu.ar/mapa/'
@@ -9,8 +10,6 @@ app.use(express.static(path.join(__dirname,'public')));
 app.use(express.static(path.join(__dirname,'modules')));
 app.use(express.static(path.join(__dirname,'modules','buscador')));
 app.use(express.static(path.join(__dirname,'modules','mapa')));
-//app.use(express.static(path.join(__dirname,'modules','mapoteca')));
-//app.use(express.static(path.join(__dirname,'modules','CRUD')));
 app.use(express.static(path.join(__dirname,'node_modules')));
 app.use(express.json());
 
@@ -30,10 +29,17 @@ app.use('/modules/buscador', express.static(path.join(__dirname, 'modules/buscad
   }
 }));
 
+app.use(cors());
+
 app.use('/geoserver', createProxyMiddleware({
   target: 'http://localhost:8585/geoserver/',
-  changeOrigin: true
+  changeOrigin: true,
+  onError: (err, req, res) => {
+    console.error('Error en el proxy:', err.message);
+    res.status(500).send('Error al conectar con el servidor destino.');
+},
 }));
+
 
 app.use('/public', express.static(path.join(__dirname, 'public'), {
   setHeaders: (res, path) => {
@@ -68,10 +74,8 @@ app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), {
 
 // Configura Pug como motor de plantillas
 app.set('view engine', 'pug');
-app.set('views', [__dirname + '/modules/buscador/views', __dirname + '/modules/CRUD/views']);
-//app.set('views', path.join(__dirname, 'modules', 'buscador', 'views'));
-//app.set('views', path.join(__dirname, 'modules', 'CRUD', 'views'));
-//app.set('views', path.join(__dirname, 'modules', 'buscador'));
+//rutas de donde servise de vistas
+app.set('views', [__dirname + '/modules/buscador/views', __dirname + '/modules/CRUD/views', __dirname + '/']);
 
 app.use('/login', express.static(path.join(__dirname), {
   setHeaders: (res, path) => {
@@ -86,15 +90,16 @@ app.get('/', function(req, res) {
     res.sendFile(__dirname + '/modules/mapa/index.html');
 });
 
-/*app.get('/login', function(req, res) {
-  res.sendFile(__dirname + '/login.html');
-});*/
 
 const informacion_controlador = require('./modules/buscador/controllers/informacion_controlador')
 app.use('/info', informacion_controlador);
 
 const buscador_controlador = require('./modules/buscador/controllers/buscador_controlador');
 app.use('/buscador', buscador_controlador);
+
+//DESCOMENTAR PARA HABILITAR LOG IN
+/*const login_controlador = require('./login_controller');
+app.use('/login', login_controlador);*/
 
 const mapRoutes = require('./modules/mapa/models/info_popup_model');
 app.use('/', mapRoutes);
@@ -105,11 +110,13 @@ app.use('/', mapInfo);
 const filtroInfo = require('./modules/mapa/models/info_filtro');
 app.use('/', filtroInfo);
 
-const servicios = require('./modules/CRUD/controllers/services.js');
+
+//RUTAS CRUD DESCOMENTAR CUANDO SE HABILITE EL INICIO DE SESION
+/*const servicios = require('./modules/CRUD/controllers/services.js');
 app.use('/crud/', servicios);
 
 const crudRoutes = require('./modules/CRUD/controllers/crudController');
-app.use('/crud', crudRoutes);
+app.use('/crud', crudRoutes);*/
 
 /*app.get('/login', (req, res) => {
     const token = req.query.token
@@ -136,6 +143,3 @@ const port = 3005;
 app.listen(port, () => {
     console.log(`Servidor Express escuchando en el puerto ${port}`);
   });
-/*https.createServer(options, app).listen(port, () => {
-    console.log(`Servidor HTTPS Express corriendo en puerto ${port}`)
-});*/

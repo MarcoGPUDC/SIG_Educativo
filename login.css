@@ -6,11 +6,55 @@
 @media (max-width: 1041px){
 }
 
+#recordarButton {
+	width: 250px !important;
+}
+
+#loginFormDiv{
+	height: 350px;
+}
+
+#loginFormDiv input{
+	width: 50%;
+}
+
 .inicio-sesion {
 	margin: 20px;
 	margin-left: 25%;
+	display: block;
 }
 
 .boton-ingreso {
 	margin-left: 40%;
 }
+
+#registrarseForm{
+	display: none;
+	width: 45%;
+	margin-left: 25%;
+	margin-bottom: 10px;
+}
+
+#registrarseForm input{
+	margin-bottom: 10px;
+}
+
+#contraseñaForm{
+	display: none;
+	width: 45%;
+	margin-left: 25%;
+	margin-bottom: 10px;
+}
+
+#contraseñaForm input{
+	margin-bottom: 10px;
+}
+
+#loginButton {
+	display: none;
+}
+
+#cambiarContraDiv {
+	display: none;
+}
+

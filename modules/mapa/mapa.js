@@ -366,8 +366,8 @@ function estilo_region (feature) {
 			
 	};
 
-async function getGeoserverLayer(layer, workspace) {
-	const viewLayer = L.tileLayer.wms("localhost:3005/geoserver/ows", {
+async function getGeoserverLayer(workspace, layer) {
+	const viewLayer = L.tileLayer.wms("http://localhost:3005/geoserver/ows", {
 		layers: `${workspace}:${layer}`,
 		format: 'image/png',
 		transparent: true,	
@@ -379,7 +379,7 @@ async function getGeoserverLayer(layer, workspace) {
 	let nivel = layer.split("_")[1];
 	let dataLayer;
 	try {
-		const geoResponse = await fetch(`localhost:3005/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${workspace}%3A${layer}&maxFeatures=300&outputFormat=application%2Fjson&srsname=EPSG:4326`);
+		const geoResponse = await fetch(`http://localhost:3005/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${workspace}%3A${layer}&maxFeatures=300&outputFormat=application%2Fjson&srsname=EPSG:4326`);
 		const dataGeoJSON = await geoResponse.json();
 		switch (tipo) {
 			case "regiones":
@@ -402,6 +402,7 @@ async function getGeoserverLayer(layer, workspace) {
 				}).addTo(mymap);
 				break;
 			default:
+					(tipo)?tipo = 'establecimientos': tipo == tipo;
 					dataLayer = createLayer(dataGeoJSON, tipo, (nivel)?nivel:'')
 					dataLayer.addTo(mymap);
 				break;
@@ -600,11 +601,11 @@ function onEachFeatureL(feature, layer){
   		"<h6 style='color:#0d6efd'>"+ (feature.properties.nombre?feature.properties.nombre:"No se registra") + "</h6>" +
 	 	"<h6> Información General</h6>" + 
 	 	"<table>"+
-		"<tr><td><b>CUE - Anexo:</b> "+ (feature.properties.cueanexo?feature.properties.cueanexo:"No se registra") + "</td></tr>"+
+		"<tr><td><b>CUE - Anexo:</b> "+ (feature.properties.cue_anexo?feature.properties.cue_anexo:"No se registra") + "</td></tr>"+
 		"<tr><td><b>Número:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") + "</td></tr>" + 
 		"<tr><td><b>Región:</b> "+ (feature.properties.region?feature.properties.region:"No se registra") + "</td></tr>" +
 		"<tr><td><b>Localidad:</b> "+ (feature.properties.localidad?formatoNombre(feature.properties.localidad):"No se registra") + "</td></tr>" +
-		"<tr><td><b>Dirección:</b> "+ (feature.properties.direccion?feature.properties.direccion:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Dirección:</b> "+ (feature.properties.domicilio?feature.properties.domicilio:"No se registra") + "</td></tr>" +
 		"<tr><td><b>Nivel:</b> "+ (feature.properties.nivel?feature.properties.nivel:"No se registra") + "</td></tr>" +
 		"</table>" +
 		"<h6 class='mt-3'> Información de Contacto</h6>" + 

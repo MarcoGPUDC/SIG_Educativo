@@ -225,6 +225,21 @@ function modificar_oferta (id, nivel, modalidad){
     })
 }
 
+//Inicio de sesion
+function verificar_usuario (username){
+    return db.any('SELECT * FROM usuario.login log WHERE log.usuario = $1 AND log.contra = $2;', username)
+}
+
+function registrar_usuario (rol,nombre,apellido,usuario,contraseña){
+    var idUser = db.any(`INSERT INTO usuario.users (id_rol, nombre, apellido) VALUES ($1, $2, $3) RETURNING id;`, [rol,nombre,apellido]);
+    console.log(idUser);
+    db.none('INSERT INTO usuario.login (id_usuario, usuario, contra) VALUES ($1, $2, $3);',[idUser, usuario, contraseña]);
+}
+
+function cambiar_contra (contraseña){
+    db.tx( t => {
+        t.none(`UPDATE usuario.login (contra) VALUES ($1)`, contraseña);
+})}
 
 
 module.exports = {
@@ -262,5 +277,8 @@ module.exports = {
     cargar_oferta,
     borrar_institucion,
     modificar_institucion,
-    modificar_oferta
+    modificar_oferta,
+    verificar_usuario,
+    registrar_usuario,
+    cambiar_contra
 };

@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Iniciar Sesion</title>
+		<link href="login.css" rel="stylesheet" type="text/css">
+		<link href="public/css/bootstrap-4.4.1.css" rel="stylesheet" type="text/css">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<script src="login.js"></script>
+	</head>
+	<header>
+	<img src="/mapoteca/utilities/img/top-bar-top-2024.png" class="w-100" alt=""/>
+		<div class="row">
+			<div class="col-5 float-left">
+				<img src="modules/mapa/icons/logo_pestaña.png" alt="" height="50"/>
+			</div>
+			<div class="col mt-4">
+			<div class="btn-group dropstart border border-primary float-right mr-2">
+				<img class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="/mapoteca/utilities/img/030-menu.png" width="20" height="20" alt=""/>
+			</div>
+			</div>
+		</div>
+	</header>
+	<body>
+		<div id="loginFormDiv">
+			<div class="inicio-sesion" id="loginForm">
+				<div class="mb-3">
+					<label for="email" class="form-label">Direccion de correo</label>
+					<input type="email" class="form-control" id="email" placeholder="ejemplo@email.com">
+				</div>
+				<div class="mb-3">
+					<label for="password" class="form-label">Contraseña</label>
+					<input type="password" class="form-control" id="password" placeholder="****************">
+				</div>
+				<div class="mb-3">
+					<div class="form-check">
+						<input type="checkbox" class="form-check-input" id="recordarButton">
+						<label class="form-check-label" for="recordarButton">Recordarme</label>
+					</div>
+				</div>
+				<button type="button" class="btn btn-primary boton-ingreso" onclick="logIn()">Ingresar</button>
+				<p id="message" style="color: red;"></p>
+			</div>
+			<div id="registrarseForm">
+				<label for="registroNombre">Nombre</label>
+				<input type="text" id="registroNombre" placeholder="Indique su nombre"><br>
+				<label for="registroApellido">Apellido</label>
+				<input type="text" id="registroApellido" placeholder="Indique su apellido"><br>
+				<label for="registroEmail">Email</label>
+				<input type="text" id="registroEmail" placeholder="Indique su email"><br>
+				<label for="registroRol">Rol</label>
+				<input type="text" id="registroRol" placeholder="Indique su Rol"><br>
+				<label for="registroContra">Contraseña</label>
+				<input type="text" id="registroContra" placeholder="Indique una contraseña"><br>
+				<label for="registroContraRep">Repita su contraseña</label>
+				<input type="text" id="registroContraRep" placeholder="Repita la contraseña anterior"><br>
+				<button type="button" class="btn btn-primary" onclick="crearUsuario()">Crear Usuario</button>
+			</div>
+			<div id="contraseñaForm">
+				<div id="checkEmailDiv">
+					<label for="contraEmail">Correo electronico</label>
+					<input type="email" id="contraEmail" placeholder="Indique el correo de la cuenta a recuperar"><br>
+					<button type="button" class="btn btn-primary" id="checkEmailButton" onclick="checkEmail()">Verificar</button>
+				</div>
+				<div id="cambiarContraDiv">
+					<label for="registroNuevaContra">Nueva contraseña</label>
+					<input type="text" id="registroNuevaContra" placeholder="Indique una nueva contraseña"><br>
+					<label for="registroContraRep">Repita su nueva contraseña</label>
+					<input type="text" id="registroContraRep" placeholder="Repita la contraseña anterior"><br>
+					<button type="button" class="btn btn-primary" id="cambiarContraButton" onclick="cambiarContra()">Cambiar contraseña</button>
+				</div>
+			</div>
+		</div>
+		<button type="button" id="loginButton" class="btn btn-primary" onclick="loginFormSelect(this.id)">Iniciar sesion</button>
+		<button type="button" id="registrarseButton" class="btn btn-primary" onclick="loginFormSelect(this.id)">Registrarse</button>
+		<button type="button" id="contraseñaButton"class="btn btn-primary" onclick="loginFormSelect(this.id)">Cambiar contraseña</button>
+	</body>
+	<footer>
+		<div class="row">
+			<div class="col-lg-4">
+				<img src="/mapoteca/utilities/img/marca-ministerio-gob-2024-pie.png" class="w-75" alt="" style="margin-left: 500px;"/>
+			</div>
+			<div class="col-lg-4"></div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3">	
+			</div>
+			<div class="col-lg-6 pt-3">
+				<p style="color:#726868;padding-bottom:15px;font-size:14px;text-align: center">© 2024 · Ministerio de Educación del Chubut<br>Sitio web desarrollado por el area de SIG Educativo - Dirección de estadisticas</p>
+			</div>
+		</div>
+		</div>
+	</footer>
+</html>
+
