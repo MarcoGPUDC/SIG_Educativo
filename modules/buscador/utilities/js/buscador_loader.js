@@ -6,7 +6,7 @@ async function obtenerDatosBuscador() {
     if (datosBuscador) {
         return Promise.resolve(datosBuscador);
     } else {
-        return fetch('buscador/cargaDatos')
+        return fetch('/buscador/cargaDatos')
             .then(response => {
                 // Maneja la respuesta recibida del servidor
                 if (!response.ok) {
