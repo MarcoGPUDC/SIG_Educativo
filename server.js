@@ -51,7 +51,7 @@ app.use('/public', express.static(path.join(__dirname, 'public'), {
   }
 }));
 
-app.use('/crud', express.static(path.join(__dirname, 'modules', 'CRUD'), {
+app.use('/abm', express.static(path.join(__dirname, 'modules', 'ABM'), {
   setHeaders: (res, path) => {
     if (path.endsWith('.css')) {
       res.setHeader('Content-Type', 'text/css');
@@ -75,7 +75,7 @@ app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), {
 // Configura Pug como motor de plantillas
 app.set('view engine', 'pug');
 //rutas de donde servise de vistas
-app.set('views', [__dirname + '/modules/buscador/views', __dirname + '/modules/CRUD/views', __dirname + '/']);
+app.set('views', [__dirname + '/modules/buscador/views', __dirname + '/modules/ABM/views', __dirname + '/']);
 
 app.use('/login', express.static(path.join(__dirname), {
   setHeaders: (res, path) => {
@@ -110,12 +110,12 @@ app.use('/', mapInfo);
 const filtroInfo = require('./modules/mapa/models/info_filtro');
 app.use('/', filtroInfo);
 
-//RUTAS CRUD DESCOMENTAR CUANDO SE HABILITE EL INICIO DE SESION
-/*const servicios = require('./modules/CRUD/controllers/services.js');
-app.use('/crud/', servicios);
+//RUTAS ABM DESCOMENTAR CUANDO SE HABILITE EL INICIO DE SESION
+/*const servicios = require('./modules/ABM/controllers/services.js');
+app.use('/abm/', servicios);
 
-const crudRoutes = require('./modules/CRUD/controllers/crudController');
-app.use('/crud', crudRoutes);*/
+const abmRoutes = require('./modules/ABM/controllers/abmController');
+app.use('/abm', abmRoutes);*/
 
 /*app.get('/login', (req, res) => {
     const token = req.query.token
