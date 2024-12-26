@@ -194,7 +194,7 @@ function cueAnexoSelect() {
 	var infoCueAnexoErrorNoExiste = document.getElementById("infoCueAnexoErrorNoExiste");
 	var infoCueNombreRepetidoFormControlSelect = document.getElementById("infoCueNombreRepetidoFormControlSelect");
 	infoCueNombreRepetidoFormControlSelect.style.display = 'none';
-	var fcue = document.getElementById("select-cue");
+	var fcue = document.getElementById("f-select-cueanexoesc");
 	var miSelect = fcue.value;
     var fcueescitem = document.getElementById("f-cueesc-item");
     var coincidencias = 0;
