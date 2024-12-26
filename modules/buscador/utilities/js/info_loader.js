@@ -103,7 +103,7 @@ async function completarDatosInstitucion() {
         var energia = document.getElementById('energiainfoadicional');
         var internet = document.getElementById('internetinfoadicional');
         var calefaccion = document.getElementById('calefaccioninfoadicional');
-        data.biblioteca?biblioteca.innerHTML+=data.biblioteca:biblioteca.innerHTML+='No se registra';
+        data.biblioteca != 'NULL'?biblioteca.innerHTML+=data.biblioteca:biblioteca.innerHTML+='No se registra';
         data.laboratorio?laboratorio.innerHTML+=data.laboratorio:laboratorio.innerHTML+='No se registra';
         data.informatica?informatica.innerHTML+=data.informatica:informatica.innerHTML+='No se registra';
         data.artistica?artistica.innerHTML+=data.artistica:artistica.innerHTML+= 'No se registra';
