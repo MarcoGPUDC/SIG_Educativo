@@ -210,7 +210,8 @@ var textLabelR1 = L.marker(posRegiones[0], {
         className: 'text-labels',
         html: '<div>I</div>'
     }),
-    zIndexOffset: -1 
+    zIndexOffset: -1,
+	interactive: false
 });
 baselayer.addLayer(textLabelR1);
 var textLatLngR2 = [-42.340042, -65.70081];  
@@ -219,7 +220,8 @@ var textLabelR2 = L.marker(posRegiones[1], {
         className: 'text-labels',
         html: '<div>II</div>'
     }),
-    zIndexOffset: -1 
+    zIndexOffset: -1,
+	interactive: false
 });
 baselayer.addLayer(textLabelR2);
 var textLatLngR3 = [-43.678353, -70.742548];  
@@ -228,7 +230,8 @@ var textLabelR3 = L.marker(posRegiones[2], {
         className: 'text-labels',
         html: '<div>III</div>'
     }),
-    zIndexOffset: -1 
+    zIndexOffset: -1,
+	interactive: false
 });
 baselayer.addLayer(textLabelR3);
 var textLatLngR4 = [-43.533583, -67.91289];  
@@ -237,7 +240,8 @@ var textLabelR4 = L.marker(posRegiones[3], {
         className: 'text-labels',
         html: '<div>IV</div>'
     }),
-    zIndexOffset: -1 
+    zIndexOffset: -1,
+	interactive: false
 });
 baselayer.addLayer(textLabelR4);
 var textLatLngR5 = [-45.32692, -70.31852];  
@@ -246,7 +250,8 @@ var textLabelR5 = L.marker(posRegiones[4], {
         className: 'text-labels',
         html: '<div>V</div>'
     }),
-    zIndexOffset: -1 
+    zIndexOffset: -1,
+	interactive: false
 });
 baselayer.addLayer(textLabelR5);
 var textLatLngR6 = [-45.339412, -67.964911];  
@@ -255,7 +260,8 @@ var textLabelR6 = L.marker(posRegiones[5], {
         className: 'text-labels',
         html: '<div>VI</div>'
     }),
-    zIndexOffset: -1 
+    zIndexOffset: -1,
+	interactive: false
 });
 baselayer.addLayer(textLabelR6);
 
@@ -297,7 +303,7 @@ info.update = function(props){
                             	//"</td></tr><tr><td><b>Población:</b> "+ (props.poblacion?props.poblacion:"Sin Localizaciones")+
                             	"</td></tr><tr><td><b>Superficie:</b> "+ (props.superficie?props.superficie:"Sin Localizaciones")+
                             	"</td></tr></table>"
-                            : "<br>Pase el puntero por una región");
+                            : "<br>Haga click en una región");
 };
 
 // Agregar panel a mapa despues del legend
@@ -337,7 +343,7 @@ function zoomToFeature(e){
 function onEachFeature(feature, layer){
     layer.on({
         mouseover: highlightFeature,
-        contextmenu: resetHighlight,
+        mouseout: resetHighlight,
         click: highlightContent
     });
 }

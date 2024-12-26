@@ -28,13 +28,10 @@ datosBuscador = obtenerDatosBuscador();
 
 function cargarDatosBuscador() {
     datosBuscador.then((data) => {
-        console.log(data);
         data.forEach(result => {   
             //Doble for para recorrer la matriz de datos generada por "buscador_loader"
             var filtro = result.clave; //obtiene el nombre de la clave para indicar en que formulario agregar las opciones
-            console.log(filtro);
             var select = document.getElementById(`f-select-${result.clave}esc`); //se inyecta la clave para seleccionar el formulario
-            console.log(select);
             if(filtro != 'id'){
                 result.valor.forEach(element => {
                     const option = document.createElement('option');
@@ -88,6 +85,7 @@ function nroSelect(){
     var fnumeroescitem = document.getElementById("f-numeroesc-item");
     var numeroesc = document.getElementById("select-numero");
     var miSelect = numeroesc.value;
+    
     if(isNa(miSelect)){
         coincidencias = 0;
         fnumeroescitem.innerHTML = " ";
