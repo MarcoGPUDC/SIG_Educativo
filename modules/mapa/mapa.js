@@ -315,6 +315,10 @@ function highlightFeature(e) {
         dashArray: '',
         fillOpacity: 0.3
     });
+}
+
+function highlightContent(e) {
+    var layer = e.target;
     info.update(layer.feature.properties);
 }
 
@@ -333,8 +337,8 @@ function zoomToFeature(e){
 function onEachFeature(feature, layer){
     layer.on({
         mouseover: highlightFeature,
-        mouseout: resetHighlight,
-        click: zoomToFeature
+        contextmenu: resetHighlight,
+        click: highlightContent
     });
 }
 
