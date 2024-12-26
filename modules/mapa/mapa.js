@@ -958,8 +958,8 @@ function getEstablecimientosLayers() {
 			todosLayers.push([[formProfLayer],[{label: 'ETP', url: 'form_prof', legend:'modalidad'}]]);//5
 			todosLayers.push([[domHospLayer],[{label: 'Domiciliaria/Hospitalaria', url: 'dom_hosp', legend:'modalidad'}]]);//6	
 			todosLayers.push([[artisticaLayer],[{label: 'Artística', url: 'artistica', legend:'modalidad'}]]);//7
-			todosLayers.push([[epjaLayer],[{label: 'Escuela Permanente p/ Jóvenes y Adultos', url: 'epja', legend:'modalidad'}]]);//8
-			todosLayers.push([[contextoLayer],[{label: 'Contexto de encierro', url: 'contexto', legend:'modalidad'}]]);//9
+			todosLayers.push([[epjaLayer],[{label: 'EPJA', url: 'epja', legend:'modalidad'}]]);//8
+			todosLayers.push([[contextoLayer],[{label: 'Contexto de Encierro', url: 'contexto', legend:'modalidad'}]]);//9
 			todosLayers.push([[ruralLayer],[{label: 'Rural', url: 'rurales', legend:'modalidad'}]]);//10
 			todosLayers.push([[eibLayer],[{label: 'EIB', url: 'eib', legend:'modalidad'}]]);//11
 			todosLayers.push([[otrosServLayer],[{label: 'Otros Servicios Educativos', url: 'comp', legend:'modalidad'}]]);//12
