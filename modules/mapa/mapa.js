@@ -864,6 +864,7 @@ function getEstablecimientosLayers() {
 			var dataEPJA = [];
 			var dataContexto = [];
 			var dataRural = [];
+			var dataEIB = [];
 			data.features.forEach(escuelas => {
 				
 				
@@ -917,6 +918,9 @@ function getEstablecimientosLayers() {
 					case (escuelas.properties.modalidad == 'Rural' && escuelas.properties.funcion == 'Activo'):
 						dataRural.push(escuelas);
 						break;
+					case (escuelas.properties.modalidad == 'EIB' && escuelas.properties.funcion == 'Activo'):
+						dataEIB.push(escuelas);
+						break;
 					//lo que no cae en lo anterior cae en otros servicios educativos
 					case (escuelas.properties.modalidad == 'Otros servicios educativos' && escuelas.properties.funcion == 'Activo'):
 						dataOtrosServ.push(escuelas);
@@ -944,19 +948,21 @@ function getEstablecimientosLayers() {
 			var epjaLayer = createLayer(dataEPJA,'establecimientos', 'epja')
 			var contextoLayer = createLayer(dataContexto, 'establecimientos', 'contexto')
 			var ruralLayer = createLayer(dataRural, 'establecimientos', 'rurales')
+			var eibLayer = createLayer(dataEIB, 'establecimientos', 'eib')
 			// agrega las capas a un array de capas para guardar las referencias
-			todosLayers.push([[inicialLayer],[{label: 'Ed. Inicial', url: 'inicial', legend:'nivel'}]]);//0
-			todosLayers.push([[primariaLayer],[{label: 'Ed. Primaria', url: 'primaria', legend:'nivel'}]]);//1
-			todosLayers.push([[secundariaLayer],[{label: 'Ed. Secundaria', url: 'sec', legend:'nivel'}]]);//2
+			todosLayers.push([[inicialLayer],[{label: 'Inicial', url: 'inicial', legend:'nivel'}]]);//0
+			todosLayers.push([[primariaLayer],[{label: 'Primaria', url: 'primaria', legend:'nivel'}]]);//1
+			todosLayers.push([[secundariaLayer],[{label: 'Secundaria', url: 'sec', legend:'nivel'}]]);//2
 			todosLayers.push([[SNULayer],[{label: 'Superior No Universitario', url: 'superior', legend:'nivel'}]]);//3
-			todosLayers.push([[especialLayer],[{label: 'Ed. Especial', url: 'especial', legend:'modalidad'}]]);//4
-			todosLayers.push([[formProfLayer],[{label: 'Ed. Técnico Profesional', url: 'form_prof', legend:'modalidad'}]]);//5
-			todosLayers.push([[domHospLayer],[{label: 'Ed. Domiciliaria/Hospitalaria', url: 'dom_hosp', legend:'modalidad'}]]);//6	
+			todosLayers.push([[especialLayer],[{label: 'Especial', url: 'especial', legend:'modalidad'}]]);//4
+			todosLayers.push([[formProfLayer],[{label: 'ETP', url: 'form_prof', legend:'modalidad'}]]);//5
+			todosLayers.push([[domHospLayer],[{label: 'Domiciliaria/Hospitalaria', url: 'dom_hosp', legend:'modalidad'}]]);//6	
 			todosLayers.push([[artisticaLayer],[{label: 'Artística', url: 'artistica', legend:'modalidad'}]]);//7
 			todosLayers.push([[epjaLayer],[{label: 'Escuela Permanente p/ Jóvenes y Adultos', url: 'epja', legend:'modalidad'}]]);//8
 			todosLayers.push([[contextoLayer],[{label: 'Contexto de encierro', url: 'contexto', legend:'modalidad'}]]);//9
-			todosLayers.push([[ruralLayer],[{label: 'Rural', url: 'rurales', legend:'modalidad'}]]);//9
-			todosLayers.push([[otrosServLayer],[{label: 'Otros Servicios Educativos', url: 'comp', legend:'modalidad'}]]);//10
+			todosLayers.push([[ruralLayer],[{label: 'Rural', url: 'rurales', legend:'modalidad'}]]);//10
+			todosLayers.push([[eibLayer],[{label: 'EIB', url: 'eib', legend:'modalidad'}]]);//11
+			todosLayers.push([[otrosServLayer],[{label: 'Otros Servicios Educativos', url: 'comp', legend:'modalidad'}]]);//12
             return todosLayers;
         })
         .catch(error => {
