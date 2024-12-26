@@ -105,13 +105,13 @@ async function completarDatosInstitucion() {
         var calefaccion = document.getElementById('calefaccioninfoadicional');
         data.biblioteca != 'NULL'?biblioteca.innerHTML+=data.biblioteca:biblioteca.innerHTML+='No se registra';
         data.laboratorio != 'NULL'?laboratorio.innerHTML+=data.laboratorio:laboratorio.innerHTML+='No se registra';
-        data.informatica?informatica.innerHTML+=data.informatica:informatica.innerHTML+='No se registra';
-        data.artistica?artistica.innerHTML+=data.artistica:artistica.innerHTML+= 'No se registra';
-        data.taller?taller.innerHTML+=data.taller:taller.innerHTML+='No se registra';
-        data.agua?agua.innerHTML+=data.agua:agua.innerHTML+='No se registra';
-        data.energia?energia.innerHTML+=data.energia + '/ ' + data.fuente_energia:energia.innerHTML+='No se registra';
-        data.internet?internet.innerHTML+=data.internet + '/ ' + data.fuente_internet:internet.innerHTML+='No se registra';
-        data.calefaccion?calefaccion.innerHTML+=data.calefaccion: calefaccion.innerHTML+='No se registra';
+        data.informatica != 'NULL'?informatica.innerHTML+=data.informatica:informatica.innerHTML+='No se registra';
+        data.artistica != 'NULL'?artistica.innerHTML+=data.artistica:artistica.innerHTML+= 'No se registra';
+        data.taller != 'NULL'?taller.innerHTML+=data.taller:taller.innerHTML+='No se registra';
+        data.agua != 'NULL'?agua.innerHTML+=data.agua:agua.innerHTML+='No se registra';
+        data.energia != 'NULL'?energia.innerHTML+=data.energia + '/ ' + data.fuente_energia:energia.innerHTML+='No se registra';
+        data.internet != 'NULL'?internet.innerHTML+=data.internet + '/ ' + data.fuente_internet:internet.innerHTML+='No se registra';
+        data.calefaccion != 'NULL'?calefaccion.innerHTML+=data.calefaccion: calefaccion.innerHTML+='No se registra';
             
     })
     .catch(error => {
