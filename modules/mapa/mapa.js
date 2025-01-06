@@ -485,7 +485,7 @@ async function getRegiones() {
 
 function closepoputNL(e) {
     var layer = e.target;
-  	setTimeout(function(){ layer.closePopup(); }, 10000);  
+  	setTimeout(function(){ layer.closePopup(); }, 30000);  
 }
 
 function popup_supervision (feature, layer) {
@@ -627,7 +627,7 @@ function onEachFeatureL(feature, layer){
 		"<tr><td><b>Tel. del Responsable:</b> "+ (feature.properties.tel_resp?feature.properties.tel_resp:"-") + "</td></tr>" +
 		"</table>" +
   		"</div></div>" + (feature.properties.area?"<div id='divBotonArea'></td></tr><tr><td><label for='areaInstMarker'>Mostrar Area</label><input type='checkbox' id='areaInstMarker' value='"+feature.properties.id+"'></input></div>":"</div>") +
-  		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='/sigeducativo/info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
+  		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='./info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
   		"</div>"
   		, {minWidth: 270, maxWidth: 270}
 	);
@@ -654,7 +654,7 @@ function onEachFeatureEst(feature, layer){
 		"<tr><td><b>Tel. del Responsable:</b> "+ (feature.properties.resp_tel?feature.properties.resp_tel:"-") + "</td></tr>" +
 		"</table>" +
   		"</div></div>" +
-  		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='/sigeducativo/info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
+  		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='./info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
   		"</div>"
   		, {minWidth: 270, maxWidth: 270}
 	);
@@ -671,25 +671,50 @@ function onEachFeatureS (feature, layer) {
 		"<tr><td><b>Localidad:</b> "+ (feature.properties.localidad?formatoNombre(feature.properties.localidad):"No se registra") + "</td></tr>" +
 		"<tr><td><b>Dirección:</b> "+ (feature.properties.direccion?feature.properties.direccion:"No se registra") + "</td></tr>" +
 		"</table>" +
-		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='/sigeducativo/info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
+		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='./info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
 		"</div>", {minWidth: 270, maxWidth: 270}
 		);
 	}
 
-	function onEachFeatureO (feature, layer) {
-		layer.bindPopup(	
-			"<div class='p-3'>"+
-			"<h6 style='color:#0d6efd'>"+ (feature.properties.nombre?feature.properties.nombre:"No se registra") + "</h6>" +
-			"<h6> Información General</h6>" + 
-			 "<table>"+
-			"<tr><td><b>Número:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") + "</td></tr>" +
-			"<tr><td><b>Nivel:</b> "+ (feature.properties.nivel?feature.properties.nivel:"No se registra") + "</td></tr>" +
-			"<tr><td><b>Modalidad:</b> "+ (feature.properties.modalidad?feature.properties.modalidad:"No se registra") + "</td></tr>" +
-			"</table>" +
-			"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='/sigeducativo/info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
-			"</div>", {minWidth: 270, maxWidth: 270}
-			);
-		}
+function onEachFeatureO (feature, layer) {
+	layer.bindPopup(	
+		"<div class='p-3'>"+
+		"<h6 style='color:#0d6efd'>"+ (feature.properties.nombre?feature.properties.nombre:"No se registra") + "</h6>" +
+		"<h6> Información General</h6>" + 
+			"<table>"+
+		"<tr><td><b>Número:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Nivel:</b> "+ (feature.properties.nivel?feature.properties.nivel:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Modalidad:</b> "+ (feature.properties.modalidad?feature.properties.modalidad:"No se registra") + "</td></tr>" +
+		"</table>" +
+		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='./info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
+		"</div>", {minWidth: 270, maxWidth: 270}
+		);
+	}
+
+function popup_equip_infra (feature, layer) {
+	layer.bindPopup(
+		"<div class='p-3' id='popup_equi_infra'><h5 style='color:#0d6efd'>"+ (feature.properties.nombre?feature.properties.nombre:"No se registra")+
+		"</h5><table><tr><td><h6><b>Infraestructura</b></h6></td></tr><tr>" +
+		"<td colspan='2'><b>Numero:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") + "</td></tr>" + 
+		"<tr><td colspan='2'>"+ (feature.properties.agua == 'SI'?"<img src="+"./icons/agua.svg"+">":"<img src="+"./icons/aguaNo.png"+">") + "</td></tr>" +
+		"<tr><td>"+ (feature.properties.internet == 'SI'?"<img src="+"./icons/internet.svg"+">":"<img src="+"./icons/internetNo.png"+">") + "</td> " +
+		"<td><b>Proovedor:</b> "+ (feature.properties.fuente_internet?feature.properties.fuente_internet:"No indica"+">") + "</td></tr>" + 
+		"<tr><td>"+ (feature.properties.energia == 'SI'?"<img src="+"./icons/energia.png"+">":"<img src="+"./icons/energiaNo.png"+">")  + "</td>" +
+		"<td><b>Proovedor:</b> " + (feature.properties.fuente_energia?feature.properties.fuente_energia:"No indica"+">")  + "</td></tr>" +
+		"<tr><td>"+ (feature.properties.gas == 'SI'?"<img src="+"./icons/calefaccion.svg"+">":"<img src="+"./icons/calefaccionNo.png"+">") + "</td>" +
+		"<tr><td colspan='2'><h6><b>Equipamiento</b></h6></td></tr>" +
+		"<tr><td colspan='2'>" + (feature.properties.biblioteca == 'SI'?"<img src="+"./icons/biblioteca.svg"+">":"<img src="+"./icons/bibliotecaNo.png"+">") +
+		(feature.properties.laboratorio == 'SI'?"<img src="+"./icons/laboratorio.svg"+">":"<img src="+"./icons/laboratorioNo.png"+">") +
+		(feature.properties.informatica == 'SI'?"<img src="+"./icons/informatica.svg"+">":"<img src="+"./icons/informaticaNo.png"+">") +
+		(feature.properties.artistica == 'SI'?"<img src="+"./icons/artistica.svg"+">":"<img src="+"./icons/artisticaNo.png"+">") +
+		(feature.properties.taller == 'SI'?"<img src="+"./icons/taller.svg"+">":"<img src="+"./icons/tallerNo.png"+">") +
+		"</td></tr></table></div>",
+		{minWidth: 270, maxWidth: 270}
+	);
+	layer.on({
+		popupopen : closepoputNL,
+	});
+}
 
 function showZoom(){
 	var zoom = mymap.getZoom();
@@ -844,6 +869,33 @@ function getDepartamentos() {
 		return capaDepartamentos
 	})
 	}
+
+	function getEquiInfra() {
+		return fetch('mapa/setEquiInfraMarkers')
+		.then(response => response.json())
+		.then(institucion => {
+			capaEquiInfra = createCluster('establecimientos', 'semaforo')
+			var marker = L.geoJSON(institucion.geoJSON.data, {
+				pointToLayer: (feature, latlng) => {
+					return L.marker(latlng,
+						{
+							icon: L.icon({
+								iconUrl:`./icons/establecimientos_semaforo_${feature.properties.completitud}.svg`,
+								iconSize: [22,22],
+								iconAnchor: [3,3]
+							})
+						}
+					)
+				},
+				onEachFeature: popup_equip_infra
+				
+			})
+			capaEquiInfra.addLayer(marker);
+			capaEquiInfra.addTo(mymap);
+			renderizarSemaforo(institucion.completitud.data.promedio_completo);
+			return capaEquiInfra
+		})
+		}	
 
 // Función para obtener las capas por nivel y modalidad
 function getEstablecimientosLayers() {

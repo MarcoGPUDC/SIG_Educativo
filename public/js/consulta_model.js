@@ -232,7 +232,6 @@ function verificar_usuario (username){
 
 function registrar_usuario (rol,nombre,apellido,usuario,contraseña){
     var idUser = db.any(`INSERT INTO usuario.users (id_rol, nombre, apellido) VALUES ($1, $2, $3) RETURNING id;`, [rol,nombre,apellido]);
-    console.log(idUser);
     db.none('INSERT INTO usuario.login (id_usuario, usuario, contra) VALUES ($1, $2, $3);',[idUser, usuario, contraseña]);
 }
 
@@ -241,6 +240,43 @@ function cambiar_contra (contraseña){
         t.none(`UPDATE usuario.login (contra) VALUES ($1)`, contraseña);
 })}
 
+
+//consulta capa equipamiento e infraestructura
+function buscar_info_equi_infra(){
+    return db.any(`SELECT *, (CASE WHEN biblioteca IS NOT NULL AND biblioteca = 'SI' THEN 1 ELSE 0 END+
+		CASE WHEN laboratorio IS NOT NULL AND laboratorio = 'SI' THEN 1 ELSE 0 END+
+        CASE WHEN informatica IS NOT NULL AND informatica = 'SI' THEN 1 ELSE 0 END+
+        CASE WHEN artistica IS NOT NULL AND artistica = 'SI' THEN 1 ELSE 0 END+
+        CASE WHEN taller IS NOT NULL AND taller = 'SI' THEN 1 ELSE 0 END+
+        CASE WHEN agua IS NOT NULL AND agua = 'SI' THEN 1 ELSE 0 END+
+        CASE WHEN internet IS NOT NULL AND internet = 'SI' THEN 1 ELSE 0 END+
+		CASE WHEN energia IS NOT NULL AND energia = 'SI' THEN 1 ELSE 0 END+
+        CASE WHEN calefaccion IS NOT NULL AND calefaccion = 'SI' THEN 1 ELSE 0 END
+        )::integer AS completitud FROM padron.v_establec_base_equi_infra;`)
+}
+function buscar_porcentaje_equi_infra(){
+    return db.one(`SELECT TRUNC(AVG(completitud)) AS promedio_completo
+    FROM (SELECT (
+        (CASE WHEN biblioteca IS NOT NULL AND biblioteca = 'SI' THEN 1 ELSE 0 END
+        +
+        CASE WHEN laboratorio IS NOT NULL AND laboratorio = 'SI' THEN 1 ELSE 0 END
+        +
+        CASE WHEN informatica IS NOT NULL AND informatica = 'SI' THEN 1 ELSE 0 END
+        +
+        CASE WHEN artistica IS NOT NULL OR artistica = 'SI' THEN 1 ELSE 0 END
+        +
+        CASE WHEN taller IS NOT NULL AND taller = 'SI' THEN 1 ELSE 0 END
+        +
+        CASE WHEN agua IS NOT NULL AND agua = 'SI' THEN 1 ELSE 0 END
+        +
+        CASE WHEN internet IS NOT NULL AND internet = 'SI' THEN 1 ELSE 0 END
+        +
+        CASE WHEN energia IS NOT NULL AND energia = 'SI' THEN 1 ELSE 0 END
+        +
+        CASE WHEN calefaccion IS NOT NULL AND calefaccion = 'SI' THEN 1 ELSE 0 END
+        )::double precision / 9)*100 AS completitud FROM padron.v_establec_base_equi_infra) subquery;
+    `)
+}
 
 module.exports = {
     buscar_todos_numero,
@@ -280,5 +316,7 @@ module.exports = {
     modificar_oferta,
     verificar_usuario,
     registrar_usuario,
-    cambiar_contra
+    cambiar_contra,
+    buscar_info_equi_infra,
+    buscar_porcentaje_equi_infra
 };

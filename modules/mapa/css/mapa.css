@@ -395,3 +395,23 @@ html, body{
     margin-left: 5px;
     display: inline-block!important;
   }
+
+#popup_equi_infra{
+    width: auto;
+}
+
+#popup_equi_infra img{
+    height: 25px;
+    width: 25px;
+    margin: 5px;
+    text-align: center;
+}
+
+#semaforoEquiInfra * {
+    position: fixed;
+    bottom: -100px;
+    left: 35%;
+    z-index: 900;
+    margin: 0;
+    padding: 0;
+}

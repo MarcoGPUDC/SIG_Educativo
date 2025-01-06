@@ -174,5 +174,76 @@ router.get('/mapa/setBiblioMarkers', async (req,res) => {
     }
 });
 
+router.get('/mapa/setEquiInfraMarkers', async (req, res) => {
+    try {
+        const result = await consultar.buscar_info_equi_infra();
+        const completitud = await consultar.buscar_porcentaje_equi_infra();
+        // Verificar los datos obtenidos
+        let geoJSON = {
+            "type": "FeatureCollection",
+            "features": [
+            ]
+          };
+        
+        result.forEach(row => {
+            var estado = row.completitud
+			switch (estado){
+                case 0:
+                case 1:
+                case 2:    
+				case 3:
+						estado = 'critico'
+					break;
+                case 4:
+				case 5:
+						estado = 'bajo'
+					break;
+                case 6:
+				case 7:
+						estado = 'medio'
+					break;
+                case 8:
+				case 9:
+						estado = 'bueno'
+					break;
+				case 9:
+						estado = 'excelente'
+					break;
+			}
+            const geom = JSON.parse(row.geom);
+            var newFeature = {
+                type: "Feature",
+                geometry: geom,
+                properties: {
+                    nombre: row.nombre,
+                    numero: row.numero,
+                    localidad: row.localidad,
+                    agua: row.agua,
+                    internet: row.internet,
+                    fuente_internet: row.fuente_internet,
+                    energia: row.energia,
+                    fuente_energia: row.fuente_energia,
+                    calefaccion: row.calefaccion,
+                    biblioteca: row.biblioteca,
+                    laboratorio: row.laboratorio,
+                    informatica: row.informatica,
+                    artistica: row.artistica,
+                    taller: row.taller,
+                    completitud: estado
+                }
+            };
+           geoJSON.features.push(newFeature) 
+        })
+        res.json({
+            geoJSON: {data: geoJSON},
+            completitud:{data: completitud}
+
+    });
+    } catch (err) {
+        console.error('Error al obtener los datos', err);
+        res.status(500).json({ error: 'Database error' });
+    }
+});
+
 module.exports = router;
 
