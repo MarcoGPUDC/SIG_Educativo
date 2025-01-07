@@ -626,7 +626,7 @@ function onEachFeatureL(feature, layer){
 		"<tr><td><b>Responsable:</b> "+ (feature.properties.responsable?feature.properties.responsable:"") + "</td></tr>" +
 		"<tr><td><b>Tel. del Responsable:</b> "+ (feature.properties.tel_resp?feature.properties.tel_resp:"-") + "</td></tr>" +
 		"</table>" +
-  		"</div></div>" + (feature.properties.area?"<div id='divBotonArea'></td></tr><tr><td><label for='areaInstMarker'>Mostrar Area</label><input type='checkbox' id='areaInstMarker' value='"+feature.properties.id+"'></input></div>":"</div>") +
+  		"</div></div>" + (feature.properties.area?"<div id='divBotonArea'></td></tr><tr><td><label for='areaInstMarker'>Radio Escolar</label><input type='checkbox' id='areaInstMarker' value='"+feature.properties.id+"'></input></div>":"</div>") +
   		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='./info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
   		"</div>"
   		, {minWidth: 270, maxWidth: 270}
@@ -1507,6 +1507,15 @@ function addGuidePrint(){
 		})
 }
 
+var downloadButton = L.easyButton({
+	id:'idDownloadButton',
+	states: [{
+		stateName: 'dl-down',
+		icon: "<img class='icon' src='icons/downloadButton.svg' style='widht:15px; height:15px;'>",
+		tittle: 'Descargas'
+	}]
+})
+
 //eliminar boton segun id
 function removeButtonById(buttonId) {
     var buttonToRemove = document.getElementById(buttonId);
@@ -1523,6 +1532,7 @@ async function cargarBotonesMapa() {
 		//mostrarFiltroButton.addTo(mymap);
 		controlbrowserPrint.addTo(mymap);
 		addFullmapPrint();
+		//downloadButton.addTo(mymap);
 		addGuidePrint();		
 }
 cargarBotonesMapa();
@@ -1559,6 +1569,7 @@ function agregarNuevaLegend(){
 	mostrarConsultaButton.addTo(mymap);
 	controlbrowserPrint.addTo(mymap);
 	addFullmapPrint();
+	//downloadButton.addTo(mymap);
 	addGuidePrint();
 }
 
@@ -2314,6 +2325,30 @@ async function filtrar_info(dato, fila, col) {
 		return filtro
 	})
 }
+
+function convertirARomano(numero){
+	if (numero <= 0 || numero >= 4000){
+		return "numero fuera de rango"
+	}
+	const valores = [1000,900,500,400,100,90,50,40,10,9,5,4,1];
+	const simbolos = ['M','CM','D','CD','C','XC','L','XL','X','IX','V','IV','I']
+	let romano = '';
+	for (let i = 0; i<valores.length; i++) {
+		while (numero >= valores[i]) {
+			romano += simbolos[i];
+			numero -= valores[i];
+		}
+	}
+	return romano;
+}
+
+
+function formatoCadena_(cadena){
+	var nuevaCadena = cadena.replace(/_/g, ' ')
+	if (nuevaCadena.length === 0) return nuevaCadena
+	return nuevaCadena.charAt(0).toUpperCase() + nuevaCadena.slice(1)
+}
+
 //crea talba del modal filtro
 function crearTabla(data) {
 	const table = document.createElement('table');
@@ -2324,7 +2359,7 @@ function crearTabla(data) {
 	const cabecera = document.createElement('tr');
 	Object.keys(data[0]).forEach(col => {
 		const column = document.createElement('td');
-		column.textContent = col;
+		column.textContent = formatoCadena_(col);
 		cabecera.appendChild(column);
 	});
 	tbody.appendChild(cabecera);
@@ -2332,7 +2367,9 @@ function crearTabla(data) {
 		const tr = document.createElement('tr');
 		Object.values(row).forEach(cell => {
 			const td = document.createElement('td');
-			td.textContent = cell;
+			var romano = cell.split(' ');
+			romano[1] = convertirARomano(romano[1])
+			td.textContent = romano[0] + " " + romano[1];
 			tr.appendChild(td);
 		});
 		tbody.appendChild(tr);
