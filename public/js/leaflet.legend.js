@@ -394,6 +394,23 @@
             divCollapseC.setAttribute('aria-labelledby',"headingOneC");
             divCollapseC.setAttribute('data-bs-parent',"#accordionLegend");
             divCollapseBodyC = L.DomUtil.create("div", "accordion-body contentcustomlegend", divCollapseC);
+
+            //categoria tematicos
+            legendContainerT = L.DomUtil.create("div", "accordion-item m-2 mb-0 mt-0", this._contents);
+            subtitleT = L.DomUtil.create("h6", "accordion-header", legendContainerT);
+            subtitleT.id = "headingOneT";
+            buttonT = L.DomUtil.create("button", "botoncustomlegend bg-light", subtitleT);
+            buttonT.setAttribute('type',"button");
+            buttonT.setAttribute('data-bs-toggle',"collapse");
+            buttonT.setAttribute('data-bs-target',"#collapseOneT");
+            buttonT.setAttribute('aria-expanded',"true");
+            buttonT.setAttribute('aria-controls',"collapseOneT");
+            buttonT.innerHTML = "Temáticos";
+            divCollapseT = L.DomUtil.create("div", "accordion-collapse collapse", subtitleT);
+            divCollapseT.id = "collapseOneT";
+            divCollapseT.setAttribute('aria-labelledby',"headingOneT");
+            divCollapseT.setAttribute('data-bs-parent',"#accordionLegend");
+            divCollapseBodyT = L.DomUtil.create("div", "accordion-body contentcustomlegend", divCollapseT);
       
             var cantconsultas = 0
             var len = this.options.legends.length;
@@ -409,6 +426,8 @@
                     legendContainer = divCollapseBodyN;
                 } else if(this.options.legends[i].layers_type == "modalidad"){
                     legendContainer = divCollapseBodyM;
+                }else if(this.options.legends[i].layers_type == "tema"){
+                    legendContainer = divCollapseBodyT;
                 }else {
                     cantconsultas += 1;
                     legendContainer = divCollapseBodyC;

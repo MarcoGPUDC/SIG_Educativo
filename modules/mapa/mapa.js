@@ -376,8 +376,36 @@ function estilo_region (feature) {
 			
 	};
 
+var todosLayersTematicos = []
+async function getGeoserverDatastoreLayers(workspace, datastore){
+	const geoUrl = `http://localhost:3005/geoserver/rest/workspaces/${workspace}/datastores/${datastore}/featuretypes.json`
+	const username = 'admin'
+	const password = 'sigadmin24'
+	const response = await fetch(geoUrl,{
+		method: 'GET',
+		headers: {
+			'SeARuth':'admin',
+			'Authorization': 'Basic ' + btoa(`${username}:${password}`),	
+			'Accept': 'application/json'
+		}
+	})
+	if (!response.ok){
+		throw new Error(Error `${response.status}:${response.statusText}`);
+	}
+	const data = await response.json()
+	const layers = data.featureTypes.featureType.map(layer => layer.name);
+	layers.forEach(layer => {
+		if ( layer.split('_')[0] == 'establec' ) {
+			getGeoserverLayer(workspace, layer).then(data => {
+				todosLayersTematicos.push([data,layer.split('_')[1]])
+			})	
+		}
+	})
+}
+
+
 async function getGeoserverLayer(workspace, layer) {
-	const viewLayer = L.tileLayer.wms("https://sistemas2.chubut.edu.ar/geoserver/ows", {
+	const viewLayer = L.tileLayer.wms("http://localhost:3005/geoserver/ows", {
 		layers: `${workspace}:${layer}`,
 		format: 'image/png',
 		transparent: true,	
@@ -389,7 +417,7 @@ async function getGeoserverLayer(workspace, layer) {
 	let nivel = layer.split("_")[1];
 	let dataLayer;
 	try {
-		const geoResponse = await fetch(`https://sistemas2.chubut.edu.ar/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${workspace}%3A${layer}&maxFeatures=300&outputFormat=application%2Fjson&srsname=EPSG:4326`);
+		const geoResponse = await fetch(`http://localhost:3005/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${workspace}%3A${layer}&maxFeatures=300&outputFormat=application%2Fjson&srsname=EPSG:4326`);
 		const dataGeoJSON = await geoResponse.json();
 		switch (tipo) {
 			case "regiones":
@@ -413,8 +441,7 @@ async function getGeoserverLayer(workspace, layer) {
 				break;
 			default:
 					(tipo)?tipo = 'establecimientos': tipo == tipo;
-					dataLayer = createLayer(dataGeoJSON, tipo, (nivel)?nivel:'')
-					dataLayer.addTo(mymap);
+					dataLayer = createLayer(dataGeoJSON, tipo, '')
 				break;
 		}
 
@@ -424,6 +451,7 @@ async function getGeoserverLayer(workspace, layer) {
 	}
 	return dataLayer;
 }
+getGeoserverDatastoreLayers('sigeducativo','temáticos')
 
 
 // Agregar regiones a mapa
@@ -614,7 +642,7 @@ function onEachFeatureL(feature, layer){
 		"<tr><td><b>CUE - Anexo:</b> "+ (feature.properties.cue_anexo?feature.properties.cue_anexo:"No se registra") + "</td></tr>"+
 		"<tr><td><b>Número:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") + "</td></tr>" + 
 		"<tr><td><b>Región:</b> "+ (feature.properties.region?feature.properties.region:"No se registra") + "</td></tr>" +
-		"<tr><td><b>Localidad:</b> "+ (feature.properties.localidad?formatoNombre(feature.properties.localidad):"No se registra") + "</td></tr>" +
+		"<tr><td><b>Localidad:</b> "+ (feature.properties.localidad?feature.properties.localidad:"No se registra") + "</td></tr>" +
 		"<tr><td><b>Dirección:</b> "+ (feature.properties.domicilio?feature.properties.domicilio:"No se registra") + "</td></tr>" +
 		"<tr><td><b>Nivel:</b> "+ (feature.properties.nivel?feature.properties.nivel:"No se registra") + "</td></tr>" +
 		"</table>" +
@@ -1142,6 +1170,7 @@ async function generarTodosLayers(layerParam) {
 	const bibliotecas = await getBibliotecaLayer();
 	capaRegiones = await getRegiones();
 	capaDepartamentos = await getDepartamentos();
+	
 	var i = 0;
 	if (layerParam != null) {
 		establecimientos.forEach(establecimiento => {
@@ -1188,6 +1217,18 @@ async function generarTodosLayers(layerParam) {
 			inactive: true
 		})
 
+		todosLayersTematicos.forEach(tematico => {
+			layersConfig.push({
+				label: tematico[1].charAt(0).toUpperCase() + tematico[1].slice(1),
+				type: 'image',
+				url: 'icons/tematico.svg',
+				layers_type: "tema",
+				layers: tematico[0],
+				inactive: true
+			})
+			console.log(tematico)
+		})
+
 		layersConfig.push ({
 			label: "Regiones Educativas",
 			type: "polygon",
@@ -1211,6 +1252,8 @@ async function generarTodosLayers(layerParam) {
 			layers: [capaDepartamentos],
 			inactive: true,
 			})
+		
+		
 
 		supervision.forEach(supervision => {
 			var layer = supervision[0][0];
@@ -1223,7 +1266,7 @@ async function generarTodosLayers(layerParam) {
 				inactive: true,
 			});
 		});
-
+		
 		return layersConfig;
 
 	} else {
@@ -1273,6 +1316,18 @@ async function generarTodosLayers(layerParam) {
 				inactive: false,
 				})
 
+			todosLayersTematicos.forEach(tematico => {
+				layersConfig.push({
+					label: tematico[1].charAt(0).toUpperCase() + tematico[1].slice(1),
+					type: 'image',
+					url: 'icons/tematico.svg',
+					layers_type: "tema",
+					layers: tematico[0],
+					inactive: true
+				})
+				console.log(tematico)
+			})
+
 			layersConfig.push({
 				label: 'Bibliotecas Pedagogicas',
 				type: 'image',
@@ -1294,6 +1349,8 @@ async function generarTodosLayers(layerParam) {
 				inactive: true,
 				})
 
+			
+
 			supervision.forEach(supervision => {
 				var layer = supervision[0][0];
 				layer.addTo(mymap);
@@ -1306,8 +1363,8 @@ async function generarTodosLayers(layerParam) {
 					inactive: false,
 				});
 			});
-			return layersConfig;
 		}
+		return layersConfig;
 	}
 
 
@@ -1535,7 +1592,11 @@ async function cargarBotonesMapa() {
 		//downloadButton.addTo(mymap);
 		addGuidePrint();		
 }
-cargarBotonesMapa();
+
+setTimeout(function(){
+    cargarBotonesMapa();
+}, 2000);
+
 
 // existe layer
 
