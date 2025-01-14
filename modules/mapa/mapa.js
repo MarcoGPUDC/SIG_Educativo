@@ -445,7 +445,7 @@ async function getGeoserverLayer(workspace, layer) {
 								tipoIcon = 'biblioteca_pop'
 							break;
 						default:
-								tipoIcon = 'establecimiento'
+								tipoIcon = 'establecimientos'
 							break;
 					}
 					console.log(tipoIcon)
