@@ -405,7 +405,7 @@ async function getGeoserverDatastoreLayers(workspace, datastore){
 
 
 async function getGeoserverLayer(workspace, layer) {
-	const viewLayer = L.tileLayer.wms("http://localhost:3005/geoserver/ows", {
+	const viewLayer = L.tileLayer.wms("https://sistemas2.chubut.edu.ar/geoserver/ows", {
 		layers: `${workspace}:${layer}`,
 		format: 'image/png',
 		transparent: true,	
@@ -417,7 +417,7 @@ async function getGeoserverLayer(workspace, layer) {
 	let tipoIcon = layer.split("_")[1];
 	let dataLayer;
 	try {
-		const geoResponse = await fetch(`http://localhost:3005/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${workspace}%3A${layer}&maxFeatures=300&outputFormat=application%2Fjson&srsname=EPSG:4326`);
+		const geoResponse = await fetch(`https://sistemas2.chubut.edu.ar/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${workspace}%3A${layer}&maxFeatures=300&outputFormat=application%2Fjson&srsname=EPSG:4326`);
 		const dataGeoJSON = await geoResponse.json();
 		switch (tipoCapa) {
 			case "regiones":
