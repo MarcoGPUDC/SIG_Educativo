@@ -413,13 +413,13 @@ async function getGeoserverLayer(workspace, layer) {
 		styles: layer,
 		attribution: "SIG Educativo"
 	})
-	let tipo = layer.split("_")[0];
-	let nivel = layer.split("_")[1];
+	let tipoCapa = layer.split("_")[0];
+	let tipoIcon = layer.split("_")[1];
 	let dataLayer;
 	try {
 		const geoResponse = await fetch(`http://localhost:3005/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${workspace}%3A${layer}&maxFeatures=300&outputFormat=application%2Fjson&srsname=EPSG:4326`);
 		const dataGeoJSON = await geoResponse.json();
-		switch (tipo) {
+		switch (tipoCapa) {
 			case "regiones":
 				viewLayer.addTo(mymap);
 				dataLayer = L.geoJSON(dataGeoJSON, {
@@ -440,8 +440,17 @@ async function getGeoserverLayer(workspace, layer) {
 				}).addTo(mymap);
 				break;
 			default:
-					(tipo)?tipo = 'establecimientos': tipo == tipo;
-					dataLayer = createLayer(dataGeoJSON, tipo, '')
+					switch (tipoIcon) {
+						case 'bibliotecas':
+								tipoIcon = 'biblioteca_pop'
+							break;
+						default:
+								tipoIcon = 'establecimiento'
+							break;
+					}
+					console.log(tipoIcon)
+					console.log(dataLayer)
+					dataLayer = createLayer(dataGeoJSON, tipoIcon, '')
 				break;
 		}
 
@@ -594,6 +603,20 @@ function popup_bib_pedagogicas (feature, layer) {
 		"</td></tr><tr><td><b>Cod. Postal:</b> "+ (feature.properties.codpostal?feature.properties.codpostal:"No se registra") +
 		"<tr><td><b>Email:</b><a " + (feature.properties.email?"href='mailto:"+feature.properties.email:"") + " '> "  + (feature.properties.email?feature.properties.email:"No se registra") + "</a></td></tr>" +
 		"</td></tr><tr><td><b>Horario:</b> "+ (feature.properties.horario?feature.properties.horario:"No se registra") +
+		"</td></tr></table></div>",
+		{minWidth: 270, maxWidth: 270}
+	);
+	layer.on({
+        popupopen : closepoputNL,
+    });
+};
+
+function popup_bib_populares (feature, layer) {
+	layer.bindPopup(
+		"<div class='p-3'><h6 style='color:#0d6efd'>Biblioteca Pedagógica "+ (feature.properties.nombre?feature.properties.nombre:"") +
+		"</h6><table>" + 
+		"</td></tr><tr><td><b>Dirección:</b> "+ (feature.properties.dirección?feature.properties.dirección:"No se registra") +
+		"</td></tr><tr><td><b>Cod. Postal:</b> "+ (feature.properties.contacto?feature.properties.contacto:"No se registra") +
 		"</td></tr></table></div>",
 		{minWidth: 270, maxWidth: 270}
 	);
@@ -865,7 +888,7 @@ function createLayer(data, tipo, nivel) {
 			cluster.addLayer(marker);
 			return marker;
 		},
-		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas : (tipo === 'biblioteca') ? popup_bib_pedagogicas : (tipo === 'establec') ? onEachFeatureEst : onEachFeatureL
+		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas : (tipo === 'biblioteca') ? popup_bib_pedagogicas : (tipo === 'establec') ? onEachFeatureEst : (tipo === 'biblioteca_pop') ? popup_bib_populares : onEachFeatureL
 		});
 	return cluster;
 }
