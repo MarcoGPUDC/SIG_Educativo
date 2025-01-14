@@ -378,7 +378,7 @@ function estilo_region (feature) {
 
 var todosLayersTematicos = []
 async function getGeoserverDatastoreLayers(workspace, datastore){
-	const geoUrl = `http://localhost:3005/geoserver/rest/workspaces/${workspace}/datastores/${datastore}/featuretypes.json`
+	const geoUrl = `https://sistemas2.chubut.edu.ar/geoserver/rest/workspaces/${workspace}/datastores/${datastore}/featuretypes.json`
 	const username = 'admin'
 	const password = 'sigadmin24'
 	const response = await fetch(geoUrl,{
