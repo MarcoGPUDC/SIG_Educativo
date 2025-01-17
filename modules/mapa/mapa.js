@@ -395,7 +395,7 @@ async function getGeoserverDatastoreLayers(workspace, datastore){
 	const data = await response.json()
 	const layers = data.featureTypes.featureType.map(layer => layer.name);
 	layers.forEach(layer => {
-		if ( layer.split('_')[0] == 'establec' ) {
+		if ( layer.split('_')[0] == 'establec' || layer.split('_')[0] == 'infra') {
 			getGeoserverLayer(workspace, layer).then(data => {
 				todosLayersTematicos.push([data,layer.split('_')[1]])
 			})	
@@ -679,7 +679,7 @@ function onEachFeatureL(feature, layer){
 		"<tr><td><b>Tel. del Responsable:</b> "+ (feature.properties.tel_resp?feature.properties.tel_resp:"-") + "</td></tr>" +
 		"</table>" +
   		"</div></div>" + (feature.properties.area?"<div id='divBotonArea'></td></tr><tr><td><label for='areaInstMarker'>Radio Escolar</label><input type='checkbox' id='areaInstMarker' value='"+feature.properties.id+"'></input></div>":"</div>") +
-  		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='./info?num="+feature.properties.id_institucion+"' target='_blank'>Ver más...</a></div>" +
+  		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='./info?num="+(feature.properties.id ? feature.properties.id : feature.properties.id_institucion)+"' target='_blank'>Ver más...</a></div>" +
   		"</div>"
   		, {minWidth: 270, maxWidth: 270}
 	);
@@ -1250,7 +1250,6 @@ async function generarTodosLayers(layerParam) {
 				layers: tematico[0],
 				inactive: true
 			})
-			console.log(tematico)
 		})
 
 		layersConfig.push ({
@@ -1349,7 +1348,6 @@ async function generarTodosLayers(layerParam) {
 					layers: tematico[0],
 					inactive: true
 				})
-				console.log(tematico)
 			})
 
 			layersConfig.push({
@@ -2634,4 +2632,4 @@ mymap.on('zoomend', function() {
 
 setTimeout(function(){
     cargarBotonesMapa();
-}, 2000);
+}, 3000);

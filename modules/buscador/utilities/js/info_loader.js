@@ -12,7 +12,7 @@ async function completarDatosInstitucion() {
     const parametros = new URLSearchParams(window.location.search);
     //var id = descifrarDato(parametros.get('num') , 'SIGE2024');
     var id = parametros.get('num')
-    fetch(`info/obtenerDatos?num=${id}`)
+    var SedeAnexo = fetch(`info/obtenerDatos?num=${id}`)
     .then(response => {
         // Maneja la respuesta recibida del servidor
         if (!response.ok) {
@@ -25,7 +25,7 @@ async function completarDatosInstitucion() {
         document.getElementById('cabecera').innerText += ` ${data.numero}`;
         document.getElementById('cueanexoinfoadicional').innerHTML = `${data.cue_anexo}`;
         document.getElementById('funinfoadicional').innerHTML = `${data.funcion}`;
-        document.getElementById('Regioninfoadicional').innerHTML = `${data.region}`;
+        document.getElementById('regioninfoadicional').innerHTML = `${data.region}`;
         document.getElementById('departamentoinfoadicional').innerHTML = `${data.departamento}`;
         document.getElementById('Localidadinfoadicional').innerHTML = `${data.localidad}`;
         document.getElementById('calleinfoadicional').innerHTML = `${data.domicilio}`;
@@ -37,7 +37,52 @@ async function completarDatosInstitucion() {
         document.getElementById('emailinfoadicional').innerHTML = `${data.email_inst}`;
         document.getElementById('sitio_webinfoadicional').innerHTML = `${data.web}`;
         document.getElementById('resp_telresponsableinfoadicional').innerHTML = `${data.tel_resp}`;
-        
+        fetch(`info/obtenerDatosSedeAnexo?cue=${data.cue}&anexo=${data.anexo}`)
+        .then (response => {
+            if(!response.ok){
+                throw new Error('Error al obtener los Datos')
+            }
+            return response.json()
+        })
+        .then(dataSA => {
+            var data = dataSA[0]
+            var anexoActu = parseInt(dataSA[1],10)
+            var sede = document.getElementById('sedeinfoadicional')
+            var siguiente = document.getElementById('siguiente')
+            var anterior = document.getElementById('anterior')
+            console.log(data.length)
+            if (data.length > 1) {
+                if (anexoActu == 0) {
+                    sede.innerHTML = "SI"
+                } else {
+                    var anexo = document.getElementById('anexoinfoadicional')
+                    var anexolabel = document.getElementById('anexoinfoadicionallabel')
+                    anexo.setAttribute('style','display:block')
+                    anexolabel.setAttribute('style','display:block')
+                    sede.innerHTML = "NO"
+                    anexo.innerHTML = "" + anexoActu
+                }
+                for (let i = 0; i < data.length; i++) {
+                        if(data[i].anexo == anexoActu && data[i+1] !== undefined) {
+                            siguiente.onclick = function() {
+                                window.location.href = "./info?num="+ data[i+1].id_institucion
+                            } 
+                        }
+                        if(data[i].anexo == anexoActu && data[i-1] !== undefined) {
+                            console.log('bbb')
+                            anterior.onclick = function() {
+                                window.location.href = "./info?num="+ data[i-1].id_institucion
+                            } 
+                        }
+
+                    
+                }
+            } else {
+                sede.innerHTML = "SI"
+                anterior.setAttribute('style','display:none')
+                siguiente.setAttribute('style','display:none')
+            }
+        })
     })
     .catch(error => {
         console.error('Error:', error);
@@ -92,7 +137,6 @@ async function completarDatosInstitucion() {
     })
     .then(datos => {
         var data = datos[0]
-        console.log(data);
         //datos oferta
         var biblioteca = document.getElementById('bibliotecainfoadicional');
         var laboratorio = document.getElementById('laboratorioinfoadicional');
@@ -117,7 +161,8 @@ async function completarDatosInstitucion() {
     .catch(error => {
         console.error('Error:', error);
     });
-
+        
+    
 };
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';

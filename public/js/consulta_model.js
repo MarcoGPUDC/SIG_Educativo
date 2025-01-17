@@ -73,7 +73,7 @@ function busqueda_simple (id) {
 };
 //busca info adicional de un establecimiento por su id
 function busqueda_adicional (id) {
-    return db.any(`SELECT inst.id_institucion, inst.cue_anexo, func.jornada, turno.nombre AS turno, nivel.nombre AS nivel, mod.nombre AS modalidad FROM padron.institucion inst 
+    return db.any(`SELECT inst.id_institucion, inst.cue_anexo, func.jornada, turno.nombre AS turno, nivel.nombre AS nivel, mod.nombre AS modalidad, inst.cue, inst.anexo FROM padron.institucion inst 
     LEFT JOIN padron.funcionamiento func ON inst.id_institucion = func.id_institucion
     LEFT JOIN padron.turno turno ON turno.id_turno = func.id_turno
     JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
@@ -89,6 +89,12 @@ function busqueda_adicional_infra (id) {
         WHERE inst.id_institucion = $1;
         `,id
     )
+}
+
+//busca sede o anexos de una institucion
+function busqueda_adicional_sedeAnexo(cue) {
+    return db.any(`SELECT id_institucion, cue, anexo FROM padron.institucion WHERE cue = $1
+        ORDER BY id_institucion ASC `, [cue])
 }
 
 
@@ -179,7 +185,7 @@ function capa_areas () {
     return db.any(`SELECT id_institucion, false AS mostrar, ST_AsText(ST_transform(rad.geom,4326)) AS area FROM public.radios_escolares rad`)
 }
 
-//CONSULTAS PARA CRUD
+//CONSULTAS PARA AMB
 function crear_institucion(departamento, localidad, numero, cue, anexo, funcion, region, domicilio, cp, ambito, web, email, nombre, tel, cue_anexo){
     const id = db.query(`INSERT INTO padron.institucion(
 	id_departamento, id_localidad, numero, cue, anexo, funcion, region, domicilio, cp, ambito, web, email_inst, nombre, tel, cue_anexo)
@@ -294,6 +300,7 @@ module.exports = {
     buscar_info_popup_inst,
     busqueda_adicional,
     busqueda_adicional_infra,
+    busqueda_adicional_sedeAnexo,
     buscar_info_supervision,
     buscar_info_delegacion,
     busqueda_simple_todo,

@@ -31,6 +31,13 @@ html(lang="es")
             div(class="col-5 float-left")
                 a(href="https://chubut.edu.ar/sigeducativo/" target="_blank")
                     img(src="mapoteca/utilities/img/SIG Educativo vf-transparencia PNG.png" class="pb-2" width="130" height="76" alt="")
+        <div style="float: left; top: 46%; position: fixed; left: 3%;">
+            <button id="anterior"> 
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left-square" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                </svg>
+            </button>
+        </div>
         <div id="InfoAdicional">
             <div class="container">
                 <h4 id="fnainfoadicional" class="m-3" style="color:#0d6efd"></h4>
@@ -49,8 +56,12 @@ html(lang="es")
                                 <p id="cueanexoinfoadicional" class="card-text card-text-custom"></p>
                                 <label for="funinfoadicional" class="text-black fw-bold" >Funcion:</label>
                                 <p id="funinfoadicional" class="card-text card-text-custom"></p>
-                                <label for="Regioninfoadicional" class="text-black fw-bold" >Región:</label>
-                                <p id="Regioninfoadicional" class="card-text card-text-custom"></p>
+                                <label for="sedeinfoadicional" class="text-black fw-bold" >Sede:</label>
+                                <p id="sedeinfoadicional" class="card-text card-text-custom"></p>
+                                <label id='anexoinfoadicionallabel' for="anexoinfoadicional" class="text-black fw-bold" style="display: none;">Anexo:</label>
+                                <p id="anexoinfoadicional" class="card-text card-text-custom" style="display: none;"></p>
+                                <label for="regioninfoadicional" class="text-black fw-bold" >Región:</label>
+                                <p id="regioninfoadicional" class="card-text card-text-custom"></p>
                                 <label for="departamentoinfoadicional" class="text-black fw-bold" >Departamento:</label>
                                 <p id="departamentoinfoadicional" class="card-text card-text-custom"></p>
                                 <label for="Localidadinfoadicional" class="text-black fw-bold" >Localidad:</label>
@@ -159,4 +170,11 @@ html(lang="es")
                     //<a class='btn btn-outline-primary btn-sm' href='/' target='_self'>Volver al mapa</a>
                 </div>
             </div>
+        </div>
+        <div style="float: right; top: 46%; position: fixed; left: 91%;">
+            <button id="siguiente"> 
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-right-square" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
+                </svg>
+            </button>
         </div>

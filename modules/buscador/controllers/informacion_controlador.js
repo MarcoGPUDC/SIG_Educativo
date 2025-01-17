@@ -49,4 +49,15 @@ router.get('/obtenerDatosInfra', async (req, res) => {
   }
   });
 
+  router.get('/obtenerDatosSedeAnexo', async (req,res) => {
+    try {
+      var anexo = req.query.anexo
+      const data = await informacion.busqueda_adicional_sedeAnexo(req.query.cue);
+      res.send([data, anexo]);
+    } catch (error) {
+      console.error('Error al obtener los datos:', error);
+      res.status(500).send('Error al obtener los datos.');
+    }
+  });
+
 module.exports = router;
