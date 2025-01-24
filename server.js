@@ -6,13 +6,19 @@ var raiz = 'http://sistemas.chubut.edu.ar/mapa/'
 var https = require('https');
 var fs = require('fs');
 const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
+require('dotenv').config();
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.static(path.join(__dirname,'modules')));
 app.use(express.static(path.join(__dirname,'modules','buscador')));
 app.use(express.static(path.join(__dirname,'modules','mapa')));
+app.use(express.static(path.join(__dirname,'modules','ABM')));
 app.use(express.static(path.join(__dirname,'node_modules')));
+app.use(express.static(__dirname));
 app.use(express.json());
-
+app.use(bodyParser.json());
+app.use(cookieParser());
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const keyPath = path.join(__dirname, 'server.key');
 const certPath = path.join(__dirname, 'server.cert');
@@ -61,7 +67,6 @@ app.use('/abm', express.static(path.join(__dirname, 'modules', 'ABM'), {
   }
 }));
 
-
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), {
   setHeaders: (res, path) => {
     if (path.endsWith('.js')) {
@@ -69,8 +74,6 @@ app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), {
     }
   }
 }));
-
-
 
 // Configura Pug como motor de plantillas
 app.set('view engine', 'pug');
@@ -110,12 +113,16 @@ app.use('/', mapInfo);
 const filtroInfo = require('./modules/mapa/models/info_filtro');
 app.use('/', filtroInfo);
 
-//RUTAS ABM DESCOMENTAR CUANDO SE HABILITE EL INICIO DE SESION
-/*const servicios = require('./modules/ABM/controllers/services.js');
-app.use('/abm/', servicios);
+const loginRoutes = require('./login_controller');
+app.use('/auth', loginRoutes);
 
-const abmRoutes = require('./modules/ABM/controllers/abmController');
-app.use('/abm', abmRoutes);*/
+
+//RUTAS ABM DESCOMENTAR CUANDO SE HABILITE EL INICIO DE SESION
+const servicios = require('./modules/ABM/controllers/services.js');
+app.use('/abm', servicios);
+
+const abmRoutes = require('./modules/ABM/controllers/abmController.js');
+app.use('/abm', abmRoutes);
 
 /*app.get('/login', (req, res) => {
     const token = req.query.token
@@ -135,7 +142,15 @@ app.use('/abm', abmRoutes);*/
     });
 });*/
 
-
+//ENDSPOINTS
+app.post('/logout', (req, res) => {
+  res.clearCookie('authToken',{
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+  });
+  return res.status(200).json({message:'Sesion cerrada'})
+})
 
 // Iniciar el servidor
 const port = 3005;

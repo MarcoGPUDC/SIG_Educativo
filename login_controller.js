@@ -2,6 +2,8 @@ const express = require('express');
 const bcrypt = require('bcrypt')
 const router = express.Router();
 const consulta = require('./public/js/consulta_model');
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = process.env.SECRET_KEY;
 
 router.get('/', async (req, res) => {
   try {
@@ -14,11 +16,11 @@ router.get('/', async (req, res) => {
 });
 
 
-router.post('/auth', async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
-    const result = await consulta.verificar_usuario(username);
-    bcrypt.compare(password, result[0].contra, (err, result) => {
+    const result = await consulta.verificar_usuario_mysql(username);
+    bcrypt.compare(password, result[0][0].encrypted_password, (err, result) => {
       if (err) {
           // Handle error
           console.error('Error comparing passwords:', err);
@@ -26,8 +28,14 @@ router.post('/auth', async (req, res) => {
       }
   
     if (result) {
-        // Passwords match, authentication successful
-        res.status(200).json({ message: 'Usuario autenticado', data: result });
+        const token = jwt.sign({username}, SECRET_KEY, {expiresIn: '1h'})
+        res.cookie('authToken', token,{
+          httpOnly: false,
+          secure: false,
+          sameSite: false,
+          maxAge: 3600000
+        })
+        res.send(result)
     } else {
         // Passwords don't match, authentication failed
         res.status(200).json({ message: 'Usuario no autenticado', data: result });
@@ -61,5 +69,14 @@ router.post('/createUser', async (req, res) => {
     res.status(500).json({ error: 'Error al insertar en la base de datos' });
   }
 });
+
+/*router.post('/logout', async (req, res) => {
+  res.clearCookie('authToken',{
+    httpOnly: true,
+    secure: false,
+    sameSite: none
+  });
+  res.send('Sesion cerrada')
+})*/
 
 module.exports = router;

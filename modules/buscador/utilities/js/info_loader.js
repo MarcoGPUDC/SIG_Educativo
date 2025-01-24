@@ -12,7 +12,7 @@ async function completarDatosInstitucion() {
     const parametros = new URLSearchParams(window.location.search);
     //var id = descifrarDato(parametros.get('num') , 'SIGE2024');
     var id = parametros.get('num')
-    var SedeAnexo = fetch(`info/obtenerDatos?num=${id}`)
+    fetch(`info/obtenerDatos?num=${id}`)
     .then(response => {
         // Maneja la respuesta recibida del servidor
         if (!response.ok) {
@@ -50,7 +50,6 @@ async function completarDatosInstitucion() {
             var sede = document.getElementById('sedeinfoadicional')
             var siguiente = document.getElementById('siguiente')
             var anterior = document.getElementById('anterior')
-            console.log(data.length)
             if (data.length > 1) {
                 if (anexoActu == 0) {
                     sede.innerHTML = "SI"
@@ -63,19 +62,16 @@ async function completarDatosInstitucion() {
                     anexo.innerHTML = "" + anexoActu
                 }
                 for (let i = 0; i < data.length; i++) {
-                        if(data[i].anexo == anexoActu && data[i+1] !== undefined) {
-                            siguiente.onclick = function() {
-                                window.location.href = "./info?num="+ data[i+1].id_institucion
-                            } 
-                        }
-                        if(data[i].anexo == anexoActu && data[i-1] !== undefined) {
-                            console.log('bbb')
-                            anterior.onclick = function() {
-                                window.location.href = "./info?num="+ data[i-1].id_institucion
-                            } 
-                        }
-
-                    
+                    if(data[i].anexo == anexoActu && data[i+1] !== undefined) {
+                        siguiente.onclick = function() {
+                            window.location.href = "./info?num="+ data[i+1].id_institucion
+                        } 
+                    }
+                    if(data[i].anexo == anexoActu && data[i-1] !== undefined) {
+                        anterior.onclick = function() {
+                            window.location.href = "./info?num="+ data[i-1].id_institucion
+                        } 
+                    }                    
                 }
             } else {
                 sede.innerHTML = "SI"

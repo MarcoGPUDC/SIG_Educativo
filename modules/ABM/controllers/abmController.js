@@ -3,8 +3,27 @@ const express = require('express');
 const router = express.Router();
 const buscador = require('../../buscador/models/buscador_model');
 const consulta = require('../../../public/js/consulta_model');
+const autenticar = require('../../../login_controller')
+const jwt = require('jsonwebtoken');
 
-router.get('/', async (req, res) => {
+
+const SECRET_KEY = process.env.SECRET_KEY;
+
+function verify(req, res, next){
+  const token = req.cookies.authToken;
+  if (!token) {
+    return res.status(401).send('No autorizado. Inicie sesión')
+  }
+  try {
+    const payload = jwt.verify(token, SECRET_KEY);
+    req.user= payload;
+    next()
+  } catch (err) {
+    return res.status(401).send('Token invalido o expirado')
+  }
+}
+
+router.get('/',verify, async (req, res) => {
   try {
     res.render('abmView');
   } catch (error) {
@@ -75,7 +94,5 @@ router.post('/delete', async (req, res) => {
     res.status(500).json({ error: 'Error al insertar en la base de datos' });
   }
 });
-
-
 
 module.exports = router;

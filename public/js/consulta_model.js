@@ -1,4 +1,5 @@
 const conectarDB = require('../../modules/buscador/db_conexion');
+const mysqldb = require('./mysql-connection.js');
 
 // Establece la conexión a la base de datos
 const db = conectarDB();
@@ -232,8 +233,8 @@ function modificar_oferta (id, nivel, modalidad){
 }
 
 //Inicio de sesion
-function verificar_usuario (username){
-    return db.any('SELECT * FROM usuario.login log WHERE log.usuario = $1 AND log.contra = $2;', username)
+function verificar_usuario (username, password){
+    return db.any('SELECT * FROM usuario.login log WHERE log.usuario = $1 AND log.contra = $2;', [username, password])
 }
 
 function registrar_usuario (rol,nombre,apellido,usuario,contraseña){
@@ -284,6 +285,12 @@ function buscar_porcentaje_equi_infra(){
     `)
 }
 
+
+//consultas a mysql
+async function verificar_usuario_mysql(username) {
+    return mysqldb.query('SELECT * FROM ddjj_production.users user WHERE user.email = ?', [username])
+}
+
 module.exports = {
     buscar_todos_numero,
     buscar_todos_nombre,
@@ -322,6 +329,7 @@ module.exports = {
     modificar_institucion,
     modificar_oferta,
     verificar_usuario,
+    verificar_usuario_mysql,
     registrar_usuario,
     cambiar_contra,
     buscar_info_equi_infra,

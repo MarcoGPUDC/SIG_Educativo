@@ -9,11 +9,12 @@ function logIn() {
         return;
     }
 
-    const data = { username: user, password: passC };
+    const data = { username: user, password: pass };
 
-    fetch('/login/auth', {
+    fetch('/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials:'include',
         body: JSON.stringify(data)
     })
     .then(response => {
@@ -24,8 +25,8 @@ function logIn() {
         return response.json();  // Procesa la respuesta como JSON
     })
     .then(data => {
-        if (data.message === 'Usuario autenticado') {
-            window.open('/crud', '_blank');  // Si el login es exitoso, redirige
+        if (data) {
+            window.open('/abm/','_self');  // Si el login es exitoso, redirige
         } else {
             document.getElementById("message").textContent = "Error al iniciar sesión.";
         }
@@ -34,6 +35,23 @@ function logIn() {
         console.error('Error:', error);
         document.getElementById("message").textContent = "Error al iniciar sesión.";
     });
+}
+
+function logOut(){
+    fetch(`auth/logout`)
+        .then(response => {
+            // Maneja la respuesta recibida del servidor
+            if (!response.ok) {
+                throw new Error('Error al obtener los datos');
+            }
+            return response.json(); // Convierte la respuesta en formato JSON
+        })
+        .then(data => {
+            console.log(data)
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 function loginFormSelect(form){
@@ -45,20 +63,22 @@ function loginFormSelect(form){
     var contraButton = document.getElementById('contraseñaButton')
     switch (form) {
         case 'registrarseButton':
-            registrarseForm.setAttribute('style','display:block');
+            /*registrarseForm.setAttribute('style','display:block');
             registrarseButton.setAttribute('style','display:none');
             loginForm.setAttribute('style','display:none');
             loginButton.setAttribute('style','display:inline-block');
             contraForm.setAttribute('style','display:none');
-            contraButton.setAttribute('style','display:inline-block');
+            contraButton.setAttribute('style','display:inline-block');*/
+            window.location.href = 'https://sistemas2.chubut.edu.ar/soft/ddjj/admin/register/cmon_let_me_in'
             break ;
         case 'contraseñaButton':
-            registrarseForm.setAttribute('style','display:none');
+            /*registrarseForm.setAttribute('style','display:none');
             registrarseButton.setAttribute('style','display:inline-block');
             loginForm.setAttribute('style','display:none');
             loginButton.setAttribute('style','display:inline-block');
             contraForm.setAttribute('style','display:block');
-            contraButton.setAttribute('style','display:none');
+            contraButton.setAttribute('style','display:none');*/
+            window.location.href = 'https://sistemas2.chubut.edu.ar/soft/ddjj/admin/password/new'
         break;
         case 'loginButton':
             registrarseForm.setAttribute('style','display:none');

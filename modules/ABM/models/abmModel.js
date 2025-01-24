@@ -463,6 +463,22 @@ function deleteLayer () {
     }
 }
 
-
+function logOut(){
+    fetch(`http://localhost:3005/logout`,{
+        method: 'POST',
+        credentials: 'include'
+    })
+    .then(response => {
+        // Maneja la respuesta recibida del servidor
+        if (!response.ok) {
+            throw new Error('Error al obtener los datos');
+        } else {
+            window.location.href = '/auth'
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
 
 
