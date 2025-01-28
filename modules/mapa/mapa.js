@@ -395,7 +395,7 @@ async function getGeoserverDatastoreLayers(workspace, datastore){
 	const data = await response.json()
 	const layers = data.featureTypes.featureType.map(layer => layer.name);
 	layers.forEach(layer => {
-		if ( layer.split('_')[0] == 'establec' || layer.split('_')[0] == 'infra') {
+		if ( layer.split('_')[0] == 'establec' || layer.split('_')[0] == 'infra' || layer.split('_')[0] == 'bibliotecas') {
 			getGeoserverLayer(workspace, layer).then(data => {
 				todosLayersTematicos.push([data,layer.split('_')[1]])
 			})	
@@ -440,7 +440,8 @@ async function getGeoserverLayer(workspace, layer) {
 				}).addTo(mymap);
 				break;
 			default:
-					switch (tipoIcon) {
+					console.log(tipoCapa + ' : ' + tipoIcon)
+					switch (tipoCapa) {
 						case 'bibliotecas':
 								tipoIcon = 'biblioteca_pop'
 							break;
