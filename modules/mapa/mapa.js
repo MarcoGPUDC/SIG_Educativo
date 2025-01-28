@@ -618,7 +618,7 @@ function popup_bib_populares (feature, layer) {
 		"<div class='p-3'><h6 style='color:#0d6efd'>Biblioteca Pedagógica "+ (feature.properties.nombre?feature.properties.nombre:"") +
 		"</h6><table>" + 
 		"</td></tr><tr><td><b>Dirección:</b> "+ (feature.properties.dirección?feature.properties.dirección:"No se registra") +
-		"</td></tr><tr><td><b>Cod. Postal:</b> "+ (feature.properties.contacto?feature.properties.contacto:"No se registra") +
+		"</td></tr><tr><td><b>Contacto:</b> "+ (feature.properties.contacto?feature.properties.contacto:"No se registra") +
 		"</td></tr></table></div>",
 		{minWidth: 270, maxWidth: 270}
 	);
