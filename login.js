@@ -1,3 +1,21 @@
+fetch('http://localhost:3005/getCookie',{credentials:'include'})
+.then(response => {
+    if (!response.ok) {
+        // Si la respuesta no es exitosa, muestra el error
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json();  // Procesa la respuesta como JSON
+})
+.then(data => {
+    if (data.cookie) {
+        const loginFormDiv = document.getElementById("loginFormDiv")
+        const botonCerrar = document.getElementById("botonCerrarSesion");
+        loginFormDiv.setAttribute("style","display:none")
+        botonCerrar.setAttribute("class","d-block")
+    }
+
+});
+
 function logIn() {
     
     let user = document.getElementById("email").value;
@@ -26,7 +44,7 @@ function logIn() {
     })
     .then(data => {
         if (data) {
-            window.open('/abm/','_self');  // Si el login es exitoso, redirige
+            window.open('/auth','_self');  // Si el login es exitoso, redirige
         } else {
             document.getElementById("message").textContent = "Error al iniciar sesión.";
         }
@@ -38,7 +56,10 @@ function logIn() {
 }
 
 function logOut(){
-    fetch(`auth/logout`)
+    fetch(`/logout`,{
+        method:"POST",
+        credentials: "include"
+    })
         .then(response => {
             // Maneja la respuesta recibida del servidor
             if (!response.ok) {
@@ -47,7 +68,9 @@ function logOut(){
             return response.json(); // Convierte la respuesta en formato JSON
         })
         .then(data => {
-            console.log(data)
+            if (data) {
+                window.open('/auth','_self');  // Si el login es exitoso, redirige
+            }
         })
         .catch(error => {
             console.error('Error:', error);
@@ -113,7 +136,6 @@ function crearUsuario() {
         contra: contra,
         contraRep: contraRep
     }
-    console.log(data);
     fetch('/login/createUser', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

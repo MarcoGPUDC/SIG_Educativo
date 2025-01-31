@@ -22,7 +22,7 @@
 	<script src="js/leaflet.browser.print.js"></script>
 	<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 	<script type="application/javascript" src="buscador/utilities/js/buscador_loader.js"></script>
-	
+	<script type="application/javascript" src="/login.js"></script>
 
 
 	<link rel="shortcut icon" type="image/x-icon"  href="icons/logo_pestaña.png">
@@ -43,10 +43,20 @@
 		<div class="col-3">
 			<a href="https://chubut.edu.ar/sigeducativo/" target="_blank"><img src="mapoteca/utilities/img/SIG Educativo vf-transparencia PNG.png" class="logo" width="130" height="76" alt=""/></a>
 		</div>
-		<div class="col-9 d-inline">
-			<h1 class=" title-mapa">Mapa Educativo Interactivo</h1>
+		<div class="col-8 d-inline">
+			<h1 class="title-mapa">Mapa Educativo Interactivo</h1>
+		</div>
+		<div class="dropdown dropstart float-right col-1" style="width: 20; height: 20px; margin-top: 20px;">
+			<button class="btn dropdown-toggle" type="button" id="menuboton" data-bs-toggle="dropdown" aria-expanded="false">
+				<img src="/mapoteca/utilities/img/030-menu.png" width="20" height="20" alt=""/>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="menuboton">
+				<li><a class="dropdown-item" href="./Auth">Iniciar Sesion</a></li>
+				<li><a class="dropdown-item" href="#" onclick="logOut()">Cerrar Sesion	</a></li>
+			</ul>
 		</div>
 	</div>
+	
 		<!--<div class="col-6">
 			<a class="btn mt-3 float-right" href="/mapa" role="button">Mapa Interactivo</a>
 			<a class="btn mt-3 float-right" href="http://chubut.edu.ar/sigeducativo/" target="_blank" role="button">Mapoteca</a>
@@ -456,7 +466,7 @@
 	<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
 	<script src="models/graficos_crear_model.js"></script>
 	<script src="mapa.js"></script>
-
+	
 </body>
 
 </html>

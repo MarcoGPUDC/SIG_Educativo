@@ -13,13 +13,22 @@
 	<header>
 	<img src="/mapoteca/utilities/img/top-bar-top-2024.png" class="w-100" alt=""/>
 		<div class="row">
-			<div class="col-5 float-left">
+			<div class="col-1 float-left">
 				<img src="modules/mapa/icons/logo_pestaña.png" alt="" height="50"/>
 			</div>
-			<div class="col mt-4">
-			<div class="btn-group dropstart border border-primary float-right mr-2">
-				<img class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="/mapoteca/utilities/img/030-menu.png" width="20" height="20" alt=""/>
+			<div class="col-2">
+				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="window.location.href = '/'">Volver al mapa
 			</div>
+			<div class="col-8">
+				<div class="dropdown dropstart float-right col-1" style="width: 20; height: 20px; margin-top: 20px;">
+					<button class="btn dropdown-toggle" type="button" id="menuboton" data-bs-toggle="dropdown" aria-expanded="false">
+						<img src="/mapoteca/utilities/img/030-menu.png" width="20" height="20" alt=""/>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="menuboton">
+						<li><a class="dropdown-item" href="./Auth">Iniciar Sesion</a></li>
+						<li><a id="botonCerrarSesion" class="dropdown-item d-none" href="#" onclick="logOut()">Cerrar Sesion</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</header>
@@ -78,10 +87,15 @@
 					<button type="button" class="btn btn-primary" id="cambiarContraButton" onclick="cambiarContra()">Cambiar contraseña</button>
 				</div>
 			</div>
+		
+			<button type="button" id="loginButton" class="btn btn-primary" onclick="loginFormSelect(this.id)">Iniciar sesion</button>
+			<button type="button" id="registrarseButton" class="btn btn-primary" onclick="loginFormSelect(this.id)">Registrarse</button>
+			<button type="button" id="contraseñaButton"class="btn btn-primary" onclick="loginFormSelect(this.id)">Cambiar contraseña</button>
 		</div>
-		<button type="button" id="loginButton" class="btn btn-primary" onclick="loginFormSelect(this.id)">Iniciar sesion</button>
-		<button type="button" id="registrarseButton" class="btn btn-primary" onclick="loginFormSelect(this.id)">Registrarse</button>
-		<button type="button" id="contraseñaButton"class="btn btn-primary" onclick="loginFormSelect(this.id)">Cambiar contraseña</button>
+		<div id="loggedMenu">
+			a(href="/abm") Alta/Baja/Modificacion 
+		</div>
+
 	</body>
 	<footer>
 		<div class="row">

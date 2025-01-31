@@ -145,6 +145,7 @@ app.use('/abm', abmRoutes);
 //ENDSPOINTS
 app.post('/logout', (req, res) => {
   res.clearCookie('authToken',{
+    path: "/auth",
     httpOnly: true,
     secure: true,
     sameSite: 'none',
@@ -152,8 +153,13 @@ app.post('/logout', (req, res) => {
   return res.status(200).json({message:'Sesion cerrada'})
 })
 
+app.get("/getCookie", (req,res) => {
+  const cookie = req.cookies.authToken || null
+  res.json({cookie})
+})
+
 // Iniciar el servidor
 const port = 3005;
 app.listen(port, () => {
     console.log(`Servidor Express escuchando en el puerto ${port}`);
-  });
+});
