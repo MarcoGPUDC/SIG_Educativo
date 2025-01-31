@@ -14,7 +14,6 @@ app.use(express.static(path.join(__dirname,'modules')));
 app.use(express.static(path.join(__dirname,'modules','buscador')));
 app.use(express.static(path.join(__dirname,'modules','mapa')));
 app.use(express.static(path.join(__dirname,'modules','ABM')));
-app.use(express.static(path.join(__dirname,'modules','mapoteca')));
 app.use(express.static(path.join(__dirname,'node_modules')));
 app.use(express.static(__dirname));
 app.use(express.json());
