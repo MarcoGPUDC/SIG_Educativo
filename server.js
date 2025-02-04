@@ -145,7 +145,7 @@ app.use('/abm', abmRoutes);
 //ENDSPOINTS
 app.post('/logout', (req, res) => {
   res.clearCookie('authToken',{
-    path: "/auth",
+    path: "/",
     httpOnly: true,
     secure: true,
     sameSite: 'none',

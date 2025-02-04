@@ -288,7 +288,9 @@ function buscar_porcentaje_equi_infra(){
 
 //consultas a mysql
 async function verificar_usuario_mysql(username) {
-    return mysqldb.query('SELECT * FROM ddjj_production.users user WHERE user.email = ?', [username])
+    return mysqldb.query(`SELECT users.id, users.cuil_cuit, users.numero_documento, users.email, users.encrypted_password, rol.name FROM ddjj_production.users users 
+                        JOIN ddjj_production.user_roles roles ON roles.user_id = users.id
+                        JOIN ddjj_production.roles rol ON rol.id = roles.role_id WHERE users.email = ?`, [username])
 }
 
 module.exports = {

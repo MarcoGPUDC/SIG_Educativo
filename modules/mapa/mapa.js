@@ -2085,19 +2085,23 @@ async function downloadAsExcel(namelayer){
 		return 0
 	} else {
 		var localizaciones = [];
-		localizaciones.push(await getEstablecimientosLayers())
-		localizaciones.push(await getSupervisionLayers())
+		if (namelayer.split(' ')[0] == 'Supervisíon') {
+			localizaciones.push(await getSupervisionLayers())
+		} else {
+			localizaciones.push(await getEstablecimientosLayers())
+		}
 		localizaciones.forEach(establecimientos => {
 			establecimientos.forEach(data => {
 					var temp = data[0][0]._needsClustering;
 					temp.forEach(data =>{
 						delete data.feature.properties.id
+						delete data.feature.properties.area
 					})
 			})
 			establecimientos.forEach(data => {
-				if (data[1][0].label == namelayer || ("Supervisíon " + data[1][0].label) == namelayer) {
+				if (data[1][0].label == namelayer || ( 'Supervisíon ' + data[1][0].label) == namelayer){
 					datosLabel = data[0][0]._needsClustering;
-				}
+				}				
 			})
 		})
 		var len = datosLabel.length;

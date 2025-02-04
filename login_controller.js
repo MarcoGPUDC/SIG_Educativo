@@ -19,8 +19,8 @@ router.get('/', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
-    const result = await consulta.verificar_usuario_mysql(username);
-    bcrypt.compare(password, result[0][0].encrypted_password, (err, result) => {
+    const resultUser = await consulta.verificar_usuario_mysql(username);
+    bcrypt.compare(password, resultUser[0][0].encrypted_password, (err, result) => {
       if (err) {
           // Handle error
           console.error('Error comparing passwords:', err);
@@ -28,7 +28,11 @@ router.post('/login', async (req, res) => {
       }
   
     if (result) {
-        const token = jwt.sign({username}, SECRET_KEY, {expiresIn: '1h'})
+        const user = {id: resultUser[0][0].id,
+                      role: resultUser[0][0].name,
+                      user: username
+        }
+        const token = jwt.sign(user, SECRET_KEY, {expiresIn: '1h'})
         res.cookie('authToken', token,{
           httpOnly: false,
           secure: false,
