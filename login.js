@@ -60,7 +60,7 @@ function logIn() {
 }
 
 function logOut(){
-    fetch(`/logout`,{
+    fetch(`./logout`,{
         method:"POST",
         credentials: "include"
     })
