@@ -2,9 +2,9 @@ const mysql = require ('mysql2');
 
 
 const conexion = mysql.createPool ({
-    host: '172.16.80.141',
+    host: 'sistemas2.chubut.edu.ar',
     //host: 'localhost',
-    user: 'marco',
+    user: 'sigeducativo',
     password: 'sigadmin',
     database: 'ddjj_production',
     port: 3306,
