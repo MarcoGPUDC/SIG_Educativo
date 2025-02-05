@@ -73,7 +73,7 @@ function logOut(){
         })
         .then(data => {
             if (data) {
-                window.open('/auth','_self');  // Si el login es exitoso, redirige
+                window.open('./auth','_self');  // Si el login es exitoso, redirige
             }
         })
         .catch(error => {
