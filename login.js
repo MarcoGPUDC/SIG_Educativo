@@ -33,7 +33,7 @@ function logIn() {
 
     const data = { username: user, password: pass };
 
-    fetch('auth/login', {
+    fetch('./auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials:'include',
@@ -48,7 +48,7 @@ function logIn() {
     })
     .then(data => {
         if (data) {
-            window.open('/auth','_self');  // Si el login es exitoso, redirige
+            window.open('./auth','_self');  // Si el login es exitoso, redirige
         } else {
             document.getElementById("message").textContent = "Error al iniciar sesión.";
         }
