@@ -17,3 +17,17 @@
 .botonAñadirBuscador {
     width: 95%;
 }
+
+#ventanaInfra {
+    width: 600px;
+}
+
+#colEqui {
+    height: 122px;
+}
+
+#ventanaInfra img {
+    width: 25px;
+    height: 25px;
+    margin: 5px;
+}

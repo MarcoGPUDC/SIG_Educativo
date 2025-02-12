@@ -259,7 +259,11 @@ function buscar_info_equi_infra(){
         CASE WHEN internet IS NOT NULL AND internet = 'SI' THEN 1 ELSE 0 END+
 		CASE WHEN energia IS NOT NULL AND energia = 'SI' THEN 1 ELSE 0 END+
         CASE WHEN calefaccion IS NOT NULL AND calefaccion = 'SI' THEN 1 ELSE 0 END
-        )::integer AS completitud FROM padron.v_establec_base_equi_infra;`)
+        )::integer AS completitud, inst.id_institucion AS id, inst.cue_anexo, inst.domicilio, loc.localidad, inst.region, inst.email_inst AS email, inst.web, niv.nombre AS nivel, inst.nombre
+        FROM padron.v_establec_base_equi_infra infra JOIN padron.institucion inst ON inst.id_institucion = infra.id_institucion
+        JOIN padron.localidad loc ON loc.id_localidad = inst.id_localidad
+        JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
+        JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel`)
 }
 function buscar_porcentaje_equi_infra(){
     return db.one(`SELECT TRUNC(AVG(completitud)) AS promedio_completo

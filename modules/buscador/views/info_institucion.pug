@@ -13,6 +13,7 @@ html(lang="es")
         link(rel="stylesheet", type="text/css", href="css/Control.FullScreen.css")
         link(rel="stylesheet", type="text/css", href="css/easy-button.css")
         link(rel="stylesheet", type="text/css", href="css/iconLayers.css")
+        link(rel="stylesheet", type="text/css", href="buscador/utilities/css/buscador.css")
         link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css")
         script(src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js")
         script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous")
@@ -130,8 +131,8 @@ html(lang="es")
                         </div>
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <div class="col m-2">
+                <div class="row mb-2" id="ventanaInfra">
+                    <div class="col m-2" id="colEqui">
                         <div class="card h-100">
                             <div class="card-header card-header-custom">
                                 <div class="d-flex">
@@ -140,11 +141,11 @@ html(lang="es")
                                 </div> 
                             </div>
                             <div class="card-body">
-                                <p id="bibliotecainfoadicional" class="card-text card-text-custom"><b>Biblioteca escolar: </b></p>
-                                <p id="informaticainfoadicional" class="card-text card-text-custom"><b>Sala de Informática: </b></p>
-                                <p id="laboratorioinfoadicional" class="card-text card-text-custom"><b>Laboratorio: </b></p>
-                                <p id="artisticainfoadicional" class="card-text card-text-custom"><b>Espacio Artística: </b></p>
-                                <p id="tallerinfoadicional" class="card-text card-text-custom"><b>Espacio Taller: </b></p>
+                                <p id="bibliotecainfoadicional" class="card-text card-text-custom" style="display: inline-block;"></p>
+                                <p id="informaticainfoadicional" class="card-text card-text-custom" style="display: inline-block;"></p>
+                                <p id="laboratorioinfoadicional" class="card-text card-text-custom" style="display: inline-block;"></p>
+                                <p id="artisticainfoadicional" class="card-text card-text-custom" style="display: inline-block;"></p>
+                                <p id="tallerinfoadicional" class="card-text card-text-custom" style="display: inline-block;"></p>
                             </div>
                         </div>
                     </div>
@@ -157,10 +158,10 @@ html(lang="es")
                                 </div> 
                             </div>
                             <div class="card-body">	
-                                <p id="aguainfoadicional" class="card-text card-text-custom"><b>Agua potable: </b></p>
-                                <p id="energiainfoadicional" class="card-text card-text-custom"><b>Energía eléctrica/ Fuente: </b></p>
-                                <p id="internetinfoadicional" class="card-text card-text-custom"><b>Internet/ Fuente: </b></p>
-                                <p id="calefaccioninfoadicional" class="card-text card-text-custom"><b>Calefaccion: </b></p>
+                                <p id="aguainfoadicional" class="card-text card-text-custom"></p>
+                                <p id="energiainfoadicional" class="card-text card-text-custom"></p>
+                                <p id="internetinfoadicional" class="card-text card-text-custom"></p>
+                                <p id="calefaccioninfoadicional" class="card-text card-text-custom"></p>
                             </div>
                         </div>
                     </div>

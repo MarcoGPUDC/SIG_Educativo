@@ -1,6 +1,5 @@
-
-//fetch('http://localhost:3005/getCookie',{credentials:'include'})
-fetch('https://sistemas2.chubut.edu.ar/sigeducativo/getCookie',{credentials:'include'})
+fetch('./getCookie',{credentials:'include'})
+//fetch('https://sistemas2.chubut.edu.ar/sigeducativo/getCookie',{credentials:'include'})
 .then(response => {
     if (!response.ok) {
         // Si la respuesta no es exitosa, muestra el error

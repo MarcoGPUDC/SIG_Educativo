@@ -744,10 +744,33 @@ function onEachFeatureO (feature, layer) {
 	}
 
 function popup_equip_infra (feature, layer) {
-	layer.bindPopup(
-		"<div class='p-3' id='popup_equi_infra'><h5 style='color:#0d6efd'>"+ (feature.properties.nombre?feature.properties.nombre:"No se registra")+
+	const popup1 = "<div class='p-3'>"+
+  		"<h6 style='color:#0d6efd'>"+ (feature.properties.nombre?feature.properties.nombre:"No se registra") + "</h6>" +
+	 	"<h6> Información General</h6>" + 
+	 	"<table>"+
+		"<tr><td><b>CUE - Anexo:</b> "+ (feature.properties.cueanexo?feature.properties.cueanexo:"No se registra") + "</td></tr>"+
+		"<tr><td><b>Número:</b> "+ (feature.properties.codjurid?feature.properties.codjurid:"No se registra") + "</td></tr>" + 
+		"<tr><td><b>Región:</b> "+ (feature.properties.region?feature.properties.region:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Localidad:</b> "+ (feature.properties.localidad?formatoNombre(feature.properties.localidad):"No se registra") + "</td></tr>" +
+		"<tr><td><b>Dirección:</b> "+ (feature.properties.domicilio?feature.properties.domicilio:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Nivel:</b> "+ (feature.properties.nivel?feature.properties.nivel:"No se registra") + "</td></tr>" +
+		"</table>" +
+		"<h6 class='mt-3'> Información de Contacto</h6>" + 
+		"<table>" +
+		"<tr><td><b>Teléfono:</b> "+ (feature.properties.telefono?feature.properties.telefono:"") + "</td></tr>" +
+		"<tr><td><b>Email:</b><a " + (feature.properties.email?"href='mailto:"+feature.properties.email:"") + " '> "  + (feature.properties.email?feature.properties.email:"No se registra") + "</a></td></tr>" +
+		"<tr><td><b>Sitio Web:</b>" + "<a " + (feature.properties.web && feature.properties.web != 'Sin información'?"href='"+feature.properties.sitioweb:"") + " ' target='_blank' rel='noopener noreferrer'> "  + (feature.properties.sitioweb?feature.properties.sitioweb:"No se registra") + "</a>"+ "</td></tr>" +
+		"<tr><td><b>Responsable:</b> "+ (feature.properties.responsabl?feature.properties.responsabl:"") + "</td></tr>" +
+		"<tr><td><b>Tel. del Responsable:</b> "+ (feature.properties.resp_tel?feature.properties.resp_tel:"-") + "</td></tr>" +
+		"</table>" +
+  		"</div></div>" +
+  		"<div class='d-flex justify-content-end'><button class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' >Infraestructura</button><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='./info?num="+feature.properties.id+"' target='_blank'>Ver más...</a>" +
+  		"</div>"
+	layer.bindPopup(popup1,{minWidth: 270, maxWidth: 270});
+	layer.feature.properties.popup1 = popup1;
+	layer.feature.properties.popup2 = "<div class='p-3' id='popup_equi_infra'><h5 style='color:#0d6efd'>"+ (feature.properties.nombre?feature.properties.nombre:"No se registra")+
 		"</h5><table><tr><td><h6><b>Infraestructura</b></h6></td></tr><tr>" +
-		"<td colspan='2'><b>Numero:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") + "</td></tr>" + 
+		"<td colspan='2'><b>Numero:</b> "+ (feature.properties.codjurid?feature.properties.codjurid:"No se registra") + "</td></tr>" + 
 		"<tr><td colspan='2'>"+ (feature.properties.agua == 'SI'?"<img src="+"./icons/agua.svg"+">":"<img src="+"./icons/aguaNo.png"+">") + "</td></tr>" +
 		"<tr><td>"+ (feature.properties.internet == 'SI'?"<img src="+"./icons/internet.svg"+">":"<img src="+"./icons/internetNo.png"+">") + "</td> " +
 		"<td><b>Proovedor:</b> "+ (feature.properties.fuente_internet?feature.properties.fuente_internet:"No indica"+">") + "</td></tr>" + 
@@ -760,12 +783,35 @@ function popup_equip_infra (feature, layer) {
 		(feature.properties.informatica == 'SI'?"<img src="+"./icons/informatica.svg"+">":"<img src="+"./icons/informaticaNo.png"+">") +
 		(feature.properties.artistica == 'SI'?"<img src="+"./icons/artistica.svg"+">":"<img src="+"./icons/artisticaNo.png"+">") +
 		(feature.properties.taller == 'SI'?"<img src="+"./icons/taller.svg"+">":"<img src="+"./icons/tallerNo.png"+">") +
-		"</td></tr></table></div>",
-		{minWidth: 270, maxWidth: 270}
-	);
+		"</td></tr></table>"+
+		"<button class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' >Info general</button> <a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='./info?num="+feature.properties.id+"' target='_blank'>Ver más...</a>"+
+		"</div>";
+	layer.currentPopup = "popup1"
+	layer.on("popupopen", function (e){
+		var popup = e.popup;
+		var popupElement = popup._contentNode;
+
+		if (popupElement){
+			var button = popupElement.querySelector("button")
+			if (button){
+				button.onclick = () => cambiarPopup(layer._leaflet_id, layer.feature.properties.popup1, layer.feature.properties.popup2)
+			}
+		}
+	})
+
 	layer.on({
 		popupopen : closepoputNL,
 	});
+}
+
+function cambiarPopup(layerid, popup1, popup2){
+	let layer = Object.values(mymap._layers).find(l => l._leaflet_id === layerid);
+	var newPopup; 
+	layer.currentPopup === 'popup1' ? newPopup = popup2 : newPopup = popup1;
+	layer.setPopupContent(newPopup).openPopup();
+	layer.currentPopup === 'popup1' ? layer.currentPopup = "popup2" : layer.currentPopup = "popup1";
+	layer.closePopup()
+	layer.openPopup()
 }
 
 function showZoom(){
@@ -944,7 +990,7 @@ function getDepartamentos() {
 			})
 			capaEquiInfra.addLayer(marker);
 			capaEquiInfra.addTo(mymap);
-			renderizarSemaforo(institucion.completitud.data.promedio_completo);
+			//renderizarSemaforo(institucion.completitud.data.promedio_completo);
 			return capaEquiInfra
 		})
 		}	
@@ -1289,6 +1335,23 @@ async function generarTodosLayers(layerParam) {
 				inactive: true,
 			});
 		});
+
+		if (layerParam == 'infra') {
+			//fetch('https://sistemas2.chubut.edu.ar/sigeducativo/getCookie',{credentials:'include'})
+			fetch('./getCookie',{credentials:'include'})
+			.then(response => {
+				if (!response.ok) {
+					// Si la respuesta no es exitosa, muestra el error
+					throw new Error(`HTTP error! Status: ${response.status}`);
+				}
+				return response.json();  // Procesa la respuesta como JSON
+			})
+			.then(data => {
+				if (data.cookie) {
+					getEquiInfra()
+				}
+			});
+		}
 		
 		return layersConfig;
 

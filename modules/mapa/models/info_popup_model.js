@@ -215,9 +215,15 @@ router.get('/mapa/setEquiInfraMarkers', async (req, res) => {
                 type: "Feature",
                 geometry: geom,
                 properties: {
+                    id: row.id,
+                    cueanexo: row.cue_anexo,
                     nombre: row.nombre,
-                    numero: row.numero,
+                    codjurid: row.numero,
                     localidad: row.localidad,
+                    domicilio: row.domicilio,
+                    web: row.web,
+                    email:row.email,
+                    nivel: row.nivel,
                     agua: row.agua,
                     internet: row.internet,
                     fuente_internet: row.fuente_internet,
@@ -229,6 +235,7 @@ router.get('/mapa/setEquiInfraMarkers', async (req, res) => {
                     informatica: row.informatica,
                     artistica: row.artistica,
                     taller: row.taller,
+                    region: row.region,
                     completitud: estado
                 }
             };
