@@ -136,6 +136,44 @@ router.get('/mapa/capaprueba', async (req, res) => {
 
 
 
+router.get("/mapa/localizar", async (req, res) => {
+    try {
+      var localidad = req.query.localidad;
+      var departamento = req.query.departamento;
+      var region = req.query.region;
+      const result = await consultar.buscar_ubicacion(localidad, departamento, region);
+      let geoJSON = {
+        "type": "FeatureCollection",
+        "features": [
+        ]
+        };
+      result.forEach(result => {
+        const geom = JSON.parse(result.geom);
+        var newFeature = {
+          type: "Feature",
+          geometry: geom,
+          properties: {
+              id: result.id_institucion,
+              numero: result.numero,
+              nombre: result.nombre,
+              localidad: result.localidad,
+              departamento: result.departamento,
+              region: result.region,
+              nivel: result.nivel,
+              direccion: result.domicilio
+          }};
+      geoJSON.features.push(newFeature) 
+      })
+      res.json(geoJSON);
+    } catch (error) {
+      console.error('Error al obtener los datos: ', error);
+      res.status(500).send('Error al obtener los datos.');
+    }
+  })
+
+
+
+
 
 module.exports = router;
 

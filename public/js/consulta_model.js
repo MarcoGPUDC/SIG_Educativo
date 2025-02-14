@@ -135,6 +135,18 @@ function buscar_oferta(modalidad, nivel) {
         JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion
         JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel WHERE niv.nombre = $1 AND moda.nombre = $2`, [nivel, modalidad])
 }
+//Buscar por ubicaion
+function buscar_ubicacion(localidad, departamento, region) {
+    return db.any(`SELECT inst.nombre, inst.numero, inst.region, loc.localidad, depa.departamento, inst.domicilio ,niv.nombre AS nivel, moda.nombre AS modalidad, ST_AsGeoJSON(ST_transform(geo.geom,4326)) AS geom FROM padron.institucion inst JOIN padron.departamento depa ON depa.id_departamento = inst.id_departamento
+    JOIN padron.localidad loc ON loc.id_localidad = inst.id_localidad
+    JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
+    JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel
+    JOIN padron.modalidades_educativas moda ON moda.id_modalidad = ofe.id_modalidad
+    JOIN padron.georeferencia geo ON geo.id_institucion = inst.id_institucion 
+    WHERE loc.localidad = $1 OR depa.departamento = $2 OR inst.region = $3`, [localidad, departamento, region])
+}
+
+
 //busquedas para el filtro
 function buscar_info_filtro(){
     return db.any(`SELECT 'Región ' || inst.region AS Región, inst.ambito, inst.numero, COALESCE(mat.varones, 0) AS masculino, COALESCE(mat.mujeres, 0) AS femenino, COALESCE(mat.no_binario, 0) AS no_binario, func.gestion, niv.nombre AS nivel FROM padron.matricula mat 

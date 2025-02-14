@@ -1922,6 +1922,41 @@ function ofertaSelect(){
 		});
 	ofeSelected = [];
 }
+//buscar por ubicaciones en el buscador
+function buscarPorUbicacion(){
+	console.log("ubicando...")
+    var localidad = document.getElementById("buscadorlocalidad").value.length > 0 ? document.getElementById("buscadorlocalidad").value: ' ';
+    var departamento = document.getElementById("buscadordepartamento").value.length > 0 ? document.getElementById("buscadordepartamento").value: ' ';
+    var region = document.getElementById("buscadorregion").value.length > 0 ? document.getElementById("buscadorregion").value: ' ';
+	var cluster = createCluster("establecimientos", "consulta")
+	console.log("cluster creado")
+    fetch(`mapa/localizar?localidad=${localidad}&departamento=${departamento}&region=${region}`)
+    .then(response => response.json())
+    .then((escuelas) => {
+		
+		var geoLayer = L.geoJSON(escuelas, {
+		pointToLayer: function (feature, latlng) {
+			var marker = L.marker(latlng, {
+				icon: L.icon({
+					iconUrl: "icons/establecimientos_consulta.svg",
+					iconSize:     [22, 22], 
+					iconAnchor:   [11, 0], 
+					popupAnchor:  [0, 0] 
+				}),
+				riseOnHover: true
+			});
+			console.log("marcador creado")
+			cluster.addLayer(marker);
+			return marker;
+			
+		},
+		onEachFeature: onEachFeatureS
+		})
+		return cluster
+    })
+	mymap.addLayer(cluster);	
+}
+
 //actualiza los botones que debe mostrar la botonera
 function updateButtonInLegend(label, newContent) {
     var legends = legend.options.legends;
