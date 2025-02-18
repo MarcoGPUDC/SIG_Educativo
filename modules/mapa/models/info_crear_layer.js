@@ -141,7 +141,7 @@ router.get("/mapa/localizar", async (req, res) => {
       var localidad = req.query.localidad;
       var departamento = req.query.departamento;
       var region = req.query.region;
-      const result = await consultar.buscar_ubicacion(localidad, departamento, region);
+      const result = await consultar.buscar_localizacion(localidad, departamento, region);
       let geoJSON = {
         "type": "FeatureCollection",
         "features": [

@@ -77,7 +77,7 @@ function busqueda_adicional (id) {
     return db.any(`SELECT inst.id_institucion, inst.cue_anexo, func.jornada, turno.nombre AS turno, nivel.nombre AS nivel, mod.nombre AS modalidad, inst.cue, inst.anexo FROM padron.institucion inst 
     LEFT JOIN padron.funcionamiento func ON inst.id_institucion = func.id_institucion
     LEFT JOIN padron.turno turno ON turno.id_turno = func.id_turno
-    JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
+    JOIN padron.modalidad_nivel ofe ON ofe.id_institucion = inst.id_institucion
     LEFT JOIN padron.modalidades_educativas mod ON mod.id_modalidad = ofe.id_modalidad
     LEFT JOIN padron.nivel nivel ON ofe.id_nivel = nivel.id_nivel WHERE inst.id_institucion = $1;`,id);
 };
@@ -108,7 +108,7 @@ function buscar_info_popup_inst() {
     LEFT JOIN padron.localidad loc ON inst.id_localidad = loc.id_localidad 
     LEFT JOIN padron.contacto cont ON inst.id_institucion = cont.id_institucion
     LEFT JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion
-	LEFT JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
+	LEFT JOIN padron.modalidad_nivel ofe ON ofe.id_institucion = inst.id_institucion
 	LEFT JOIN padron.nivel niv ON ofe.id_nivel = niv.id_nivel
     LEFT JOIN padron.modalidades_educativas moda ON moda.id_modalidad = ofe.id_modalidad
     LEFT JOIN public.radios_escolares rad ON rad.id_institucion = inst.id_institucion
@@ -130,16 +130,16 @@ function buscar_info_delegacion(){
 
 //funcion para buscar por oferta educativa
 function buscar_oferta(modalidad, nivel) {
-    return db.any(`SELECT inst.id_institucion, inst.nombre, inst.numero, niv.nombre AS nivel, moda.nombre AS modalidad, geo.long, geo.lat FROM padron.institucion inst JOIN padron.oferta ofe ON inst.id_institucion = ofe.id_institucion
+    return db.any(`SELECT inst.id_institucion, inst.nombre, inst.numero, niv.nombre AS nivel, moda.nombre AS modalidad, geo.long, geo.lat FROM padron.institucion inst JOIN padron.modalidad_nivel ofe ON inst.id_institucion = ofe.id_institucion
         JOIN padron.modalidades_educativas moda ON moda.id_modalidad = ofe.id_modalidad
         JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion
         JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel WHERE niv.nombre = $1 AND moda.nombre = $2`, [nivel, modalidad])
 }
 //Buscar por ubicaion
-function buscar_ubicacion(localidad, departamento, region) {
+function buscar_localizacion(localidad, departamento, region) {
     return db.any(`SELECT inst.nombre, inst.numero, inst.region, loc.localidad, depa.departamento, inst.domicilio ,niv.nombre AS nivel, moda.nombre AS modalidad, ST_AsGeoJSON(ST_transform(geo.geom,4326)) AS geom FROM padron.institucion inst JOIN padron.departamento depa ON depa.id_departamento = inst.id_departamento
     JOIN padron.localidad loc ON loc.id_localidad = inst.id_localidad
-    JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
+    JOIN padron.modalidad_nivel ofe ON ofe.id_institucion = inst.id_institucion
     JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel
     JOIN padron.modalidades_educativas moda ON moda.id_modalidad = ofe.id_modalidad
     JOIN padron.georeferencia geo ON geo.id_institucion = inst.id_institucion 
@@ -152,7 +152,7 @@ function buscar_info_filtro(){
     return db.any(`SELECT 'Región ' || inst.region AS Región, inst.ambito, inst.numero, COALESCE(mat.varones, 0) AS masculino, COALESCE(mat.mujeres, 0) AS femenino, COALESCE(mat.no_binario, 0) AS no_binario, func.gestion, niv.nombre AS nivel FROM padron.matricula mat 
         RIGHT JOIN padron.institucion inst ON inst.id_institucion = mat.id_institucion 
         JOIN padron.funcionamiento func ON func.id_institucion = inst.id_institucion 
-        JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
+        JOIN padron.modalidad_nivel ofe ON ofe.id_institucion = inst.id_institucion
 		JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel
 		ORDER BY inst.numero`)
 }
@@ -161,7 +161,7 @@ function filtro_establecimiento_gestion() {
     return db.any(`SELECT 'Región ' || inst.region AS Región, COUNT(CASE WHEN func.gestion = 'Estatal' THEN 1 ELSE NULL END) AS Estatal, COUNT(CASE WHEN func.gestion = 'Privado' THEN 1 ELSE NULL END) AS Privada, COUNT(CASE WHEN func.gestion = 'Gestión social/cooperativa' THEN 1 ELSE NULL END) AS Social_Cooperativa FROM padron.matricula mat 
         RIGHT JOIN padron.institucion inst ON inst.id_institucion = mat.id_institucion 
         JOIN padron.funcionamiento func ON func.id_institucion = inst.id_institucion 
-        JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
+        JOIN padron.modalidad_nivel ofe ON ofe.id_institucion = inst.id_institucion
 		JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel
 		GROUP BY inst.region
 		ORDER BY inst.region`)
@@ -171,7 +171,7 @@ function filtro_establecimiento_ambito() {
     return db.any(`SELECT 'Región ' || inst.region AS Región, COUNT(CASE WHEN inst.ambito = 'Rural' THEN 1 ELSE NULL END) AS Rural, COUNT(CASE WHEN inst.ambito = 'Urbano' THEN 1 ELSE NULL END) AS Urbano, COUNT(CASE WHEN inst.ambito = 'Rural Disperso' THEN 1 ELSE NULL END) AS Rural_disperso, COUNT(CASE WHEN inst.ambito = 'Rural Aglomerado' THEN 1 ELSE NULL END) AS Rural_aglomerado FROM padron.matricula mat 
         RIGHT JOIN padron.institucion inst ON inst.id_institucion = mat.id_institucion 
         JOIN padron.funcionamiento func ON func.id_institucion = inst.id_institucion 
-        JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
+        JOIN padron.modalidad_nivel ofe ON ofe.id_institucion = inst.id_institucion
 		JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel
 		GROUP BY inst.region
 		ORDER BY inst.region`)
@@ -215,14 +215,14 @@ function cargar_ubicacion (id_institucion, lat, long) {
 function borrar_institucion (id) {
     db.tx( t => {
         t.none(`DELETE FROM padron.georeferencia WHERE id_institucion = $1`, [id]);
-        t.none('DELETE FROM padron.oferta WHERE id_institucion = $1',[id]);
+        t.none('DELETE FROM padron.modalidad_nivel WHERE id_institucion = $1',[id]);
         t.none(`DELETE FROM padron.institucion WHERE id_institucion = $1`, [id]);
     });
 }
 
 function cargar_oferta(id, modalidad, nivel){
     db.tx (t=>{
-        t.none('INSERT INTO padron.oferta (id_institucion, id_modalidad, id_nivel) VALUES ($1, $2, $3)', [id, modalidad, nivel]);
+        t.none('INSERT INTO padron.modalidad_nivel (id_institucion, id_modalidad, id_nivel) VALUES ($1, $2, $3)', [id, modalidad, nivel]);
     })
 }
 
@@ -237,7 +237,7 @@ function modificar_institucion (id, departamento, localidad, numero, region, dom
 
 function modificar_oferta (id, nivel, modalidad){
     db.tx (t => {
-        t.none (`UPDATE padron.oferta
+        t.none (`UPDATE padron.modalidad_nivel
                     SET id_nivel= $2, id_modalidad= $3
                     WHERE id_institucion = $1;  
             `, [id, nivel, modalidad])
@@ -274,7 +274,7 @@ function buscar_info_equi_infra(){
         )::integer AS completitud, inst.id_institucion AS id, inst.cue_anexo, inst.domicilio, loc.localidad, inst.region, inst.email_inst AS email, inst.web, niv.nombre AS nivel, inst.nombre
         FROM padron.v_establec_base_equi_infra infra JOIN padron.institucion inst ON inst.id_institucion = infra.id_institucion
         JOIN padron.localidad loc ON loc.id_localidad = inst.id_localidad
-        JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
+        JOIN padron.modalidad_nivel ofe ON ofe.id_institucion = inst.id_institucion
         JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel`)
 }
 function buscar_porcentaje_equi_infra(){
@@ -330,6 +330,7 @@ module.exports = {
     buscar_info_delegacion,
     busqueda_simple_todo,
     buscar_ubicacion,
+    buscar_localizacion,
     buscar_oferta,
     buscar_todos_biblioteca,
     buscar_info_filtro,
