@@ -37,6 +37,10 @@ async function completarDatosInstitucion() {
         document.getElementById('emailinfoadicional').innerHTML = `${data.email_inst}`;
         document.getElementById('sitio_webinfoadicional').innerHTML = `${data.web}`;
         document.getElementById('resp_telresponsableinfoadicional').innerHTML = `${data.tel_resp}`;
+        //Matricula
+        document.getElementById('matriculamujeres').innerHTML += `${data.mujeres}`;
+        document.getElementById('matriculavarones').innerHTML += `${data.varones}`;
+        document.getElementById('matriculatotal').innerHTML += `${data.total}`;
         fetch(`info/obtenerDatosSedeAnexo?cue=${data.cue}&anexo=${data.anexo}`)
         .then (response => {
             if(!response.ok){

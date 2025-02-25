@@ -1258,6 +1258,7 @@ async function generarTodosLayers(layerParam) {
 				inactive: inactivo,
 			});
 			(establecimiento[1][0].url == layerParam?layer.addTo(mymap):i+=1);
+			console.log(establecimiento[1][0].url)
 		});
 
 		layersConfig.push({

@@ -70,7 +70,11 @@ function area_bibliotecas() {
 
 //busca info especifica de un establecimiento por su id
 function busqueda_simple (id) {
-    return db.one(`SELECT inst.*, COALESCE(inst.responsable, 'Sin Informacion') AS responsable, COALESCE(inst.tel, 'Sin Informacion') AS tel_resp, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.v_establec_educativos AS inst WHERE inst.id_institucion = $1;`,id);
+    return db.one(`SELECT inst.*, COALESCE(inst.responsable, 'Sin Informacion'), COALESCE(inst.tel, 'Sin Informacion') AS tel_resp, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom, SUM(matri.varones) AS varones, SUM(matri.mujeres) AS mujeres, SUM(matri.total) AS total FROM padron.v_establec_educativos AS inst 
+                    JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
+                    JOIN padron.matricula matri ON matri.id_oferta = ofe.id 
+					WHERE inst.id_institucion = $1
+					GROUP BY inst.id_institucion, inst.cue, inst.anexo, inst.cue_anexo, inst.nombre, inst.numero, inst.funcion, inst.region, inst.localidad, inst.departamento, inst.nivel, inst.modalidad, inst.domicilio, inst.cp, inst.ambito, inst.web, inst.tel, inst.email_inst, inst.gestion, inst.jornada, inst.dependencia, inst.responsable, inst.telefono, inst.geom;`,id);
 };
 //busca info adicional de un establecimiento por su id
 function busqueda_adicional (id) {
