@@ -74,7 +74,7 @@ function busqueda_simple (id) {
                     JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
                     JOIN padron.matricula matri ON matri.id_oferta = ofe.id 
 					WHERE inst.id_institucion = $1
-					GROUP BY inst.id_institucion, inst.cue, inst.anexo, inst.cue_anexo, inst.nombre, inst.numero, inst.funcion, inst.region, inst.localidad, inst.departamento, inst.nivel, inst.modalidad, inst.domicilio, inst.cp, inst.ambito, inst.web, inst.tel, inst.email_inst, inst.gestion, inst.jornada, inst.dependencia, inst.responsable, inst.telefono, inst.geom;`,id);
+					GROUP BY inst.id_institucion, inst.cue, inst.anexo, inst.cue_anexo, inst.nombre, inst.numero, inst.funcion, inst.region, inst.localidad, inst.departamento, inst.nivel, inst.modalidad, inst.domicilio, inst.cp, inst.ambito, inst.web, inst.tel, inst.gestion, inst.jornada, inst.dependencia, inst.responsable, inst.telefono, inst.geom;`,id);
 };
 //busca info adicional de un establecimiento por su id
 function busqueda_adicional (id) {
