@@ -24,7 +24,7 @@ async function completarDatosInstitucion() {
         //datos institucion
         document.getElementById('cabecera').innerText += ` ${data.numero}`;
         document.getElementById('cueanexoinfoadicional').innerHTML = `${data.cue_anexo}`;
-        document.getElementById('funinfoadicional').innerHTML = `${data.funcion}`;
+        //document.getElementById('funinfoadicional').innerHTML = `${data.funcion}`;
         document.getElementById('regioninfoadicional').innerHTML = `${data.region}`;
         document.getElementById('departamentoinfoadicional').innerHTML = `${data.departamento}`;
         document.getElementById('Localidadinfoadicional').innerHTML = `${data.localidad}`;
@@ -138,7 +138,6 @@ async function completarDatosInstitucion() {
     .then(datos => {
         var data = datos[0]
         //datos oferta
-        console.log(data.artistica)
         var biblioteca = document.getElementById('bibliotecainfoadicional');
         var laboratorio = document.getElementById('laboratorioinfoadicional');
         var informatica = document.getElementById('informaticainfoadicional');
@@ -194,7 +193,7 @@ function downloadAsExceInfoAdicional(){
 	obj["cueanexo"] = document.getElementById("cueanexoinfoadicional").innerHTML; 
 	//obj["fna"] = document.getElementById("fnainfoadicional").innerHTML;
 	obj["domicilio"] = document.getElementById("calleinfoadicional").innerHTML; 
-	obj["fun"] = document.getElementById("funinfoadicional").innerHTML; 
+	//obj["fun"] = document.getElementById("funinfoadicional").innerHTML; 
 	obj["codigoPostal"] = document.getElementById("cod_postalinfoadicional").innerHTML;
 	obj["localidad"] = document.getElementById("Localidadinfoadicional").innerHTML; 
 	obj["departemento"] = document.getElementById("departamentoinfoadicional").innerHTML; 
