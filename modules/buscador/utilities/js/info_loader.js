@@ -148,15 +148,15 @@ async function completarDatosInstitucion() {
         var energia = document.getElementById('energiainfoadicional');
         var internet = document.getElementById('internetinfoadicional');
         var calefaccion = document.getElementById('calefaccioninfoadicional');
-        data.biblioteca !=null?biblioteca.innerHTML+='<img src="./icons/biblioteca.svg" title="Biblioteca">':biblioteca.innerHTML+='<img src="./icons/bibliotecaNo.png" title="Sin biblioteca">'; 
-        data.laboratorio !=null?laboratorio.innerHTML+='<img src="./icons/laboratorio.svg" title="Laboratorio">':laboratorio.innerHTML+='<img src="./icons/laboratorioNo.png" title="Sin laboratorio">';
-        data.informatica !=null?informatica.innerHTML+='<img src="./icons/informatica.svg" title="Informatica">':informatica.innerHTML+='<img src="./icons/informaticaNo.png" title="Sin sala informatica">';
-        data.artistica != null?artistica.innerHTML+='<img src="./icons/artistica.svg" title="Artistica">':artistica.innerHTML+= '<img src="./icons/artisticaNo.png" title="Sin sala artistica">';
-        data.taller !=null?taller.innerHTML+='<img src="./icons/taller.svg" title="Taller">':taller.innerHTML+='<img src="./icons/tallerNo.png" title="Sin Taller">';
-        data.agua !=null?agua.innerHTML+='<img src="./icons/agua.svg" title="Agua">':agua.innerHTML+='<img src="./icons/aguaNo.svg">';
-        data.energia !=null?energia.innerHTML+='<img src="./icons/energia.png" title="Energia">' + ' Fuente: ' + data.fuente_energia:energia.innerHTML+='<img src="./icons/energiaNo.png">';
-        data.internet !=null?internet.innerHTML+='<img src="./icons/internet.svg" title="Internet">' + ' Fuente: ' + data.fuente_internet:internet.innerHTML+='<img src="./icons/internetNo.svg">';
-        data.calefaccion !=null?calefaccion.innerHTML+='<img src="./icons/calefaccion.svg" title="Calefaccion">': calefaccion.innerHTML+='<img src="./icons/calefaccionNo.png" title="Sin calefaccion">';
+        (data.biblioteca !="NULL")?biblioteca.innerHTML+='<img src="./icons/biblioteca.svg" title="Biblioteca">':biblioteca.innerHTML+='<img src="./icons/bibliotecaNo.png" title="Sin biblioteca">'; 
+        data.laboratorio !="NULL"?laboratorio.innerHTML+='<img src="./icons/laboratorio.svg" title="Laboratorio">':laboratorio.innerHTML+='<img src="./icons/laboratorioNo.png" title="Sin laboratorio">';
+        data.informatica !="NULL"?informatica.innerHTML+='<img src="./icons/informatica.svg" title="Informatica">':informatica.innerHTML+='<img src="./icons/informaticaNo.png" title="Sin sala informatica">';
+        data.artistica != "NULL"?artistica.innerHTML+='<img src="./icons/artistica.svg" title="Artistica">':artistica.innerHTML+= '<img src="./icons/artisticaNo.png" title="Sin sala artistica">';
+        data.taller !="NULL"?taller.innerHTML+='<img src="./icons/taller.svg" title="Taller">':taller.innerHTML+='<img src="./icons/tallerNo.png" title="Sin Taller">';
+        data.agua !="NULL"?agua.innerHTML+='<img src="./icons/agua.svg" title="Agua">':agua.innerHTML+='<img src="./icons/aguaNo.svg">';
+        data.energia !="NULL"?energia.innerHTML+='<img src="./icons/energia.png" title="Energia">' + ' Fuente: ' + data.fuente_energia:energia.innerHTML+='<img src="./icons/energiaNo.png">';
+        data.internet !="NULL"?internet.innerHTML+='<img src="./icons/internet.svg" title="Internet">' + ' Fuente: ' + data.fuente_internet:internet.innerHTML+='<img src="./icons/internetNo.svg">';
+        data.calefaccion !="NULL"?calefaccion.innerHTML+='<img src="./icons/calefaccion.svg" title="Calefaccion">': calefaccion.innerHTML+='<img src="./icons/calefaccionNo.png" title="Sin calefaccion">';
     })
     .catch(error => {
         console.error('Error:', error);
