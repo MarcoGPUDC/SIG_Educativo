@@ -2373,6 +2373,60 @@ flexSwitchCheckEstablecimiento.addEventListener("change", function() {
 	}
 })
 
+//comportamiento del input "Matricula" del modal filtro
+var flexSwitchCheckMatricula = document.getElementById("flexSwitchCheckMatricula")
+flexSwitchCheckMatricula.addEventListener("change", function() {
+	var form = document.getElementById("seleccionardato");
+	var inputs = form.getElementsByTagName('input');
+	if(flexSwitchCheckMatricula.checked == true){	
+		for (var i = 0; i<inputs.length; i++) {
+			if(inputs[i] != flexSwitchCheckMatricula){
+				inputs[i].checked = false;
+				inputs[i].disabled = true;
+			}
+		}	
+		document.getElementById("seleccionarfilah").style.display = 'block';
+		document.getElementById("seleccionarcolumnah").style.display = 'block';
+		document.getElementById("colflexSwitchCheckRegion").style.display = 'block';
+		document.getElementById("colfilavacia").style.display = 'none';
+		document.getElementById("colflexSwitchCheckAmbito1").style.display = 'block';
+		document.getElementById("colflexSwitchCheckGestion1").style.display = 'block';
+		document.getElementById("colflexSwitchCheckRegion1").style.display = 'none';
+		document.getElementById("colclovacia1").style.display = 'none';
+		document.getElementById("colclovacia2").style.display = 'none';
+		document.getElementById("colclovacia3").style.display = 'block';
+	} else {
+		for (var i = 0; i<inputs.length; i++) {
+			if(inputs[i].disabled = true){
+				inputs[i].checked = false;
+				inputs[i].disabled = false; 
+			}
+		}
+		document.getElementById("seleccionarfilah").style.display = 'none';
+		document.getElementById("seleccionarcolumnah").style.display = 'none';
+		document.getElementById("colflexSwitchCheckRegion").style.display = 'none';
+		document.getElementById("colfilavacia").style.display = 'block';
+		var form = document.getElementById("seleccionarfila");
+		var inputs = form.getElementsByTagName('input');
+		for (var i = 0; i<inputs.length; i++) {
+			inputs[i].checked = false;
+			inputs[i].disabled = false;
+		}
+		document.getElementById("colflexSwitchCheckAmbito1").style.display = 'none';
+		document.getElementById("colflexSwitchCheckGestion1").style.display = 'none';
+		document.getElementById("colflexSwitchCheckRegion1").style.display = 'block';
+		document.getElementById("colclovacia1").style.display = 'block';
+		document.getElementById("colclovacia2").style.display = 'block';
+		document.getElementById("colclovacia3").style.display = 'none';
+		var form = document.getElementById("seleccionarcolumna");
+		var inputs = form.getElementsByTagName('input');
+		for (var i = 0; i<inputs.length; i++) {
+			inputs[i].checked = false;
+			inputs[i].disabled = false;   
+		}
+	}
+})
+
 //comportamiento del input "nivel" del modal filtro
 var flexSwitchCheckNivel = document.getElementById("flexSwitchCheckNivel")
 flexSwitchCheckNivel.addEventListener("change", function() {

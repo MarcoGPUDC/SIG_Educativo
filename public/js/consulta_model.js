@@ -181,6 +181,38 @@ function filtro_establecimiento_ambito() {
 		ORDER BY inst.region`)
 }
 
+function filtro_matricula_ambito(){
+    return db.any(`
+        SELECT ct."region" AS "Región",  COALESCE(ct."Rural", 0) AS "Rural", COALESCE(ct."Rural Aglomerado",0) AS "Rural Aglomerado", COALESCE(ct."Rural Disperso",0) AS "Rural Disperso", COALESCE(ct."Urbano",0) AS "Urbano", COALESCE(ct."Sin Especificar", 0) AS "Sin Especificar" FROM crosstab(
+            'SELECT inst.region , COALESCE(inst.ambito, ''Sin Especificar'') AS ambito, SUM(matri.total) AS total FROM padron.institucion inst
+            JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
+            JOIN padron.matricula matri ON matri.id_oferta = ofe.id
+            JOIN padron.modalidad_nivel modaniv ON modaniv.id_institucion = inst.id_institucion
+            JOIN padron.nivel niv ON niv.id_nivel = modaniv.id_nivel
+            JOIN padron.modalidades_educativas moda ON moda.id_modalidad = modaniv.id_modalidad
+            GROUP BY inst.region, inst.ambito
+            ORDER BY region, ambito ASC'
+            ) AS ct(region TEXT, "Rural" BIGINT, "Rural Aglomerado" BIGINT, "Rural Disperso" BIGINT, "Urbano" BIGINT, "Sin Especificar" BIGINT)       
+    `)
+}
+
+function filtro_matricula_gestion() {
+    return db.any(`
+        SELECT ct."region" AS "Región",  COALESCE(ct."Estatal", 0) AS "Estatal", COALESCE(ct."Social/Cooperativa",0) AS "Social/Cooperativa", COALESCE(ct."Privada",0) AS "Privada" FROM crosstab(
+            'SELECT inst.region , COALESCE(func.gestion, ''Sin Especificar'') AS ambito, SUM(matri.total) AS total FROM padron.institucion inst
+            JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
+            JOIN padron.matricula matri ON matri.id_oferta = ofe.id
+            JOIN padron.modalidad_nivel modaniv ON modaniv.id_institucion = inst.id_institucion
+            JOIN padron.nivel niv ON niv.id_nivel = modaniv.id_nivel
+            JOIN padron.modalidades_educativas moda ON moda.id_modalidad = modaniv.id_modalidad
+            JOIN padron.funcionamiento func ON func.id_institucion = inst.id_institucion
+            GROUP BY inst.region, func.gestion
+            ORDER BY region, ambito ASC'
+            ) AS ct(region TEXT, "Estatal" BIGINT, "Social/Cooperativa" BIGINT, "Privada" BIGINT)
+    `)
+}
+
+
 //consultas capas postgis
 function capa_regiones() {                                                                                                                                      //ST_AsGeoJSON(ST_Transform(geom, 4326)) transformar
     return db.any(`SELECT                                                                                                                                             
@@ -340,6 +372,8 @@ module.exports = {
     buscar_info_filtro,
     filtro_establecimiento_gestion,
     filtro_establecimiento_ambito,
+    filtro_matricula_ambito,
+    filtro_matricula_gestion,
     capa_regiones,
     capa_departamentos,
     capa_prueba,
