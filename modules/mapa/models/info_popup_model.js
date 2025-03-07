@@ -252,5 +252,25 @@ router.get('/mapa/setEquiInfraMarkers', async (req, res) => {
     }
 });
 
+router.get('/mapa/cargarInfoRegiones', async (req, res) => {
+    try {
+        const region = req.query.region
+        const result = await consultar.buscar_info_region(region);
+        const datosRegion = [];
+        // Verificar los datos obtenidos
+        result.forEach(row => {
+            var infoRegion = {
+                    tipo: row.modalidad_nivel,
+                    cantidad: row.cantidad
+                }
+            datosRegion.push(infoRegion)
+            });
+        res.json(datosRegion)
+    } catch (err) {
+        console.error('Error al obtener los datos', err);
+        res.status(500).json({ error: 'Database error' });
+    }
+});
+
 module.exports = router;
 

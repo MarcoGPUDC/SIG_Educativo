@@ -286,20 +286,24 @@ info.update = function(props){
     this._div.innerHTML = "<b>Información de la Región</h7></b>" + 
                             (props ? 
                             	"<table><tr><td><b>Región:</b> " + props.numreg + " (" + props.nombrereg + ")"+ 
-                            	"</td></tr><tr><td><b>Total Localizaciones:</b> "+ (props.totallocal?props.totallocal:"Sin Localizaciones") +
-                            	"</td></tr><tr><td><b>Educación Inicial:</b> "+ (props.inicial?props.inicial:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Educación Primaria:</b> "+ (props.primario?props.primario:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Educación Secundaria:</b> "+ (props.secundario?props.secundario:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Educación Superior:</b> "+ (props.superior?props.superior:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Formación Profesional:</b> "+ (props.formacion?props.formacion:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Educación Domiciliaria y Hospitalaria:</b> "+(props.domhosp?props.domhosp:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Educación Especial:</b> "+ (props.especial?props.especial:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Educación Artística:</b> "+ (props.artistica?props.artistica:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>EPJA:</b> "+ (props.epja?props.epja:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Otros Servicios Educativos:</b> "+ (props.oserveduc?props.oserveduc:"Sin Localizaciones")+
-								"</td></tr><tr><td><b>Edificios:</b> "+ (props.edificios?props.edificios:"Sin Localizaciones")+
-								"</td></tr><tr><td><b>Sedes:</b> "+ (props.sedes?props.sedes:"Sin Localizaciones")+
-								"</td></tr><tr><td><b>Anexos:</b> "+ (props.anexos?props.anexos:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Total Localizaciones:</b> "+ (props.cantidades?props.cantidades[4].cantidad:"Sin Localizaciones") +
+                            	"</td></tr><tr><td><b>Educación Inicial:</b> "+ (props.cantidades[9]?props.cantidades[9].cantidad:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Primaria:</b> "+ (props.cantidades[13].cantidad?props.cantidades[13].cantidad:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Secundaria:</b> "+ (props.cantidades[14]?props.cantidades[14].cantidad:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Superior:</b> "+ (props.cantidades[17]?props.cantidades[17].cantidad:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Técnico Profesional:</b> "+ (props.cantidades[8]?props.cantidades[8].cantidad:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Domiciliaria y Hospitalaria:</b> "+(props.cantidades[3]?props.cantidades[3].cantidad:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Especial:</b> "+ (props.cantidades[7]?props.cantidades[7].cantidad:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Artística:</b> "+ (props.cantidades[1]?props.cantidades[1].cantidad:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Escuela Permanente para Jovenes y Adultos:</b> "+ (props.cantidades[6]?props.cantidades[6].cantidad:"Sin Localizaciones")+
+								"</td></tr><tr><td><b>Escuela Intercultural Bilingüe:</b> "+ (props.cantidades[5]?props.cantidades[5].cantidad:"Sin Localizaciones")+
+								"</td></tr><tr><td><b>Contexto de Encierro:</b> "+ (props.cantidades[2]?props.cantidades[2].cantidad:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Otros Servicios Educativos:</b> "+ (props.cantidades[12]?props.cantidades[12].cantidad:"Sin Localizaciones")+
+								"</td></tr><tr><td><b>No corresponde modalidad:</b> "+ (props.cantidades[9]?props.cantidades[9].cantidad:"Sin Localizaciones")+
+								"</td></tr><tr><td><b>No corresponde nivel:</b> "+ (props.cantidades[10]?props.cantidades[10].cantidad:"Sin Localizaciones")+	
+								//"</td></tr><tr><td><b>Edificios:</b> "+ ()+
+								"</td></tr><tr><td><b>Sedes:</b> "+ (props.cantidades[16]?props.cantidades[16].cantidad:"Sin Localizaciones")+
+								"</td></tr><tr><td><b>Anexos:</b> "+ (props.cantidades[0]?props.cantidades[0].cantidad:"Sin Localizaciones")+
                             	//"</td></tr><tr><td><b>Población:</b> "+ (props.poblacion?props.poblacion:"Sin Localizaciones")+
                             	"</td></tr><tr><td><b>Superficie:</b> "+ (props.superficie?props.superficie:"Sin Localizaciones")+
                             	"</td></tr></table>"

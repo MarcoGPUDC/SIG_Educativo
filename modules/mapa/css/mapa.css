@@ -421,6 +421,7 @@ html, body{
 
 #tablaInfoFiltro{
     width: 550px;
+    text-align: center;
 }
 
 #modalInfoFiltro .modal-content{

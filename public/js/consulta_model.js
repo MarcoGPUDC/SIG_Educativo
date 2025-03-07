@@ -70,11 +70,11 @@ function area_bibliotecas() {
 
 //busca info especifica de un establecimiento por su id
 function busqueda_simple (id) {
-    return db.one(`SELECT inst.*, COALESCE(inst.responsable, 'Sin Informacion'), COALESCE(inst.tel, 'Sin Informacion') AS tel_resp, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom, SUM(matri.varones) AS varones, SUM(matri.mujeres) AS mujeres, SUM(matri.total) AS total FROM padron.v_establec_educativos AS inst 
-                    JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
-                    JOIN padron.matricula matri ON matri.id_oferta = ofe.id 
-					WHERE inst.id_institucion = $1
-					GROUP BY inst.id_institucion, inst.cue, inst.anexo, inst.cue_anexo, inst.nombre, inst.numero, inst.funcion, inst.region, inst.localidad, inst.departamento, inst.nivel, inst.modalidad, inst.domicilio, inst.cp, inst.ambito, inst.web, inst.tel, inst.gestion, inst.jornada, inst.dependencia, inst.responsable, inst.telefono, inst.geom;`,id);
+    return db.one(`SELECT inst.*, COALESCE(inst.responsable, 'Sin Informacion'), COALESCE(inst.tel, 'Sin Informacion') AS tel_resp, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom, COALESCE(SUM(matri.varones),0) AS varones, COALESCE(SUM(matri.mujeres),0) AS mujeres, COALESCE(SUM(matri.total),0) AS total FROM padron.v_establec_educativos AS inst 
+left JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
+left JOIN padron.matricula matri ON matri.id_oferta = ofe.id 
+WHERE inst.id_institucion = $1
+GROUP BY inst.id_institucion, inst.cue, inst.anexo, inst.cue_anexo, inst.nombre, inst.numero, inst.funcion, inst.region, inst.localidad, inst.departamento, inst.nivel, inst.modalidad, inst.domicilio, inst.cp, inst.ambito, inst.web, inst.tel, inst.gestion, inst.jornada, inst.dependencia, inst.responsable, inst.telefono, inst.geom;;`,id);
 };
 //busca info adicional de un establecimiento por su id
 function busqueda_adicional (id) {
@@ -89,8 +89,8 @@ function busqueda_adicional (id) {
 //busca info infraestructura y equipamiento
 function busqueda_adicional_infra (id) {
     return db.any (`SELECT inst.id_institucion, inst.cue_anexo, equi.biblioteca, equi.laboratorio, equi.informatica, equi.artistica, equi.taller, infra.agua, infra.internet, infra.fuente_internet, infra.energia, infra.fuente_energia, infra.calefaccion FROM padron.institucion inst
-        JOIN padron.equipamiento equi ON equi.id_institucion = inst.id_institucion
-        JOIN padron.infraestructura infra ON infra.id_institucion = inst. id_institucion 
+        LEFT JOIN padron.equipamiento equi ON equi.id_institucion = inst.id_institucion
+        LEFT JOIN padron.infraestructura infra ON infra.id_institucion = inst. id_institucion 
         WHERE inst.id_institucion = $1;
         `,id
     )
@@ -152,21 +152,13 @@ function buscar_localizacion(localidad, departamento, region) {
 
 
 //busquedas para el filtro
-function buscar_info_filtro(){
-    return db.any(`SELECT 'Región ' || inst.region AS Región, inst.ambito, inst.numero, COALESCE(mat.varones, 0) AS masculino, COALESCE(mat.mujeres, 0) AS femenino, COALESCE(mat.no_binario, 0) AS no_binario, func.gestion, niv.nombre AS nivel FROM padron.matricula mat 
-        RIGHT JOIN padron.institucion inst ON inst.id_institucion = mat.id_institucion 
-        JOIN padron.funcionamiento func ON func.id_institucion = inst.id_institucion 
-        JOIN padron.modalidad_nivel ofe ON ofe.id_institucion = inst.id_institucion
-		JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel
-		ORDER BY inst.numero`)
-}
-
 function filtro_establecimiento_gestion() {
     return db.any(`SELECT 'Región ' || inst.region AS Región, COUNT(CASE WHEN func.gestion = 'Estatal' THEN 1 ELSE NULL END) AS Estatal, COUNT(CASE WHEN func.gestion = 'Privado' THEN 1 ELSE NULL END) AS Privada, COUNT(CASE WHEN func.gestion = 'Gestión social/cooperativa' THEN 1 ELSE NULL END) AS Social_Cooperativa FROM padron.matricula mat 
         RIGHT JOIN padron.institucion inst ON inst.id_institucion = mat.id_institucion 
         JOIN padron.funcionamiento func ON func.id_institucion = inst.id_institucion 
         JOIN padron.modalidad_nivel ofe ON ofe.id_institucion = inst.id_institucion
 		JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel
+        WHERE inst.funcion = ''Activo''
 		GROUP BY inst.region
 		ORDER BY inst.region`)
 }
@@ -177,6 +169,7 @@ function filtro_establecimiento_ambito() {
         JOIN padron.funcionamiento func ON func.id_institucion = inst.id_institucion 
         JOIN padron.modalidad_nivel ofe ON ofe.id_institucion = inst.id_institucion
 		JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel
+        WHERE inst.funcion = ''Activo''
 		GROUP BY inst.region
 		ORDER BY inst.region`)
 }
@@ -190,6 +183,7 @@ function filtro_matricula_ambito(){
             JOIN padron.modalidad_nivel modaniv ON modaniv.id_institucion = inst.id_institucion
             JOIN padron.nivel niv ON niv.id_nivel = modaniv.id_nivel
             JOIN padron.modalidades_educativas moda ON moda.id_modalidad = modaniv.id_modalidad
+            WHERE inst.funcion = ''Activo''
             GROUP BY inst.region, inst.ambito
             ORDER BY region, ambito ASC'
             ) AS ct(region TEXT, "Rural" BIGINT, "Rural Aglomerado" BIGINT, "Rural Disperso" BIGINT, "Urbano" BIGINT, "Sin Especificar" BIGINT)       
@@ -206,6 +200,7 @@ function filtro_matricula_gestion() {
             JOIN padron.nivel niv ON niv.id_nivel = modaniv.id_nivel
             JOIN padron.modalidades_educativas moda ON moda.id_modalidad = modaniv.id_modalidad
             JOIN padron.funcionamiento func ON func.id_institucion = inst.id_institucion
+            WHERE inst.funcion = ''Activo''
             GROUP BY inst.region, func.gestion
             ORDER BY region, ambito ASC'
             ) AS ct(region TEXT, "Estatal" BIGINT, "Social/Cooperativa" BIGINT, "Privada" BIGINT)
@@ -217,7 +212,8 @@ function filtro_matricula_gestion() {
 function capa_regiones() {                                                                                                                                      //ST_AsGeoJSON(ST_Transform(geom, 4326)) transformar
     return db.any(`SELECT                                                                                                                                             
     id, numreg, nombrereg, totallocal, primario, inicial, secundario, superior, formación, superficie, artística, "domic/hosp" AS domhosp, epja, especial, oserveduc, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom
-    FROM regiones_Educativas;`)
+    FROM regiones_Educativas
+    ORDER BY numreg;`)
 }
 
 function capa_departamentos() {                                                                                                                                    
@@ -345,6 +341,40 @@ async function verificar_usuario_mysql(username) {
                         JOIN ddjj_production.roles rol ON rol.id = roles.role_id WHERE users.email = ?`, [username])
 }
 
+
+//listado info regiones
+function buscar_info_region(region){
+    return db.any(`
+            SELECT niv.nombre AS modalidad_nivel, COUNT(niv.nombre) AS cantidad FROM padron.modalidad_nivel mn
+            JOIN padron.nivel niv ON niv.id_nivel = mn.id_nivel
+            JOIN padron.institucion inst ON inst.id_institucion = mn.id_institucion
+            WHERE inst.funcion = 'Activo' AND inst.region = $1
+            GROUP BY modalidad_nivel 
+
+            UNION ALL
+
+            SELECT moda.nombre AS modalidad, COALESCE(COUNT(mn.id_modalidad) FILTER (WHERE inst.funcion = 'Activo' AND inst.region = '1'),0) AS cant_modalidad FROM padron.modalidades_educativas moda
+          	LEFT JOIN padron.modalidad_nivel mn ON moda.id_modalidad = mn.id_modalidad
+			LEFT JOIN padron.nivel niv ON niv.id_nivel = mn.id_nivel
+            LEFT JOIN padron.institucion inst ON inst.id_institucion = mn.id_institucion
+            GROUP BY moda.nombre
+
+            UNION ALL
+
+            SELECT 'Sedes' AS tipo, COUNT(anexo) FILTER (WHERE anexo = '00') AS cantidad FROM padron.institucion inst WHERE funcion = 'Activo' AND inst.region = $1 GROUP BY tipo
+
+            UNION ALL
+
+            SELECT 'Anexos' AS tipo, COUNT(anexo) FILTER (WHERE anexo <> '00') AS cantidad FROM padron.institucion inst WHERE funcion = 'Activo' AND inst.region = $1 GROUP BY tipo
+            
+            UNION ALL
+
+			SELECT 'Edificios' AS tipo, COUNT(anexo) AS cantidad FROM padron.institucion inst WHERE funcion = 'Activo' AND inst.region = $1 GROUP BY tipo
+			ORDER BY modalidad_nivel
+
+            `, [region])
+}
+
 module.exports = {
     buscar_todos_numero,
     buscar_todos_nombre,
@@ -369,7 +399,6 @@ module.exports = {
     buscar_localizacion,
     buscar_oferta,
     buscar_todos_biblioteca,
-    buscar_info_filtro,
     filtro_establecimiento_gestion,
     filtro_establecimiento_ambito,
     filtro_matricula_ambito,
@@ -390,5 +419,6 @@ module.exports = {
     registrar_usuario,
     cambiar_contra,
     buscar_info_equi_infra,
-    buscar_porcentaje_equi_infra
+    buscar_porcentaje_equi_infra,
+    buscar_info_region
 };

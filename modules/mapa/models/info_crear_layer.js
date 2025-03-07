@@ -34,6 +34,20 @@ router.get('/mapa/ubicacion', async (req, res) => {
 router.get('/mapa/regiones', async (req, res) => {
     try {
         const result = await consultar.capa_regiones();
+        const regiones = [];
+        const recuentoR1 = await consultar.buscar_info_region("1");
+        const recuentoR2 = await consultar.buscar_info_region("2");
+        const recuentoR3 = await consultar.buscar_info_region("3");
+        const recuentoR4 = await consultar.buscar_info_region("4");
+        const recuentoR5 = await consultar.buscar_info_region("5");
+        const recuentoR6 = await consultar.buscar_info_region("6");
+        regiones.push(recuentoR1);
+        regiones.push(recuentoR2);
+        regiones.push(recuentoR3);
+        regiones.push(recuentoR4);
+        regiones.push(recuentoR5);
+        regiones.push(recuentoR6);
+        r = 0;
         let geoJSON = {
             "type": "FeatureCollection",
             "features": [
@@ -49,25 +63,12 @@ router.get('/mapa/regiones', async (req, res) => {
                     id: row.id,
                     numreg: row.numreg,
                     nombrereg: row.nombrereg,
-                    totallocal: row.totallocal,
-                    primario: row.primario,
-                    inicial: row.inicial,
-                    secundario: row.secundario,
-                    superior: row.superior,
-                    formacion: row.formación,
-                    poblacion: row.población,
                     superficie: row.superficie,
-                    artistica: row.artística,
-                    domhosp: row.domhosp,
-                    epja: row.epja,
-                    especial: row.especial,
-                    oserveduc: row.oserveduc,
-                    edificios: row.edificios,
-                    sedes: row.sedes,
-                    anexos: row.anexos
-                }
+                    cantidades: regiones[r]
+                    }
             };
-           geoJSON.features.push(newFeature) 
+            r += 1;
+            geoJSON.features.push(newFeature) 
         })
         res.json(geoJSON);
     } catch (err) {
