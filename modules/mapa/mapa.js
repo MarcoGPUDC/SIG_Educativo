@@ -10,11 +10,16 @@ setTimeout(hideLoadingScreen,2500);
 //setea el mapa
 
 var mymap = new L.map('map', {
+	/*measureControl: {
+		enabled: true,
+		unitLabel: 'km',
+		unitFactor: 1000
+	},*/
 	fullscreenControl: true,
 	fullscreenControlOptions: {
 		position: 'topleft',
 		forceSeparateButton: true
-	}
+	},
 }); 
 
 

@@ -42,7 +42,7 @@ function buscar_todos_ambito () {
 };
 
 function busqueda_simple_todo () {
-    return db.any(`SELECT inst.*, COALESCE(inst.responsable, 'Sin Informacion') AS responsable, COALESCE(inst.tel, 'Sin Informacion') AS tel_resp, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.v_establec_educativos AS inst`);
+    return db.any(`SELECT inst.*, esc.email_inst, COALESCE(inst.responsable, 'Sin Informacion') AS responsable, COALESCE(inst.tel, 'Sin Informacion') AS tel_resp, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.v_establec_educativos AS inst JOIN padron.institucion esc ON esc.cue_anexo = inst.cue_anexo`);
 };
 
 function buscar_ubicacion(id) {
@@ -70,11 +70,12 @@ function area_bibliotecas() {
 
 //busca info especifica de un establecimiento por su id
 function busqueda_simple (id) {
-    return db.one(`SELECT inst.*, COALESCE(inst.responsable, 'Sin Informacion'), COALESCE(inst.tel, 'Sin Informacion') AS tel_resp, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom, COALESCE(SUM(matri.varones),0) AS varones, COALESCE(SUM(matri.mujeres),0) AS mujeres, COALESCE(SUM(matri.total),0) AS total FROM padron.v_establec_educativos AS inst 
+    return db.one(`SELECT inst.*, esc.email_inst, COALESCE(inst.responsable, 'Sin Informacion'), COALESCE(inst.tel, 'Sin Informacion') AS tel_resp, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom, COALESCE(SUM(matri.varones),0) AS varones, COALESCE(SUM(matri.mujeres),0) AS mujeres, COALESCE(SUM(matri.total),0) AS total FROM padron.v_establec_educativos AS inst 
 left JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
-left JOIN padron.matricula matri ON matri.id_oferta = ofe.id 
+left JOIN padron.matricula matri ON matri.id_oferta = ofe.id
+LEFT JOIN padron.institucion esc ON esc.cue_anexo = inst.cue_anexo
 WHERE inst.id_institucion = $1
-GROUP BY inst.id_institucion, inst.cue, inst.anexo, inst.cue_anexo, inst.nombre, inst.numero, inst.funcion, inst.region, inst.localidad, inst.departamento, inst.nivel, inst.modalidad, inst.domicilio, inst.cp, inst.ambito, inst.web, inst.tel, inst.gestion, inst.jornada, inst.dependencia, inst.responsable, inst.telefono, inst.geom;;`,id);
+GROUP BY esc.email_inst, inst.id_institucion, inst.cue, inst.anexo, inst.cue_anexo, inst.nombre, inst.numero, inst.funcion, inst.region, inst.localidad, inst.departamento, inst.nivel, inst.modalidad, inst.domicilio, inst.cp, inst.ambito, inst.web, inst.tel, inst.gestion, inst.jornada, inst.dependencia, inst.responsable, inst.telefono, inst.geom;;`,id);
 };
 //busca info adicional de un establecimiento por su id
 function busqueda_adicional (id) {
