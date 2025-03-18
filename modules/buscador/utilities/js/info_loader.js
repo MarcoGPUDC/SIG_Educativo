@@ -36,7 +36,7 @@ async function completarDatosInstitucion() {
         document.getElementById('telefonoinfoadicional').innerHTML = `${data.tel}`;
         document.getElementById('emailinfoadicional').innerHTML = `${data.email_inst}`;
         document.getElementById('sitio_webinfoadicional').innerHTML = `${data.web}`;
-        document.getElementById('resp_telresponsableinfoadicional').innerHTML = `${data.tel_resp}`;
+        document.getElementById('resp_telresponsableinfoadicional').innerHTML = `${data.telefono}`;
         //Matricula
         document.getElementById('matriculamujeres').innerHTML += `${data.mujeres}`;
         document.getElementById('matriculavarones').innerHTML += `${data.varones}`;

@@ -154,23 +154,21 @@ function buscar_localizacion(localidad, departamento, region) {
 
 //busquedas para el filtro
 function filtro_establecimiento_gestion() {
-    return db.any(`SELECT 'Región ' || inst.region AS Región, COUNT(CASE WHEN func.gestion = 'Estatal' THEN 1 ELSE NULL END) AS Estatal, COUNT(CASE WHEN func.gestion = 'Privado' THEN 1 ELSE NULL END) AS Privada, COUNT(CASE WHEN func.gestion = 'Gestión social/cooperativa' THEN 1 ELSE NULL END) AS Social_Cooperativa FROM padron.matricula mat 
-        RIGHT JOIN padron.institucion inst ON inst.id_institucion = mat.id_institucion 
+    return db.any(`SELECT 'Región ' || inst.region AS Región, COUNT(CASE WHEN func.gestion = 'Estatal' THEN 1 ELSE NULL END) AS Estatal, COUNT(CASE WHEN func.gestion = 'Privado' THEN 1 ELSE NULL END) AS Privada, COUNT(CASE WHEN func.gestion = 'Gestión social/cooperativa' THEN 1 ELSE NULL END) AS Social_Cooperativa FROM padron.institucion inst 
         JOIN padron.funcionamiento func ON func.id_institucion = inst.id_institucion 
         JOIN padron.modalidad_nivel ofe ON ofe.id_institucion = inst.id_institucion
 		JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel
-        WHERE inst.funcion = ''Activo''
+        WHERE inst.funcion = 'Activo'
 		GROUP BY inst.region
 		ORDER BY inst.region`)
 }
 
 function filtro_establecimiento_ambito() {
-    return db.any(`SELECT 'Región ' || inst.region AS Región, COUNT(CASE WHEN inst.ambito = 'Rural' THEN 1 ELSE NULL END) AS Rural, COUNT(CASE WHEN inst.ambito = 'Urbano' THEN 1 ELSE NULL END) AS Urbano, COUNT(CASE WHEN inst.ambito = 'Rural Disperso' THEN 1 ELSE NULL END) AS Rural_disperso, COUNT(CASE WHEN inst.ambito = 'Rural Aglomerado' THEN 1 ELSE NULL END) AS Rural_aglomerado FROM padron.matricula mat 
-        RIGHT JOIN padron.institucion inst ON inst.id_institucion = mat.id_institucion 
+    return db.any(`SELECT 'Región ' || inst.region AS Región, COUNT(CASE WHEN inst.ambito = 'Rural' THEN 1 ELSE NULL END) AS Rural, COUNT(CASE WHEN inst.ambito = 'Urbano' THEN 1 ELSE NULL END) AS Urbano, COUNT(CASE WHEN inst.ambito = 'Rural Disperso' THEN 1 ELSE NULL END) AS Rural_disperso, COUNT(CASE WHEN inst.ambito = 'Rural Aglomerado' THEN 1 ELSE NULL END) AS Rural_aglomerado FROM padron.institucion inst
         JOIN padron.funcionamiento func ON func.id_institucion = inst.id_institucion 
         JOIN padron.modalidad_nivel ofe ON ofe.id_institucion = inst.id_institucion
 		JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel
-        WHERE inst.funcion = ''Activo''
+        WHERE inst.funcion = 'Activo'
 		GROUP BY inst.region
 		ORDER BY inst.region`)
 }
