@@ -38,7 +38,6 @@ function cargarDatosBuscador() {
                     option.value = element[filtro];
                     option.text = element[filtro];
                     select.appendChild(option);
-                    
                 })
             }
         //console.log(`${result.clave} cargados al buscador`);

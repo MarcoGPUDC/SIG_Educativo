@@ -404,7 +404,7 @@ async function getGeoserverDatastoreLayers(workspace, datastore){
 	const data = await response.json()
 	const layers = data.featureTypes.featureType.map(layer => layer.name);
 	layers.forEach(layer => {
-		if ( layer.split('_')[0] == 'establec' || layer.split('_')[0] == 'infra' || layer.split('_')[0] == 'bibliotecas') {
+		if ( layer.split('_')[0] == 'establec' || layer.split('_')[0] == 'bibliotecas') {
 			getGeoserverLayer(workspace, layer).then(data => {
 				todosLayersTematicos.push([data,layer.split('_')[1]])
 			})	
@@ -1868,7 +1868,7 @@ function ofertaSelect(){
 							return L.divIcon({ 
 								html: `<img src="./icons/establecimientos_consulta.svg">`, // Utiliza un ícono personalizado
 								className: `search-icons`, // Clase CSS para el ícono
-								iconSize: L.point(3, 3) // Tamaño del ícono
+								iconSize: L.point(22, 22) // Tamaño del ícono
 							});
 						}
 					});
@@ -2622,9 +2622,11 @@ function crearTabla(data) {
 	Object.keys(data[0]).forEach(col => {
 		const column = document.createElement('td');
 		column.textContent = formatoCadena_(col);
+		column.setAttribute("style","font-weight: bold;")
 		cabecera.appendChild(column);
 	});
 	tbody.appendChild(cabecera);
+	var rowName = 0;
 	data.forEach(row => {
 		const tr = document.createElement('tr');
 		Object.values(row).forEach(cell => {
@@ -2632,9 +2634,15 @@ function crearTabla(data) {
 			var romano = cell.split(' ');
 			romano[1] = convertirARomano(romano[1])
 			td.textContent = romano[0] + " " + romano[1];
+			if (rowName == 0) {
+				td.setAttribute("style","font-weight:bold");
+				rowName +=1;
+			}
 			tr.appendChild(td);
+
 		});
 		tbody.appendChild(tr);
+		rowName = 0;
 	});
 
 	table.appendChild(tbody);

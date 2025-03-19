@@ -135,11 +135,26 @@ function buscar_info_delegacion(){
 
 //funcion para buscar por oferta educativa
 function buscar_oferta(modalidad, nivel) {
-    return db.any(`SELECT inst.id_institucion, inst.nombre, inst.numero, niv.nombre AS nivel, moda.nombre AS modalidad, geo.long, geo.lat FROM padron.institucion inst JOIN padron.modalidad_nivel ofe ON inst.id_institucion = ofe.id_institucion
+    return db.any(`SELECT inst.id_institucion, inst.nombre, inst.numero, niv.nombre AS nivel, moda.nombre AS modalidad,  ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.institucion inst JOIN padron.modalidad_nivel ofe ON inst.id_institucion = ofe.id_institucion
         JOIN padron.modalidades_educativas moda ON moda.id_modalidad = ofe.id_modalidad
         JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion
         JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel WHERE niv.nombre = $1 AND moda.nombre = $2`, [nivel, modalidad])
 }
+
+function buscar_oferta_modalidad(modalidad) {
+    return db.any(`SELECT inst.id_institucion, inst.nombre, inst.numero, niv.nombre AS nivel, moda.nombre AS modalidad,  ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.institucion inst JOIN padron.modalidad_nivel ofe ON inst.id_institucion = ofe.id_institucion
+        JOIN padron.modalidades_educativas moda ON moda.id_modalidad = ofe.id_modalidad
+        JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion
+        JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel WHERE moda.nombre = $1`, [modalidad])
+}
+
+function buscar_oferta_nivel(nivel) {
+    return db.any(`SELECT inst.id_institucion, inst.nombre, inst.numero, niv.nombre AS nivel, moda.nombre AS modalidad,  ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.institucion inst JOIN padron.modalidad_nivel ofe ON inst.id_institucion = ofe.id_institucion
+        JOIN padron.modalidades_educativas moda ON moda.id_modalidad = ofe.id_modalidad
+        JOIN padron.georeferencia geo ON inst.id_institucion = geo.id_institucion
+        JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel WHERE niv.nombre = $1`, [nivel])
+}
+
 //Buscar por ubicaion
 function buscar_localizacion(localidad, departamento, region) {
     return db.any(`SELECT inst.nombre, inst.numero, inst.region, loc.localidad, depa.departamento, inst.domicilio ,niv.nombre AS nivel, moda.nombre AS modalidad, ST_AsGeoJSON(ST_transform(geo.geom,4326)) AS geom FROM padron.institucion inst JOIN padron.departamento depa ON depa.id_departamento = inst.id_departamento
@@ -176,7 +191,7 @@ function filtro_establecimiento_ambito() {
 function filtro_matricula_ambito(){
     return db.any(`
         SELECT ct."region" AS "Región",  COALESCE(ct."Rural", 0) AS "Rural", COALESCE(ct."Rural Aglomerado",0) AS "Rural Aglomerado", COALESCE(ct."Rural Disperso",0) AS "Rural Disperso", COALESCE(ct."Urbano",0) AS "Urbano", COALESCE(ct."Sin Especificar", 0) AS "Sin Especificar" FROM crosstab(
-            'SELECT inst.region , COALESCE(inst.ambito, ''Sin Especificar'') AS ambito, SUM(matri.total) AS total FROM padron.institucion inst
+            'SELECT ''Región '' || inst.region , COALESCE(inst.ambito, ''Sin Especificar'') AS ambito, SUM(matri.total) AS total FROM padron.institucion inst
             JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
             JOIN padron.matricula matri ON matri.id_oferta = ofe.id
             JOIN padron.modalidad_nivel modaniv ON modaniv.id_institucion = inst.id_institucion
@@ -192,7 +207,7 @@ function filtro_matricula_ambito(){
 function filtro_matricula_gestion() {
     return db.any(`
         SELECT ct."region" AS "Región",  COALESCE(ct."Estatal", 0) AS "Estatal", COALESCE(ct."Social/Cooperativa",0) AS "Social/Cooperativa", COALESCE(ct."Privada",0) AS "Privada" FROM crosstab(
-            'SELECT inst.region , COALESCE(func.gestion, ''Sin Especificar'') AS ambito, SUM(matri.total) AS total FROM padron.institucion inst
+            'SELECT ''Región '' || inst.region , COALESCE(func.gestion, ''Sin Especificar'') AS ambito, SUM(matri.total) AS total FROM padron.institucion inst
             JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
             JOIN padron.matricula matri ON matri.id_oferta = ofe.id
             JOIN padron.modalidad_nivel modaniv ON modaniv.id_institucion = inst.id_institucion
@@ -397,6 +412,8 @@ module.exports = {
     buscar_ubicacion,
     buscar_localizacion,
     buscar_oferta,
+    buscar_oferta_modalidad,
+    buscar_oferta_nivel,
     buscar_todos_biblioteca,
     filtro_establecimiento_gestion,
     filtro_establecimiento_ambito,

@@ -43,14 +43,21 @@ router.get('/oferta', async (req, res) => {
   try {
       var nivel = req.query.nivel;
       var modalidad = req.query.modalidad;
-      const resultOfe = await informacion.buscar_oferta(modalidad, nivel);
+      var resultOfe;
+      if (modalidad == 'todo' && nivel != 'todo'){
+        resultOfe = await informacion.buscar_oferta_nivel(nivel);
+      } else if (modalidad != 'todo' && nivel == 'todo'){
+        resultOfe = await informacion.buscar_oferta_modalidad(modalidad);
+      } else {
+        resultOfe = await informacion.buscar_oferta(modalidad, nivel);
+      }
       let geoJSON = {
       "type": "FeatureCollection",
       "features": [
       ]
       };
       resultOfe.forEach(result => {
-        const geom = JSON.parse(row.geom);
+        const geom = JSON.parse(result.geom);
         var newFeature = {
           type: "Feature",
           geometry: geom,
