@@ -389,7 +389,7 @@ async function getGeoserverDatastoreLayers(workspace, datastore){
 	const geoUrl = `https://sistemas2.chubut.edu.ar/geoserver/rest/workspaces/${workspace}/datastores/${datastore}/featuretypes.json`
 	var username = '';
 	var password = '';
-	await fetch('/config')
+	await fetch('./config')
 	.then(response => response.json())
 	.then(data => {
 		username = data.geoUser;
@@ -1558,10 +1558,14 @@ var controlbrowserPrint = L.control.browserPrint({
         	title: 'Vertical',
         	header: {
             	enabled: true,
-            	text: `<div style="height: 1122px; width: 111%; border: 8px solid transparent; border-image: linear-gradient(100deg, #fcc419 , #f59f00 , #e8590c, #4d7ad4, #3a55a5) 1;">
-							<div style="background-color: white;">
-								<img class='m-3 mb-1' src='icons/ministerio_educacion_w2.png' style='margin-top: -15px; max-height: 60px; height: auto;'>
-								<img class='m-3 mb-0' src='icons/ministerio_educacion.png' style='padding-left: 65%; padding-top: 8px; max-height: 35px; height: auto; display:inline;'>
+            	text: `<div style="height: 98%; width: 111%; border: 8px solid transparent; border-image: linear-gradient(100deg, #fcc419 , #f59f00 , #e8590c, #4d7ad4, #3a55a5) 1; z-index:2;">
+							<div style="background-color: white; padding:1px">
+								<div style="display:inline-block;">
+									<img class='m-3 mb-1' src='icons/ministerio_educacion_w2.png' style='margin-top: -15px; max-height: 60px; height: auto;'>
+								</div>
+								<div style="display:inline-block;">
+									<img class='m-3 mb-0' src='icons/ministerio_educacion.png' style='padding-left: 50%; padding-top: 8px; max-height: 35px; height: auto;'>
+								</div>
 							</div>
 						</div>`,
             	size: "20mm",
@@ -1580,7 +1584,7 @@ var controlbrowserPrint = L.control.browserPrint({
         	title: 'Horizontal',
         	header: {
             	enabled: true,
-            	text: `<div style="height: 792xpx; border: 8px solid transparent; border-image: linear-gradient(100deg, #fcc419 , #f59f00 , #e8590c, #4d7ad4, #3a55a5) 1;">
+            	text: `<div style="height: 98%; border: 8px solid transparent; border-image: linear-gradient(100deg, #fcc419 , #f59f00 , #e8590c, #4d7ad4, #3a55a5) 1;">
 							<div style="background-color: white;">
 								<img class='m-3 mb-1' src='icons/ministerio_educacion_w2.png' style='margin-top: -15px; max-height: 60px; height: auto;'>
 								<img class='m-3 mb-0' src='icons/ministerio_educacion.png' style='padding-left: 65%; padding-top: 8px; max-height: 35px; height: auto; display:inline;'>
@@ -1602,7 +1606,7 @@ var controlbrowserPrint = L.control.browserPrint({
         	title: "Seleccionar Área",
         	header: {
             	enabled: true,
-            	text: `<div style="height: 792px; border: 8px solid transparent; border-image: linear-gradient(100deg, #fcc419 , #f59f00 , #e8590c, #4d7ad4, #3a55a5) 1;">
+            	text: `<div style="height: 99%; border: 8px solid transparent; border-image: linear-gradient(100deg, #fcc419 , #f59f00 , #e8590c, #4d7ad4, #3a55a5) 1;">
 							<div style="background-color: white;">
 								<img class='m-3 mb-1' src='icons/ministerio_educacion_w2.png' style='margin-top: -15px; max-height: 60px; height: auto;'>
 								<img class='m-3 mb-0' src='icons/ministerio_educacion.png' style='padding-left: 65%; padding-top: 8px; max-height: 35px; height: auto; display:inline;'>
@@ -1958,7 +1962,6 @@ function buscarPorUbicacion(){
 				}),
 				riseOnHover: true
 			});
-			console.log("marcador creado")
 			cluster.addLayer(marker);
 			return marker;
 			
