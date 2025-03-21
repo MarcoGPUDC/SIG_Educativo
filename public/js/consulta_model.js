@@ -34,7 +34,7 @@ function buscar_todos_departamento () {
 };
 
 function buscar_todos_domicilio () {
-    return db.any('SELECT id_institucion AS id, domicilio FROM padron.institucion;');
+    return db.any('SELECT id_institucion AS id, domicilio FROM padron.institucion WHERE domicilio IS NOT NULL;');
 };
 
 function buscar_todos_ambito () {
@@ -70,12 +70,14 @@ function area_bibliotecas() {
 
 //busca info especifica de un establecimiento por su id
 function busqueda_simple (id) {
-    return db.one(`SELECT inst.*, esc.email_inst, COALESCE(inst.responsable, 'Sin Informacion'), COALESCE(inst.tel, 'Sin Informacion') AS tel_resp, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom, COALESCE(SUM(matri.varones),0) AS varones, COALESCE(SUM(matri.mujeres),0) AS mujeres, COALESCE(SUM(matri.total),0) AS total FROM padron.v_establec_educativos AS inst 
+    return db.one(`SELECT STRING_AGG(DISTINCT cont.tel_resp::TEXT,'-') AS telefono, esc.email_inst, inst.id_institucion, inst.cue, inst.anexo, inst.cue_anexo, inst.nombre, inst.numero, inst.funcion, inst.region, inst.localidad, inst.departamento, inst.nivel, inst.modalidad, inst.domicilio, inst.cp, inst.ambito, inst.web, inst.tel, inst.gestion, inst.jornada, inst.dependencia, inst.responsable, inst.geom, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom, COALESCE(SUM(matri.varones),0) AS varones, COALESCE(SUM(matri.mujeres),0) AS mujeres, COALESCE(SUM(matri.total),0) AS total FROM padron.v_establec_educativos AS inst 
 left JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
 left JOIN padron.matricula matri ON matri.id_oferta = ofe.id
 LEFT JOIN padron.institucion esc ON esc.cue_anexo = inst.cue_anexo
+LEFT JOIN padron.contacto cont ON cont.id_institucion = inst.id_institucion
 WHERE inst.id_institucion = $1
-GROUP BY esc.email_inst, inst.id_institucion, inst.cue, inst.anexo, inst.cue_anexo, inst.nombre, inst.numero, inst.funcion, inst.region, inst.localidad, inst.departamento, inst.nivel, inst.modalidad, inst.domicilio, inst.cp, inst.ambito, inst.web, inst.tel, inst.gestion, inst.jornada, inst.dependencia, inst.responsable, inst.telefono, inst.geom;;`,id);
+GROUP BY esc.email_inst, inst.id_institucion, inst.cue, inst.anexo, inst.cue_anexo, inst.nombre, inst.numero, inst.funcion, inst.region, inst.localidad, inst.departamento, inst.nivel, inst.modalidad, inst.domicilio, inst.cp, inst.ambito, inst.web, inst.tel, inst.gestion, inst.jornada, inst.dependencia, inst.responsable, inst.telefono, inst.geom
+LIMIT 1;`,id);
 };
 //busca info adicional de un establecimiento por su id
 function busqueda_adicional (id) {
@@ -156,20 +158,30 @@ function buscar_oferta_nivel(nivel) {
 }
 
 //Buscar por ubicaion
-function buscar_localizacion(localidad, departamento, region) {
+function buscar_localizacion(localidad, departamento, region, domicilio) {
     return db.any(`SELECT inst.nombre, inst.numero, inst.region, loc.localidad, depa.departamento, inst.domicilio ,niv.nombre AS nivel, moda.nombre AS modalidad, ST_AsGeoJSON(ST_transform(geo.geom,4326)) AS geom FROM padron.institucion inst JOIN padron.departamento depa ON depa.id_departamento = inst.id_departamento
     JOIN padron.localidad loc ON loc.id_localidad = inst.id_localidad
     JOIN padron.modalidad_nivel ofe ON ofe.id_institucion = inst.id_institucion
     JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel
     JOIN padron.modalidades_educativas moda ON moda.id_modalidad = ofe.id_modalidad
     JOIN padron.georeferencia geo ON geo.id_institucion = inst.id_institucion 
-    WHERE loc.localidad = $1 OR depa.departamento = $2 OR inst.region = $3`, [localidad, departamento, region])
+    WHERE loc.localidad = $1 OR depa.departamento = $2 OR inst.region = $3 OR inst.domicilio = $4`, [localidad, departamento, region, domicilio])
 }
 
+function buscar_localizacion_especifica(localidad, departamento, region, domicilio) {
+    return db.any(`SELECT inst.nombre, inst.numero, inst.region, loc.localidad, depa.departamento, inst.domicilio ,niv.nombre AS nivel, moda.nombre AS modalidad, ST_AsGeoJSON(ST_transform(geo.geom,4326)) AS geom FROM padron.institucion inst JOIN padron.departamento depa ON depa.id_departamento = inst.id_departamento
+        JOIN padron.localidad loc ON loc.id_localidad = inst.id_localidad
+        JOIN padron.modalidad_nivel ofe ON ofe.id_institucion = inst.id_institucion
+        JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel
+        JOIN padron.modalidades_educativas moda ON moda.id_modalidad = ofe.id_modalidad
+        JOIN padron.georeferencia geo ON geo.id_institucion = inst.id_institucion 
+        WHERE (loc.localidad = COALESCE (NULLIF($1,'null'),loc.localidad)) AND (depa.departamento = COALESCE (NULLIF($2,'null'),depa.departamento)) AND (inst.region = COALESCE (NULLIF($3,'null'),inst.region)) AND (inst.domicilio = COALESCE (NULLIF($4,'null'),inst.domicilio))`, [localidad, departamento, region, domicilio])
+    
+}
 
 //busquedas para el filtro
 function filtro_establecimiento_gestion() {
-    return db.any(`SELECT 'Región ' || inst.region AS Región, COUNT(CASE WHEN func.gestion = 'Estatal' THEN 1 ELSE NULL END) AS Estatal, COUNT(CASE WHEN func.gestion = 'Privado' THEN 1 ELSE NULL END) AS Privada, COUNT(CASE WHEN func.gestion = 'Gestión social/cooperativa' THEN 1 ELSE NULL END) AS Social_Cooperativa FROM padron.institucion inst 
+    return db.any(`SELECT inst.region AS Región, COUNT(CASE WHEN func.gestion = 'Estatal' THEN 1 ELSE NULL END) AS Estatal, COUNT(CASE WHEN func.gestion = 'Privado' THEN 1 ELSE NULL END) AS Privada, COUNT(CASE WHEN func.gestion = 'Gestión social/cooperativa' THEN 1 ELSE NULL END) AS Social_Cooperativa FROM padron.institucion inst 
         JOIN padron.funcionamiento func ON func.id_institucion = inst.id_institucion 
         JOIN padron.modalidad_nivel ofe ON ofe.id_institucion = inst.id_institucion
 		JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel
@@ -179,7 +191,7 @@ function filtro_establecimiento_gestion() {
 }
 
 function filtro_establecimiento_ambito() {
-    return db.any(`SELECT 'Región ' || inst.region AS Región, COUNT(CASE WHEN inst.ambito = 'Rural' THEN 1 ELSE NULL END) AS Rural, COUNT(CASE WHEN inst.ambito = 'Urbano' THEN 1 ELSE NULL END) AS Urbano, COUNT(CASE WHEN inst.ambito = 'Rural Disperso' THEN 1 ELSE NULL END) AS Rural_disperso, COUNT(CASE WHEN inst.ambito = 'Rural Aglomerado' THEN 1 ELSE NULL END) AS Rural_aglomerado FROM padron.institucion inst
+    return db.any(`SELECT inst.region AS Región, COUNT(CASE WHEN inst.ambito = 'Rural' THEN 1 ELSE NULL END) AS Rural, COUNT(CASE WHEN inst.ambito = 'Urbano' THEN 1 ELSE NULL END) AS Urbano, COUNT(CASE WHEN inst.ambito = 'Rural Disperso' THEN 1 ELSE NULL END) AS Rural_disperso, COUNT(CASE WHEN inst.ambito = 'Rural Aglomerado' THEN 1 ELSE NULL END) AS Rural_aglomerado FROM padron.institucion inst
         JOIN padron.funcionamiento func ON func.id_institucion = inst.id_institucion 
         JOIN padron.modalidad_nivel ofe ON ofe.id_institucion = inst.id_institucion
 		JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel
@@ -191,7 +203,7 @@ function filtro_establecimiento_ambito() {
 function filtro_matricula_ambito(){
     return db.any(`
         SELECT ct."region" AS "Región",  COALESCE(ct."Rural", 0) AS "Rural", COALESCE(ct."Rural Aglomerado",0) AS "Rural Aglomerado", COALESCE(ct."Rural Disperso",0) AS "Rural Disperso", COALESCE(ct."Urbano",0) AS "Urbano", COALESCE(ct."Sin Especificar", 0) AS "Sin Especificar" FROM crosstab(
-            'SELECT ''Región '' || inst.region , COALESCE(inst.ambito, ''Sin Especificar'') AS ambito, SUM(matri.total) AS total FROM padron.institucion inst
+            'SELECT inst.region , COALESCE(inst.ambito, ''Sin Especificar'') AS ambito, SUM(matri.total) AS total FROM padron.institucion inst
             JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
             JOIN padron.matricula matri ON matri.id_oferta = ofe.id
             JOIN padron.modalidad_nivel modaniv ON modaniv.id_institucion = inst.id_institucion
@@ -207,7 +219,7 @@ function filtro_matricula_ambito(){
 function filtro_matricula_gestion() {
     return db.any(`
         SELECT ct."region" AS "Región",  COALESCE(ct."Estatal", 0) AS "Estatal", COALESCE(ct."Social/Cooperativa",0) AS "Social/Cooperativa", COALESCE(ct."Privada",0) AS "Privada" FROM crosstab(
-            'SELECT ''Región '' || inst.region , COALESCE(func.gestion, ''Sin Especificar'') AS ambito, SUM(matri.total) AS total FROM padron.institucion inst
+            'SELECT inst.region , COALESCE(func.gestion, ''Sin Especificar'') AS ambito, SUM(matri.total) AS total FROM padron.institucion inst
             JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
             JOIN padron.matricula matri ON matri.id_oferta = ofe.id
             JOIN padron.modalidad_nivel modaniv ON modaniv.id_institucion = inst.id_institucion
@@ -411,6 +423,7 @@ module.exports = {
     busqueda_simple_todo,
     buscar_ubicacion,
     buscar_localizacion,
+    buscar_localizacion_especifica,
     buscar_oferta,
     buscar_oferta_modalidad,
     buscar_oferta_nivel,

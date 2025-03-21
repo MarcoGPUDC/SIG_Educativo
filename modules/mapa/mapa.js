@@ -1,5 +1,4 @@
 // mapa interactivo ------------------------------------------------------------------------------
-
 //espera 3 segundos antes de mostrar la pantalla
 
 function hideLoadingScreen() {
@@ -388,8 +387,14 @@ function estilo_region (feature) {
 var todosLayersTematicos = []
 async function getGeoserverDatastoreLayers(workspace, datastore){
 	const geoUrl = `https://sistemas2.chubut.edu.ar/geoserver/rest/workspaces/${workspace}/datastores/${datastore}/featuretypes.json`
-	const username = 'admin'
-	const password = 'sigadmin24'
+	var username = '';
+	var password = '';
+	await fetch('/config')
+	.then(response => response.json())
+	.then(data => {
+		username = data.geoUser;
+		password = data.geoPass;
+	})
 	const response = await fetch(geoUrl,{
 		method: 'GET',
 		headers: {
@@ -1934,16 +1939,14 @@ function ofertaSelect(){
 }
 //buscar por ubicaciones en el buscador
 function buscarPorUbicacion(){
-	console.log("ubicando...")
-    var localidad = document.getElementById("buscadorlocalidad").value.length > 0 ? document.getElementById("buscadorlocalidad").value: ' ';
-    var departamento = document.getElementById("buscadordepartamento").value.length > 0 ? document.getElementById("buscadordepartamento").value: ' ';
-    var region = document.getElementById("buscadorregion").value.length > 0 ? document.getElementById("buscadorregion").value: ' ';
+    var localidad = document.getElementById("buscadorlocalidad").value.length > 0 ? document.getElementById("buscadorlocalidad").value:null;
+    var departamento = document.getElementById("buscadordepartamento").value.length > 0 ? document.getElementById("buscadordepartamento").value: null;
+    var region = document.getElementById("buscadorregion").value.length > 0 ? document.getElementById("buscadorregion").value: null;
+	var domicilio = document.getElementById("buscadordomicilio").value.length > 0 ? document.getElementById("buscadordomicilio").value: null;
 	var cluster = createCluster("establecimientos", "consulta")
-	console.log("cluster creado")
-    fetch(`mapa/localizar?localidad=${localidad}&departamento=${departamento}&region=${region}`)
+    fetch(`mapa/localizar?localidad=${localidad}&departamento=${departamento}&region=${region}&domicilio=${domicilio}`)
     .then(response => response.json())
     .then((escuelas) => {
-		
 		var geoLayer = L.geoJSON(escuelas, {
 		pointToLayer: function (feature, latlng) {
 			var marker = L.marker(latlng, {
@@ -2630,11 +2633,14 @@ function crearTabla(data) {
 	data.forEach(row => {
 		const tr = document.createElement('tr');
 		Object.values(row).forEach(cell => {
+			console.log(cell)
 			const td = document.createElement('td');
-			var romano = cell.split(' ');
-			romano[1] = convertirARomano(romano[1])
-			td.textContent = romano[0] + " " + romano[1];
+			td.classList.add('tdFiltro')
+			td.textContent = cell;
 			if (rowName == 0) {
+				var romano = cell.split(' ');
+				romano = convertirARomano(romano)
+				td.textContent = romano;
 				td.setAttribute("style","font-weight:bold");
 				rowName +=1;
 			}

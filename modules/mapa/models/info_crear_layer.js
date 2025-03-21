@@ -142,7 +142,21 @@ router.get("/mapa/localizar", async (req, res) => {
       var localidad = req.query.localidad;
       var departamento = req.query.departamento;
       var region = req.query.region;
-      const result = await consultar.buscar_localizacion(localidad, departamento, region);
+      var domicilio = req.query.domicilio;
+      var result;
+      var params = {...req.query};
+      Object.keys(params).forEach(clave => {
+        if (params[clave] == 'null'){
+            delete params[clave]
+        }
+      })
+      if(Object.keys(params).length == 1){
+        result = await consultar.buscar_localizacion(localidad, departamento, region, domicilio);
+      } else {
+        console.log("busqueda especifica");
+        result = await consultar.buscar_localizacion_especifica(localidad, departamento, region, domicilio);
+      }
+      
       let geoJSON = {
         "type": "FeatureCollection",
         "features": [

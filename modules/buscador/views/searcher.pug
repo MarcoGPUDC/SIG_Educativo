@@ -268,11 +268,10 @@ html(lang="es")
                                             <small id="inforegionNoConnFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
                                         </div>
                                         <div class="form-group col-sm-4">
-                                            //-<label for="buscadordomicilio">Direccion:</label>
-                                            //-<input list="f-select-domicilioesc" id="buscadordomicilio" name="buscadordomicilio" placeholder="Ingrese la direccion del establecimiento">
-                                            //-<datalist id="f-select-domicilioesc">
+                                            <label for="buscadordomicilio">Direccion:</label>
+                                            <input list="f-select-domicilioesc" id="buscadordomicilio" name="buscadordomicilio" placeholder="Ingrese la direccion del establecimiento">
                                             //-aca se cargan los elementos "option" desde el js que carga el buscador
-                                            //-</datalist>
+                                            <datalist id="f-select-domicilioesc"></datalist>
                                             <small id="infolocNoDatosFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se han obtenido datos.</small>
                                             <small id="infolocNoConnFormControlSelect" class="form-text" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
                                         </div>
@@ -332,6 +331,12 @@ html(lang="es")
                                                     <option value="estatal">Estatal</option>
                                                     <option value="privado">Privado</option>
                                                     <option value="social">Social/cooperativa</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-sm-6" style="display:none;">
+                                                <select list="buscadorid" id="f-select-idesc" name="buscadorid" placeholder="buscar por id">
+                                                    <option selected value=0>Sin seleccionar</option>
+                                                    //-aca se cargan los elementos "option" desde el js que carga el buscador
                                                 </select>
                                             </div>
                                         </div>

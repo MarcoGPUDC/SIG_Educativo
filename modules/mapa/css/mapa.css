@@ -424,6 +424,12 @@ html, body{
     text-align: center;
 }
 
+.tdFiltro:hover{
+    background-color: #e47c2c8f;
+    box-shadow: none;
+}
+
+
 #modalInfoFiltro .modal-content{
     width: 550px;
 }

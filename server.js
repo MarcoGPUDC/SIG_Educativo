@@ -158,6 +158,12 @@ app.get("/getCookie", (req,res) => {
   res.json({cookie})
 })
 
+app.get('/config', (req,res) => {
+  res.json({geoUser: process.env.USERNAME_GEO,
+            geoPass: process.env.PASSWORD_GEO
+  })
+})
+
 // Iniciar el servidor
 const port = 3005;
 app.listen(port, () => {
