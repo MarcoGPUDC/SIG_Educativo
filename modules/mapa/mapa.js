@@ -830,7 +830,6 @@ function cambiarPopup(layerid, popup1, popup2){
 
 function showZoom(){
 	var zoom = mymap.getZoom();
-	console.log(zoom);
 	return zoom;
 }
 
@@ -1272,7 +1271,6 @@ async function generarTodosLayers(layerParam) {
 				inactive: inactivo,
 			});
 			(establecimiento[1][0].url == layerParam?layer.addTo(mymap):i+=1);
-			console.log(establecimiento[1][0].url)
 		});
 
 		layersConfig.push({
@@ -2636,7 +2634,6 @@ function crearTabla(data) {
 	data.forEach(row => {
 		const tr = document.createElement('tr');
 		Object.values(row).forEach(cell => {
-			console.log(cell)
 			const td = document.createElement('td');
 			td.classList.add('tdFiltro')
 			td.textContent = cell;
