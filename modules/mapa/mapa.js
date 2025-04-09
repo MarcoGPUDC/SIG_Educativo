@@ -194,7 +194,7 @@ function estilo_departamentos (feature) {
 };
 
 
- 
+
   
 
 
@@ -2675,15 +2675,26 @@ formfiltroInformacion.addEventListener("submit", async function(e) {
 	var col = document.querySelector('.check-column:checked');
 		if(selectedCheckbox){
 			datosFiltrados = await filtrar_info(selectedCheckbox.value,fila.value,col.value);
-			let labels = Object.keys(datosFiltrados[0]);
+			var labels = Object.keys(datosFiltrados[0]);
 			labels.splice(0,1);
+			console.log(labels)
 			let idGrafico;
 			let reg = 0;
 			datosFiltrados.forEach(grafico => {
+				let p = 0;
 				grafico = Object.values(grafico);
 				idGrafico = grafico[0];
 				grafico.splice(0,1)
-				graficosGenerados.push(createPieChart(grafico, labels, idGrafico, posRegiones[reg]))
+				var valores = [];
+				grafico.forEach(data =>{
+					let temp = []
+					temp.push(labels[p])
+					temp.push(parseInt(data))
+					valores.push(temp)
+					p += 1
+				})
+				p=0;
+				graficosGenerados.push(createPieChart(valores, idGrafico, posRegiones[reg]))
 				reg +=1;
 			})
 			crearTabla(datosFiltrados);
@@ -2697,16 +2708,34 @@ function nomostrarestablecimientosinfofiltro(){
 	document.getElementById("map").style.display = "block";
 	document.getElementById("establecimientosinfofiltro").style.display = 'none';
 }
-/*Funcion para mostrat los graficos generados
+//Funcion para mostrat los graficos generados
+var dashboard = document.getElementById("dashboard")
 var mostrarGraficos = document.getElementById("mostrarGraficosBoton");
 mostrarGraficos.addEventListener('click', function(e) {
+	graficosGenerados.forEach(grafico =>{
+		dashboard.innerHTML += grafico.display
+	})
 	graficosGenerados.forEach(grafico => {
-		baselayer.addLayer(grafico.display);
-		Plotly.newPlot(grafico.htmlElement, grafico.data, grafico.layout)
+		console.log(grafico)
+		
+		Highcharts.chart(grafico.regnum,{
+			chart: {
+				styledMode: false
+			},
+			title: {text:grafico.regnum},
+			series: [{
+				type: 'pie',
+				allowPointSelect: true,
+				keys: ['name', 'y'],
+				data: grafico.data.values
+			}],
+			showInLegend: true,
+		})
+		//Plotly.newPlot(grafico.htmlElement, grafico.data, grafico.layout)
 		
 	})
 	document.getElementById("tablaInfoFiltro").innerHTML = ' '	
-})*/
+})
 //cierra los grafico
 function closeChart(id){
 	baselayer.eachLayer(function (layer) {
@@ -2718,37 +2747,18 @@ function closeChart(id){
 	});
 }
 //crea los graficos
-function createPieChart(values, labels, htmlElement, pos){
-	var regnum = htmlElement.split(" ")[1];
-	htmlElement = htmlElement.split(" ")[0]+regnum;
-	var data = [{
-		values: values,
-		labels: labels,
-		type: 'pie',
-		automargin: true
-	}];
-  
-	var layout = {
-		height: 150,
-		width: 150,
-		margin: {"t": 0, "b": 0, "l": 0, "r": 0},
-		showlegend: false,
-		paper_bgcolor:'rgba(0,0,0,0)',
-		plot_bgcolor:'rgba(0,0,0,0)' 
+function createPieChart(values, htmlElement){
+	var regnum = convertirARomano(htmlElement)
+	var data = {
+		values: values
 	};
 	
 	
-	var display = L.marker(pos, {
-		icon: L.divIcon({
-			className:`data-chart-${htmlElement}`,
-			html: `<div id='${htmlElement}'>Región ${regnum}  <button type="button" id="data-chart-${htmlElement}" class="btn-close btn-sm" aria-label="Close" onclick="return closeChart(this.id);"></button></div>`
-		}),
-		zIndexOffset: 99
-	})
+	var display =`<div class="data-chart-${regnum}" id='${regnum}' style="width: 300px; display:inline-block;"></div>`
+
 	var div = {
-		htmlElement,
+		regnum,
 		data,
-		layout,
 		display
 	}
 

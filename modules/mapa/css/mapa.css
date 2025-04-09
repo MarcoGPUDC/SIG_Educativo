@@ -433,3 +433,15 @@ html, body{
 #modalInfoFiltro .modal-content{
     width: 550px;
 }
+
+#modalGraficos{
+    width: 1900px;
+}
+
+#formFiltroInformacion #modalGraficos {
+    left: -45%
+}
+
+#modalGraficos #dashboard{
+    padding-left: 120px;
+}
