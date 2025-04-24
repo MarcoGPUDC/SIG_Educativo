@@ -1885,14 +1885,15 @@ async function cargarBotonesMapa() {
 }
 
 async function iniciarMapa() {
-	const url = window.location.pathname;
+	/*const url = window.location.pathname;
 	if (url == '/'){
 		await initMap();
 		await cargarBotonesMapa()
 	} else if(url == '/otro') {
 
-	}
-	
+	}*/
+	await initMap();
+	await cargarBotonesMapa()
 	
 }
 
