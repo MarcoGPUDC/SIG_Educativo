@@ -31,7 +31,7 @@ function cargarDatosBuscador() {
         data.forEach(result => {   
             //Doble for para recorrer la matriz de datos generada por "buscador_loader"
             var filtro = result.clave; //obtiene el nombre de la clave para indicar en que formulario agregar las opciones
-            if(filtro != 'id'){
+            if(filtro != 'id' && filtro != 'ambito'){
                 var select = document.getElementById(`f-select-${filtro}esc`); //se inyecta el nombre de las columnas para seleccionar el formulario
                 result.valor.forEach(element => {
                     const option = document.createElement('option');

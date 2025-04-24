@@ -43,7 +43,34 @@ html(lang="es")
             <div class="container">
                 <h4 id="fnainfoadicional" class="m-3" style="color:#0d6efd"></h4>
                 <div class="row ">
-                    h1#cabecera ESTABLECIMIENTO EDUCATIVO N°: 
+                    div    
+                        <!-- Button trigger modal -->
+                        <button type="button" style="float: right;" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalImagenInfo">
+                            img(src="/img/portada/imagenInfo.png" width="25px" height="25px")
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="modalImagenInfo" tabindex="-1" aria-labelledby="modalImagenInfoLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="modalImagenInfoLabel">Sobre Nosotros:</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                img#imagenInfo(src="", alt="Diapositiva informativa sobre la escuela") 
+                                <br>
+                                img#imagenFotos(src="", alt="Diapositiva de imagenes de la escula")
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        h1#cabecera ESTABLECIMIENTO EDUCATIVO N°:
+                </div>
+                div#cabecera(class="row")
                     <div class="col m-2 ">
                         <div class="card h-100">
                             <div class="card-header card-header-custom">
@@ -116,7 +143,6 @@ html(lang="es")
                                         <ul id="matriculainfoadicional">
                                             <li id="matriculamujeres">Mujeres: </li>
                                             <li id="matriculavarones">Varones: </li>
-                                            
                                         </ul>
                                 </div>
                             </div>
@@ -136,7 +162,6 @@ html(lang="es")
                             </div>
                         </div>
                     </div>
-                </div>
                 <div class="row mb-2" id="ventanaInfra">
                     <div class="col m-2" id="colEqui">
                         <div class="card h-100">
@@ -177,6 +202,7 @@ html(lang="es")
                     //<a class='btn btn-outline-primary btn-sm' href='/' target='_self'>Volver al mapa</a>
                 </div>
             </div>
+            
         </div>
         <div style="float: right; top: 46%; position: fixed; left: 91%;">
             <button id="siguiente"> 

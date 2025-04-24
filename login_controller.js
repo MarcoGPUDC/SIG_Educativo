@@ -20,6 +20,7 @@ router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
     const resultUser = await consulta.verificar_usuario_mysql(username);
+    const resultRole = await consulta.verificar_rol(resultUser[0][0].id)
     bcrypt.compare(password, resultUser[0][0].encrypted_password, (err, result) => {
       if (err) {
           // Handle error
@@ -29,7 +30,7 @@ router.post('/login', async (req, res) => {
   
     if (result) {
         const user = {id: resultUser[0][0].id,
-                      role: resultUser[0][0].name,
+                      role: resultRole.rol,
                       user: username
         }
         const token = jwt.sign(user, SECRET_KEY, {expiresIn: '1h'})

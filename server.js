@@ -93,6 +93,9 @@ app.get('/', function(req, res) {
     res.sendFile(__dirname + '/modules/mapa/index.html');
 });
 
+app.get('/otro', function(req, res) {
+  res.sendFile(__dirname + '/modules/mapa/index.html');
+});
 
 const informacion_controlador = require('./modules/buscador/controllers/informacion_controlador')
 app.use('/info', informacion_controlador);
@@ -141,6 +144,9 @@ app.use('/abm', abmRoutes);
         res.render('index',{user: userData });
     });
 });*/
+
+//ACCESO A MAPAS INTERACTIVOS
+
 
 //ENDSPOINTS
 app.post('/logout', (req, res) => {

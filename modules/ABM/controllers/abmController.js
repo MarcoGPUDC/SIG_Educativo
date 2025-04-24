@@ -16,7 +16,7 @@ function verify(req, res, next){
   }
   try {
      const payload = jwt.verify(token, SECRET_KEY);
-      if(payload.role === 'sadmin' || payload.role === 'auditor'){
+      if(payload.role === 'admin' || payload.role === 'auditor'){
         req.user= payload;
         next()
       } else {
@@ -29,7 +29,6 @@ function verify(req, res, next){
 
 router.get('/',verify, async (req, res) => {
   try {
-    console.log(req.user)
     res.render('abmView');
   } catch (error) {
     // Manejar cualquier error que ocurra durante la obtención de las tareas

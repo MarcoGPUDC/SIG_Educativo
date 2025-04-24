@@ -367,6 +367,9 @@ async function verificar_usuario_mysql(username) {
                         JOIN ddjj_production.roles rol ON rol.id = roles.role_id WHERE users.email = ?`, [username])
 }
 
+async function verificar_rol(id) {
+    return db.one(`SELECT rol.nombre AS rol FROM usuario_ddjj usuario JOIN rol ON usuario.id_rol = rol.id WHERE usuario.id_ddjj = $1`, [id])
+}
 
 //listado info regiones
 function buscar_info_region(region){
@@ -444,6 +447,7 @@ module.exports = {
     modificar_institucion,
     modificar_oferta,
     verificar_usuario,
+    verificar_rol,
     verificar_usuario_mysql,
     registrar_usuario,
     cambiar_contra,

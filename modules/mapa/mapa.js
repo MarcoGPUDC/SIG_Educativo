@@ -385,6 +385,7 @@ function estilo_region (feature) {
 	};
 
 var todosLayersTematicos = []
+var todosLayersOtros = []
 async function getGeoserverDatastoreLayers(workspace, datastore){
 	const geoUrl = `https://sistemas2.chubut.edu.ar/geoserver/rest/workspaces/${workspace}/datastores/${datastore}/featuretypes.json`
 	var username = '';
@@ -408,13 +409,25 @@ async function getGeoserverDatastoreLayers(workspace, datastore){
 	}
 	const data = await response.json()
 	const layers = data.featureTypes.featureType.map(layer => layer.name);
-	layers.forEach(layer => {
-		if ( layer.split('_')[0] == 'establec' || layer.split('_')[0] == 'bibliotecas') {
-			getGeoserverLayer(workspace, layer).then(data => {
-				todosLayersTematicos.push([data,layer.split('_')[1]])
-			})	
-		}
-	})
+	switch (datastore) {
+		case 'temáticos':
+			layers.forEach(layer => {
+				if ( layer.split('_')[0] == 'establec' || layer.split('_')[0] == 'bibliotecas' || layer.split('_')[0] == 'ed-digital') {
+					getGeoserverLayer(workspace, layer).then(data => {
+						todosLayersTematicos.push([data,layer.split('_')[1]])
+					})	
+				}
+			})
+			break;
+		case 'otros':
+			layers.forEach(layer => {
+				getGeoserverLayer(workspace, layer).then(data => {
+					todosLayersOtros.push([data,layer])
+				})	
+			})
+			break;
+	}
+	
 }
 
 
@@ -428,7 +441,8 @@ async function getGeoserverLayer(workspace, layer) {
 		attribution: "SIG Educativo"
 	})
 	let tipoCapa = layer.split("_")[0];
-	let tipoIcon = layer.split("_")[1];
+	let subTipoCapa = layer.split("_")[1];
+	let tipoIcon;
 	let dataLayer;
 	try {
 		const geoResponse = await fetch(`https://sistemas2.chubut.edu.ar/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${workspace}%3A${layer}&maxFeatures=300&outputFormat=application%2Fjson&srsname=EPSG:4326`);
@@ -461,11 +475,31 @@ async function getGeoserverLayer(workspace, layer) {
 						case 'infra':
 								tipoIcon = 'equiInfra'
 							break;
+						case 'ed-digital':
+								switch (subTipoCapa) {
+									case 'netbooks':
+											tipoIcon = 'netbooks'
+										break;
+									case 'adm':
+											tipoIcon = 'adm'
+										break;
+									case 'robotica':
+											tipoIcon = 'robotica'
+										break;
+									default:
+										tipoIcon = 'edDigital'
+										break;
+								}
+							break;
 						default:
 								tipoIcon = 'establecimientos'
 							break;
 					}
-					dataLayer = createLayer(dataGeoJSON, tipoIcon, '')
+					if (dataGeoJSON.features[0].geometry.type == 'MultiLineString') {
+						dataLayer = createLineLayer(dataGeoJSON, tipoIcon)
+					} else {
+						dataLayer = createLayer(dataGeoJSON, tipoIcon, '')
+					}
 				break;
 		}
 
@@ -475,7 +509,6 @@ async function getGeoserverLayer(workspace, layer) {
 	}
 	return dataLayer;
 }
-getGeoserverDatastoreLayers('sigeducativo','temáticos')
 
 
 // Agregar regiones a mapa
@@ -639,7 +672,90 @@ function popup_bib_populares (feature, layer) {
         popupopen : closepoputNL,
     });
 };
-// Agregar establecimientos educativos a mapa 
+
+function popup_ed_digital_robo (feature, layer) {
+	layer.bindPopup(
+		"<div class='p-3'><h6 style='color:#0d6efd'>Hacemos Futuro: Róbotica " +
+		"</h6><table>" + 
+		"</td></tr><tr><td><b>Región:</b> "+ (feature.properties.region?feature.properties.region:"No se registra") +
+		"</td></tr><tr><td><b>Cod. Jurisdiccional:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") +
+		"</td></tr><tr><td><b>CUE:</b> "+ (feature.properties.cue?feature.properties.cue:"No se registra") +
+		"</td></tr><tr><td><b>Localidad:</b> "+ (feature.properties.localidad?feature.properties.localidad:"No se registra") +
+		"</td></tr><tr><td><b>Observaciones:</b> "+ (feature.properties.observaciones?feature.properties.observaciones:"No se registra") +
+		"</td></tr><tr><td><b>Ámbito:</b> "+ (feature.properties.ambito?feature.properties.ambito:"No se registra") +
+		(feature.properties.kit_robo_mblock?"</td></tr><tr><td><b>Kit Robótica Mblock:</b> "+feature.properties.kit_robo_mblock:"") +
+		(feature.properties.kit_arduino?"</td></tr><tr><td><b>Kit Arduino:</b> "+feature.properties.kit_arduino:"")+
+		(feature.properties.placa_microbit?"</td></tr><tr><td><b>Placa Microbit:</b> "+feature.properties.placa_microbit:"")+
+		(feature.properties.placa_raspberry?"</td></tr><tr><td><b>Placa Raspberry:</b> "+feature.properties.placa_raspberry:"")+
+		"</td></tr></table></div>"),
+		{minWidth: 270, maxWidth: 270}
+	};
+
+function popup_ed_digital_adm(feature, layer) {
+	layer.bindPopup(
+		"<div class='p-3'><h6 style='color:#0d6efd'>Hacemos Futuro: Aula Digital Movil " +
+		"</h6><table>" + 
+		"</td></tr><tr><td><b>Región:</b> "+ (feature.properties.region?feature.properties.region:"No se registra") +
+		"</td></tr><tr><td><b>Cod. Jurisdiccional:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") +
+		"</td></tr><tr><td><b>CUE:</b> "+ (feature.properties.cue?feature.properties.cue:"No se registra") +
+		"</td></tr><tr><td><b>Localidad:</b> "+ (feature.properties.localidad?feature.properties.localidad:"No se registra") +
+		"</td></tr><tr><td><b>Observaciones:</b> "+ (feature.properties.observaciones?feature.properties.observaciones:"No se registra") +
+		"</td></tr><tr><td><b>Ámbito:</b> "+ (feature.properties.ambito?feature.properties.ambito:"No se registra") +
+		(feature.properties.carro?"</td></tr><tr><td><b>ADM:</b> "+feature.properties.carro:"") +
+		"</td></tr></table></div>"),
+		{minWidth: 270, maxWidth: 270}
+	};
+
+function popup_ed_digital_netbooks (feature, layer) {
+	layer.bindPopup(
+		"<div class='p-3'><h6 style='color:#0d6efd'>Hacemos Futuro: Neetbooks " +
+		"</h6><table>" + 
+		"</td></tr><tr><td><b>Región:</b> "+ (feature.properties.region?feature.properties.region:"No se registra") +
+		"</td></tr><tr><td><b>Cod. Jurisdiccional:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") +
+		"</td></tr><tr><td><b>CUE:</b> "+ (feature.properties.cue?feature.properties.cue:"No se registra") +
+		"</td></tr><tr><td><b>Localidad:</b> "+ (feature.properties.localidad?feature.properties.localidad:"No se registra") +
+		"</td></tr><tr><td><b>Observaciones:</b> "+ (feature.properties.observaciones?feature.properties.observaciones:"No se registra") +
+		"</td></tr><tr><td><b>Ámbito:</b> "+ (feature.properties.ambito?feature.properties.ambito:"No se registra") +
+		"</td></tr><tr><td><b>Neetbooks:</b> "+feature.properties.netbooks +
+		"</td></tr></table></div>"),
+		{minWidth: 270, maxWidth: 270}
+	};
+
+function popup_ed_digital (feature, layer) {
+	layer.bindPopup(
+		"<div class='p-3'><h6 style='color:#0d6efd'>Hacemos Futuro: Neetbooks " +
+		"</h6><table>" + 
+		"</td></tr><tr><td><b>Región:</b> "+ (feature.properties.region?feature.properties.region:"No se registra") +
+		"</td></tr><tr><td><b>Cod. Jurisdiccional:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") +
+		"</td></tr><tr><td><b>CUE:</b> "+ (feature.properties.cue?feature.properties.cue:"No se registra") +
+		"</td></tr><tr><td><b>Localidad:</b> "+ (feature.properties.localidad?feature.properties.localidad:"No se registra") +
+		"</td></tr><tr><td><b>Observaciones:</b> "+ (feature.properties.observaciones?feature.properties.observaciones:"No se registra") +
+		"</td></tr><tr><td><b>Ámbito:</b> "+ (feature.properties.ambito?feature.properties.ambito:"No se registra") +
+		(feature.properties.netbooks?"</td></tr><tr><td><b>Neetbooks:</b> "+ feature.properties.netbooks:"") +
+		(feature.properties.kit_robo_mblock?"</td></tr><tr><td><b>Kit Robótica Mblock:</b> "+feature.properties.kit_robo_mblock:"") +
+		(feature.properties.kit_arduino?"</td></tr><tr><td><b>Kit Arduino:</b> "+feature.properties.kit_arduino:"")+
+		(feature.properties.placa_microbit?"</td></tr><tr><td><b>Placa Microbit:</b> "+feature.properties.placa_microbit:"")+
+		(feature.properties.placa_raspberry?"</td></tr><tr><td><b>Placa Raspberry:</b> "+feature.properties.placa_raspberry:"")+
+		(feature.properties.carro?"</td></tr><tr><td><b>ADM:</b> "+feature.properties.carro:"") +
+		"</td></tr></table></div>"),
+		{minWidth: 270, maxWidth: 270}
+	};
+
+function popup_calle (feature, layer) {
+	layer.bindPopup(
+		"<div class='p-3'><h6 style='color:#0d6efd'>Ciudad: "+ (feature.properties.ciudad?feature.properties.ciudad:"") +
+		"</h6><table>" + 
+		"</td></tr><tr><td><b>Linea:</b> "+ (feature.properties.linea?feature.properties.linea:"No se registra") +
+		"</td></tr><tr><td><b>Nombre:</b> "+ (feature.properties.nombre?feature.properties.nombre:"No se registra") +
+		"</td></tr></table></div>",
+		{minWidth: 270, maxWidth: 270}
+	)
+	layer.on({
+		popupopen: resaltarLinea,
+		popupclose: restablecerEstiloLinea
+	});
+};
+
 
 function formatoNombre(cadena) {
 	if (cadena) {
@@ -897,7 +1013,7 @@ getAreasEscolares();
 //crear capa, se crea a partir de un geoJSON, se indica tipo de dependencia (institucion, supervision, delegacion) y nivel para obtener el icono correspondiente
 function createLayer(data, tipo, nivel) {
 	var cluster = createCluster(tipo, nivel);
-	var layer = L.geoJSON(data, {
+	const layer = L.geoJSON(data, {
 		pointToLayer: function (feature, latlng) {
 			var moved = false;
 			var marker = L.marker(latlng, {
@@ -912,9 +1028,16 @@ function createLayer(data, tipo, nivel) {
 			marker.on('mouseover', function(){
 				var latlng = marker.getLatLng();
 				globalMarkers.forEach(referencia => {
-					if (latlng.lat === referencia.getLatLng().lat && latlng.lng === referencia.getLatLng().lng && marker._leaflet_id !== referencia._leaflet_id && marker.feature.properties.nivel !== referencia.feature.properties.nivel){
-						moverMarcador(marker);
-						moved = true;
+					if (latlng.lat === referencia.getLatLng().lat && latlng.lng === referencia.getLatLng().lng && marker._leaflet_id !== referencia._leaflet_id){
+						if (marker.feature.properties.nivel) {
+							if(marker.feature.properties.nivel !== referencia.feature.properties.nivel) {
+								moverMarcador(marker);
+								moved = true;
+							}
+						} else {
+							moverMarcador(marker);
+							moved = true;
+						}
 					}
 				})
 			})
@@ -948,9 +1071,38 @@ function createLayer(data, tipo, nivel) {
 			cluster.addLayer(marker);
 			return marker;
 		},
-		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas : (tipo === 'biblioteca') ? popup_bib_pedagogicas : (tipo === 'establec') ? onEachFeatureEst : (tipo === 'biblioteca_pop') ? popup_bib_populares : (tipo === 'equiInfra') ? popup_equip_infra : onEachFeatureL
+		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas : (tipo === 'biblioteca') ? popup_bib_pedagogicas : (tipo === 'establec') ? onEachFeatureEst : (tipo === 'biblioteca_pop') ? popup_bib_populares : (tipo === 'equiInfra') ? popup_equip_infra : (tipo === 'netbooks') ? popup_ed_digital_netbooks : (tipo === 'adm') ? popup_ed_digital_adm : (tipo === 'robotica') ? popup_ed_digital_robo : (tipo === 'edDigital') ? popup_ed_digital:  onEachFeatureL
 		});
 	return cluster;
+}
+
+function createLineLayer(data,tipo) {
+	layer = L.geoJSON(data, {
+		style:{
+			color:'#0000f0',
+			weight: 3,
+			opacity: 0.3
+		},
+		onEachFeature: popup_calle,
+	});
+	return layer;
+}
+
+//funciones para estilos de capas con lineas
+function resaltarLinea(e){
+	const capa = e.target;
+	capa.setStyle ({
+		color: '#00ff00',
+		weight: 5,
+		opacity: 0.9
+	})
+}
+
+function restablecerEstiloLinea(e){
+	setTimeout(function(){
+		layer.resetStyle(e.targer);
+	}, 2000);
+	
 }
 
 function parseWKT(wkt) {
@@ -1311,6 +1463,18 @@ async function generarTodosLayers(layerParam) {
 			})
 		})
 
+		todosLayersOtros.forEach(otro => {
+			layersConfig.push({
+				label: otro[1].charAt(0).toUpperCase() + otro[1].slice(1),
+				type: 'image',
+				url: 'icons/tematico.svg',
+				layers_type: "otro",
+				layers: otro[0],
+				inactive: true
+			})
+		})
+
+
 		layersConfig.push ({
 			label: "Regiones Educativas",
 			type: "polygon",
@@ -1368,7 +1532,8 @@ async function generarTodosLayers(layerParam) {
 		
 		return layersConfig;
 
-	} else {
+	} else if (layerParam == 'planeamiento') {} 
+	else {
 			// Obtener establecimientos y crear configuraciones de capas
 			establecimientos.forEach(establecimiento => {
 				var layer = establecimiento[0][0];
@@ -1426,6 +1591,17 @@ async function generarTodosLayers(layerParam) {
 				})
 			})
 
+			todosLayersOtros.forEach(otro => {
+				layersConfig.push({
+					label: otro[1].charAt(0).toUpperCase() + otro[1].slice(1),
+					type: 'image',
+					url: 'icons/tematico.svg',
+					layers_type: "otro",
+					layers: otro[0],
+					inactive: true
+				})
+			})
+
 			layersConfig.push({
 				label: 'Bibliotecas Pedagogicas',
 				type: 'image',
@@ -1474,8 +1650,8 @@ async function initMap() {
 	const urlParams = new URLSearchParams(window.location.search);
 	const layerParam = urlParams.get('capa');
 	legends = await generarTodosLayers(layerParam);
-    try {
-    	legend = new L.control.Legend({
+	try {
+		legend = new L.control.Legend({
 			position: "topleft",
 			title: "Capas",
 			collapsed: true,
@@ -1483,11 +1659,10 @@ async function initMap() {
 			opacity: 1,
 			column: false,
 			legends: legends
-    	}).addTo(mymap);
+		}).addTo(mymap);
 	} catch (error) {
 		console.error('Error al cargar las capas:', error);
 	}
-	
 }
 
 
@@ -1540,7 +1715,7 @@ function mostrarFullscreenButton() {
 	  titleCancel: 'Salir de Pantalla Completa'
 	}).addTo(mymap);
   }
-mostrarFiltroButton.addTo(mymap);
+
 
 // Agregar  control impresion
 
@@ -1701,15 +1876,25 @@ function removeButtonById(buttonId) {
 // Agrega los tres botonones despues del legend
 async function cargarBotonesMapa() {
 		//mostrarFullscreenButton();
-		await initMap();
+		mostrarFiltroButton.addTo(mymap);
 		mostrarConsultaButton.addTo(mymap);
-		//mostrarFiltroButton.addTo(mymap);
 		controlbrowserPrint.addTo(mymap);
 		addFullmapPrint();
 		//downloadButton.addTo(mymap);
 		addGuidePrint();		
 }
 
+async function iniciarMapa() {
+	const url = window.location.pathname;
+	if (url == '/'){
+		await initMap();
+		await cargarBotonesMapa()
+	} else if(url == '/otro') {
+
+	}
+	
+	
+}
 
 
 
@@ -2677,7 +2862,6 @@ formfiltroInformacion.addEventListener("submit", async function(e) {
 			datosFiltrados = await filtrar_info(selectedCheckbox.value,fila.value,col.value);
 			var labels = Object.keys(datosFiltrados[0]);
 			labels.splice(0,1);
-			console.log(labels)
 			let idGrafico;
 			let reg = 0;
 			datosFiltrados.forEach(grafico => {
@@ -2715,9 +2899,7 @@ mostrarGraficos.addEventListener('click', function(e) {
 	graficosGenerados.forEach(grafico =>{
 		dashboard.innerHTML += grafico.display
 	})
-	graficosGenerados.forEach(grafico => {
-		console.log(grafico)
-		
+	graficosGenerados.forEach(grafico => {		
 		Highcharts.chart(grafico.regnum,{
 			chart: {
 				styledMode: false
@@ -2835,6 +3017,9 @@ mymap.on('zoomend', function() {
 });
 
 
+getGeoserverDatastoreLayers('sigeducativo','temáticos')
+getGeoserverDatastoreLayers('sigeducativo','otros')
+
 setTimeout(function(){
-    cargarBotonesMapa();
-}, 3000);
+    iniciarMapa();
+}, 4000);
