@@ -1,3 +1,4 @@
+var esc = 0;
 document.addEventListener('DOMContentLoaded', (event) => {
     console.log("DOM cargado");
        
@@ -22,6 +23,7 @@ async function completarDatosInstitucion() {
     })
     .then(data => {
         //datos institucion
+        esc=data.numero
         document.getElementById('cabecera').innerText += ` ${data.numero}`;
         document.getElementById('cueanexoinfoadicional').innerHTML = `${data.cue_anexo}`;
         //document.getElementById('funinfoadicional').innerHTML = `${data.funcion}`;
@@ -156,6 +158,7 @@ async function completarDatosInstitucion() {
         data.energia !='NULL'?energia.innerHTML+='<img src="./icons/energia.png" title="Energia">' + ' Fuente: ' + data.fuente_energia:energia.innerHTML+='<img src="./icons/energiaNo.png">';
         data.internet !='NULL'?internet.innerHTML+='<img src="./icons/internet.svg" title="Internet">' + ' Fuente: ' + data.fuente_internet:internet.innerHTML+='<img src="./icons/internetNo.svg">';
         data.calefaccion !='NULL'?calefaccion.innerHTML+='<img src="./icons/calefaccion.svg" title="Calefaccion">': calefaccion.innerHTML+='<img src="./icons/calefaccionNo.png" title="Sin calefaccion">';
+        obtenerImagenes()
     })
     .catch(error => {
         console.error('Error:', error);
@@ -183,6 +186,35 @@ function downloadAsExcelD(filename, data){
     const excelBuffer = XLSX.write(workbook,{ bookType: 'xlsx', type: 'array'});
     saveAsExcel(excelBuffer, filename);    
 }
+
+//funcion para cargar las imagenes y cuadros informativos a la pestaña info institucion
+function obtenerImagenes (){
+    fetch(`info/obtenerDirImagen`)
+    .then(response => {
+        // Maneja la respuesta recibida del servidor
+        if (!response.ok) {
+            throw new Error('Error al obtener los datos');
+        }
+        return response.json(); // Convierte la respuesta en formato JSON
+    })
+    .then(datos => {
+        datos.forEach(imagen => {
+            var escImagen = imagen.split('-');
+            console.log(escImagen)
+            if (escImagen[1]){
+                if(escImagen[1] == esc){
+                    document.getElementById('imagenInfo').setAttribute('src','public/img/portada/'+imagen.replace('02.PNG','01.PNG'))
+                    document.getElementById('imagenFotos').setAttribute('src','public/img/portada/'+imagen.replace('01.PNG','02.PNG'))
+                    
+                }
+            }
+        })
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
 
 
 //document.getElementById("exportarinfoadicional").addEventListener("click", downloadAsExceInfoAdicional);
@@ -222,3 +254,4 @@ function downloadAsExceInfoAdicional(){
 }
 
 completarDatosInstitucion();
+

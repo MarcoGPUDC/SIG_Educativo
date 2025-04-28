@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const informacion = require('../../../public/js/consulta_model');
+const fs = require('fs');
+const path = require('path');
 
 
 router.get('/', async (req, res) => {
@@ -59,5 +61,23 @@ router.get('/obtenerDatosInfra', async (req, res) => {
       res.status(500).send('Error al obtener los datos.');
     }
   });
+
+  router.get('/obtenerDirImagen', async (req,res) => {
+    try {
+      const directoryPath = path.join('public/img/portada/');
+      fs.readdir(directoryPath,(err, archivos) => {
+        if (err) {
+            console.log(err)
+            return;
+        }
+        res.send(archivos);
+      })
+    } catch (error) {
+      console.error('Error al obtener las direcciones:', error);
+      res.status(500).send('Error al obtener los datos.');
+    }
+    
+  });
+ 
 
 module.exports = router;

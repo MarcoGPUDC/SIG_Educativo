@@ -1408,12 +1408,13 @@ async function generarTodosLayers(layerParam) {
 	
 	var i = 0;
 	if (layerParam != null) {
+		var inactivo = true;
+		var layer;
 		establecimientos.forEach(establecimiento => {
-			var inactivo = true;
 			if (establecimiento[1][0].url == layerParam) {	
 				inactivo = false
 			}
-			var layer = establecimiento[0][0];
+			layer = establecimiento[0][0];
 			layersConfig.push({
 				label: `${establecimiento[1][0].label}`,
 				type: "image",
@@ -1453,14 +1454,19 @@ async function generarTodosLayers(layerParam) {
 		})
 
 		todosLayersTematicos.forEach(tematico => {
+			if (tematico[1]== layerParam) {	
+				inactivo = false
+			}
+			layer = tematico[0];
 			layersConfig.push({
 				label: tematico[1].charAt(0).toUpperCase() + tematico[1].slice(1),
 				type: 'image',
 				url: 'icons/tematico.svg',
 				layers_type: "tema",
 				layers: tematico[0],
-				inactive: true
-			})
+				inactive: inactivo
+			});
+			(tematico[1] == layerParam?layer.addTo(mymap):i+=1);
 		})
 
 		todosLayersOtros.forEach(otro => {
@@ -1504,7 +1510,7 @@ async function generarTodosLayers(layerParam) {
 		supervision.forEach(supervision => {
 			var layer = supervision[0][0];
 			layersConfig.push({
-				label: `Supervisíon ${supervision[1][0].label}`,
+				label: `Supervisíón ${supervision[1][0].label}`,
 				type: "image",
 				url: `icons/supervision_${supervision[1][0].url}.svg`,
 				layers_type: "organizacion",
@@ -1629,7 +1635,7 @@ async function generarTodosLayers(layerParam) {
 				var layer = supervision[0][0];
 				layer.addTo(mymap);
 				layersConfig.push({
-					label: `Supervisíon ${supervision[1][0].label}`,
+					label: `Supervisíón ${supervision[1][0].label}`,
 					type: "image",
 					url: `icons/supervision_${supervision[1][0].url}.svg`,
 					layers_type: "organizacion",
@@ -2237,7 +2243,7 @@ function mostrarpoputinfo(namelayer){
 		case "Ministerio de Educación":
 			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3 text-danger">No esta la info de la capa!</p>`;
 			break;
-		case "Supervisión Inicial":
+		case "Supervision Inicial":
 			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">Se encargan de ejercer en primer término y en forma directa el control y supervisión de los aspectos que hacen a la parte operativa de servicios administrativa y financiera de los establecimientos educativos del nivel inicial.</p>`;
 			break;
 		case "Supervisión Primaria":
@@ -2255,28 +2261,28 @@ function mostrarpoputinfo(namelayer){
 		case "Bibliotecas Pedagógicas":
 			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3 text-danger">No esta la info de la capa!</p>`;
 			break;
-		case "Ed. Domiciliaria y Hospitalaria":
+		case "Domiciliaria/Hospitalaria":
 			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">Es la modalidad del sistema educativo en los niveles de Educación Inicial, Primaria y Secundaria, destinada a garantizar el derecho a la educación de los/ as estudiantes que, por razones de salud, se ven imposibilitados/as de asistir con regularidad a una institución educativa en los niveles de la educación obligatoria, por períodos de quince (15) días corridos o más.</p>`;
 			break;
-		case "Ed. Especial":
+		case "Especial":
 			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">Es la modalidad del Sistema Educativo destinada a asegurar el derecho a la educación de las personas con discapacidades, temporales o permanentes, en todos los niveles y modalidades del Sistema Educativo.</p>`;
 			break;
-		case "Ed. Inicial":
+		case "Inicial":
 			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">La educación inicial constituye una unidad pedagógica que brinda educación a los/as niños/as desde los cuarenta y cinco (45) días hasta los cinco (5) años de edad inclusive, siendo obligatoria la sala de cinco (5) años.</p>`;
 			break;
-		case "Ed. Primaria":
+		case "Primaria":
 			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">La educación primaria es obligatoria y constituye una unidad pedagógica que tiene por finalidad brindar una enseñanza común, integral y básica que asegure a los/as niños/as las condiciones para el acceso, tránsito, permanencia y egreso del nivel. Tiene una duración de seis (6) años, organizada en dos ciclos de tres (3) años cada uno.</p>`;
 			break;
-		case "Ed. Secundaria":
+		case "Secundaria":
 			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">La educación secundaria es obligatoria, constituye una unidad pedagógica y organizativa destinada a los/as adolescentes, jóvenes y adultos que hayan cumplido con el nivel de educación primaria.</p>`;
 			break;
-		case "Ed. Superior no universitaria":
+		case "Superior no universitaria":
 			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">Está constituida por los Institutos de Educación Superior, sean éstos de formación docente, humanística, social, técnico-profesional o artística y por instituciones nacionales y provinciales de educación no universitaria.</p>`;
 			break;
-		case "Ed. perm. de Jovenes y Adultos":
+		case "EPJA":
 			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">Es la modalidad educativa destinada a garantizar la alfabetización y el cumplimiento de la obligatoriedad escolar, a quienes no la hayan completado en la edad establecida reglamentariamente, y a brindar posibilidades de educación a lo largo de toda la vida.</p>`;
 			break;
-		case "Formación Profesional":
+		case "ETP":
 			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">Es la modalidad de la Educación Secundaria y la Educación Superior, responsable de la formación de Técnicos Medios y Técnicos Superiores, en áreas ocupacionales específicas y de la formación profesional, introduciendo a los/as estudiantes, jóvenes y adultos, en un recorrido de profesionalización a partir del acceso a una base de conocimientos y de habilidades profesionales que les permita su inserción en áreas ocupacionales cuya complejidad exige haber adquirido una formación general, una cultura científico tecnológica de base a la par de una formación técnica específica de carácter profesional, así como continuar aprendiendo durante toda su vida.</p>`;
 			break;
 		case "Otros servicios educativos":

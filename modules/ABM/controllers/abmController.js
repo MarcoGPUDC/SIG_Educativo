@@ -6,9 +6,10 @@ const consulta = require('../../../public/js/consulta_model');
 const autenticar = require('../../../login_controller')
 const jwt = require('jsonwebtoken');
 
-
+//obtiene clave desde archivo ".env"
 const SECRET_KEY = process.env.SECRET_KEY;
 
+// Middleware para verificar el token de autenticación
 function verify(req, res, next){
   const token = req.cookies.authToken;
   if (!token) {
@@ -27,41 +28,40 @@ function verify(req, res, next){
   }
 }
 
+//acceso a pestaña AMB, verifica permisos
 router.get('/',verify, async (req, res) => {
   try {
     res.render('abmView');
   } catch (error) {
-    // Manejar cualquier error que ocurra durante la obtención de las tareas
     console.error('Error al cargar el buscador', error);
     res.status(500).send('Error al optener las opciones.');
   }
 });
 
+//precarga los inputs con las instituciones diponibles
 router.get('/cargaDatosCrud', async (req, res) => {
   try {
-    // Obtener todas las tareas utilizando el modelo de datos
+    // Obtener todas las opciones utilizando
     const data = await buscador.datos_buscador();
     res.send(data);
   } catch (error) {
-    // Manejar cualquier error que ocurra durante la obtención de las tareas
     console.error('Error al obtener los CUEs:', error);
     res.status(500).send('Error al obtener los CUEs.');
   }
 });
 
+//busca los datos de una institucion
 router.get('/obtenerDatos', async (req, res) => {
   try {
-      // Obtener todas las tareas utilizando el modelo de datos
       const data = await consulta.busqueda_simple(req.query.id);
       res.send(data);
   } catch (error) {
-      // Manejar cualquier error que ocurra durante la obtención de las tareas
       console.error('Error al obtener los datos:', error);
       res.status(500).send('Error al obtener los datos.');
   }
   });
 
-
+//Insertar en la base de datos (intitucion, georeferencia y oferta)
 router.post('/insert', async (req, res) => {
   const {departamento, localidad, numero, cue, anexo, funcion, region, domicilio, cp, ambito, web, email, nombre, tel, cue_anexo, lat, long, modalidad, nivel} = req.body;
   try {
@@ -75,6 +75,7 @@ router.post('/insert', async (req, res) => {
   }
 });
 
+//Modifica en la base de datos (intitucion y oferta)
 router.post('/update', async (req, res) => {
   const {departamento, localidad, numero, region, domicilio, cp, ambito, web, email, nombre, tel, modalidad, nivel, id} = req.body;
   try {
@@ -87,9 +88,9 @@ router.post('/update', async (req, res) => {
   }
 });
 
-
+//Elimina la institucion de la base de datos (intitucion, georeferencia y oferta)
 router.post('/delete', async (req, res) => {
-  const id = req.query.id; // Datos del cliente
+  const id = req.query.id;
   try {
     const result = await consulta.borrar_institucion(id);
     res.status(201).json({ message: 'Institucion borrada', data: result});

@@ -9,6 +9,9 @@ const pool = new Pool({
   password:'admin',
   port:5432,
 })
+//ENDPOINTS PARA CONSULTAR
+
+//Devuelve coordenadas geograficas a partir de la seleccion de un punto en un mapa(Crear institucion)
 router.get('/abm/convert', async (req, res) => {
     const { lng, lat } = req.query;
   
@@ -31,6 +34,8 @@ router.get('/abm/convert', async (req, res) => {
     }
   });
 
+
+  //Consulta si existe una institucion segun cue_anexo
   router.get('/abm/exist', async (req, res) => {
     const value = req.query.id;  
     try {
