@@ -81,9 +81,11 @@ LIMIT 1;`,id);
 };
 //recuentro matricula por institucion y nivel
 function busqueda_matricula_nivel(id) {
-    return db.one(`SELECT SUM(matricula.varones) AS varones, SUM(matricula.mujeres) AS mujeres, oferta.id_nivel FROM padron.matricula JOIN padron.oferta ON matricula.id_oferta = oferta.id
-    WHERE oferta.id_institucion = $1
-    GROUP BY oferta.id_nivel`, id)
+    return db.any(`SELECT SUM(matricula.varones) AS varones, SUM(matricula.mujeres) AS mujeres, nivel.nombre AS nivel FROM padron.matricula 
+JOIN padron.oferta ON matricula.id_oferta = oferta.id
+JOIN padron.nivel ON nivel.id_nivel = oferta.id_nivel
+WHERE oferta.id_institucion = $1
+GROUP BY nivel.nombre;`, id)
 }
 
 //busca info adicional de un establecimiento por su id

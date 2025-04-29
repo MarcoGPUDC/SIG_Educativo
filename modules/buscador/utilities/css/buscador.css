@@ -36,3 +36,16 @@
     margin: 0;
     padding: 0;
 }
+
+#divMostrarMatricula li{
+    padding-left: 20px;
+    list-style: none;
+}
+
+#matriculamujeres {
+    list-style: none;
+}
+
+#matriculavarones {
+    list-style: none;
+}

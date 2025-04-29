@@ -37,10 +37,6 @@ async function completarDatosInstitucion() {
         document.getElementById('emailinfoadicional').innerHTML = `${data.email_inst}`;
         document.getElementById('sitio_webinfoadicional').innerHTML = `${data.web}`;
         document.getElementById('resp_telresponsableinfoadicional').innerHTML = `${data.telefono}`;
-        //Matricula
-        document.getElementById('matriculamujeres').innerHTML += `${data.mujeres}`;
-        document.getElementById('matriculavarones').innerHTML += `${data.varones}`;
-        document.getElementById('matriculatotal').innerHTML += `${data.total}`;
         fetch(`info/obtenerDatosSedeAnexo?cue=${data.cue}&anexo=${data.anexo}`)
         .then (response => {
             if(!response.ok){
@@ -88,6 +84,49 @@ async function completarDatosInstitucion() {
         console.error('Error:', error);
     });
     
+    fetch(`info/busqueda_matricula_nivel?num=${id}`)
+    .then(response => {
+        // Maneja la respuesta recibida del servidor
+        if (!response.ok) {
+            throw new Error('Error al obtener las matriculas por nivel');
+        }
+        return response.json(); // Convierte la respuesta en formato JSON
+    })
+    .then(data => {
+        var mujeres =0;
+        var varones = 0;
+        var total = 0;
+        //datos oferta
+        data.forEach(element => {
+            //Matricula
+            var matriculaNivel = document.getElementById("matriculainfonivel");
+            if (element.varones > 0 || element.mujeres > 0){
+                var ul = document.createElement("ul")
+                ul.id = "divMostrarMatricula"
+                ul.textContent = element.nivel;
+                var liV = document.createElement("li")
+                liV.textContent = "Varones: " + element.varones;
+                var liM = document.createElement("li")
+                liM.textContent = "Mujeres: " + element.mujeres;
+                matriculaNivel.appendChild(ul);
+                ul.appendChild(liM);
+                ul.appendChild(liV);
+            }
+            mujeres += parseInt(element.mujeres)
+            varones += parseInt(element.varones)
+            total += parseInt(element.mujeres)
+            total += parseInt(element.varones)
+            
+            });
+            document.getElementById('matriculamujeres').innerHTML += `${mujeres}`;
+            document.getElementById('matriculavarones').innerHTML += `${varones}`;
+            document.getElementById('matriculatotal').innerHTML += `${total}`;
+    })
+    
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
     fetch(`info/obtenerDatosAdc?num=${id}`)
     .then(response => {
         // Maneja la respuesta recibida del servidor
