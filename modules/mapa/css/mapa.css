@@ -429,17 +429,30 @@ html, body{
     box-shadow: none;
 }
 
+#modalGraficos{
+    width: 1900px;
+}
 
 #modalInfoFiltro .modal-content{
     width: 550px;
 }
 
-#modalGraficos{
-    width: 1900px;
-}
-
 #formFiltroInformacion #modalGraficos {
     left: -45%
+}
+
+@media (max-width: 1200px) {
+    #formFiltroInformacion #modalGraficos {
+        left: -60%
+    }
+
+  }
+
+@media (max-width: 800px) {
+#formFiltroInformacion #modalGraficos {
+    left: 0%
+}
+
 }
 
 #modalGraficos #dashboard{
