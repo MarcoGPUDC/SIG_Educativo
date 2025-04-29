@@ -79,6 +79,13 @@ WHERE inst.id_institucion = $1
 GROUP BY esc.email_inst, inst.id_institucion, inst.cue, inst.anexo, inst.cue_anexo, inst.nombre, inst.numero, inst.funcion, inst.region, inst.localidad, inst.departamento, inst.nivel, inst.modalidad, inst.domicilio, inst.cp, inst.ambito, inst.web, inst.tel, inst.gestion, inst.jornada, inst.dependencia, inst.responsable, inst.telefono, inst.geom
 LIMIT 1;`,id);
 };
+//recuentro matricula por institucion y nivel
+function busqueda_matricula_nivel(id) {
+    return db.one(`SELECT SUM(matricula.varones) AS varones, SUM(matricula.mujeres) AS mujeres, oferta.id_nivel FROM padron.matricula JOIN padron.oferta ON matricula.id_oferta = oferta.id
+    WHERE oferta.id_institucion = $1
+    GROUP BY oferta.id_nivel`, id)
+}
+
 //busca info adicional de un establecimiento por su id
 function busqueda_adicional (id) {
     return db.any(`SELECT inst.id_institucion, inst.cue_anexo, func.jornada, turno.nombre AS turno, nivel.nombre AS nivel, mod.nombre AS modalidad, inst.cue, inst.anexo FROM padron.institucion inst 
@@ -421,6 +428,7 @@ module.exports = {
     busqueda_adicional,
     busqueda_adicional_infra,
     busqueda_adicional_sedeAnexo,
+    busqueda_matricula_nivel,
     buscar_info_supervision,
     buscar_info_delegacion,
     busqueda_simple_todo,

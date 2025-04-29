@@ -1,7 +1,5 @@
 var esc = 0;
 document.addEventListener('DOMContentLoaded', (event) => {
-    console.log("DOM cargado");
-       
 });
 
 function descifrarDato(datoCifrado, clave) {
@@ -200,7 +198,6 @@ function obtenerImagenes (){
     .then(datos => {
         datos.forEach(imagen => {
             var escImagen = imagen.split('-');
-            console.log(escImagen)
             if (escImagen[1]){
                 if(escImagen[1] == esc){
                     document.getElementById('imagenInfo').setAttribute('src','public/img/portada/'+imagen.replace('02.PNG','01.PNG'))
