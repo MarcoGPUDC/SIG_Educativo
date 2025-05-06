@@ -391,7 +391,7 @@ function buscar_info_region(region){
 
             UNION ALL
 
-            SELECT moda.nombre AS modalidad, COALESCE(COUNT(mn.id_modalidad) FILTER (WHERE inst.funcion = 'Activo' AND inst.region = '1'),0) AS cant_modalidad FROM padron.modalidades_educativas moda
+            SELECT moda.nombre AS modalidad, COALESCE(COUNT(mn.id_modalidad) FILTER (WHERE inst.funcion = 'Activo' AND inst.region = $1),0) AS cant_modalidad FROM padron.modalidades_educativas moda
           	LEFT JOIN padron.modalidad_nivel mn ON moda.id_modalidad = mn.id_modalidad
 			LEFT JOIN padron.nivel niv ON niv.id_nivel = mn.id_nivel
             LEFT JOIN padron.institucion inst ON inst.id_institucion = mn.id_institucion

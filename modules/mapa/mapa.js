@@ -806,7 +806,7 @@ function onEachFeatureL(feature, layer){
 		"<tr><td><b>Email:</b><a " + (feature.properties.email?"href='mailto:"+feature.properties.email:"") + " '> "  + (feature.properties.email?feature.properties.email:"No se registra") + "</a></td></tr>" +
 		"<tr><td><b>Sitio Web:</b>" + "<a " + (feature.properties.sitioweb && feature.properties.sitioweb != 'Sin información'?"href='"+feature.properties.sitioweb:"") + " ' target='_blank' rel='noopener noreferrer'> "  + (feature.properties.sitioweb?feature.properties.sitioweb:"No se registra") + "</a>"+ "</td></tr>" +
 		"<tr><td><b>Responsable:</b> "+ (feature.properties.responsable?feature.properties.responsable:"") + "</td></tr>" +
-		"<tr><td><b>Tel. del Responsable:</b> "+ (feature.properties.tel_resp?feature.properties.tel_resp:"-") + "</td></tr>" +
+		//"<tr><td><b>Tel. del Responsable:</b> "+ (feature.properties.tel_resp?feature.properties.tel_resp:"-") + "</td></tr>" +
 		"</table>" +
   		"</div></div>" + (feature.properties.area?"<div id='divBotonArea'></td></tr><tr><td><label for='areaInstMarker'>Radio Escolar</label><input type='checkbox' id='areaInstMarker' value='"+feature.properties.id+"'></input></div>":"</div>") +
   		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='./info?num="+(feature.properties.id ? feature.properties.id : feature.properties.id_institucion)+"' target='_blank'>Ver más...</a></div>" +

@@ -278,7 +278,7 @@ function downloadAsExceInfoAdicional(){
 	obj["email"] = document.getElementById("emailinfoadicional").innerText; 
 	obj["web"] = document.getElementById("sitio_webinfoadicional").innerText; 
 	obj["responsable"] = document.getElementById("resp_respnsableinfoadicional").innerHTML; 
-	obj["tel_responsable"] = document.getElementById("resp_telresponsableinfoadicional").innerHTML; 
+	//obj["tel_responsable"] = document.getElementById("resp_telresponsableinfoadicional").innerHTML; 
 	obj["bibliotecainfoadicional"] = document.getElementById("bibliotecainfoadicional").innerHTML;
 	obj["laboratorioinfoadicional"] = document.getElementById("laboratorioinfoadicional").innerHTML;
 	obj["internetinfoadicional"] = document.getElementById("internetinfoadicional").innerHTML;
