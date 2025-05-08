@@ -36,7 +36,7 @@ async function completarDatosInstitucion() {
         document.getElementById('telefonoinfoadicional').innerHTML = `${data.tel}`;
         document.getElementById('emailinfoadicional').innerHTML = `${data.email_inst}`;
         document.getElementById('sitio_webinfoadicional').innerHTML = `${data.web}`;
-        document.getElementById('resp_telresponsableinfoadicional').innerHTML = `${data.telefono}`;
+        //document.getElementById('resp_telresponsableinfoadicional').innerHTML = `${data.telefono}`;
         fetch(`info/obtenerDatosSedeAnexo?cue=${data.cue}&anexo=${data.anexo}`)
         .then (response => {
             if(!response.ok){
