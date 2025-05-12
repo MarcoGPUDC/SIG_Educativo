@@ -226,7 +226,7 @@ function downloadAsExcelD(filename, data){
 
 //funcion para cargar las imagenes y cuadros informativos a la pestaña info institucion
 function obtenerImagenes (){
-    fetch(`info/obtenerDirImagen`)
+    fetch(`https://script.google.com/macros/s/AKfycbyX9EgyakKo60mf8ckFKaygMmAWkyRyfOpwtpiegnKt400GPq6u-eauD6M4M8TO8s5Baw/exec`)
     .then(response => {
         // Maneja la respuesta recibida del servidor
         if (!response.ok) {
@@ -236,11 +236,11 @@ function obtenerImagenes (){
     })
     .then(datos => {
         datos.forEach(imagen => {
-            var escImagen = imagen.split('-');
+            var escImagen = imagen.nombre.split('-');
             if (escImagen[1]){
                 if(escImagen[1] == esc){
-                    document.getElementById('imagenInfo').setAttribute('src','public/img/portada/'+imagen.replace('02.PNG','01.PNG'))
-                    document.getElementById('imagenFotos').setAttribute('src','public/img/portada/'+imagen.replace('01.PNG','02.PNG'))
+                    document.getElementById('imagenInfo').setAttribute('src',imagen.url.replace('02.PNG','01.PNG'))
+                    document.getElementById('imagenFotos').setAttribute('src',imagen.url.replace('02.PNG','01.PNG'))
                     
                 }
             }
