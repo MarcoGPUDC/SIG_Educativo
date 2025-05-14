@@ -226,7 +226,7 @@ function downloadAsExcelD(filename, data){
 
 //funcion para cargar las imagenes y cuadros informativos a la pestaña info institucion
 function obtenerImagenes (){
-    fetch(`https://script.google.com/macros/s/AKfycbyX9EgyakKo60mf8ckFKaygMmAWkyRyfOpwtpiegnKt400GPq6u-eauD6M4M8TO8s5Baw/exec`)
+    fetch(`https://script.google.com/macros/s/AKfycbyd4BVz61hM2s8OxZMO0iqiBPSXxzCY8K8QMx5WBPa4hLTU0eKU1-wO3B8B_KQVVMiK8w/exec`)
     .then(response => {
         // Maneja la respuesta recibida del servidor
         if (!response.ok) {
@@ -237,15 +237,26 @@ function obtenerImagenes (){
     .then(datos => {
         datos.forEach(imagen => {
             var escImagen = imagen.nombre.split('-');
-            if (escImagen[1]){
-                if(escImagen[1] == esc){
-                    document.getElementById('imagenInfo').setAttribute('src',imagen.url.replace('02.PNG','01.PNG'))
-                    document.getElementById('imagenFotos').setAttribute('src',imagen.url.replace('02.PNG','01.PNG'))
-                    
+            if (escImagen[0]){
+                if(escImagen[1] == esc & escImagen[escImagen.length-1] == '01.PNG'){
+                    document.getElementById('imagenInfo').setAttribute('src',imagen.url)
+                }else {
+                    if (escImagen[1] == esc & escImagen[escImagen.length-1] == '02.PNG') {
+                        document.getElementById('imagenFotos').setAttribute('src',imagen.url)
+                    }
+                    if (escImagen.length == 5){
+                        if (escImagen[1] == esc & escImagen[escImagen.length-1] == '02.PNG' && escImagen[2] == 'epja'){
+                            document.getElementById('imagenFotosModExtra').setAttribute('src',imagen.url)
+                            document.getElementById('imagenFotosModExtra').setAttribute('class','d-block')
+
+                        }
+                    }
+                }   
                 }
             }
-        })
-    })
+        )
+    }   
+    )
     .catch(error => {
         console.error('Error:', error);
     });
