@@ -319,100 +319,97 @@
 
 <form id="formFiltroInformacion">
 		<div class="modal fade" id="filtroInformacion" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-			
 				<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel2">Filtrar información por:</h5>
-						<button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close" onclick="return resetFormFiltro();"></button>
-					</div>
-					
-						<div class="modal-body">
-							<div class="container">
-								<p class="text-primary">Seleccionar datos:</p>
-								<div id="seleccionardato" class="container shadow-sm">
-									<div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 p-2">
-										<div class="col">
-											<div class="form-check form-switch">
-												<input class="form-check-input btn-lg" type="checkbox" id="flexSwitchCheckMatricula" name="flexSwitchCheckMatricula" value="matricula">
-												<label  class="form-check-label" for="flexSwitchCheckMatricula">Matrícula</label>
-											</div>
-										</div>
-										<div class="col">
-											<div class="form-check form-switch">
-												<input class="form-check-input btn-lg" type="checkbox" id="flexSwitchCheckEstablecimiento" name="flexSwitchCheckEstablecimiento" value="establecimiento">
-												<label class="form-check-label" for="flexSwitchCheckEstablecimiento">Establecimientos</label>
-											</div>
-										</div>
-										<!--<div class="col">
-											<div class="form-check form-switch">
-												<input class="form-check-input btn-lg" type="checkbox" id="flexSwitchCheckUnidades" name="flexSwitchCheckUnidades" value="unidades">
-												<label class="form-check-label" for="flexSwitchCheckUnidades">Unidades</label>
-											</div>
-										</div>-->
-									</div>
-								</div>
-								<div id="seleccionarfilah" style="display: none;">
-									<p class="text-primary pt-3">Seleccionar fila:</p>
-									<div id="seleccionarfila" class="container shadow-sm">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel2">Filtrar información por:</h5>
+							<button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close" onclick="return resetFormFiltro();"></button>
+						</div>
+						
+							<div class="modal-body">
+								<div class="container">
+									<p class="text-primary">Seleccionar datos:</p>
+									<div id="seleccionardato" class="container shadow-sm">
 										<div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 p-2">
-											<div id="colflexSwitchCheckRegion" class="col" style="display: none;">
-												<div class="form-check form-switch" >
-												<input class="check-row form-check-input btn-lg" type="checkbox" id="flexSwitchCheckRegion" name="flexSwitchCheckRegion" value="región">
-												<label class="form-check-label" for="flexSwitchCheckRegion">Región</label>
-												</div>
-											</div>
-											<div id="colflexSwitchCheckNivel" class="col" style="display: none;">
-												<div class="form-check form-switch" >
-													<input class="check-row form-check-input btn-lg" type="checkbox" id="flexSwitchCheckNivel" name="flexSwitchCheckNivel" value="nivel">
-													<label class="form-check-label" for="flexSwitchCheckNivel">Nivel</label>
-												</div>
-											</div>
-											<div id="colfilavacia" class="col"></div>
-											<div class="col"></div>
-											<div class="col"></div>
-										</div>
-									</div>
-								</div>
-
-
-								<div id="seleccionarcolumnah" style="display: none;">
-									<p class="text-primary pt-3">Seleccionar columna:</p>
-									<div id="seleccionarcolumna" class="container shadow-sm">
-										<div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 p-2">
-											<div id="colflexSwitchCheckAmbito1" class="col" style="display: none;">
+											<div class="col">
 												<div class="form-check form-switch">
-													<input class="check-column form-check-input btn-lg" type="checkbox" id="flexSwitchCheckAmbito1" name="flexSwitchCheckAmbito1" value="ambito">
-													<label class="form-check-label" for="flexSwitchCheckAmbito1">Ámbito</label>
+													<input class="form-check-input btn-lg" type="checkbox" id="flexSwitchCheckMatricula" name="flexSwitchCheckMatricula" value="matricula">
+													<label  class="form-check-label" for="flexSwitchCheckMatricula">Matrícula</label>
 												</div>
 											</div>
-											<div id="colflexSwitchCheckGestion1" class="col" style="display: none;">
-												<div class="form-check form-switch" >
-													<input class="check-column form-check-input btn-lg" type="checkbox" id="flexSwitchCheckGestion1" name="flexSwitchCheckGestion1" value="gestion">
-													<label class="form-check-label" for="flexSwitchCheckGestion1">Gestión</label>
+											<div class="col">
+												<div class="form-check form-switch">
+													<input class="form-check-input btn-lg" type="checkbox" id="flexSwitchCheckEstablecimiento" name="flexSwitchCheckEstablecimiento" value="establecimiento">
+													<label class="form-check-label" for="flexSwitchCheckEstablecimiento">Establecimientos</label>
 												</div>
 											</div>
-											<div id="colflexSwitchCheckRegion1" class="col" style="display: none;">
-												<div class="form-check form-switch" >
-												<input class="check-column form-check-input btn-lg" type="checkbox" id="flexSwitchCheckRegion1" name="flexSwitchCheckRegion1" value="región">
-												<label class="form-check-label" for="flexSwitchCheckRegion1">Región</label>
+											<!--<div class="col">
+												<div class="form-check form-switch">
+													<input class="form-check-input btn-lg" type="checkbox" id="flexSwitchCheckUnidades" name="flexSwitchCheckUnidades" value="unidades">
+													<label class="form-check-label" for="flexSwitchCheckUnidades">Unidades</label>
 												</div>
-											</div>
-											<div id="colclovacia1" class="col"></div>
-											<div id="colclovacia2" class="col"></div>
-											<div id="colclovacia3" class="col"></div>
+											</div>-->
 										</div>
 									</div>
-								</div>	
-								<small id="infoestablecimientosxfiltronoselect" class="form-text pt-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Debe seleccionar, al menos, un tipo de datos y una fila.</small>
-								<small id="infoestablecimientosxfiltronoconn" class="form-text pt-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i>No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+									<div id="seleccionarfilah" style="display: none;">
+										<p class="text-primary pt-3">Seleccionar fila:</p>
+										<div id="seleccionarfila" class="container shadow-sm">
+											<div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 p-2">
+												<div id="colflexSwitchCheckRegion" class="col" style="display: none;">
+													<div class="form-check form-switch" >
+													<input class="check-row form-check-input btn-lg" type="checkbox" id="flexSwitchCheckRegion" name="flexSwitchCheckRegion" value="región">
+													<label class="form-check-label" for="flexSwitchCheckRegion">Región</label>
+													</div>
+												</div>
+												<div id="colflexSwitchCheckNivel" class="col" style="display: none;">
+													<div class="form-check form-switch" >
+														<input class="check-row form-check-input btn-lg" type="checkbox" id="flexSwitchCheckNivel" name="flexSwitchCheckNivel" value="nivel">
+														<label class="form-check-label" for="flexSwitchCheckNivel">Nivel</label>
+													</div>
+												</div>
+												<div id="colfilavacia" class="col"></div>
+												<div class="col"></div>
+												<div class="col"></div>
+											</div>
+										</div>
+									</div>
+									<div id="seleccionarcolumnah" style="display: none;">
+										<p class="text-primary pt-3">Seleccionar columna:</p>
+										<div id="seleccionarcolumna" class="container shadow-sm">
+											<div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 p-2">
+												<div id="colflexSwitchCheckAmbito1" class="col" style="display: none;">
+													<div class="form-check form-switch">
+														<input class="check-column form-check-input btn-lg" type="checkbox" id="flexSwitchCheckAmbito1" name="flexSwitchCheckAmbito1" value="ambito">
+														<label class="form-check-label" for="flexSwitchCheckAmbito1">Ámbito</label>
+													</div>
+												</div>
+												<div id="colflexSwitchCheckGestion1" class="col" style="display: none;">
+													<div class="form-check form-switch" >
+														<input class="check-column form-check-input btn-lg" type="checkbox" id="flexSwitchCheckGestion1" name="flexSwitchCheckGestion1" value="gestion">
+														<label class="form-check-label" for="flexSwitchCheckGestion1">Gestión</label>
+													</div>
+												</div>
+												<div id="colflexSwitchCheckRegion1" class="col" style="display: none;">
+													<div class="form-check form-switch" >
+													<input class="check-column form-check-input btn-lg" type="checkbox" id="flexSwitchCheckRegion1" name="flexSwitchCheckRegion1" value="región">
+													<label class="form-check-label" for="flexSwitchCheckRegion1">Región</label>
+													</div>
+												</div>
+												<div id="colclovacia1" class="col"></div>
+												<div id="colclovacia2" class="col"></div>
+												<div id="colclovacia3" class="col"></div>
+											</div>
+										</div>
+									</div>	
+									<small id="infoestablecimientosxfiltronoselect" class="form-text pt-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i> Debe seleccionar, al menos, un tipo de datos y una fila.</small>
+									<small id="infoestablecimientosxfiltronoconn" class="form-text pt-3" style="color:#dc3545;display: none;"><i class="bi bi-info-circle"></i>No se ha podido consultar los datos. Vuelva a intentarlo más tarde.</small>
+								</div>
 							</div>
-						</div>
-						<div class="d-grid gap-2 d-md-flex justify-content-md-end m-3 mt-0">
-							<button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" onclick="return resetFormFiltro();">Cancelar filtro</button>
-							<button type="submit" class="btn btn-outline-success btn-sm" id="mostrarInfoFiltro" data-bs-target="#modalInfoFiltro" data-bs-toggle="modal" data-bs-dismiss="modal">Filtrar información</button>
-						</div>
-				</div>
+							<div class="d-grid gap-2 d-md-flex justify-content-md-end m-3 mt-0">
+								<button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" onclick="return resetFormFiltro();">Cancelar filtro</button>
+								<button type="submit" class="btn btn-outline-success btn-sm" id="mostrarInfoFiltro" data-bs-target="#modalInfoFiltro" data-bs-toggle="modal" data-bs-dismiss="modal">Filtrar información</button>
+							</div>
+					</div>
 				</div>
 		</div>
 		<div class="modal fade" id="modalInfoFiltro" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
@@ -435,17 +432,17 @@
 		</div>
 		<div class="modal fade" id="modalGraficos" aria-hidden="true" aria-labelledby="ModalToggleLabel2" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content" style="width: 1200px;">
-					<div class="modal-header" style="width: 1200px;">
+				<div class="modal-content">
+					<div class="modal-header">
 						<h5 class="modal-title" id="ModalToggleLabel2">Dashboard</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="return resetFormFiltro();"></button>
 					</div>
-					<div class="modal-body" style="width: 1200px;">
+					<div class="modal-body">
 						<div id="dashboard">
 							<!--dashboard con graficos-->
 						</div>
 					</div>
-					<div class="modal-footer" style="width: 1200px;">
+					<div class="modal-footer">
 						<button type="button" class="btn-outline-danger" data-bs-target="#filtroInformacion" data-bs-toggle="modal" data-bs-dismiss="modal" onclick="return resetFormFiltro();">Volver</button>
 						<button type="button" id="descargarFiltro" class="btn-outline-primary">Descargar información</button>
 						<button type="button" id="mostrarGraficosBoton" class="btn-outline-primary" data-bs-dismiss="modal">cerrar</button>
@@ -490,6 +487,7 @@
 	<script src="layers/ministerio_educacion.js"></script>
 	<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
 	<script src="models/graficos_crear_model.js"></script>
+	<script src="public/js/leaflet-timeline-slider.min.js"></script>
 	<script src="mapa.js"></script>
 	
 </body>

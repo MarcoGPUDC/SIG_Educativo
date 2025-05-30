@@ -170,6 +170,9 @@ app.get('/config', (req,res) => {
   })
 })
 
+const apiRoutes = require('./apiController');
+app.use('/api', apiRoutes);
+
 // Iniciar el servidor
 const port = 3005;
 app.listen(port, () => {

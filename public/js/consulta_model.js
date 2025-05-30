@@ -368,6 +368,12 @@ function buscar_porcentaje_equi_infra(){
     `)
 }
 
+//CONSULTA MAPA CSAC
+function CSAC() {
+    return db.any(`
+        SELECT * FROM public.csac_linea_temporal;
+    `)
+}
 
 //consultas a mysql
 async function verificar_usuario_mysql(username) {
@@ -412,7 +418,10 @@ function buscar_info_region(region){
 
             `, [region])
 }
-
+//CONSULTAS API
+function getEtpData() {
+    return db.any(`SELECT * FROM public.matricula_etp_2024`)
+}
 module.exports = {
     buscar_todos_numero,
     buscar_todos_nombre,
@@ -463,5 +472,7 @@ module.exports = {
     cambiar_contra,
     buscar_info_equi_infra,
     buscar_porcentaje_equi_infra,
-    buscar_info_region
+    buscar_info_region,
+    getEtpData,
+    CSAC,
 };

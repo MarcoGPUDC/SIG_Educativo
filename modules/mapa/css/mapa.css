@@ -238,7 +238,7 @@ html, body{
     opacity: .5;
 }
 
-.modal-header .btn-question {
+.btn-question {
     padding: .4rem .5rem;
     margin: -.5rem -.5rem -.5rem auto;
 }
@@ -419,42 +419,14 @@ html, body{
     padding: 0;
 }
 
-#tablaInfoFiltro{
-    width: 550px;
-    text-align: center;
-}
-
 .tdFiltro:hover{
     background-color: #e47c2c8f;
     box-shadow: none;
 }
 
 #modalGraficos{
-    width: 1900px;
-}
-
-#modalInfoFiltro .modal-content{
-    width: 550px;
-}
-
-#formFiltroInformacion #modalGraficos {
-    left: -45%
-}
-
-@media (max-width: 1200px) {
-    #formFiltroInformacion #modalGraficos {
-        left: -60%
-    }
-
-  }
-
-@media (max-width: 800px) {
-#formFiltroInformacion #modalGraficos {
-    left: 0%
-}
-
-}
-
-#modalGraficos #dashboard{
-    padding-left: 120px;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }

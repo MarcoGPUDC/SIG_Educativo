@@ -858,6 +858,22 @@ function onEachFeatureS (feature, layer) {
 		);
 	}
 
+	function onEachFeatureCsac (feature, layer) {
+		layer.bindPopup(	
+			"<div class='p-3'>"+
+			"<h6 style='color:#0d6efd'>"+ (feature.properties.nombre?feature.properties.nombre:"No se registra") + "</h6>" +
+			"<h6> Información General</h6>" + 
+			 "<table>"+
+			"<tr><td><b>Número:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") + "</td></tr>" +
+			"<tr><td><b>Región:</b> "+ (feature.properties.region?feature.properties.region:"No se registra") + "</td></tr>" +
+			"<tr><td><b>Dirección:</b> "+ (feature.properties.direccion?feature.properties.direccion:"No se registra") + "</td></tr>" +
+			"<tr><td><b>Descripcion</b><br> "+ (feature.properties.descripcion?feature.properties.descripcion:"No se registra") + "</td></tr>" +
+			"</table>" +
+			"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='./info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
+			"</div>", {minWidth: 270, maxWidth: 270}
+			);
+		}
+
 function onEachFeatureO (feature, layer) {
 	layer.bindPopup(	
 		"<div class='p-3'>"+
@@ -1388,6 +1404,67 @@ function getAreasLayer() {
 	})
 }
 
+async function getCsacTimeline () {
+	fetch('mapa/csac')
+	.then(response => response.json())
+	.then(data => {
+		getDataAddMarkers = function( {label, value, map} ) {
+			map.eachLayer(function (layer) {
+					if (layer instanceof L.Marker) {
+						map.removeLayer(layer);
+					}
+			});
+
+			filteredData = data.features.filter(function (i, n) {
+				return i.properties.title===label;
+				});
+
+			var markerArray = [];
+			L.geoJson(filteredData, {
+				pointToLayer: (feature, latlng) => {
+					return L.marker(latlng,
+						{
+							icon: L.icon({
+								iconUrl:`./icons/csac_icon.svg`,
+								iconSize: [40,40],
+								iconAnchor: [12,8]
+							})
+						}
+					)
+				},
+				onEachFeature: onEachFeatureCsac
+			}).addTo(map);
+			
+			var markerGroup = L.featureGroup(markerArray);
+		};
+		L.control.timelineSlider({
+			timelineItems: ["30 Años", "Actualidad"], 
+			changeMap: getDataAddMarkers })
+		.addTo(mymap);          
+		/*const timeline = L.Timeline(centros, {
+			getInterval: feature => {
+				const tiempo = feature.properties.times[0];
+				return {
+					start: new Date(tiempo),
+					end: new Date(tiempo)
+				}
+			},
+			pointToLayer: (feature, latlng) => {
+				return L.marker(latlng,
+					{
+						icon: L.icon({
+							iconUrl:`./icons/scas_icon.svg`,
+							iconSize: [22,22],
+							iconAnchor: [3,3]
+						})
+					}
+				)
+			},
+			onEachFeature: onEachFeatureCsac
+		})*/
+	})
+}
+
 async function getAreasEscolares () {
 	fetch('mapa/areasInst')
 	.then(response => response.json())
@@ -1534,6 +1611,10 @@ async function generarTodosLayers(layerParam) {
 					getEquiInfra()
 				}
 			});
+		}
+
+		if (layerParam == 'csac') {
+			getCsacTimeline()
 		}
 		
 		return layersConfig;

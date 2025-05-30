@@ -186,6 +186,39 @@ router.get("/mapa/localizar", async (req, res) => {
     }
   })
 
+  router.get('/mapa/csac', async (req, res) => {
+    try {
+        const result = await consultar.CSAC();
+        let geoJSON = {
+            "type": "FeatureCollection",
+            "features": [
+            ]
+          };
+        result.forEach(row => {
+            const geom = JSON.parse(row.geom);
+            var newFeature = {
+                type: "Feature",
+                geometry: geom,
+                properties: {
+                    title: row.title,
+                    id: row.id_institucion,
+                    numero: row.numero,
+                    nombre: row.nombre,
+                    descripcion: row.descripcion,
+                    contacto: row.email,
+                    direccion: row.direccion,
+                    region: row.region,
+                    times: [row.times]
+                }
+            };
+           geoJSON.features.push(newFeature) 
+        })
+        res.json(geoJSON);
+    } catch (err) {
+        console.error('Error al obtener los datos', err);
+        res.status(500).json({ error: 'Database error' });
+    }
+});
 
 
 
