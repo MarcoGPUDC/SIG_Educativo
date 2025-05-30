@@ -189,12 +189,18 @@ router.get("/mapa/localizar", async (req, res) => {
   router.get('/mapa/csac', async (req, res) => {
     try {
         const result = await consultar.CSAC();
+        var colorI = "";
         let geoJSON = {
             "type": "FeatureCollection",
             "features": [
             ]
           };
         result.forEach(row => {
+            if (row.numero <= 555){
+                colorI = 'azul'
+            } else {
+                colorI = 'negro'
+            }
             const geom = JSON.parse(row.geom);
             var newFeature = {
                 type: "Feature",
@@ -208,7 +214,8 @@ router.get("/mapa/localizar", async (req, res) => {
                     contacto: row.email,
                     direccion: row.direccion,
                     region: row.region,
-                    times: [row.times]
+                    times: [row.times],
+                    color: colorI
                 }
             };
            geoJSON.features.push(newFeature) 

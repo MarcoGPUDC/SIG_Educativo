@@ -1425,9 +1425,10 @@ async function getCsacTimeline () {
 					return L.marker(latlng,
 						{
 							icon: L.icon({
-								iconUrl:`./icons/csac_icon.svg`,
-								iconSize: [40,40],
-								iconAnchor: [12,8]
+								iconUrl:`./icons/common-point-${feature.properties.color}.svg`,
+								iconSize: [22,22],
+								iconAnchor: [12,8],
+								index:3
 							})
 						}
 					)
