@@ -3105,6 +3105,16 @@ mymap.on('zoomend', function() {
    
 });
 
+function pruebaEnd () {
+	fetch('./api/getDataEtp', {
+		headers: {
+		  'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJkYXNoYm9hcmQtZXRwIn0.PkROAK9CwSoUNhbGPtrT9DyyAESLmI8u0tM3SbjOn2E'
+		}
+	  })
+	  .then(res => res.json())
+	  .then(data => console.log(data));
+	  
+}
 
 getGeoserverDatastoreLayers('sigeducativo','temáticos')
 getGeoserverDatastoreLayers('sigeducativo','otros')
