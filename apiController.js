@@ -4,7 +4,7 @@ const consultar = require('./public/js/consulta_model');
 
 router.get('/getDataEtp', async (req, res) => {
   try {
-      const data = await consultar.getEtpData();
+      const data = await consultar.getDataEtp();
       res.send(data);
   } catch (error) {
       console.error('Error al obtener los datos:', error);

@@ -419,8 +419,8 @@ function buscar_info_region(region){
             `, [region])
 }
 //CONSULTAS API
-function getEtpData() {
-    return db.any(`SELECT * FROM public.matricula_etp_2024`)
+function getDataEtp() {
+    return db.any(`SELECT * FROM public.matricula_etp`)
 }
 module.exports = {
     buscar_todos_numero,
@@ -473,6 +473,6 @@ module.exports = {
     buscar_info_equi_infra,
     buscar_porcentaje_equi_infra,
     buscar_info_region,
-    getEtpData,
+    getDataEtp,
     CSAC,
 };
