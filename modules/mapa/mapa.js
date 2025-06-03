@@ -1,6 +1,7 @@
 // mapa interactivo ------------------------------------------------------------------------------
 //espera 3 segundos antes de mostrar la pantalla
 
+
 function hideLoadingScreen() {
 	document.getElementById('loading-screen').style.display = 'none';
 }
@@ -1403,68 +1404,79 @@ function getAreasLayer() {
 			})
 	})
 }
-
-async function getCsacTimeline () {
+var markerGroupCsac;
+var markerGroupCsacData;
+var sliderControl = false;
+async function getCsacLayer () {
 	fetch('mapa/csac')
 	.then(response => response.json())
 	.then(data => {
-		getDataAddMarkers = function( {label, value, map} ) {
-			map.eachLayer(function (layer) {
-					if (layer instanceof L.Marker) {
-						map.removeLayer(layer);
-					}
-			});
-
-			filteredData = data.features.filter(function (i, n) {
-				return i.properties.title===label;
-				});
-
-			var markerArray = [];
-			L.geoJson(filteredData, {
-				pointToLayer: (feature, latlng) => {
-					return L.marker(latlng,
-						{
-							icon: L.icon({
-								iconUrl:`./icons/common-point-${feature.properties.color}.svg`,
-								iconSize: [22,22],
-								iconAnchor: [12,8],
-								index:3
-							})
+			markerGroupCsacData = data;
+			var markerArray = [];     
+			getDataAddMarkers = function( {label, value, map} ) {
+				map.eachLayer(function (layer) {
+						if (layer instanceof L.Marker) {
+							map.removeLayer(layer);
 						}
-					)
-				},
-				onEachFeature: onEachFeatureCsac
-			}).addTo(map);
-			
-			var markerGroup = L.featureGroup(markerArray);
-		};
-		L.control.timelineSlider({
-			timelineItems: ["30 Años", "Actualidad"], 
-			changeMap: getDataAddMarkers })
-		.addTo(mymap);          
-		/*const timeline = L.Timeline(centros, {
-			getInterval: feature => {
-				const tiempo = feature.properties.times[0];
-				return {
-					start: new Date(tiempo),
-					end: new Date(tiempo)
+				});
+		
+				filteredData = data.features.filter(function (i, n) {
+					return i.properties.title===label;
+				});
+					L.geoJson(data, {
+						pointToLayer: (feature, latlng) => {
+							return L.marker(latlng,
+								{
+									icon: L.icon({
+										iconUrl:`./icons/common-point-${feature.properties.color}.svg`,
+										iconSize: [22,22],
+										iconAnchor: [12,8],
+										index:3
+									})
+								}
+							)
+						},
+						onEachFeature: onEachFeatureCsac
+					})
+					markerGroupCsac = L.featureGroup(markerArray);
 				}
-			},
-			pointToLayer: (feature, latlng) => {
-				return L.marker(latlng,
-					{
-						icon: L.icon({
-							iconUrl:`./icons/scas_icon.svg`,
-							iconSize: [22,22],
-							iconAnchor: [3,3]
-						})
-					}
-				)
-			},
-			onEachFeature: onEachFeatureCsac
-		})*/
+				 
+				var slider = L.control.timelineSlider({
+					timelineItems: ["30 Años", "Actualidad"], 
+					changeMap: getDataAddMarkers });
+				
+			const legendItems = document.querySelectorAll('.leaflet-legend-item');
+
+			legendItems.forEach(item => {
+				const span = item.querySelector('span');
+				if (span && span.textContent.trim() === 'CSAyC') {
+				// Hacés lo que necesites con este item
+				console.log('Encontrado:', item);
+			
+				// Por ejemplo, agregarle un ID o evento
+				item.id = 'legend-btn-csayc';
+				item.addEventListener('click', () => {
+					if (sliderControl) {
+						slider.remove(mymap)
+						sliderControl = false;
+					} else {
+						slider.addTo(mymap)
+						sliderControl = true;
+					}					
+				});
+				}
+			});
+			
+			 
+		
 	})
 }
+
+async function getCsacTimeline() {
+	
+}
+
+/*const sliderCsac = */
 
 async function getAreasEscolares () {
 	fetch('mapa/areasInst')
@@ -1483,6 +1495,7 @@ async function generarTodosLayers(layerParam) {
 	const bibliotecas = await getBibliotecaLayer();
 	capaRegiones = await getRegiones();
 	capaDepartamentos = await getDepartamentos();
+	await getCsacLayer();
 	
 	var i = 0;
 	if (layerParam != null) {
@@ -1678,6 +1691,16 @@ async function generarTodosLayers(layerParam) {
 					inactive: true
 				})
 			})
+
+			layersConfig.push({
+				label: 'CSAyC',
+				type: 'image',
+				url: 'icons/tematico.svg',
+				layers_type: "tema",
+				layers: markerGroupCsac,
+				inactive: true
+			})
+
 
 			todosLayersOtros.forEach(otro => {
 				layersConfig.push({
