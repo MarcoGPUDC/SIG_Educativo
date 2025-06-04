@@ -1404,9 +1404,18 @@ function getAreasLayer() {
 			})
 	})
 }
+var slider;
 var emptyLayer = [0];
 var markerGroupCsac = [0];
 var sliderControl = false;
+function generarEventoCsac () {
+	const legendItems = document.querySelectorAll('.leaflet-legend-item');
+	legendItems.forEach(item => {
+		const span = item.querySelector('span');
+		if (span && span.textContent.trim() === 'CSAyC') {
+		item.id = 'legend-btn-csayc'}
+	})
+}
 async function getCsacLayer () {
 	fetch('mapa/csac')
 	.then(response => response.json())
@@ -1441,17 +1450,11 @@ async function getCsacLayer () {
 			markerGroupCsac[0] = (L.featureGroup(markerArray));
 			markerGroupCsac[0].addTo(mymap)
 			}
-				
-		var slider = L.control.timelineSlider({
+		generarEventoCsac()
+		slider = L.control.timelineSlider({
 			timelineItems: ["30 Años", "Actualidad"], 
 			changeMap: getDataAddMarkers });
-			
-		const legendItems = document.querySelectorAll('.leaflet-legend-item');
-
-		legendItems.forEach(item => {
-			const span = item.querySelector('span');
-			if (span && span.textContent.trim() === 'CSAyC') {
-			item.id = 'legend-btn-csayc';
+			item = document.getElementById('legend-btn-csayc')
 			item.addEventListener('click', () => {
 				if (sliderControl) {
 					slider.remove(mymap)
@@ -1460,9 +1463,7 @@ async function getCsacLayer () {
 				} else {
 					slider.addTo(mymap)
 					sliderControl = true;
-				}					
-			});
-			}
+				}
 		});		
 	})
 }
@@ -1487,6 +1488,7 @@ async function generarTodosLayers(layerParam) {
 	capaRegiones = await getRegiones();
 	capaDepartamentos = await getDepartamentos();
 	await getCsacLayer();
+	
 	
 	var i = 0;
 	if (layerParam != null) {
@@ -1549,6 +1551,14 @@ async function generarTodosLayers(layerParam) {
 				inactive: inactivo
 			});
 			(tematico[1] == layerParam?layer.addTo(mymap):i+=1);
+		})
+		layersConfig.push({
+			label: 'CSAyC',
+			type: 'image',
+			url: 'icons/tematico.svg',
+			layers_type: "tema",
+			layers: emptyLayer,
+			inactive: true
 		})
 
 		todosLayersOtros.forEach(otro => {
@@ -1618,13 +1628,7 @@ async function generarTodosLayers(layerParam) {
 			});
 		}
 
-		if (layerParam == 'csac') {
-			getCsacTimeline()
-		}
-		
-		return layersConfig;
-
-	} else if (layerParam == 'planeamiento') {} 
+	} else if (layerParam == 'planeamiento') {}
 	else {
 			// Obtener establecimientos y crear configuraciones de capas
 			establecimientos.forEach(establecimiento => {
@@ -1743,6 +1747,20 @@ async function generarTodosLayers(layerParam) {
 		return layersConfig;
 	}
 
+function otrosAccesosCapas(){
+	const urlParams = new URLSearchParams(window.location.search);
+	const layerParam = urlParams.get('capa');
+	if (layerParam == 'csac'){
+		const espera = setInterval(() => {
+			var botonCsac = document.getElementById('legend-btn-csayc')
+			if (botonCsac){
+				botonCsac.click()
+				clearInterval(espera)
+			}
+		},100)
+	}
+}
+
 
 var legends;
 var legend;
@@ -1766,6 +1784,7 @@ async function initMap() {
 		console.error('Error al cargar las capas:', error);
 	}
 }
+
 
 
 
@@ -1996,6 +2015,7 @@ async function iniciarMapa() {
 	}*/
 	await initMap();
 	await cargarBotonesMapa()
+	
 	
 }
 
@@ -3135,4 +3155,5 @@ getGeoserverDatastoreLayers('sigeducativo','otros')
 
 setTimeout(function(){
     iniciarMapa();
+	otrosAccesosCapas()
 }, 4000);
