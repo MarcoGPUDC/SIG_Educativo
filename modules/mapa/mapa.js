@@ -1404,79 +1404,69 @@ function getAreasLayer() {
 			})
 	})
 }
-var markerGroupCsac;
-var markerGroupCsacData;
+var emptyLayer = [0];
+var markerGroupCsac = [0];
 var sliderControl = false;
 async function getCsacLayer () {
 	fetch('mapa/csac')
 	.then(response => response.json())
-	.then(data => {
-			markerGroupCsacData = data;
-			var markerArray = [];     
-			getDataAddMarkers = function( {label, value, map} ) {
-				map.eachLayer(function (layer) {
-						if (layer instanceof L.Marker) {
-							map.removeLayer(layer);
-						}
-				});
-		
-				filteredData = data.features.filter(function (i, n) {
-					return i.properties.title===label;
-				});
-					L.geoJson(data, {
-						pointToLayer: (feature, latlng) => {
-							return L.marker(latlng,
-								{
-									icon: L.icon({
-										iconUrl:`./icons/common-point-${feature.properties.color}.svg`,
-										iconSize: [22,22],
-										iconAnchor: [12,8],
-										index:3
-									})
-								}
-							)
-						},
-						onEachFeature: onEachFeatureCsac
-					})
-					markerGroupCsac = L.featureGroup(markerArray);
-				}
-				 
-				var slider = L.control.timelineSlider({
-					timelineItems: ["30 Años", "Actualidad"], 
-					changeMap: getDataAddMarkers });
-				
-			const legendItems = document.querySelectorAll('.leaflet-legend-item');
-
-			legendItems.forEach(item => {
-				const span = item.querySelector('span');
-				if (span && span.textContent.trim() === 'CSAyC') {
-				// Hacés lo que necesites con este item
-				console.log('Encontrado:', item);
-			
-				// Por ejemplo, agregarle un ID o evento
-				item.id = 'legend-btn-csayc';
-				item.addEventListener('click', () => {
-					if (sliderControl) {
-						slider.remove(mymap)
-						sliderControl = false;
-					} else {
-						slider.addTo(mymap)
-						sliderControl = true;
-					}					
-				});
-				}
+	.then(data => {	     
+		getDataAddMarkers = function( {label, value, map} ) {
+			map.eachLayer(function (layer) {
+					if (layer instanceof L.Marker) {
+						map.removeLayer(layer);
+					}
 			});
+	
+			filteredData = data.features.filter(function (i, n) {
+				return i.properties.title===label;
+			});
+			var markerArray = [];
+			markerArray.push(L.geoJson(filteredData, {
+				pointToLayer: (feature, latlng) => {
+					return L.marker(latlng,
+						{
+							icon: L.icon({
+								iconUrl:`./icons/common-point-${feature.properties.color}.svg`,
+								iconSize: [22,22],
+								iconAnchor: [12,8],
+								index:3
+							})
+						}
+					)
+				},
+				onEachFeature: onEachFeatureCsac
+			})
+			)
+			markerGroupCsac[0] = (L.featureGroup(markerArray));
+			markerGroupCsac[0].addTo(mymap)
+			}
+				
+		var slider = L.control.timelineSlider({
+			timelineItems: ["30 Años", "Actualidad"], 
+			changeMap: getDataAddMarkers });
 			
-			 
-		
+		const legendItems = document.querySelectorAll('.leaflet-legend-item');
+
+		legendItems.forEach(item => {
+			const span = item.querySelector('span');
+			if (span && span.textContent.trim() === 'CSAyC') {
+			item.id = 'legend-btn-csayc';
+			item.addEventListener('click', () => {
+				if (sliderControl) {
+					slider.remove(mymap)
+					markerGroupCsac[0].remove(mymap)
+					sliderControl = false;
+				} else {
+					slider.addTo(mymap)
+					sliderControl = true;
+				}					
+			});
+			}
+		});		
 	})
 }
 
-async function getCsacTimeline() {
-	
-}
-
-/*const sliderCsac = */
 
 async function getAreasEscolares () {
 	fetch('mapa/areasInst')
@@ -1489,6 +1479,7 @@ async function getAreasEscolares () {
 //funcion que finalmente crea las capas y las agrega al mapa
 async function generarTodosLayers(layerParam) {
     var layersConfig = [];
+	var emptyLayer = L.layerGroup()
 	const establecimientos = await getEstablecimientosLayers();
 	const delegaciones = await getDelegacionLayers();
 	const supervision = await getSupervisionLayers();
@@ -1697,7 +1688,7 @@ async function generarTodosLayers(layerParam) {
 				type: 'image',
 				url: 'icons/tematico.svg',
 				layers_type: "tema",
-				layers: markerGroupCsac,
+				layers: emptyLayer,
 				inactive: true
 			})
 
