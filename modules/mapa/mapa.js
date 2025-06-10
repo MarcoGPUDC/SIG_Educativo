@@ -416,7 +416,7 @@ async function getGeoserverDatastoreLayers(workspace, datastore){
 				if ( layer.split('_')[0] == 'establec' || layer.split('_')[0] == 'bibliotecas' || layer.split('_')[0] == 'ed-digital') {
 					getGeoserverLayer(workspace, layer).then(data => {
 						todosLayersTematicos.push([data,layer.split('_')[1]])
-					})	
+					})
 				}
 			})
 			break;
@@ -438,7 +438,6 @@ async function getGeoserverLayer(workspace, layer) {
 		format: 'image/png',
 		transparent: true,	
 		version: '1.1.1',
-		styles: layer,
 		attribution: "SIG Educativo"
 	})
 	let tipoCapa = layer.split("_")[0];
@@ -487,6 +486,12 @@ async function getGeoserverLayer(workspace, layer) {
 									case 'robotica':
 											tipoIcon = 'robotica'
 										break;
+									case 'salas-tecnologia-2024':
+											tipoIcon = 'salasTec'
+										break;
+									case 'salas-tecnologia-2025':
+											tipoIcon = 'salasTec'
+										break;	
 									default:
 										tipoIcon = 'edDigital'
 										break;
@@ -722,9 +727,21 @@ function popup_ed_digital_netbooks (feature, layer) {
 		{minWidth: 270, maxWidth: 270}
 	};
 
+	function popup_ed_digital_salasTec (feature, layer) {
+		layer.bindPopup(
+			"<div class='p-3'><h6 style='color:#0d6efd'>Salas Tecnologicas" +
+			"</h6><table>" + 
+			"</td></tr><tr><td><b>Región:</b> "+ (feature.properties.region?feature.properties.region:"No se registra") +
+			"</td></tr><tr><td><b>Cod. Jurisdiccional:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") +
+			"</td></tr><tr><td><b>CUE:</b> "+ (feature.properties.cue?feature.properties.cue:"No se registra") +
+			"</td></tr><tr><td><b>Ámbito:</b> "+ (feature.properties.ambito?feature.properties.ambito:"No se registra") +
+			"</td></tr></table></div>"),
+			{minWidth: 270, maxWidth: 270}
+		};	
+
 function popup_ed_digital (feature, layer) {
 	layer.bindPopup(
-		"<div class='p-3'><h6 style='color:#0d6efd'>Hacemos Futuro: Neetbooks " +
+		"<div class='p-3'><h6 style='color:#0d6efd'>Hacemos Futuro" +
 		"</h6><table>" + 
 		"</td></tr><tr><td><b>Región:</b> "+ (feature.properties.region?feature.properties.region:"No se registra") +
 		"</td></tr><tr><td><b>Cod. Jurisdiccional:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") +
@@ -1032,6 +1049,11 @@ function createLayer(data, tipo, nivel) {
 	var cluster = createCluster(tipo, nivel);
 	const layer = L.geoJSON(data, {
 		pointToLayer: function (feature, latlng) {
+			if (tipo == 'salasTec' && feature.properties.estado == 1) {
+				tipo = 'admok'
+			} else if (tipo == 'salasTec' && feature.properties.estado == 0){
+				tipo = 'adm'
+			};
 			var moved = false;
 			var marker = L.marker(latlng, {
 				icon: L.icon({
@@ -1088,7 +1110,7 @@ function createLayer(data, tipo, nivel) {
 			cluster.addLayer(marker);
 			return marker;
 		},
-		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas : (tipo === 'biblioteca') ? popup_bib_pedagogicas : (tipo === 'establec') ? onEachFeatureEst : (tipo === 'biblioteca_pop') ? popup_bib_populares : (tipo === 'equiInfra') ? popup_equip_infra : (tipo === 'netbooks') ? popup_ed_digital_netbooks : (tipo === 'adm') ? popup_ed_digital_adm : (tipo === 'robotica') ? popup_ed_digital_robo : (tipo === 'edDigital') ? popup_ed_digital:  onEachFeatureL
+		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas : (tipo === 'biblioteca') ? popup_bib_pedagogicas : (tipo === 'establec') ? onEachFeatureEst : (tipo === 'biblioteca_pop') ? popup_bib_populares : (tipo === 'equiInfra') ? popup_equip_infra : (tipo === 'netbooks') ? popup_ed_digital_netbooks : (tipo === 'adm') ? popup_ed_digital_adm : (tipo === 'robotica') ? popup_ed_digital_robo : (tipo === 'edDigital') ? popup_ed_digital: (tipo === 'salasTec') ? popup_ed_digital_salasTec:  onEachFeatureL
 		});
 	return cluster;
 }

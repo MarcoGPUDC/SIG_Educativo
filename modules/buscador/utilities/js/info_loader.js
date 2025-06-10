@@ -6,7 +6,7 @@ function descifrarDato(datoCifrado, clave) {
   const bytes = CryptoJS.AES.decrypt(datoCifrado, clave);
   return bytes.toString(CryptoJS.enc.Utf8);
 }
-
+obtenerImagenes()
 async function completarDatosInstitucion() {
     const parametros = new URLSearchParams(window.location.search);
     //var id = descifrarDato(parametros.get('num') , 'SIGE2024');
@@ -195,7 +195,6 @@ async function completarDatosInstitucion() {
         data.energia !='NULL'?energia.innerHTML+='<img src="./icons/energia.png" title="Energia">' + ' Fuente: ' + data.fuente_energia:energia.innerHTML+='<img src="./icons/energiaNo.png">';
         data.internet !='NULL'?internet.innerHTML+='<img src="./icons/internet.svg" title="Internet">' + ' Fuente: ' + data.fuente_internet:internet.innerHTML+='<img src="./icons/internetNo.svg">';
         data.calefaccion !='NULL'?calefaccion.innerHTML+='<img src="./icons/calefaccion.svg" title="Calefaccion">': calefaccion.innerHTML+='<img src="./icons/calefaccionNo.png" title="Sin calefaccion">';
-        obtenerImagenes()
     })
     .catch(error => {
         console.error('Error:', error);
