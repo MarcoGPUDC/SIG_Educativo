@@ -730,9 +730,10 @@ function popup_ed_digital_netbooks (feature, layer) {
 	function popup_ed_digital_salasTec (feature, layer) {
 		layer.bindPopup(
 			"<div class='p-3'><h6 style='color:#0d6efd'>Salas Tecnologicas" +
-			"</h6><table>" + 
-			"</td></tr><tr><td><b>Región:</b> "+ (feature.properties.region?feature.properties.region:"No se registra") +
+			"</h6><table>" +
+			"</td></tr><tr><td><b>Nombre:</b> "+ (feature.properties.nombre?feature.properties.nombre:"No se registra") +
 			"</td></tr><tr><td><b>Cod. Jurisdiccional:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") +
+			"</td></tr><tr><td><b>Región:</b> "+ (feature.properties.region?feature.properties.region:"No se registra") +
 			"</td></tr><tr><td><b>CUE:</b> "+ (feature.properties.cue?feature.properties.cue:"No se registra") +
 			"</td></tr><tr><td><b>Ámbito:</b> "+ (feature.properties.ambito?feature.properties.ambito:"No se registra") +
 			"</td></tr></table></div>"),
@@ -1050,20 +1051,38 @@ function createLayer(data, tipo, nivel) {
 	const layer = L.geoJSON(data, {
 		pointToLayer: function (feature, latlng) {
 			if (tipo == 'salasTec' && feature.properties.estado == 1) {
-				tipo = 'admok'
-			} else if (tipo == 'salasTec' && feature.properties.estado == 0){
-				tipo = 'adm'
-			};
+				var marker = L.marker(latlng, {
+					icon: L.icon({
+						iconUrl: `icons/admok_.svg`,
+						iconSize: [22, 22],
+						iconAnchor: [11, 0],
+						popupAnchor: [0, 0]
+					}),
+					riseOnHover: true,	
+				});
+			} else if(tipo == 'salasTec' && feature.properties.estado == 0){
+				var marker = L.marker(latlng, {
+					icon: L.icon({
+						iconUrl: `icons/adm_.svg`,
+						iconSize: [22, 22],
+						iconAnchor: [11, 0],
+						popupAnchor: [0, 0]
+					}),
+					riseOnHover: true,	
+				});
+			} else {
+				var marker = L.marker(latlng, {
+					icon: L.icon({
+						iconUrl: `icons/${tipo}_${nivel}.svg`,
+						iconSize: [22, 22],
+						iconAnchor: [11, 0],
+						popupAnchor: [0, 0]
+					}),
+					riseOnHover: true,	
+				});
+			}
 			var moved = false;
-			var marker = L.marker(latlng, {
-				icon: L.icon({
-					iconUrl: `icons/${tipo}_${nivel}.svg`,
-					iconSize: [22, 22],
-					iconAnchor: [11, 0],
-					popupAnchor: [0, 0]
-				}),
-				riseOnHover: true,	
-			});
+			
 			marker.on('mouseover', function(){
 				var latlng = marker.getLatLng();
 				globalMarkers.forEach(referencia => {
