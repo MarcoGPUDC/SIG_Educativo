@@ -733,8 +733,9 @@ function popup_ed_digital_netbooks (feature, layer) {
 			"</h6><table>" +
 			"</td></tr><tr><td><b>Nombre:</b> "+ (feature.properties.nombre?feature.properties.nombre:"No se registra") +
 			"</td></tr><tr><td><b>Cod. Jurisdiccional:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") +
+			"</td></tr><tr><td><b>CUE-Anexo:</b> "+ (feature.properties.cue_anexo?feature.properties.cue_anexo:"No se registra") +
 			"</td></tr><tr><td><b>Región:</b> "+ (feature.properties.region?feature.properties.region:"No se registra") +
-			"</td></tr><tr><td><b>CUE:</b> "+ (feature.properties.cue?feature.properties.cue:"No se registra") +
+			"</td></tr><tr><td><b>Localidad:</b> "+ (feature.properties.localidad?feature.properties.localidad:"No se registra") +
 			"</td></tr><tr><td><b>Ámbito:</b> "+ (feature.properties.ambito?feature.properties.ambito:"No se registra") +
 			"</td></tr></table></div>"),
 			{minWidth: 270, maxWidth: 270}
@@ -1063,7 +1064,7 @@ function createLayer(data, tipo, nivel) {
 			} else if(tipo == 'salasTec' && feature.properties.estado == 0){
 				var marker = L.marker(latlng, {
 					icon: L.icon({
-						iconUrl: `icons/adm_.svg`,
+						iconUrl: `icons/admno_.svg`,
 						iconSize: [22, 22],
 						iconAnchor: [11, 0],
 						popupAnchor: [0, 0]

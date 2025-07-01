@@ -1,0 +1,51 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Document
+        <link type="text/css" rel="stylesheet" href="css/leaflet.css" />
+        <link type="text/css" rel="stylesheet" href="modules/dibujador/css/dibujo.css" />
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" />
+    body
+        button(id="exportarCapaDibujo", class="btn btn-primary float-end me-4") Exportar
+        div(id="map")
+
+        <div id="overlay"></div>
+        div(id="draw-modal")
+            <h5>Dibujá tu ícono</h5>
+            <canvas id="draw-canvas" width="800px" height="350px"></canvas>
+            <br>
+            <button id="drawing-mode" class="btn btn-info">Enter drawing mode</button>
+            <button id="clear-canvas" class="btn btn-info">Clear</button>
+            <div id="drawing-mode-options">
+                <label htmlfor="drawing-line-width">
+                    <p>Line width:
+                        <span class="info">15</span>
+                    </p><input type="range" min="0" max="150" value='15' id="drawing-line-width">
+                </label>
+                <label htmlfor="drawing-color">
+                    <p>Line color:</p>
+                    <input type="color" id="drawing-color">
+                </label>
+                <label htmlfor="drawing-shadow-color">
+                    <p>Shadow color:</p><input type="color" value='#ffffff' id="drawing-shadow-color">
+                </label>
+                <label htmlfor="drawing-shadow-width">
+                    <p>Shadow width:
+                        <span class="info">0</span>
+                    </p><input type="range" min="0" max="50" value='0' id="drawing-shadow-width">
+                </label>
+                <label htmlfor="drawing-shadow-offset">
+                    <p>Shadow offset:
+                        <span class="info">0</span>
+                    </p><input type="range" min="0" max="50" value='0' id="drawing-shadow-offset">
+                </label>
+                <button id="save-drawing" class="btn btn-success">Save</button>
+                <button id="close-drawing" class="btn btn-danger">Cancel</button>
+            </div>
+    <script src="js/leaflet.js"></script>
+    <script src="modules/dibujador/models/dibujo.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+

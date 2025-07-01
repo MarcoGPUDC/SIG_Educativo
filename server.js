@@ -67,6 +67,16 @@ app.use('/abm', express.static(path.join(__dirname, 'modules', 'ABM'), {
   }
 }));
 
+app.use('/abm', express.static(path.join(__dirname, 'modules', 'dibujador'), {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css');
+    } else if (path.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    }
+  }
+}));
+
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), {
   setHeaders: (res, path) => {
     if (path.endsWith('.js')) {
@@ -78,7 +88,7 @@ app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), {
 // Configura Pug como motor de plantillas
 app.set('view engine', 'pug');
 //rutas de donde servise de vistas
-app.set('views', [__dirname + '/modules/buscador/views', __dirname + '/modules/ABM/views', __dirname + '/']);
+app.set('views', [__dirname + '/modules/buscador/views', __dirname + '/modules/ABM/views', __dirname + '/', __dirname + '/modules/dibujador/views']);
 
 app.use('/login', express.static(path.join(__dirname), {
   setHeaders: (res, path) => {
@@ -118,6 +128,10 @@ app.use('/', filtroInfo);
 
 const loginRoutes = require('./login_controller');
 app.use('/auth', loginRoutes);
+
+const dibujoRoutes = require('./modules/dibujador/controllers/dibujoControlador.js');
+app.use('/dibujarMapa', dibujoRoutes);
+
 
 
 //RUTAS ABM DESCOMENTAR CUANDO SE HABILITE EL INICIO DE SESION
