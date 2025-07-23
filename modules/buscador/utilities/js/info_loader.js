@@ -236,18 +236,26 @@ function obtenerImagenes (){
     .then(datos => {
         datos.forEach(imagen => {
             var escImagen = imagen.nombre.split('-');
-            if (escImagen[0]){
-                if(escImagen[1] == esc & escImagen[escImagen.length-1] == '01.PNG'){
-                    document.getElementById('imagenInfo').setAttribute('src',imagen.url)
+            var numero = escImagen[1]
+            var fotoTipo = escImagen[escImagen.length-1].toString();
+            if (numero == esc){
+                if(fotoTipo == "01.png"){
+                    setTimeout(function(){
+                        document.getElementById('imagenInfo').setAttribute('src',imagen.url)
+                    }, 1000);
+                    
                 }else {
-                    if (escImagen[1] == esc & escImagen[escImagen.length-1] == '02.PNG') {
-                        document.getElementById('imagenFotos').setAttribute('src',imagen.url)
+                    if (fotoTipo == "02.png") {
+                        setTimeout(function(){
+                            document.getElementById('imagenFotos').setAttribute('src',imagen.url)
+                        }, 2000);
                     }
                     if (escImagen.length == 5){
-                        if (escImagen[1] == esc & escImagen[escImagen.length-1] == '02.PNG' && escImagen[2] == 'epja'){
-                            document.getElementById('imagenFotosModExtra').setAttribute('src',imagen.url)
+                        if (fotoTipo == '02.png' && escImagen[2] == 'epja'){
+                            setTimeout(function(){
+                                document.getElementById('imagenFotosModExtra').setAttribute('src',imagen.url)
                             document.getElementById('imagenFotosModExtra').setAttribute('class','d-block')
-
+                            }, 2000);
                         }
                     }
                 }   

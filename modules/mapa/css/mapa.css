@@ -397,7 +397,7 @@ body {
     }
 
   }
-
+/*MEDIA PARA CELULAR*/
 @media (max-width: 480px) {
     #tablaInfoFiltro .table {
         width: 400px;
@@ -411,6 +411,15 @@ body {
     .dropdown {
         right: 4%;
     }
+
+    .leaflet-control-browser-print {
+        display: block!important;
+    }
+
+    .title-mapa {
+        top: 0px;
+    }
+    
 }
 
   .leaflet-popup-content label {
