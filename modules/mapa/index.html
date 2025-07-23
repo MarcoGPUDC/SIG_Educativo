@@ -44,13 +44,16 @@
 <!-- head -->	
 	<!--<img src="utilities/img/top-bar-top-2024.png" class="w-100" height="10px" alt=""/>-->
 	<div class="row float-left header">
+		<div class="col-2">
+			<img src="icons/ministerio_educacion.png" class="img-fluid imagecustomheader d-inline" alt="Logo del Ministerio de Educación del Gobierno del Chubut">
+		</div>
+		<div class="col-6 title-mapa-container">
+			<h1 class="title-mapa d-inline">Mapa Educativo Interactivo</h1>
+		</div>
 		<div class="col-3">
-			<a href="https://chubut.edu.ar/sigeducativo/" target="_blank"><img src="mapoteca/utilities/img/SIG Educativo vf-transparencia PNG.png" class="logo" width="140" height="76" alt=""/></a>
+			<a href="https://chubut.edu.ar/sigeducativo/" target="_blank"><img src="mapoteca/utilities/img/SIG Educativo vf-transparencia PNG.png" class="logo d-inline" width="140" height="76" alt=""/></a>
 		</div>
-		<div class="col-8 d-inline">
-			<h1 class="title-mapa">Mapa Educativo Interactivo</h1>
-		</div>
-		<div class="dropdown dropstart float-right col-1" style="width: 20; height: 20px; margin-top: 20px;">
+		<div class="dropdown dropstart float-right col-1" style="width: 20px; height: 20px; margin-top: 10px;">
 			<button class="btn dropdown-toggle" type="button" id="menuboton" data-bs-toggle="dropdown" aria-expanded="false">
 				<img src="mapoteca/utilities/img/030-menu.png" width="20" height="20" alt=""/>
 			</button>
@@ -100,7 +103,8 @@
 			<p>resultados</p>
 		</div>
 	</div>-->
-    <div id="map" style="height: 99vh;"></div>
+	<!-- mapa -->
+	<div id="map"></div>
 	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
 		<div class="modal-dialog modal-lg modal-dialog-centered">
 			<div class="modal-content">
@@ -274,9 +278,9 @@
 			</div>
 		</div>
 	</div>
-<!-- mapa -->
+
 	
-	<div id="map"></div>
+	
 <!-- modal buscar y consultar establecimientos por... -->
 	<div class="modal fade" id="exampleModalBusqueda" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" id="modalBusqueda">

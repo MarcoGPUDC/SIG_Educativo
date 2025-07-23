@@ -3,9 +3,18 @@
     right: 40%;
 }
 
+
+
 @media (max-width: 765px) {
     .modal-content{
         width: 500px;
+        right: 0%;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content{
+        width: 350px;
         right: 0%;
     }
 }
