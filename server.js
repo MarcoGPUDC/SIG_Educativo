@@ -88,7 +88,9 @@ app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), {
 // Configura Pug como motor de plantillas
 app.set('view engine', 'pug');
 //rutas de donde servise de vistas
-app.set('views', [__dirname + '/modules/buscador/views', __dirname + '/modules/ABM/views', __dirname + '/', __dirname + '/modules/dibujador/views']);
+app.set('views', [__dirname + '/modules/buscador/views', __dirname + '/modules/ABM/views', __dirname + '/', __dirname + '/modules/dibujador/views', __dirname + '/public/complementos']);
+
+app.locals.basedir = path.join(__dirname, 'public', 'complementos');
 
 app.use('/login', express.static(path.join(__dirname), {
   setHeaders: (res, path) => {

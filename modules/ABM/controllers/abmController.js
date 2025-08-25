@@ -6,7 +6,7 @@ const consulta = require('../../../public/js/consulta_model');
 const autenticar = require('../../../login_controller')
 const jwt = require('jsonwebtoken');
 
-//obtiene clave desde archivo ".env"
+//obtiene clave
 const SECRET_KEY = process.env.SECRET_KEY;
 
 // Middleware para verificar el token de autenticación
@@ -18,7 +18,7 @@ function verify(req, res, next){
   try {
      const payload = jwt.verify(token, SECRET_KEY);
       if(payload.role === 'admin' || payload.role === 'auditor'){
-        req.user= payload;
+        req.user = payload;
         next()
       } else {
         return res.status(401).send('No cuenta con los permisos para continuar')
@@ -28,7 +28,7 @@ function verify(req, res, next){
   }
 }
 
-//acceso a pestaña AMB, verifica permisos
+//acceso a pestaña ABM, verifica permisos
 router.get('/',verify, async (req, res) => {
   try {
     res.render('abmView');
@@ -38,8 +38,17 @@ router.get('/',verify, async (req, res) => {
   }
 });
 
+router.get('/modificaciones', async (req, res) => {
+  try {
+    res.render('modificaciones');
+  } catch (error) {
+    console.error('Error al cargar el buscador', error);
+    res.status(500).send('Error al optener las opciones.');
+  }
+});
+
 //precarga los inputs con las instituciones diponibles
-router.get('/cargaDatosCrud', async (req, res) => {
+router.get('/cargaDatosABM', async (req, res) => {
   try {
     // Obtener todas las opciones utilizando
     const data = await buscador.datos_buscador();
@@ -67,7 +76,7 @@ router.post('/insert', async (req, res) => {
   try {
     const result = await consulta.crear_institucion(departamento, localidad, numero, cue, anexo, funcion, region, domicilio, cp, ambito, web, email, nombre, tel, cue_anexo);
     const setUbi = await consulta.cargar_ubicacion(result[0].id_institucion, lat, long);
-    const serFunc = await consulta.cargar_oferta(result[0].id_institucion, modalidad, nivel);
+    const setFunc = await consulta.cargar_oferta(result[0].id_institucion, modalidad, nivel);
     res.status(201).json({ message: 'Institucion creada', data: result});
   } catch (error) {
     console.error(error);
@@ -77,10 +86,10 @@ router.post('/insert', async (req, res) => {
 
 //Modifica en la base de datos (intitucion y oferta)
 router.post('/update', async (req, res) => {
-  const {departamento, localidad, numero, region, domicilio, cp, ambito, web, email, nombre, tel, modalidad, nivel, id} = req.body;
+  const {datos_nuevos, usuario, tipo_cambio, clave_primaria,} = req.body;
   try {
-    const result = await consulta.modificar_institucion(departamento, localidad, numero, region, domicilio, cp, ambito, web, email, nombre, tel, id);
-    const serFunc = await consulta.modificar_oferta(id, nivel, modalidad);
+    const datos_anteriores = await consulta.busqueda_simple(clave_primaria);
+    const result = await consulta.solicitud_modificacion(datos_nuevos, usuario, tipo_cambio, datos_anteriores, clave_primaria);
     res.status(201).json({ message: 'Institucion modificada', data: result});
   } catch (error) {
     console.error(error);

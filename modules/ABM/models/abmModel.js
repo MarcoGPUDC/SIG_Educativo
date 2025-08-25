@@ -2,11 +2,11 @@
 
 
 var datosForm;
-async function datosCrudForm() {
+async function datosAbmForm() {
     if (datosForm) {
         return Promise.resolve(datosForm);
     } else {
-        return fetch('/abm/cargaDatosCrud')
+        return fetch('/abm/cargaDatosABM')
             .then(response => {
                 // Maneja la respuesta recibida del servidor
                 if (!response.ok) {
@@ -27,8 +27,8 @@ async function datosCrudForm() {
 
 
 
-async function cargarCrudForm(){
-    datosForm = await datosCrudForm();
+async function cargarAbmForm(){
+    datosForm = await datosAbmForm();
     datosForm.forEach(data => {
         var filtro = data['clave']; //obtiene el nombre de la clave para indicar en que formulario agregar las opciones
         if (filtro == 'modalidad' || filtro == 'localidad' || filtro == 'nivel' || filtro == 'departamento'||filtro == 'ambito'){
@@ -56,7 +56,7 @@ async function cargarCrudForm(){
         }
     })
 }
-cargarCrudForm();
+cargarAbmForm();
 
 var argenMapaUrl = 'https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabaseargenmap@EPSG%3A3857@png/{z}/{x}/{-y}.png';
 var argenMapaAttrib ='<a href="http://www.ign.gob.ar/AreaServicios/Argenmap/IntroduccionV2" target="_blank">Instituto Geográfico Nacional</a> + <a href="http://www.osm.org/copyright" target="_blank">OpenStreetMap</a>';
@@ -391,7 +391,7 @@ function updateLayer () {
         const tel = document.getElementById('telFormModificar').value
         const nivel = document.getElementById('form-select-modificar-nivel').value
         const modalidad = document.getElementById('form-select-modificar-modalidad').value
-        var data = {
+        var datosNuevos = {
             id: data.id_institucion,
             departamento : departamento,
             localidad: localidad,
@@ -407,12 +407,26 @@ function updateLayer () {
             nivel: nivel,
             modalidad: modalidad
         }
+        const token = localStorage.getItem('token');
+        if (token) {
+            const payloadBase64 = token.split('.')[1]; // Segunda parte del JWT
+            const decodedPayload = atob(payloadBase64); // Decodifica de base64
+            const payload = JSON.parse(decodedPayload); // Convierte a objeto JS
+        }
+        const dataCambios = {
+            datos_nuevos: datosNuevos,
+            usuario: payload.user,
+            tipo_cambio: 'modificacion',
+            clave_primaria: id,
+
+        }
+
         fetch('update', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(dataCambios)
         })
         .then(response => {
             if (!response.ok) {

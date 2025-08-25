@@ -6,11 +6,11 @@ const db = conectarDB();
 
 //busqueda de todos los elementos de cada campo del buscador
 function buscar_todos_numero () {
-    return db.any('SELECT DISTINCT numero FROM padron.institucion ORDER BY numero ASC');
+    return db.any(`SELECT DISTINCT numero FROM padron.institucion WHERE funcion = 'Activo' ORDER BY numero ASC`);
 };
 
 function buscar_todos_nombre () {
-    return db.any('SELECT id_institucion AS id, nombre FROM padron.institucion ORDER BY nombre ASC');
+    return db.any(`SELECT id_institucion AS id, nombre FROM padron.institucion WHERE funcion = 'Activo' ORDER BY nombre ASC`);
 };
 
 function buscar_todos_modalidad () {
@@ -42,7 +42,7 @@ function buscar_todos_ambito () {
 };
 
 function busqueda_simple_todo () {
-    return db.any(`SELECT inst.*, esc.email_inst, COALESCE(inst.responsable, 'Sin Informacion') AS responsable, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.v_establec_educativos AS inst JOIN padron.institucion esc ON esc.cue_anexo = inst.cue_anexo`);
+    return db.any(`SELECT inst.*, esc.email_inst, COALESCE(inst.responsable, 'Sin Informacion') AS responsable, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.v_establec_educativos AS inst JOIN padron.institucion esc ON esc.cue_anexo = inst.cue_anexo WHERE esc.funcion ='Activo'`);
 };
 
 function buscar_ubicacion(id) {
@@ -311,6 +311,13 @@ function modificar_oferta (id, nivel, modalidad){
     })
 }
 
+function solicitud_modificacion (datos_nuevos, usuario, tipo_cambio, datos_anteriores) {
+    db.tx (t => {
+        t.none (`INSERT INTO public.propuesta_cambio (tipo_cambio, clave_primaria, datos_anteriores, datos_nuevos, usuario) VALUES ($1, $2, $3, $4, $5)
+            `, [tipo_cambio, clave_primaria, datos_anteriores, datos_nuevos, usuario])
+    })
+}
+
 //Inicio de sesion
 function verificar_usuario (username, password){
     return db.any('SELECT * FROM usuario.login log WHERE log.usuario = $1 AND log.contra = $2;', [username, password])
@@ -463,6 +470,7 @@ module.exports = {
     cargar_ubicacion,
     cargar_oferta,
     borrar_institucion,
+    solicitud_modificacion,
     modificar_institucion,
     modificar_oferta,
     verificar_usuario,
