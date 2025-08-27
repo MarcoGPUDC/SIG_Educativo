@@ -29,7 +29,7 @@ function verify(req, res, next){
 }
 
 //acceso a pestaña ABM, verifica permisos
-router.get('/', async (req, res) => {
+router.get('/',verify, async (req, res) => {
   try {
     res.render('abmView');
   } catch (error) {

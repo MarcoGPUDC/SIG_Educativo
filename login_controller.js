@@ -75,13 +75,4 @@ router.post('/createUser', async (req, res) => {
   }
 });
 
-/*router.post('/logout', async (req, res) => {
-  res.clearCookie('authToken',{
-    httpOnly: true,
-    secure: false,
-    sameSite: none
-  });
-  res.send('Sesion cerrada')
-})*/
-
 module.exports = router;
