@@ -127,7 +127,7 @@ const loginRoutes = require('./login_controller');
 app.use('/auth', loginRoutes);
 
 const dibujoRoutes = require('./modules/dibujador/controllers/dibujoControlador.js');
-app.use('/dibujarMapa', dibujoRoutes);
+app.use('/dibujarmapa', dibujoRoutes);
 
 
 
