@@ -81,7 +81,7 @@ mapaDiv.addEventListener('click', function () {
         const { lat, lng } = e.latlng;
         
         try {
-        const response = await fetch(`abm/convert?lng=${lng}&lat=${lat}`);
+        const response = await fetch(`abmservices/convert?lng=${lng}&lat=${lat}`);
         if (!response.ok) {
             throw new Error('Error al convertir las coordenadas');
         }
@@ -311,7 +311,7 @@ function createLayer () {
     var validacion = validarInstitucion(data);
 
     if (validacion[0]) {
-        fetch(`abm/exist?id=${cue_anexo}`)
+        fetch(`abmservices/exist?id=${cue_anexo}`)
         .then(response => {
             if (!response.ok) {
             throw new Error('Error en la respuesta del servidor');

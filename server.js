@@ -133,7 +133,7 @@ app.use('/dibujarmapa', dibujoRoutes);
 
 //RUTAS ABM DESCOMENTAR CUANDO SE HABILITE EL INICIO DE SESION
 const servicios = require('./modules/ABM/controllers/services.js');
-app.use('/abm', servicios);
+app.use('/abmservices', servicios);
 
 const abmRoutes = require('./modules/ABM/controllers/abmController.js');
 app.use('/abm', abmRoutes);
