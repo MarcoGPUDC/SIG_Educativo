@@ -2,7 +2,6 @@ var express = require('express');
 const cors = require('cors');
 var app = express();
 const path = require('path');
-var raiz = 'http://sistemas.chubut.edu.ar/mapa/'
 var https = require('https');
 var fs = require('fs');
 const jwt = require('jsonwebtoken');
@@ -67,7 +66,7 @@ app.use('/abm', express.static(path.join(__dirname, 'modules', 'ABM'), {
   }
 }));
 
-app.use('/abm', express.static(path.join(__dirname, 'modules', 'dibujador'), {
+app.use('/dibujarmapa', express.static(path.join(__dirname, 'modules', 'dibujador'), {
   setHeaders: (res, path) => {
     if (path.endsWith('.css')) {
       res.setHeader('Content-Type', 'text/css');
@@ -114,10 +113,6 @@ app.use('/info', informacion_controlador);
 
 const buscador_controlador = require('./modules/buscador/controllers/buscador_controlador');
 app.use('/buscador', buscador_controlador);
-
-//DESCOMENTAR PARA HABILITAR LOG IN
-/*const login_controlador = require('./login_controller');
-app.use('/login', login_controlador);*/
 
 const mapRoutes = require('./modules/mapa/models/info_popup_model');
 app.use('/', mapRoutes);
