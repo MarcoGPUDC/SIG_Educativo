@@ -115,7 +115,7 @@ function busqueda_adicional_sedeAnexo(cue) {
 }
 
 function busqueda_cooperadora(escuela) {
-    return db.any(`SELECT coop.n_resp, coop.pers_juridica, coop.fecha_reso, coop.presidente, coop.tesorero FROM padron.cooperadoras coop WHERE id_institucion = $1
+    return db.any(`SELECT coop.n_reso, coop.pers_juridica, coop.fecha_reso, coop.presidente, coop.tesorero FROM padron.cooperadoras coop WHERE id_institucion = $1
         ORDER BY coop.escuela ASC `, [escuela])
 }
 

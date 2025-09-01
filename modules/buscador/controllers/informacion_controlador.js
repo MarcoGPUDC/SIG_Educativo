@@ -97,7 +97,7 @@ router.get('/obtenerDatosInfra', async (req, res) => {
       const data = await informacion.busqueda_cooperadora(escuela)
       res.send(data);
     } catch (error) {
-      console.error('Error al obtener las direcciones:', error);
+      console.error('Error al obtener las cooperadoras:', error);
       res.status(500).send('Error al obtener los datos.');
     }
     
