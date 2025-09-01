@@ -778,7 +778,7 @@ function popup_calle (feature, layer) {
 	});
 };
 
-function popup_ed_digital (feature, layer) {
+function popup_cooperadoras (feature, layer) {
 	layer.bindPopup(
 		"<div class='p-3'><h6 style='color:#0d6efd'>" + (feature.properties.nombre?feature.properties.nombre:"No se registra") +
 		"</h6><table>" + 
@@ -1146,7 +1146,7 @@ function createLayer(data, tipo, nivel) {
 			cluster.addLayer(marker);
 			return marker;
 		},
-		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas : (tipo === 'biblioteca') ? popup_bib_pedagogicas : (tipo === 'establec') ? onEachFeatureEst : (tipo === 'biblioteca_pop') ? popup_bib_populares : (tipo === 'equiInfra') ? popup_equip_infra : (tipo === 'netbooks') ? popup_ed_digital_netbooks : (tipo === 'adm') ? popup_ed_digital_adm : (tipo === 'robotica') ? popup_ed_digital_robo : (tipo === 'edDigital') ? popup_ed_digital: (tipo === 'salasTec') ? popup_ed_digital_salasTec:  (tipo === 'cooperadoras') ? popup_ed_digital_salasTec:  onEachFeatureL
+		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas : (tipo === 'biblioteca') ? popup_bib_pedagogicas : (tipo === 'establec') ? onEachFeatureEst : (tipo === 'biblioteca_pop') ? popup_bib_populares : (tipo === 'equiInfra') ? popup_equip_infra : (tipo === 'netbooks') ? popup_ed_digital_netbooks : (tipo === 'adm') ? popup_ed_digital_adm : (tipo === 'robotica') ? popup_ed_digital_robo : (tipo === 'edDigital') ? popup_ed_digital: (tipo === 'salasTec') ? popup_ed_digital_salasTec:  (tipo === 'cooperadoras') ? popup_cooperadoras:  onEachFeatureL
 		});
 	return cluster;
 }
