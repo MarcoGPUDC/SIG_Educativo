@@ -444,7 +444,6 @@ async function getGeoserverLayer(workspace, layer) {
 	let subTipoCapa = layer.split("_")[1];
 	let tipoIcon;
 	let dataLayer;
-	console.log(tipoCapa)
 	try {
 		const geoResponse = await fetch(`https://sistemas2.chubut.edu.ar/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${workspace}%3A${layer}&maxFeatures=300&outputFormat=application%2Fjson&srsname=EPSG:4326`);
 		const dataGeoJSON = await geoResponse.json();
@@ -1070,7 +1069,6 @@ var areasControl;
 getAreasEscolares();
 //crear capa, se crea a partir de un geoJSON, se indica tipo de dependencia (institucion, supervision, delegacion) y nivel para obtener el icono correspondiente
 function createLayer(data, tipo, nivel) {
-	console.log(tipo)
 	var cluster = createCluster(tipo, nivel);
 	const layer = L.geoJSON(data, {
 		pointToLayer: function (feature, latlng) {
