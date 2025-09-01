@@ -211,6 +211,7 @@ async function completarDatosInstitucion() {
         return response.json(); // Convierte la respuesta en formato JSON
     })
     .then(datos => {
+        console.log(datos)
         //datos oferta
         var numeroReso = document.getElementById('numeroReso');
         var fechaReso = document.getElementById('fechaReso');
