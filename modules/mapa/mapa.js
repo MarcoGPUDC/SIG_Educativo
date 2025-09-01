@@ -497,6 +497,8 @@ async function getGeoserverLayer(workspace, layer) {
 										break;
 								}
 							break;
+						case 'cooperadoras':
+									tipoIcon = 'cooperadoras'
 						default:
 								tipoIcon = 'establecimientos'
 							break;
@@ -775,6 +777,20 @@ function popup_calle (feature, layer) {
 		popupclose: restablecerEstiloLinea
 	});
 };
+
+function popup_ed_digital (feature, layer) {
+	layer.bindPopup(
+		"<div class='p-3'><h6 style='color:#0d6efd'>" + (feature.properties.nombre?feature.properties.nombre:"No se registra") +
+		"</h6><table>" + 
+		"</td></tr><tr><td><b>Cod. Jurisdiccional:</b> "+ (feature.properties.escuela?feature.properties.escuela:"No se registra") +
+		"</td></tr><tr><td><b>N° de Resolución:</b> "+ (feature.properties.n_reso?feature.properties.n_reso:"No se registra") +
+		"</td></tr><tr><td><b>Fecha de Resolución:</b> "+ (feature.properties.fecha_reso?feature.properties.fecha_reso:"No se registra") +
+		"</td></tr><tr><td><b>Personeria Juridica:</b> "+ (feature.properties.pers_juridica?feature.properties.pers.juridica:"No se registra") +
+		"</td></tr><tr><td><b>Presidente:</b> "+ (feature.properties.presidente?feature.properties.presidente:"No se registra") +
+		"</td></tr><tr><td><b>Tesorero:</b> "+ (feature.properties.tesorero?feature.properties.tesorero:"No se registra") +
+		"</td></tr></table></div>"),
+		{minWidth: 270, maxWidth: 270}
+	};
 
 
 function formatoNombre(cadena) {
@@ -1130,7 +1146,7 @@ function createLayer(data, tipo, nivel) {
 			cluster.addLayer(marker);
 			return marker;
 		},
-		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas : (tipo === 'biblioteca') ? popup_bib_pedagogicas : (tipo === 'establec') ? onEachFeatureEst : (tipo === 'biblioteca_pop') ? popup_bib_populares : (tipo === 'equiInfra') ? popup_equip_infra : (tipo === 'netbooks') ? popup_ed_digital_netbooks : (tipo === 'adm') ? popup_ed_digital_adm : (tipo === 'robotica') ? popup_ed_digital_robo : (tipo === 'edDigital') ? popup_ed_digital: (tipo === 'salasTec') ? popup_ed_digital_salasTec:  onEachFeatureL
+		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas : (tipo === 'biblioteca') ? popup_bib_pedagogicas : (tipo === 'establec') ? onEachFeatureEst : (tipo === 'biblioteca_pop') ? popup_bib_populares : (tipo === 'equiInfra') ? popup_equip_infra : (tipo === 'netbooks') ? popup_ed_digital_netbooks : (tipo === 'adm') ? popup_ed_digital_adm : (tipo === 'robotica') ? popup_ed_digital_robo : (tipo === 'edDigital') ? popup_ed_digital: (tipo === 'salasTec') ? popup_ed_digital_salasTec:  (tipo === 'cooperadoras') ? popup_ed_digital_salasTec:  onEachFeatureL
 		});
 	return cluster;
 }
