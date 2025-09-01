@@ -91,4 +91,16 @@ router.get('/obtenerDatosInfra', async (req, res) => {
     
   })
 
+  router.get('/obtenerDatosCooperadoras', async (req,res) => {
+    try {
+      var id = req.query.num;
+      const data = await informacion.busqueda_cooperadora(id)
+      res.send(data);
+    } catch (error) {
+      console.error('Error al obtener las direcciones:', error);
+      res.status(500).send('Error al obtener los datos.');
+    }
+    
+  })
+
 module.exports = router;

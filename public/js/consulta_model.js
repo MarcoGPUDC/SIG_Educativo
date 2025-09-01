@@ -114,6 +114,10 @@ function busqueda_adicional_sedeAnexo(cue) {
         ORDER BY id_institucion ASC `, [cue])
 }
 
+function busqueda_cooperadora(id) {
+    return db.any(`SELECT coop.n_resp, coop.pers_juridica, coop.fecha_reso, coop.presidente, coop.tesorero FROM padron.cooperadoras coop WHERE id_institucion = $1
+        ORDER BY id_institucion ASC `, [id])
+}
 
 
 //consultas para visualizar en el mapa
@@ -450,6 +454,7 @@ module.exports = {
     buscar_info_supervision,
     buscar_info_delegacion,
     busqueda_simple_todo,
+    busqueda_cooperadora,
     buscar_ubicacion,
     buscar_localizacion,
     buscar_localizacion_especifica,

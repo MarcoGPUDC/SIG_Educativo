@@ -121,6 +121,8 @@ async function completarDatosInstitucion() {
             document.getElementById('matriculamujeres').innerHTML += `${mujeres}`;
             document.getElementById('matriculavarones').innerHTML += `${varones}`;
             document.getElementById('matriculatotal').innerHTML += `${total}`;
+
+
     })
     
     .catch(error => {
@@ -170,7 +172,7 @@ async function completarDatosInstitucion() {
     .then(response => {
         // Maneja la respuesta recibida del servidor
         if (!response.ok) {
-            throw new Error('Error al obtener los datos');
+            throw new Error('Error al obtener los datos de infraestructura');
         }
         return response.json(); // Convierte la respuesta en formato JSON
     })
@@ -199,8 +201,31 @@ async function completarDatosInstitucion() {
     .catch(error => {
         console.error('Error:', error);
     });
-        
     
+    fetch(`info/obtenerDatosCooperadoras?num=${id}`)
+    .then(response => {
+        // Maneja la respuesta recibida del servidor
+        if (!response.ok) {
+            throw new Error('Error al obtener los datos de cooperadora');
+        }
+        return response.json(); // Convierte la respuesta en formato JSON
+    })
+    .then(datos => {
+        //datos oferta
+        var numeroReso = document.getElementById('numeroReso');
+        var fechaReso = document.getElementById('fechaReso');
+        var persJuridica = document.getElementById('persJuridica');
+        var presidente = document.getElementById('presidente');
+        var tesorero = document.getElementById('tesorero');
+        numeroReso = (datos.n_reso != 'NULL') ? numeroReso.innerHTML = datos.n_reso : numeroReso.innerHTML = 'No indica';
+        fechaReso = (datos.fecha_reso != 'NULL') ? fechaReso.innerHTML = datos.fecha_reso : fechaReso.innerHTML = 'No indica';
+        persJuridica = (datos.pers_juridica != 'NULL') ? persJuridica.innerHTML = datos.pers_juridica : persJuridica.innerHTML = 'No indica';
+        presidente = (datos.presidente != 'NULL') ? presidente.innerHTML = datos.presidente : presidente.innerHTML = 'No indica';
+        tesorero = (datos.tesorero != 'NULL') ? tesorero.innerHTML = datos.tesorero : tesorero.innerHTML = 'No indica';
+        })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 };
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
