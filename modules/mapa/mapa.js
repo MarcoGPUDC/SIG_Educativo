@@ -444,6 +444,7 @@ async function getGeoserverLayer(workspace, layer) {
 	let subTipoCapa = layer.split("_")[1];
 	let tipoIcon;
 	let dataLayer;
+	console.log(tipoCapa)
 	try {
 		const geoResponse = await fetch(`https://sistemas2.chubut.edu.ar/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${workspace}%3A${layer}&maxFeatures=300&outputFormat=application%2Fjson&srsname=EPSG:4326`);
 		const dataGeoJSON = await geoResponse.json();
@@ -497,10 +498,15 @@ async function getGeoserverLayer(workspace, layer) {
 										break;
 								}
 							break;
-						case 'cooperadoras':
-									tipoIcon = 'cooperadoras'
 						default:
-								tipoIcon = 'establecimientos'
+							switch (subTipoCapa) {
+								case 'cooperadoras':
+										tipoIcon = 'cooperadoras'
+									break;
+								default:
+									tipoIcon = 'establecimientos'
+									break;
+							}
 							break;
 					}
 					if (dataGeoJSON.features[0].geometry.type == 'MultiLineString') {
@@ -785,7 +791,7 @@ function popup_cooperadoras (feature, layer) {
 		"</td></tr><tr><td><b>Cod. Jurisdiccional:</b> "+ (feature.properties.escuela?feature.properties.escuela:"No se registra") +
 		"</td></tr><tr><td><b>N° de Resolución:</b> "+ (feature.properties.n_reso?feature.properties.n_reso:"No se registra") +
 		"</td></tr><tr><td><b>Fecha de Resolución:</b> "+ (feature.properties.fecha_reso?feature.properties.fecha_reso:"No se registra") +
-		"</td></tr><tr><td><b>Personeria Juridica:</b> "+ (feature.properties.pers_juridica?feature.properties.pers.juridica:"No se registra") +
+		"</td></tr><tr><td><b>Personeria Juridica:</b> "+ (feature.properties.pers_juridica?feature.properties.pers_juridica:"No se registra") +
 		"</td></tr><tr><td><b>Presidente:</b> "+ (feature.properties.presidente?feature.properties.presidente:"No se registra") +
 		"</td></tr><tr><td><b>Tesorero:</b> "+ (feature.properties.tesorero?feature.properties.tesorero:"No se registra") +
 		"</td></tr></table></div>"),
@@ -1064,6 +1070,7 @@ var areasControl;
 getAreasEscolares();
 //crear capa, se crea a partir de un geoJSON, se indica tipo de dependencia (institucion, supervision, delegacion) y nivel para obtener el icono correspondiente
 function createLayer(data, tipo, nivel) {
+	console.log(tipo)
 	var cluster = createCluster(tipo, nivel);
 	const layer = L.geoJSON(data, {
 		pointToLayer: function (feature, latlng) {
