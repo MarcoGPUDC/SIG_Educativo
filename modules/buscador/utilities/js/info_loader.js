@@ -210,7 +210,8 @@ async function completarDatosInstitucion() {
         }
         return response.json(); // Convierte la respuesta en formato JSON
     })
-    .then(datos => {
+    .then(datosCoop => {
+        datos = datosCoop[0];
         console.log(datos)
         //datos oferta
         var numeroReso = document.getElementById('numeroReso');
@@ -218,11 +219,11 @@ async function completarDatosInstitucion() {
         var persJuridica = document.getElementById('persJuridica');
         var presidente = document.getElementById('presidente');
         var tesorero = document.getElementById('tesorero');
-        numeroReso = (datos.n_reso != 'NULL') ? numeroReso.innerHTML = datos.n_reso : numeroReso.innerHTML = 'No indica';
-        fechaReso = (datos.fecha_reso != 'NULL') ? fechaReso.innerHTML = datos.fecha_reso : fechaReso.innerHTML = 'No indica';
-        persJuridica = (datos.pers_juridica != 'NULL') ? persJuridica.innerHTML = datos.pers_juridica : persJuridica.innerHTML = 'No indica';
-        presidente = (datos.presidente != 'NULL') ? presidente.innerHTML = datos.presidente : presidente.innerHTML = 'No indica';
-        tesorero = (datos.tesorero != 'NULL') ? tesorero.innerHTML = datos.tesorero : tesorero.innerHTML = 'No indica';
+        (datos.n_reso != 'NULL') ? numeroReso.innerHTML = datos.n_reso : numeroReso.innerHTML = 'No indica';
+        (datos.fecha_reso != 'NULL') ? fechaReso.innerHTML = datos.fecha_reso : fechaReso.innerHTML = 'No indica';
+        (datos.pers_juridica != 'NULL') ? persJuridica.innerHTML = datos.pers_juridica : persJuridica.innerHTML = 'No indica';
+        (datos.presidente != 'NULL') ? presidente.innerHTML = datos.presidente : presidente.innerHTML = 'No indica';
+        (datos.tesorero != 'NULL') ? tesorero.innerHTML = datos.tesorero : tesorero.innerHTML = 'No indica';
         })
     .catch(error => {
         console.error('Error:', error);
