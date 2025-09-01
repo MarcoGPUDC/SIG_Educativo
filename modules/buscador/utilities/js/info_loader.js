@@ -212,18 +212,17 @@ async function completarDatosInstitucion() {
     })
     .then(datosCoop => {
         datos = datosCoop[0];
-        console.log(datos)
         //datos oferta
         var numeroReso = document.getElementById('numeroReso');
         var fechaReso = document.getElementById('fechaReso');
         var persJuridica = document.getElementById('persJuridica');
         var presidente = document.getElementById('presidente');
         var tesorero = document.getElementById('tesorero');
-        (datos.n_reso != 'NULL') ? numeroReso.innerHTML = datos.n_reso : numeroReso.innerHTML = 'No indica';
-        (datos.fecha_reso != 'NULL') ? fechaReso.innerHTML = datos.fecha_reso : fechaReso.innerHTML = 'No indica';
-        (datos.pers_juridica != 'NULL') ? persJuridica.innerHTML = datos.pers_juridica : persJuridica.innerHTML = 'No indica';
-        (datos.presidente != 'NULL') ? presidente.innerHTML = datos.presidente : presidente.innerHTML = 'No indica';
-        (datos.tesorero != 'NULL') ? tesorero.innerHTML = datos.tesorero : tesorero.innerHTML = 'No indica';
+        (datos.n_reso != 'null') ? numeroReso.innerHTML = datos.n_reso : numeroReso.innerHTML = 'No indica';
+        (datos.fecha_reso != 'null') ? fechaReso.innerHTML = datos.fecha_reso : fechaReso.innerHTML = 'No indica';
+        (datos.pers_juridica != 'null') ? persJuridica.innerHTML = datos.pers_juridica : persJuridica.innerHTML = 'No indica';
+        (datos.presidente != 'null') ? presidente.innerHTML = datos.presidente : presidente.innerHTML = 'No indica';
+        (datos.tesorero != 'null') ? tesorero.innerHTML = datos.tesorero : tesorero.innerHTML = 'No indica';
         })
     .catch(error => {
         console.error('Error:', error);
