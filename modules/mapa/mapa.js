@@ -894,6 +894,7 @@ function onEachFeatureS (feature, layer) {
 		"<tr><td><b>Localidad:</b> "+ (feature.properties.localidad?formatoNombre(feature.properties.localidad):"No se registra") + "</td></tr>" +
 		"<tr><td><b>Dirección:</b> "+ (feature.properties.direccion?feature.properties.direccion:"No se registra") + "</td></tr>" +
 		"</table>" +
+		"</div></div>" + (feature.properties.area?"<div id='divBotonArea'></td></tr><tr><td><label for='areaInstMarker'>Radio Escolar</label><input type='checkbox' id='areaInstMarker' value='"+feature.properties.id+"'></input></div>":"</div>") +
 		"<div class=''><div class='d-flex justify-content-end'><a class='btn btn-outline-primary btn-sm mt-0 mb-2 m-2' href='./info?num="+feature.properties.id+"' target='_blank'>Ver más...</a></div>" +
 		"</div>", {minWidth: 270, maxWidth: 270}
 		);
@@ -2160,7 +2161,7 @@ function itemsearchselected(selected){
 		if(layerNoExiste(name)){
 			instSelected.push(L.geoJSON(data, {
 					pointToLayer: function (feature, latlng) {
-							return L.marker(latlng, {
+							var marker = L.marker(latlng, {
 								icon: L.icon({
 									iconUrl: "icons/establecimientos_consulta.svg",
 									iconSize:     [22, 22], 
@@ -2169,7 +2170,25 @@ function itemsearchselected(selected){
 								}),
 								riseOnHover: true
 							});
+							marker.on('popupopen', function() {
+								//actualiza las areas para verificar el estado de cada una
+								getAreasLayer()
+								//se pregunta si el checkbox actual tiene en su value el id de una institucion que coincida con el de algun area
+								if (checkbox = document.getElementById("areaInstMarker")){
+									areasControl.forEach(data => {
+										//pregunta si esta en el mapa y coloca el input en el estado correcto
+										if (data.id_institucion == checkbox.value){
+											if (data.mostrar){
+												checkbox.checked = true;
+											}
+										}
+									})
+								}
+							});
+
+							return marker
 						},	
+						
 					onEachFeature: onEachFeatureS
 			}));
 			instSelected.forEach(marker => {
@@ -2188,7 +2207,7 @@ function itemsearchselected(selected){
 				if (capa.label == name) {
 					capa.layers.push(L.geoJSON(data, {
 						pointToLayer: function (feature, latlng) {
-								return L.marker(latlng, {
+								var marker = L.marker(latlng, {
 									icon: L.icon({
 										iconUrl: "icons/establecimientos_consulta.svg",
 										iconSize:     [22, 22], 
@@ -2197,6 +2216,22 @@ function itemsearchselected(selected){
 									}),
 									riseOnHover: true
 								});
+								marker.on('popupopen', function() {
+									//actualiza las areas para verificar el estado de cada una
+									getAreasLayer()
+									//se pregunta si el checkbox actual tiene en su value el id de una institucion que coincida con el de algun area
+									if (checkbox = document.getElementById("areaInstMarker")){
+										areasControl.forEach(data => {
+											//pregunta si esta en el mapa y coloca el input en el estado correcto
+											if (data.id_institucion == checkbox.value){
+												if (data.mostrar){
+													checkbox.checked = true;
+												}
+											}
+										})
+									}
+								});
+								return marker
 							},	
 						onEachFeature: onEachFeatureS
 				}));

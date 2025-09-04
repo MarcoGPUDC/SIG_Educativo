@@ -46,7 +46,11 @@ function busqueda_simple_todo () {
 };
 
 function buscar_ubicacion(id) {
-    return db.one (`SELECT inst.id_institucion, inst.nombre, inst.numero, inst.domicilio, loc.localidad, inst.region, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.institucion inst JOIN padron.georeferencia geo ON geo.id_institucion = inst.id_institucion JOIN padron.localidad loc ON loc.id_localidad = inst.id_localidad WHERE inst.id_institucion = $1;`, id)
+    return db.one (`SELECT inst.id_institucion, inst.nombre, inst.numero, inst.domicilio, loc.localidad, inst.region, ST_AsGeoJSON(ST_Transform(geo.geom, 4326)) AS geom, ST_AsText(ST_transform(rad.geom,4326)) AS area FROM padron.institucion inst 
+                    JOIN padron.georeferencia geo ON geo.id_institucion = inst.id_institucion 
+                    JOIN padron.localidad loc ON loc.id_localidad = inst.id_localidad 
+                    LEFT JOIN public.radios_escolares rad ON rad.id_institucion = inst.id_institucion
+                    WHERE inst.id_institucion = $1;`, id)
 }
 
 function buscar_todos_biblioteca() {
