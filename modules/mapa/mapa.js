@@ -822,7 +822,7 @@ function onEachFeatureL(feature, layer){
 		"</table>" +
 		"<h6 class='mt-3'> Información de Contacto</h6>" + 
 		"<table>" +
-		"<tr><td><b>Teléfono:</b> "+ (feature.properties.tel?feature.properties.tel:"") + "</td></tr>" +
+		"<tr><td><b>Teléfono:</b> "+ (feature.properties.telefono?feature.properties.telefono:"") + "</td></tr>" +
 		"<tr><td><b>Email:</b><a " + (feature.properties.email?"href='mailto:"+feature.properties.email:"") + " '> "  + (feature.properties.email?feature.properties.email:"No se registra") + "</a></td></tr>" +
 		"<tr><td><b>Sitio Web:</b>" + "<a " + (feature.properties.sitioweb && feature.properties.sitioweb != 'Sin información'?"href='"+feature.properties.sitioweb:"") + " ' target='_blank' rel='noopener noreferrer'> "  + (feature.properties.sitioweb?feature.properties.sitioweb:"No se registra") + "</a>"+ "</td></tr>" +
 		"<tr><td><b>Responsable:</b> "+ (feature.properties.responsable?feature.properties.responsable:"") + "</td></tr>" +
