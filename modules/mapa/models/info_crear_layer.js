@@ -21,7 +21,8 @@ router.get('/mapa/ubicacion', async (req, res) => {
                 localidad: result.localidad,
                 numero: result.numero,
                 nombre: result.nombre,
-                direccion: result.domicilio
+                direccion: result.domicilio,
+                area: result.area
             }};
            geoJSON.features.push(newFeature) 
         res.json(geoJSON);

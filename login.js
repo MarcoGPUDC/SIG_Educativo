@@ -47,6 +47,7 @@ function logIn() {
     })
     .then(data => {
         if (data) {
+            localStorage.setItem('token', data.token);
             window.open('./auth','_self');  // Si el login es exitoso, redirige
         } else {
             document.getElementById("message").textContent = "Error al iniciar sesión.";

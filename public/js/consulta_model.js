@@ -6,11 +6,11 @@ const db = conectarDB();
 
 //busqueda de todos los elementos de cada campo del buscador
 function buscar_todos_numero () {
-    return db.any('SELECT DISTINCT numero FROM padron.institucion ORDER BY numero ASC');
+    return db.any(`SELECT DISTINCT numero FROM padron.institucion WHERE funcion = 'Activo' ORDER BY numero ASC`);
 };
 
 function buscar_todos_nombre () {
-    return db.any('SELECT id_institucion AS id, nombre FROM padron.institucion ORDER BY nombre ASC');
+    return db.any(`SELECT id_institucion AS id, nombre FROM padron.institucion WHERE funcion = 'Activo' ORDER BY nombre ASC`);
 };
 
 function buscar_todos_modalidad () {
@@ -42,11 +42,15 @@ function buscar_todos_ambito () {
 };
 
 function busqueda_simple_todo () {
-    return db.any(`SELECT inst.*, esc.email_inst, COALESCE(inst.responsable, 'Sin Informacion') AS responsable, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.v_establec_educativos AS inst JOIN padron.institucion esc ON esc.cue_anexo = inst.cue_anexo`);
+    return db.any(`SELECT inst.*, esc.email_inst, COALESCE(inst.responsable, 'Sin Informacion') AS responsable, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.v_establec_educativos AS inst JOIN padron.institucion esc ON esc.cue_anexo = inst.cue_anexo WHERE esc.funcion ='Activo'`);
 };
 
 function buscar_ubicacion(id) {
-    return db.one (`SELECT inst.id_institucion, inst.nombre, inst.numero, inst.domicilio, loc.localidad, inst.region, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.institucion inst JOIN padron.georeferencia geo ON geo.id_institucion = inst.id_institucion JOIN padron.localidad loc ON loc.id_localidad = inst.id_localidad WHERE inst.id_institucion = $1;`, id)
+    return db.one (`SELECT inst.id_institucion, inst.nombre, inst.numero, inst.domicilio, loc.localidad, inst.region, ST_AsGeoJSON(ST_Transform(geo.geom, 4326)) AS geom, ST_AsText(ST_transform(rad.geom,4326)) AS area FROM padron.institucion inst 
+                    JOIN padron.georeferencia geo ON geo.id_institucion = inst.id_institucion 
+                    JOIN padron.localidad loc ON loc.id_localidad = inst.id_localidad 
+                    LEFT JOIN public.radios_escolares rad ON rad.id_institucion = inst.id_institucion
+                    WHERE inst.id_institucion = $1;`, id)
 }
 
 function buscar_todos_biblioteca() {
@@ -114,6 +118,10 @@ function busqueda_adicional_sedeAnexo(cue) {
         ORDER BY id_institucion ASC `, [cue])
 }
 
+function busqueda_cooperadora(escuela) {
+    return db.any(`SELECT coop.n_reso, coop.pers_juridica, coop.fecha_reso, coop.presidente, coop.tesorero FROM padron.cooperadoras coop WHERE id_institucion = $1
+        ORDER BY coop.escuela ASC `, [escuela])
+}
 
 
 //consultas para visualizar en el mapa
@@ -311,6 +319,13 @@ function modificar_oferta (id, nivel, modalidad){
     })
 }
 
+function solicitud_modificacion (datos_nuevos, usuario, tipo_cambio, datos_anteriores) {
+    db.tx (t => {
+        t.none (`INSERT INTO public.propuesta_cambio (tipo_cambio, clave_primaria, datos_anteriores, datos_nuevos, usuario) VALUES ($1, $2, $3, $4, $5)
+            `, [tipo_cambio, clave_primaria, datos_anteriores, datos_nuevos, usuario])
+    })
+}
+
 //Inicio de sesion
 function verificar_usuario (username, password){
     return db.any('SELECT * FROM usuario.login log WHERE log.usuario = $1 AND log.contra = $2;', [username, password])
@@ -443,6 +458,7 @@ module.exports = {
     buscar_info_supervision,
     buscar_info_delegacion,
     busqueda_simple_todo,
+    busqueda_cooperadora,
     buscar_ubicacion,
     buscar_localizacion,
     buscar_localizacion_especifica,
@@ -463,6 +479,7 @@ module.exports = {
     cargar_ubicacion,
     cargar_oferta,
     borrar_institucion,
+    solicitud_modificacion,
     modificar_institucion,
     modificar_oferta,
     verificar_usuario,
