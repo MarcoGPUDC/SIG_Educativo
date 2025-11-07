@@ -268,17 +268,17 @@ function obtenerImagenes (){
             if (numero == esc){
                 console.log(fotoTipo)
                 if(fotoTipo == "01.PNG"){
-                    const proxyUrl = `/proxyimg?url=${encodeURIComponent(imagen.url)}`;
+                    const proxyUrl = `./proxyimg?url=${encodeURIComponent(imagen.url)}`;
                     document.getElementById("imagenInfo").src = proxyUrl;                 
                 }else {
                     if (fotoTipo == "02.PNG") {
-                        const proxyUrl = `/proxyimg?url=${encodeURIComponent(imagen.url)}`;
+                        const proxyUrl = `./proxyimg?url=${encodeURIComponent(imagen.url)}`;
                         document.getElementById("imagenFotos").src = proxyUrl;    
                     }
                     if (escImagen.length == 5){
                         if (fotoTipo == '02.PNG' && escImagen[2] == 'epja'){
                             setTimeout(function(){
-                                const proxyUrl = `/proxyimg?url=${encodeURIComponent(imagen.url)}`;
+                                const proxyUrl = `./proxyimg?url=${encodeURIComponent(imagen.url)}`;
                                 document.getElementById("imagenFotosModExtra").src = proxyUrl;    
                                 document.getElementById('imagenFotosModExtra').setAttribute('class','d-block')
                             }, 2000);
