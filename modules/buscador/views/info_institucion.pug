@@ -40,7 +40,7 @@ html(lang="es")
                         </button>
 
                         <!-- Modal -->
-                        <div class="modal fade" id="modalImagenInfo" tabindex="-1" aria-labelledby="modalImagenInfoLabel" aria-hidden="true">
+                        <div class="modal fade" id="modalImagenInfo" tabindex="-1" aria-labelledby="modalImagenInfoLabel">
                         <div class="modal-dialog">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -48,11 +48,11 @@ html(lang="es")
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                img#imagenInfo(src="", alt="" width='830px' height='590px')
-                                <br>
-                                img#imagenFotos(src="", alt="" width='830px' height='590px')
-                                <br>
-                                img#imagenFotosModExtra(class="d-none" src="", alt="" width='830px' height='590px')
+                                img#imagenInfo(src="", alt="imagen informativa" width='830px' height='590px')
+                                <br><br>
+                                img#imagenFotos(src="", alt="collage fotos" width='830px' height='590px')
+                                <br><br>
+                                img#imagenFotosModExtra(class="d-none" src="", alt="imagen modalidad" width='830px' height='590px')
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -116,26 +116,26 @@ html(lang="es")
                                     //-<label for="resp_telresponsableinfoadicional" class="text-black fw-bold" >Telefono del Director:</label>
                                         <p id="resp_telresponsableinfoadicional" class="card-text card-text-custom"></p>
                                 </div> 
-                            .row 
-                                <div class="card-header card-header-custom">
-                                <div class="d-flex">
-                                    <div>Datos de la Cooperadora Escolar</div>
-                                    <div class="ms-auto"><i class="bi bi-chat-square-text"></i></div>
-                                </div>
-                                </div>
-                                <div class="card-body">
-                                    <label for="numeroReso" class="text-black fw-bold" >Numero de Resolución:</label>
-                                    <p id="numeroReso" class="card-text card-text-custom"></p>
-                                    <label for="fechaReso" class="text-black fw-bold" >Fecha de Resolución:</label>
-                                    <p id="fechaReso" class="card-text card-text-custom"></p>
-                                    <label for="persJuridica" class="text-black fw-bold" >Personeria Juridica:</label>
-                                    <p id="persJuridica" class="card-text card-text-custom"></p>
-                                    <label for="presidente" class="text-black fw-bold" >Presidente:</label>
-                                    <p id="presidente" class="card-text card-text-custom"></p>
-                                    <label for="tesorero" class="text-black fw-bold" >Tesorero:</label>
-                                    <p id="tesorero" class="card-text card-text-custom"></p>
-                                    //-<label for="resp_telresponsableinfoadicional" class="text-black fw-bold" >Telefono del Director:</label>
-                                        <p id="resp_telresponsableinfoadicional" class="card-text card-text-custom"></p>
+                            .row
+                                <div class="card-header card-header-custom" style="display: none;">
+                                    <div class="d-flex">
+                                        <div>Datos de la Cooperadora Escolar</div>
+                                        <div class="ms-auto"><i class="bi bi-chat-square-text"></i></div>
+                                    </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <label for="numeroReso" class="text-black fw-bold" >Numero de Resolución:</label>
+                                        <p id="numeroReso" class="card-text card-text-custom">No indica</p>
+                                        <label for="fechaReso" class="text-black fw-bold" >Fecha de Resolución:</label>
+                                        <p id="fechaReso" class="card-text card-text-custom">No indica</p>
+                                        <label for="persJuridica" class="text-black fw-bold" >Personeria Juridica:</label>
+                                        <p id="persJuridica" class="card-text card-text-custom">No indica</p>
+                                        <label for="presidente" class="text-black fw-bold" >Presidente:</label>
+                                        <p id="presidente" class="card-text card-text-custom">No indica</p>
+                                        <label for="tesorero" class="text-black fw-bold" >Tesorero:</label>
+                                        <p id="tesorero" class="card-text card-text-custom">No indica</p>
+                                        //-<label for="resp_telresponsableinfoadicional" class="text-black fw-bold" >Telefono del Director:</label>
+                                            <p id="resp_telresponsableinfoadicional" class="card-text card-text-custom"></p>
                                 </div> 
                         </div>
                     </div>

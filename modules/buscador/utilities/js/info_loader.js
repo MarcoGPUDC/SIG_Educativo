@@ -212,6 +212,7 @@ async function completarDatosInstitucion() {
     })
     .then(datosCoop => {
         datos = datosCoop[0];
+        console.log(datos)
         //datos oferta
         var numeroReso = document.getElementById('numeroReso');
         var fechaReso = document.getElementById('fechaReso');
@@ -251,7 +252,7 @@ function downloadAsExcelD(filename, data){
 
 //funcion para cargar las imagenes y cuadros informativos a la pestaña info institucion
 function obtenerImagenes (){
-    fetch(`https://script.google.com/macros/s/AKfycbyd4BVz61hM2s8OxZMO0iqiBPSXxzCY8K8QMx5WBPa4hLTU0eKU1-wO3B8B_KQVVMiK8w/exec`)
+    fetch(`https://script.google.com/macros/s/AKfycbwtiZWbiwZjn3_exp5ONv0ZrI_Uw9kOk9WPFn9mng5OjSYd3zISosR8kE5KPFuLqtxcGw/exec`)
     .then(response => {
         // Maneja la respuesta recibida del servidor
         if (!response.ok) {
@@ -265,22 +266,21 @@ function obtenerImagenes (){
             var numero = escImagen[1]
             var fotoTipo = escImagen[escImagen.length-1].toString();
             if (numero == esc){
-                if(fotoTipo == "01.png"){
-                    setTimeout(function(){
-                        document.getElementById('imagenInfo').setAttribute('src',imagen.url)
-                    }, 1000);
-                    
+                console.log(fotoTipo)
+                if(fotoTipo == "01.PNG"){
+                    const proxyUrl = `/proxyimg?url=${encodeURIComponent(imagen.url)}`;
+                    document.getElementById("imagenInfo").src = proxyUrl;                 
                 }else {
-                    if (fotoTipo == "02.png") {
-                        setTimeout(function(){
-                            document.getElementById('imagenFotos').setAttribute('src',imagen.url)
-                        }, 2000);
+                    if (fotoTipo == "02.PNG") {
+                        const proxyUrl = `/proxyimg?url=${encodeURIComponent(imagen.url)}`;
+                        document.getElementById("imagenFotos").src = proxyUrl;    
                     }
                     if (escImagen.length == 5){
-                        if (fotoTipo == '02.png' && escImagen[2] == 'epja'){
+                        if (fotoTipo == '02.PNG' && escImagen[2] == 'epja'){
                             setTimeout(function(){
-                                document.getElementById('imagenFotosModExtra').setAttribute('src',imagen.url)
-                            document.getElementById('imagenFotosModExtra').setAttribute('class','d-block')
+                                const proxyUrl = `/proxyimg?url=${encodeURIComponent(imagen.url)}`;
+                                document.getElementById("imagenFotosModExtra").src = proxyUrl;    
+                                document.getElementById('imagenFotosModExtra').setAttribute('class','d-block')
                             }, 2000);
                         }
                     }

@@ -158,6 +158,43 @@ app.use('/abm', abmRoutes);
 
 //ACCESO A MAPAS INTERACTIVOS
 
+//PROXYS
+app.get('/proxyimg', async (req, res) => {
+  try {
+    const { url } = req.query;
+
+    if (!url) {
+      return res.status(400).send('Falta el parámetro "url"');
+    }
+
+    // Validación básica: solo permitir URLs de Google Drive
+    if (!url.startsWith('https://drive.google.com')) {
+      return res.status(403).send('URL no permitida');
+    }
+
+    // Descargar la imagen desde Google Drive
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      return res.status(502).send('Error al obtener la imagen');
+    }
+
+    // Detectar tipo MIME
+    const contentType = response.headers.get('content-type') || 'image/jpeg';
+
+    // Establecer encabezados correctos
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+
+    // Enviar la imagen directamente al cliente
+    const buffer = await response.arrayBuffer();
+    res.send(Buffer.from(buffer));
+
+  } catch (error) {
+    console.error('Error en proxy:', error);
+    res.status(500).send('Error interno del servidor');
+  }
+});
 
 //ENDSPOINTS
 app.post('/logout', (req, res) => {
