@@ -1,5 +1,6 @@
 var express = require('express');
 const cors = require('cors');
+const fetch = require('node-fetch')
 var app = express();
 const path = require('path');
 var https = require('https');
@@ -173,7 +174,9 @@ app.get('/proxyimg', async (req, res) => {
     }
 
     // Descargar la imagen desde Google Drive
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {'User-Agent':'Mozilla/5.0'}
+    });
 
     if (!response.ok) {
       return res.status(502).send('Error al obtener la imagen');
