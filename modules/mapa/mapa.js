@@ -31,7 +31,7 @@ var argenMapaUrl = 'https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capab
 var argenMapaAttrib ='<a href="http://www.ign.gob.ar/AreaServicios/Argenmap/IntroduccionV2" target="_blank">Instituto Geográfico Nacional</a>'; //| <a href="http://pagina estadistica" target="_blank">DEyEE</a>
 var googleStreetsUrl = 'http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}';
 var googleStreetsAttrib = 'Map data &copy; Google contributors';
-var googleSatUrl = 'http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}';
+var googleSatUrl = 'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}';
 var googleSatAttrib = 'Map data &copy; Google contributors';
 
 // Setear posicion central, esta cerca de los Altares
@@ -1999,16 +1999,28 @@ function addFullmapPrint(){
 		a.setAttribute('href', 'public/img/MapaEstablecimientosEducativosChubut.pdf')
 		li.append(a)
 		ul.append(li)
+		let liCarto = document.createElement('LI')
+		liCarto.classList = 'browser-print-mode'
+		liCarto.style.display = 'none'
+		let aCarto = document.createElement('A')
+		aCarto.textContent = 'Descargar Manual Taller Cartografia'
+		aCarto.classList = 'descarga'
+		aCarto.setAttribute('download','tallerCartoParticipativa.pdf')
+		aCarto.setAttribute('href', 'public/img/tallerCartoParticipativa.pdf')
+		liCarto.append(aCarto)
+		ul.append(liCarto)
 
 
 		print.append(ul)
 
 		print.addEventListener('mouseover', () =>{
 			li.style.display = 'inline-block'
+			liCarto.style.display = 'inline-block'
 		})
 
 		print.addEventListener('mouseout', () =>{
 			li.style.display = 'none'
+			liCarto.style.display = 'none'
 		})
 }
 

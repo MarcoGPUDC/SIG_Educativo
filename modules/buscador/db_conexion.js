@@ -4,7 +4,8 @@ function conectarDB() {
     // Configuración para la conexión a la base de datos
     const db = pgp({
         // Aquí puedes proporcionar la URL de conexión a tu base de datos
-        connectionString: 'postgres://postgres:admin@localhost:5432/nuevo_mapa_db',
+        //connectionString: 'postgres://postgres:admin@localhost:5432/nuevo_mapa_db',
+        connectionString: 'postgres://postgres:sigadmin@host.docker.internal:5432/nuevo_mapa_db',
         // Otros parámetros de configuración, si es necesario
     });
 
