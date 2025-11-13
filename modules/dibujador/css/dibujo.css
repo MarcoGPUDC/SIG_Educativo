@@ -35,3 +35,7 @@
     pointer-events: auto !important;
     cursor: crosshair;
   }
+
+/*.leaflet-marker-icon.custom-icon.leaflet-zoom-hide.leaflet-interactive {
+  transform: none !important;
+}*/

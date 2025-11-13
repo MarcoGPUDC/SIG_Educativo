@@ -1,7 +1,10 @@
 
 var osmUrl ='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 var osmAttrib ='Map data &copy;  <a href="http://www.osm.org/copyright" target="_blank">OpenStreetMap</a> contributors';
-var mymap = L.map('map').setView([-44.0,-68.41215], 7);
+var mymap = L.map('map', {
+  markerZoomAnimation: false
+}).setView([-44.0, -68.41215], 7);
+mymap.doubleClickZoom.disable();
 
 L.tileLayer(osmUrl, {minZoom: 6, maxZoom: 19, attribution: osmAttrib}).addTo(mymap);
 
@@ -252,7 +255,7 @@ function openDrawingModal(latlng) {
 }
 var marcadores = [];
 document.getElementById('save-drawing').addEventListener('click', () => {
-    const imgData = canvas.toDataURL(); // Base64 PNG
+    const imgData = canvas.toDataURL({ format: 'png' }); // Base64 PNG
 
     const lat = document.getElementById('draw-modal').dataset.lat;
     const lng = document.getElementById('draw-modal').dataset.lng;
@@ -261,6 +264,7 @@ document.getElementById('save-drawing').addEventListener('click', () => {
     const icon = L.icon({
       iconUrl: imgData,
       iconSize: [150],
+      iconAnchor: [23,54],
       className: 'custom-icon'   // para asegurar que sea interactivo
     });
     const marker = L.marker([lat, lng], { icon });

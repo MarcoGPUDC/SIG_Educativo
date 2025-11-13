@@ -3,7 +3,6 @@ const express = require('express');
 const router = express.Router();
 const buscador = require('../../buscador/models/buscador_model');
 const consulta = require('../../../public/js/consulta_model');
-const autenticar = require('../../../login_controller')
 const jwt = require('jsonwebtoken');
 
 //obtiene clave

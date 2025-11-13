@@ -413,7 +413,7 @@ async function getGeoserverDatastoreLayers(workspace, datastore){
 	switch (datastore) {
 		case 'temáticos':
 			layers.forEach(layer => {
-				if ( layer.split('_')[0] == 'establec' || layer.split('_')[0] == 'bibliotecas' || layer.split('_')[0] == 'ed-digital') {
+				if ( layer.split('_')[0] == 'establec' || layer.split('_')[0] == 'bibliotecas' || layer.split('_')[0] == 'ed-digital' || layer.split('_') == 'taller-carto') {
 					getGeoserverLayer(workspace, layer).then(data => {
 						todosLayersTematicos.push([data,layer.split('_')[1]])
 					})

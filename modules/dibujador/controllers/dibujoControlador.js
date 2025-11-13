@@ -24,7 +24,7 @@ function verify(req, res, next){
   }
 }
 
-router.get('/',verify, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
       res.render('dibujo');
     } catch (error) {
