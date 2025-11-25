@@ -1999,28 +1999,45 @@ function addFullmapPrint(){
 		a.setAttribute('href', 'public/img/MapaEstablecimientosEducativosChubut.pdf')
 		li.append(a)
 		ul.append(li)
-		let liCarto = document.createElement('LI')
-		liCarto.classList = 'browser-print-mode'
-		liCarto.style.display = 'none'
-		let aCarto = document.createElement('A')
-		aCarto.textContent = 'Descargar Manual Taller Cartografia'
-		aCarto.classList = 'descarga'
-		aCarto.setAttribute('download','tallerCartoParticipativa.pdf')
-		aCarto.setAttribute('href', 'public/img/tallerCartoParticipativa.pdf')
-		liCarto.append(aCarto)
-		ul.append(liCarto)
 
 
 		print.append(ul)
 
 		print.addEventListener('mouseover', () =>{
 			li.style.display = 'inline-block'
-			liCarto.style.display = 'inline-block'
 		})
 
 		print.addEventListener('mouseout', () =>{
 			li.style.display = 'none'
-			liCarto.style.display = 'none'
+		})
+}
+
+//añade impresion de la guia de cartografia participatica
+function addGuideCartoPrint(){
+	let print = document.getElementsByClassName('leaflet-control-browser-print')[0]
+
+		let ul = document.createElement('UL')
+		ul.classList = 'browser-print-holder'
+		let li = document.createElement('LI')
+		li.classList = 'browser-print-mode'
+		li.style.display = 'none'
+		let a = document.createElement('A')
+		a.textContent = 'Descargar Manual Taller Cartografia'
+		a.classList = 'descarga'
+		a.setAttribute('download','Taller de Cartografia Participativa.pdf')
+		a.setAttribute('href', 'public/img/tallerCartoParticipativa.pdf')
+		li.append(a)
+		ul.append(li)
+
+
+		print.append(ul)
+
+		print.addEventListener('mouseover', () =>{
+			li.style.display = 'inline-block'
+		})
+
+		print.addEventListener('mouseout', () =>{
+			li.style.display = 'none'
 		})
 }
 
@@ -2077,6 +2094,7 @@ async function cargarBotonesMapa() {
 		mostrarConsultaButton.addTo(mymap);
 		controlbrowserPrint.addTo(mymap);
 		addFullmapPrint();
+		addGuideCartoPrint();
 		//downloadButton.addTo(mymap);
 		addGuidePrint();		
 }
