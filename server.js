@@ -26,6 +26,13 @@ const options = {
     key: fs.readFileSync(keyPath),
     cert: fs.readFileSync(certPath)
 }
+
+//enlaces publicos
+app.locals.paths = {
+  abm: '/sigeducativo/abm'
+};
+
+
 // Middleware para servir archivos estáticos con tipo MIME correcto
 app.use('/modules/buscador', express.static(path.join(__dirname, 'modules/buscador'), {
   setHeaders: (res, path) => {
