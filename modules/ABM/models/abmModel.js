@@ -81,9 +81,9 @@ mapaDiv.addEventListener('click', function () {
         const { lat, lng } = e.latlng;
         
         try {
-        const response = await fetch(`abmservices/convert?lng=${lng}&lat=${lat}`);
+        const response = await fetch(`/abmservices/convert?lng=${lng}&lat=${lat}`);
         if (!response.ok) {
-            throw new Error('Error al convertir las coordenadas');
+            throw new Error('Error al solicitar servicio de conversion');
         }
 
         var data = await response.json();
@@ -95,7 +95,6 @@ mapaDiv.addEventListener('click', function () {
         ubiText.innerHTML = '<i class="bi bi-pin-map-fill"></i> ' + 'lat: '+lat + ' Lng: ' + lng
         } catch (error) {
         console.error(error);
-        alert('No se pudo convertir las coordenadas');
         }
     });
 });
@@ -199,8 +198,18 @@ async function buscarInstitucion (cue, accion) {
                 document.getElementById('emailFormModificar').value = data.email_inst;
                 document.getElementById('nombreFormModificar').value = data.nombre;
                 document.getElementById('telFormModificar').value = data.tel;
-                document.getElementById('form-select-modificar-nivel').value = buscarDato('nivel', data.nivel);
                 document.getElementById('form-select-modificar-modalidad').value = buscarDato('modalidad', data.modalidad);
+                data.nivel = data.nivel.replace(" ", "");
+                if (data.nivel.split(",").length == 0){
+                    console.log(`form-checkbox-modificar-nivel-${nivel}`)
+                    document.getElementById(`form-checkbox-modificar-nivel-${data.nivel}`).setAttribute("checked","");
+                } else {
+                    data.nivel.split(',').forEach(nivel => {
+                        console.log(`form-checkbox-modificar-nivel-${nivel}`)
+                        document.getElementById(`form-checkbox-modificar-nivel-${nivel}`).setAttribute("checked","");
+                    })
+                }
+                
             } else {
                 divDatos = document.getElementById('datosInstitucionBorrar')
                             divDatos.innerHTML = `
@@ -209,6 +218,11 @@ async function buscarInstitucion (cue, accion) {
                                     <p>Numero: ${data.numero}</p><br>
                                     <p>Anexo: ${data.anexo}</p><br>
                                     <p>Domicilio: ${data.domicilio}</p><br>
+                                    <p>Acción:</p>
+                                    <select id="accionBorrar" class="form-select" value="baja">
+                                        <option value="baja" selected>Baja</option>
+                                        <option value="eliminar">Eliminar</option>
+                                    </select>
                                 `
             }
             return data.id_institucion
@@ -244,7 +258,7 @@ async function seleccionarInstitucion (accion) {
                     <h4>La institucion no existe</h4><br>
                 `
         }*/
-    } else if (accion = 'Modificar') {
+    } else if (accion == 'Modificar') {
         cue = document.getElementById('cueanexoFormModificar').value;
         datosForm.forEach(data => {
             if (data.clave == 'cueanexo'){
@@ -285,7 +299,7 @@ function createLayer () {
     var nombre = document.getElementById('nombreFormCrear').value;
     var tel = document.getElementById('telFormCrear').value;
     var cue_anexo = '' + cue + anexo;
-    var nivel = document.getElementById('form-select-nivel').value;
+    var nivel = [document.getElementById('form-checkbox-modificar-nivel-Inicial').value, document.getElementById('form-checkbox-modificar-nivel-Primario').value,document.getElementById('form-checkbox-modificar-nivel-Secundario').value, document.getElementById('form-checkbox-modificar-nivel-Superior').value];
     var modalidad = document.getElementById('form-select-modalidad').value;
     var data = {
         departamento : departamento,
@@ -309,9 +323,49 @@ function createLayer () {
         modalidad: modalidad
     }
     var validacion = validarInstitucion(data);
+    data = {
+        departamento : {
+            tabla: "departamento",
+            departamento: departamento
+        },
+        localidad: {
+            tabla:"localidad",
+            localidad: localidad
+        },
+        institucion : {
+            tabla: "institucion",
+            numero: numero,
+            cue: cue,
+            anexo: anexo,
+            region: region,
+            domicilio:domicilio,
+            ambito: ambito,
+            cp: cp,
+            web: web,
+            email:email,
+            nombre: nombre,
+            tel: tel,
+            cue_anexo: cue_anexo,
+            funcion: funcion,
+        },
+        georeferencia: {
+            tabla: "georeferencia",
+            lat: marker._latlng.lat,
+            long: marker._latlng.lng,
+        },
+        nivel: {
+            tabla: "nivel",
+            nivel: nivel
+        },
+        modalidad: {
+            tabla: "modalidades_esducativas",
+            modalidad:modalidad
+        }
+    }
+
 
     if (validacion[0]) {
-        fetch(`abmservices/exist?id=${cue_anexo}`)
+        fetch(`/abmservices/exist?id=${cue_anexo}`)
         .then(response => {
             if (!response.ok) {
             throw new Error('Error en la respuesta del servidor');
@@ -361,95 +415,102 @@ function createLayer () {
     }
 }
 
-function updateLayer () {
-    const id = document.getElementById('botonModificar').value;
-    fetch(`obtenerDatos?id=${id}`)
-    .then(response => {
-        // Maneja la respuesta recibida del servidor
+async function updateLayer() {
+    try {
+        const id = document.getElementById('botonModificar').value;
+
+        // Obtener datos actuales
+        const response = await fetch(`obtenerDatos?id=${id}`);
         if (!response.ok) {
             throw new Error('Error al obtener los datos');
         }
-        return response.json(); // Convierte la respuesta en formato JSON
-    })
-    .then(data => {
-        const divDatosModificar = document.getElementById('datosInstitucionModificar')
-        divDatosModificar.innerHTML = '';
-        const formDatosModificar = document.getElementById('formDatosModificar')
-        formDatosModificar.setAttribute('style', 'display: block')
-        const localidad = document.getElementById('form-select-modificar-localidad').value
-        const departamento = document.getElementById('form-select-modificar-departamento').value
-        const numero = document.getElementById('codJurisFormModificar').value
-        document.getElementById('cueFormModificar').value
-        document.getElementById('anexoFormModificar').value
-        const region = document.getElementById('form-select-modificar-region').value
-        const domicilio = document.getElementById('direccionFormModificar').value
-        const cp = document.getElementById('cpFormModificar').value
-        const ambito = document.getElementById('form-select-modificar-ambito').value
-        const web = document.getElementById('webFormModificar').value
-        const email = document.getElementById('emailFormModificar').value
-        const nombre = document.getElementById('nombreFormModificar').value 
-        const tel = document.getElementById('telFormModificar').value
-        const nivel = document.getElementById('form-select-modificar-nivel').value
-        const modalidad = document.getElementById('form-select-modificar-modalidad').value
-        var datosNuevos = {
-            id: data.id_institucion,
-            departamento : departamento,
-            localidad: localidad,
-            numero: numero,
-            region: region,
-            domicilio:domicilio,
-            cp: cp,
-            ambito: ambito,
-            web: web,
-            email:email,
-            nombre: nombre,
-            tel: tel,
-            nivel: nivel,
-            modalidad: modalidad
-        }
-        const token = localStorage.getItem('token');
-        if (token) {
-            const payloadBase64 = token.split('.')[1]; // Segunda parte del JWT
-            const decodedPayload = atob(payloadBase64); // Decodifica de base64
-            const payload = JSON.parse(decodedPayload); // Convierte a objeto JS
-        }
+        const data = await response.json();
+
+        // Mostrar formulario
+        const formDatosModificar = document.getElementById('formDatosModificar');
+        formDatosModificar.style.display = "block";
+
+        // Tomar valores del formulario
+        const datosNuevos = {
+            institucion: {
+                tabla:"institucion",
+                id: data.id_institucion,
+                numero: document.getElementById('codJurisFormModificar').value,
+                region: document.getElementById('form-select-modificar-region').value,
+                domicilio: document.getElementById('direccionFormModificar').value,
+                cp: document.getElementById('cpFormModificar').value,
+                ambito: document.getElementById('form-select-modificar-ambito').value,
+                web: document.getElementById('webFormModificar').value,
+                email: document.getElementById('emailFormModificar').value,
+                nombre: document.getElementById('nombreFormModificar').value,
+                tel: document.getElementById('telFormModificar').value,
+
+            },
+            departamento: {
+                tabla: "departamento",
+                departamento: document.getElementById('form-select-modificar-departamento').value
+            },
+            localidad: {
+                tabla: "localidad",
+                localidad: document.getElementById('form-select-modificar-localidad').value
+            },
+            nivel: {
+                tabla: "nivel",
+                nivel: [document.getElementById('form-checkbox-modificar-nivel-Inicial').value, document.getElementById('form-checkbox-modificar-nivel-Primario').value,document.getElementById('form-checkbox-modificar-nivel-Secundario').value, document.getElementById('form-checkbox-modificar-nivel-Superior').value]
+            },
+            modalidad: {
+                tabla: "modalidades_educativas",
+                modalidad: document.getElementById('form-select-modificar-modalidad').value
+            }
+        };
+
+        const datosModificados = await compararRegistros(data, datosNuevos)
+        console.log(data);
+        
+        console.log(datosModificados);
+
+        // Construir lo que va al backend
         const dataCambios = {
-            datos_nuevos: datosNuevos,
-            usuario: payload.user,
+            dato_nuevo: datosNuevos,
             tipo_cambio: 'modificacion',
-            clave_primaria: id,
+            clave_primaria: id
+        };
 
-        }
-
-        fetch('update', {
+        // Enviar actualización al servidor
+        const updateRes = await fetch('update', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
+            // El backend obtiene el usuario desde la cookie JWT automáticamente
             body: JSON.stringify(dataCambios)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            divDatos = document.getElementById('datosInstitucionModificar')
-                        divDatos.innerHTML = `
-                                <h4>La institucion ha sido modificada</h4><br>
-                            `
-            return response.json();
-        })
-        .then(responseData => console.log('Respuesta del servidor:', responseData))
-        .catch(error => console.error('Error:', error));
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+        });
+
+        if (!updateRes.ok) {
+            throw new Error(`Error del servidor: ${updateRes.status}`);
+        }
+
+        const updateData = await updateRes.json();
+
+        // Mostrar mensaje de éxito
+        document.getElementById('datosInstitucionModificar').innerHTML = `
+            <h4>Los cambios sobre la institucion han sido propuestos correctamente</h4>
+        `;
+
+        console.log("Respuesta del servidor:", updateData);
+
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Hubo un problema al actualizar la institución.");
+    }
 }
+
 
 function deleteLayer () {
     const id = document.getElementById('botonBorrar').value;
+    const accion = document.getElementById('accionBorrar').value
     if (id) {
-        fetch(`delete?id=${id}`, {
+        fetch(`delete?id=${id}&accion=${accion}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -464,7 +525,11 @@ function deleteLayer () {
         })
         .then(data => {
             divDatos = document.getElementById('datosInstitucionBorrar')
-                    divDatos.innerHTML =`<br><h4 style="color: red;">Ha borrado la institucion</h4><br>`
+            if(accion=="borrar") {
+                divDatos.innerHTML =`<br><h4 style="color: red;">Ha solicitado borrar la institucion</h4><br>`
+            } else {
+                divDatos.innerHTML =`<br><h4 style="color: red;">Ha solicitado dar de baja la institucion</h4><br>`
+            }
         })
         .catch(error => {
             console.error('Error:', error);
@@ -495,4 +560,180 @@ function logOut(){
     });
 }
 
+fetch('/session-info')
+  .then(res => res.json())
+  .then(info => {
+    if (info.loggedIn && info.role === 'admin') {
+      document.getElementById('buttonD').style.display = 'inline-block';
+    }
+  });
+
+  function compararRegistros(registroA, registroB) {
+    const resultado = {};
+    var registroPlanoB = {};
+    Object.keys(registroB).forEach(clavesMacroB =>{
+        Object.keys(registroB[clavesMacroB]).forEach(clavesB => {
+            if(clavesB !== "tabla"){
+                datosForm.forEach(datos =>{
+                    if (datos.clave == clavesB && registroPlanoB[clavesB] == undefined){    
+                        datos.valor.forEach(datoBase =>{
+                            if (datoBase.id == registroB[clavesMacroB][clavesB]){
+                                registroPlanoB[clavesB] = datoBase[clavesB]
+                            }
+                        })
+                    }
+                })   
+            }
+            if (registroPlanoB[clavesB] == undefined && clavesB !== "tabla"){
+                registroPlanoB[clavesB] = registroB[clavesMacroB][clavesB]
+            }                     
+        })
+    })
+    //registroPlanoB[clavesB] = registroB[clavesMacroB][clavesB]
+    // Obtener solo las claves que existen en ambos registros
+    const clavesComunes = Object.keys(registroA).filter(
+        clave => clave in registroPlanoB
+    );
+    // Comparar los valores
+    clavesComunes.forEach(clave => {
+        if (registroA[clave] !== registroPlanoB[clave]) {
+        resultado[clave] = {
+            antes: registroA[clave],
+            despues: registroPlanoB[clave]
+        };
+        }
+    });
+    // Si no hay diferencias
+    if (Object.keys(resultado).length === 0) {
+        return null; // o return {}
+    }
+
+    return resultado;
+    }
+
+
+function agregarTuplaCambio(cambio) {
+    const tbody = document.querySelector('#tablaCambios tbody');
+
+    // Crear la fila
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+        <td>${cambio.id}</td>
+        <td>`+(typeof cambio.dato_nuevo.nombre === "undefined"?cambio.dato_anterior.nombre:cambio.dato_nuevo.nombre)+`</td>
+        <td>`+(typeof cambio.dato_nuevo.numero === "undefined"?cambio.dato_anterior.numero:cambio.dato_nuevo.numero)+`</td>
+        <td>${cambio.usuario}</td>
+        <td><span class="badge bg-info text-dark">${cambio.tipo_cambio}</span></td>
+        <td>${cambio.fecha_solicitud}</td>
+        <td><button class="btn btn-sm btn-warning me-2 btn-cambios">Ver cambios</button></td>
+        <td class="text-end">
+            <button class="btn btn-sm btn-success me-2 btn-aprobar">Aprobar</button>
+            <button class="btn btn-sm btn-danger btn-rechazar">Rechazar</button>
+        </td>
+    `;
+
+    // Agregar fila a la tabla
+    tbody.appendChild(tr);
+
+    // Asignar eventos a los botones
+    const btnAprobar = tr.querySelector('.btn-aprobar');
+    const btnRechazar = tr.querySelector('.btn-rechazar');
+    const btnCambios = tr.querySelector('.btn-cambios');
+
+    btnAprobar.addEventListener('click', () => aprobarCambio(cambio.id));
+    btnRechazar.addEventListener('click', () => rechazarCambio(cambio.id));
+    btnCambios.addEventListener('click', () => {
+        const diferencias = compararRegistros(cambio.dato_anterior, cambio.dato_nuevo);
+        panelInfo=document.getElementById("panelInfo");
+        panelInfo.innerHTML=`
+            <table class="table table-hover align-middle mb-0 tabla-ver-cambios">
+                <thead class="table-light sticky-top">
+                    <tr>
+                        <th>Listado de cambios</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <button class="btn btn-sm btn-secondary btn-cerrarpanelinfo">cerrar</button>
+        `
+        var tablaCambios = document.querySelector('.tabla-ver-cambios tbody')
+        if (diferencias) {
+            Object.keys(diferencias).forEach(campo => {
+                tablaCambios.innerHTML += `
+                    <tr>
+                        <td>Campo: ${campo}<td>
+                        <td>Antes: ${diferencias[campo].antes}<td>
+                        <td>Despues: ${diferencias[campo].despues}<td>
+                    </tr>
+                `
+             });
+        } else if (cambio.tipo_cambio == "crear"){
+            Object.keys(cambio.dato_nuevo).forEach(campo => {
+                 tablaCambios.innerHTML += `
+                    <tr>
+                        <td>${campo}<td>
+                        <td>${cambio.dato_nuevo[campo]}<td>
+                    </tr>
+                `
+            })
+        } else {
+            Object.keys(cambio.dato_anterior).forEach(campo => {
+                 tablaCambios.innerHTML += `
+                    <tr>
+                        <td>${campo}<td>
+                        <td>${cambio.dato_anterior[campo]}<td>
+                    </tr>
+                `
+            })
+        }
+        panelInfo.classList.remove("d-none");
+        const btnCerrarPanelCambios = panelInfo.querySelector('.btn-cerrarpanelinfo');
+        btnCerrarPanelCambios.addEventListener('click', () => {
+            panelInfo.innerHTML = ' '
+            panelInfo.classList.add("d-none")
+        })
+    })
+}
+
+
+// Funciones de acción (las conectás con tu backend)
+function aprobarCambio(id) {
+    console.log("Aprobando:", id);
+
+    fetch(`aprobarCambio?id=${id}`, { method: "POST" })
+        .then(res => res.json())
+        .then(data => alert("Cambio aprobado"))
+        .catch(err => console.error(err));
+}
+
+function rechazarCambio(id) {
+    const razon = prompt("Ingrese motivo de rechazo:");
+    if (!razon) return;
+
+    console.log("Rechazando:", id, razon);
+
+    fetch(`/rechazarCambio`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, razon })
+    })
+    .then(res => res.json())
+    .then(data => alert("Cambio rechazado"))
+    .catch(err => console.error(err));
+}
+
+function obtenerModificaciones() {
+    fetch('modificaciones')
+    .then(res => res.json())
+    .then(info => {
+        info.forEach(cambio => {
+            agregarTuplaCambio(cambio);
+        })
+    })
+}
+
+function cerrarListaModificacion(){
+    const tbody = document.querySelector('#tablaCambios tbody');
+    tbody.innerHTML=' ';
+}
 

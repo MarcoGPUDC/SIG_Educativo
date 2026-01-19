@@ -5,23 +5,23 @@
     <meta name="description" content="Herramienta de visualización, gestión y análisis de información georreferenciada relativa al sistema educativo a nivel local, regional y provincial">
     <meta name="author" content="Dirección de Estadística y Evaluación Educativa del Ministerio de Educación del Gobierno del Chubut">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-     link (rel="stylesheet", href= paths.abm + "/utilities/css/abm.css")
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-    <link type="text/css" rel="stylesheet" href="sigeducativo/modules/mapa/css/mapa.css"/>
-    <link type="text/css" rel="stylesheet" href="sigeducativo/public/css/bootstrap-4.4.1.css">
+    <link type="text/css" rel="stylesheet" href="/modules/mapa/css/mapa.css"/>
+    <link type="text/css" rel="stylesheet" href="/public/css/bootstrap-4.4.1.css">
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
     <link rel="shortcut icon" type="image/x-icon"  href="/favicon.ico">
-    <script src="sigeducativo/public/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="sigeducativo/public/js/leaflet.legend.js"></script>
-     script (src= paths.abm + "/models/abmModel.js", defer)
+    <script src="/public/js/leaflet.legend.js"></script>
+    link(rel="stylesheet", href="./utilities/css/abm.css")
+    script(src="./models/abmModel.js", defer)
     <title>Mapa Educativo Interactivo de la Provincia del Chubut</title>
 </head>
 
 <body>
     <div class="row float-left header">
         <div class="col-3">
-            <a href="https://chubut.edu.ar/sigeducativo/" target="_blank"><img src="sigeducativo/modules/mapoteca/utilities/img/SIG Educativo vf-transparencia PNG.png" class="logo" width="130" height="76" alt=""/></a>
+            <a href="https://chubut.edu.ar/sigeducativo/" target="_blank"><img src="/modules/mapoteca/utilities/img/SIG Educativo vf-transparencia PNG.png" class="logo" width="130" height="76" alt=""/></a>
         </div>
         <div class="col-8 d-inline">
             <h1 class=" title-mapa">Mapa Educativo Interactivo</h1>
@@ -39,10 +39,11 @@
         </div>
     </div>
 
-    <div style="padding-top:80px; padding-left:40%">
+    <div style="padding-top:80px; padding-left:35%">
         <button type="button" class="btn btn-primary" id="buttonC" data-bs-toggle="modal" data-bs-target="#modalCrear">CREAR</button>
         <button type="button" class="btn btn-success" id="buttonA" data-bs-toggle="modal" data-bs-target="#modalActualizar">ACTUALIZAR</button>
         <button type="button" class="btn btn-danger" id="buttonB" data-bs-toggle="modal" data-bs-target="#modalBorrar">BORRAR</button>
+        <button type="button" class="btn btn-warning" id="buttonD" data-bs-toggle="modal" data-bs-target="#modalAdmin" onclick='obtenerModificaciones()'>PANEL ADMIN</button>
 
 
         <div class="modal fade" id="modalCrear" tabindex="-1" aria-labelledby="modalCrearLabel" aria-hidden="true">
@@ -164,9 +165,18 @@
                                 <input class="form-control" id="anexoFormModificar" type="number" placeholder="Numero de anexo" aria-label="default input" readonly>
                                 <label for="codJurisFormModificar" class="col-sm-4 col-form-label">Codigo Jurisdiccional</label>
                                 <input class="form-control" id="codJurisFormModificar" type="number" placeholder="Numero de la institucion" aria-label="default input" required>
-                                <label for="form-select-modificar-nivel" class="col-form-label">Nivel</label>
-                                <select id="form-select-modificar-nivel" aria-label="select nivel">
-                                </select><br>
+                                <input class="form-checkbox-modificar-nivel" type="checkbox" value="2" id="form-checkbox-modificar-nivel-Inicial">
+                                <label class="form-checkbox-modificar-nivel" for="form-checkbox-modificar-nivel-Inicial">Inicial
+                                </label><br>
+                                <input class="form-checkbox-modificar-nivel" type="checkbox" value="3" id="form-checkbox-modificar-nivel-Primario">
+                                <label class="form-checkbox-modificar-nivel" for="form-checkbox-modificar-nivel-Primario">Primario
+                                </label><br>
+                                <input class="form-checkbox-modificar-nivel" type="checkbox" value="4" id="form-checkbox-modificar-nivel-Secundario">
+                                <label class="form-checkbox-modificar-nivel" for="form-checkbox-modificar-nivel-Secundario">Secundario
+                                </label><br>
+                                <input class="form-checkbox-modificar-nivel" type="checkbox" value="5" id="form-checkbox-modificar-nivel-Superior">
+                                <label class="form-checkbox-modificar-nivel" for="form-checkbox-modificar-nivel-Superior">Superior
+                                </label><br>
                                 <label for="form-select-modificar-modalidad" class="col-form-label">Modalidad</label>
                                 <select id="form-select-modificar-modalidad" aria-label="select modalidad">
                                 </select><br>
@@ -230,6 +240,42 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button id="botonBorrar" type="button" class="btn btn-primary" onclick="deleteLayer(this.value)">Borrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalAdmin" tabindex="-1" aria-labelledby="modalAdminLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body" id="listaCambios">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Revisión de Modificaciones Pendientes</h5>
+                            </div>
+
+                            <table class="table table-hover align-middle mb-0" id="tablaCambios">
+                                <thead>
+                                    <tr>
+                                    <th>ID</th>
+                                    <th>Institución</th>
+                                    <th>Cod. Juris.</th>
+                                    <th>Usuario</th>
+                                    <th>Tipo</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th class="text-end">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div id="panelInfo" class="panel-info d-none">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="cerrarListaModificacion()">Close</button>
                     </div>
                 </div>
             </div>

@@ -2,6 +2,7 @@
 //espera 3 segundos antes de mostrar la pantalla
 
 
+
 function hideLoadingScreen() {
 	document.getElementById('loading-screen').style.display = 'none';
 }
@@ -916,6 +917,21 @@ function onEachFeatureS (feature, layer) {
 			);
 		}
 
+	function onEachFeatureC (feature, layer) {
+		layer.bindPopup(	
+			"<div class='p-3'>"+
+			"<h6 style='color:#0d6efd'>"+ (feature.properties.puntos?feature.properties.puntos:"No se registra") + "</h6>" +
+			"<h6> Información General</h6>" + 
+			 "<table>"+
+			"<tr><td><b>Escuela:</b> "+ (feature.properties.escuela?feature.properties.escuela:"No se registra") + "</td></tr>" +
+			"<tr><td><b>Localidad:</b> "+ (feature.properties.localidad !=="Chubut" ?feature.properties.localidad:"No se registra") + "</td></tr>" +
+			"<tr><td><b>Año</b><br> "+ (feature.properties.año?feature.properties.año:"No se registra") + "</td></tr>" +
+			"<tr><td><b>Curso</b><br> "+ (feature.properties.curso?feature.properties.curso:"No se registra") + "</td></tr>" +
+			"</table>" +
+			"</div>", {minWidth: 270, maxWidth: 270}
+			);
+		}
+
 function onEachFeatureO (feature, layer) {
 	layer.bindPopup(	
 		"<div class='p-3'>"+
@@ -1412,6 +1428,372 @@ function getSupervisionLayers(){
 	});
 	return layersSuperv
 }
+
+// capas cartografia participativa
+todosLayerCarto = [];
+function getCartoLayers(){
+	var cartoLayer = fetch('mapa/setCartoMarkers')
+	.then(response => response.json())
+	.then( data => {
+		var arrayName = [];
+		var name;
+		data.features.forEach(escuela => {
+			name = escuela.properties.escuela;
+			if (arrayName.length == 0) {
+				arrayName.push([name]);
+			} else {
+				let esta = false;
+				for (let i = 0; i < arrayName.length; i++) {
+					if (name == arrayName[i]) {
+						esta = true;
+					}
+				}
+				if (!esta) {
+						arrayName.push([name]);
+				}
+			}
+		})
+		
+		data.features.forEach(esc =>{
+			
+			for (let i = 0; i < arrayName.length; i++) {
+				if (esc.properties.escuela == arrayName[i][0]) {
+					arrayName[i].push(esc);
+				}
+			}
+		})
+		
+		for (let i = 0; i < arrayName.length; i++) {
+			var cluster = createCluster('common-point-azul', '');
+			var geoJSON = {
+				type: "FeatureCollection",
+				features: arrayName[i].filter(item => item?.type === "Feature")
+				};
+				const layer = L.geoJSON(geoJSON, {
+				pointToLayer: function (feature, latlng) {
+					console.log(feature.properties.categoria);
+					switch (feature.properties.categoria) {
+						case "establec-educativo":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/establec-educativo.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "vivienda":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/vivienda.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "centro de salud":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/centro_de_salud.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "centro de seguridad":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/centro_de_seguridad.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "bomberos":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/bomberos.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "museo":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/museo.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "omnibus":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/omnibus.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "supermercado":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/supermercado.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "espacio verde":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/espacio_verde.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "organismo publico":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/organismo_publico.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "barrio":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/barrio.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+							case "flora y fauna":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/flora_y_fauna.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "hotel":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/hotel.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "deporte":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/deporte.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "espacio recreativo":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/espacio_recreativo.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "cultura":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/cultura.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "estacion de servicio":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/estacion_de_servicio.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "finanzas":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/finanzas.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "calle":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/calle.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "religion":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/religion.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "monumento":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/monumento.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "universidad":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/universidad.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "agua":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/agua.svg`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "geografia":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/geografia.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "puente":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/puente.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						case "puerto":
+							var marker = L.marker(latlng, {
+							icon: L.icon({
+								iconUrl: `icons/puerto.png`,
+								iconSize: [22, 22],
+								iconAnchor: [11, 0],
+								popupAnchor: [0, 0]
+							}),
+							riseOnHover: true,
+						});
+							break;
+						default:
+							var marker = L.marker(latlng, {
+								icon: L.icon({
+									iconUrl: `icons/common-point-azul.svg`,
+									iconSize: [22, 22],
+									iconAnchor: [11, 0],
+									popupAnchor: [0, 0]
+								}),
+								riseOnHover: true,	
+							});
+							break;
+					}
+					marker.on('add', function(){
+						globalMarkers.push(marker);
+					})
+					marker.on('remove', function(){
+						globalMarkers = globalMarkers.filter(item => item._leaflet_id !== marker._leaflet_id)
+					})
+					cluster.addLayer(marker);
+					return marker;
+				},
+				onEachFeature: onEachFeatureC
+				});
+				todosLayerCarto.push([arrayName[i][0],cluster])
+			
+		}
+	})
+	
+	.catch(error => {
+		console.error('Error fetching data:', error);
+		return null;
+	});
+	return cartoLayer;
+}
+
 //genera las caoas de las delegaciones
 function getDelegacionLayers(){
 	var layerDel = fetch ('mapa/setDelegMarkers')
@@ -1519,16 +1901,18 @@ async function getCsacLayer () {
 			timelineItems: ["30 Años", "Actualidad"], 
 			changeMap: getDataAddMarkers });
 			item = document.getElementById('legend-btn-csayc')
-			item.addEventListener('click', () => {
-				if (sliderControl) {
-					slider.remove(mymap)
-					markerGroupCsac[0].remove(mymap)
-					sliderControl = false;
-				} else {
-					slider.addTo(mymap)
-					sliderControl = true;
-				}
-		});		
+			if (item) {
+				item.addEventListener('click', () => {
+					if (sliderControl) {
+						slider.remove(mymap)
+						markerGroupCsac[0].remove(mymap)
+						sliderControl = false;
+					} else {
+						slider.addTo(mymap)
+						sliderControl = true;
+					}
+				});	
+			}	
 	})
 }
 
@@ -1551,6 +1935,7 @@ async function generarTodosLayers(layerParam) {
 	const bibliotecas = await getBibliotecaLayer();
 	capaRegiones = await getRegiones();
 	capaDepartamentos = await getDepartamentos();
+	await getCartoLayers();
 	await getCsacLayer();
 	
 	
@@ -1631,6 +2016,17 @@ async function generarTodosLayers(layerParam) {
 				type: 'image',
 				url: 'icons/tematico.svg',
 				layers_type: "otro",
+				layers: otro[0],
+				inactive: true
+			})
+		})
+
+		todosLayerCarto.forEach(carto => {
+			layersConfig.push({
+				label: carto[1].charAt(0).toUpperCase() + otro[1].slice(1),
+				type: 'image',
+				url: 'icons/tematico.svg',
+				layers_type: "carto",
 				layers: otro[0],
 				inactive: true
 			})
@@ -1740,6 +2136,8 @@ async function generarTodosLayers(layerParam) {
 				inactive: false,
 				})
 
+			
+
 			todosLayersTematicos.forEach(tematico => {
 				layersConfig.push({
 					label: tematico[1].charAt(0).toUpperCase() + tematico[1].slice(1),
@@ -1793,7 +2191,16 @@ async function generarTodosLayers(layerParam) {
 				inactive: true,
 				})
 
-			
+			todosLayerCarto.forEach(carto => {
+			layersConfig.push({
+				label: carto[0],
+				type: 'image',
+				url: 'icons/tematico.svg',
+				layers_type: "carto",
+				layers: carto[1],
+				inactive: true
+			})
+		})
 
 			supervision.forEach(supervision => {
 				var layer = supervision[0][0];
@@ -1808,6 +2215,7 @@ async function generarTodosLayers(layerParam) {
 				});
 			});
 		}
+		
 		return layersConfig;
 	}
 
@@ -1844,6 +2252,7 @@ async function initMap() {
 			column: false,
 			legends: legends
 		}).addTo(mymap);
+		
 	} catch (error) {
 		console.error('Error al cargar las capas:', error);
 	}
@@ -2108,7 +2517,8 @@ async function iniciarMapa() {
 
 	}*/
 	await initMap();
-	await cargarBotonesMapa()
+	await cargarBotonesMapa();
+	
 	
 	
 }

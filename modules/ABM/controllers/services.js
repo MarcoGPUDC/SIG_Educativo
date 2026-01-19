@@ -2,17 +2,25 @@ const express = require('express');
 const router = express.Router();
 const {Pool} = require('pg')
 const app = express();
-const pool = new Pool({
+/*const pool = new Pool({
   user:'postgres',
   host:'localhost',
   database:'nuevo_mapa_db',
   password:'admin',
+  port:5432,
+})*/
+const pool = new Pool({
+  user:'postgres',
+  host:'host.docker.internal',
+  database:'nuevo_mapa_db',
+  password:'sigadmin',
   port:5432,
 })
 //ENDPOINTS PARA CONSULTAR
 
 //Devuelve coordenadas geograficas a partir de la seleccion de un punto en un mapa(Crear institucion)
 router.get('/convert', async (req, res) => {
+    console.log("dentro de /convert")
     const { lng, lat } = req.query;
   
     if (!lng || !lat) {
@@ -27,6 +35,7 @@ router.get('/convert', async (req, res) => {
       `;
       const values = [lng, lat];
       const result = await pool.query(query, values);
+      console.log("dentro del fetch")
       res.json({ geom: result.rows[0].converted_geom });
     } catch (err) {
       console.error(err);
@@ -54,6 +63,7 @@ router.get('/convert', async (req, res) => {
     }
   });
 
+ 
 
 
   module.exports = router;

@@ -412,6 +412,23 @@
             divCollapseT.setAttribute('data-bs-parent',"#accordionLegend");
             divCollapseBodyT = L.DomUtil.create("div", "accordion-body contentcustomlegend", divCollapseT);
 
+            //categoria Carto Participativa
+            legendContainerP = L.DomUtil.create("div", "accordion-item m-2 mb-0 mt-0", this._contents);
+            subtitleP = L.DomUtil.create("h6", "accordion-header", legendContainerP);
+            subtitleP.id = "headingOneP";
+            buttonP = L.DomUtil.create("button", "botoncustomlegend bg-light", subtitleP);
+            buttonP.setAttribute('type',"button");
+            buttonP.setAttribute('data-bs-toggle',"collapse");
+            buttonP.setAttribute('data-bs-target',"#collapseOneP");
+            buttonP.setAttribute('aria-expanded',"true");
+            buttonP.setAttribute('aria-controls',"collapseOneP");
+            buttonP.innerHTML = "Carto Participativa";
+            divCollapseP = L.DomUtil.create("div", "accordion-collapse collapse", subtitleP);
+            divCollapseP.id = "collapseOneP";
+            divCollapseP.setAttribute('aria-labelledby',"headingOneP");
+            divCollapseP.setAttribute('data-bs-parent',"#accordionLegend");
+            divCollapseBodyP = L.DomUtil.create("div", "accordion-body contentcustomlegend", divCollapseP);
+
             //categoria otros
             legendContainerX = L.DomUtil.create("div", "accordion-item m-2 mb-0 mt-0", this._contents);
             subtitleX = L.DomUtil.create("h6", "accordion-header", legendContainerX);
@@ -447,6 +464,8 @@
                     legendContainer = divCollapseBodyT;
                 }else if(this.options.legends[i].layers_type == "otro"){
                     legendContainer = divCollapseBodyX;
+                }else if(this.options.legends[i].layers_type == "carto"){
+                    legendContainer = divCollapseBodyP;
                 }else {
                     cantconsultas += 1;
                     legendContainer = divCollapseBodyC;

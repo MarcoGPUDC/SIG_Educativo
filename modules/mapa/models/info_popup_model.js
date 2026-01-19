@@ -272,5 +272,40 @@ router.get('/mapa/cargarInfoRegiones', async (req, res) => {
     }
 });
 
+router.get('/mapa/setCartoMarkers', async (req, res) => {
+    try {
+        const result = await consultar.capa_carto();
+        let geoJSON = {
+            "type": "FeatureCollection",
+            "features": [
+            ]
+          };
+        
+        result.forEach(row => {
+            const geom = JSON.parse(row.geom);
+            var newFeature = {
+                type: "Feature",
+                geometry: geom,
+                properties: {
+                    id: row.id,
+                    escuela: row.escuela,
+                    localidad: row.localidad,
+                    geom: row.geom,
+                    puntos: row.puntos_int,
+                    grupo: row.grupo,
+                    año: row.anio,
+                    curso: row.curso,
+                    categoria: row.categoria
+                }
+            };
+           geoJSON.features.push(newFeature) 
+        })
+        res.json(geoJSON);
+    } catch (error) {
+        console.error('Error al obtener los datos', error);
+        res.status(500).json({ error: 'Database error' });
+    }
+})
+
 module.exports = router;
 

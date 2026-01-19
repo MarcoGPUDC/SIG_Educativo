@@ -1,5 +1,6 @@
 const conectarDB = require('../../modules/buscador/db_conexion');
 const mysqldb = require('./mysql-connection.js');
+const { buildUpdateQuery } = require('./dbHelpers.js');
 
 // Establece la conexión a la base de datos
 const db = conectarDB();
@@ -273,8 +274,63 @@ function capa_areas () {
     return db.any(`SELECT id_institucion, false AS mostrar, ST_AsText(ST_transform(rad.geom,4326)) AS area FROM public.radios_escolares rad`)
 }
 
-//CONSULTAS PARA AMB
-function crear_institucion(departamento, localidad, numero, cue, anexo, funcion, region, domicilio, cp, ambito, web, email, nombre, tel, cue_anexo){
+function capa_carto () {
+    return db.any(`SELECT id, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom, puntos_int, localidad, escuela, grupo, anio, curso, categoria FROM public.tallercarto    
+    ORDER BY escuela ASC `)
+}
+
+//CONSULTAS PARA ABM
+async function marcar_solicitud(id_solicitud, usuario_revisor, estado) {
+    const query = `
+        UPDATE solicitudes_cambios
+        SET 
+            estado = $3,
+            fecha_revision = NOW(),
+            revisado_por = $2
+        WHERE id = $1
+        RETURNING *;
+    `;
+
+    return db.one(query, [id_solicitud, usuario_revisor, estado]);
+}
+
+function aprobar_modificacion(datos, usuarioRevisor) {
+
+    const tablas = Object.keys(datos.dato_nuevo);
+    var setters;
+    tablas.forEach(tabla => {
+        switch (tabla) {
+            case 'institucion':
+                    setters = keys
+                        .map((k, i) => `${db.as.name(k)} = $${i + 1}`)
+                        .join(', ');
+                    
+                    db.tx( t => {
+                        t.none(`UPDATE padron.institucion SET(${setters}) VALUES()`, datos.dato_nuevo[tabla]);
+                    });
+                break;
+        
+            default:
+                break;
+        }
+    })
+
+
+    db.tx( t => {
+        t.none(`DELETE FROM padron.georeferencia WHERE id_institucion = $1`, [id]);
+        t.none('DELETE FROM padron.modalidad_nivel WHERE id_institucion = $1',[id]);
+        t.none(`DELETE FROM padron.institucion WHERE id_institucion = $1`, [id]);
+    });
+}
+
+
+
+
+
+
+
+
+/*function crear_institucion(departamento, localidad, numero, cue, anexo, funcion, region, domicilio, cp, ambito, web, email, nombre, tel, cue_anexo){
     const id = db.query(`INSERT INTO padron.institucion(
 	id_departamento, id_localidad, numero, cue, anexo, funcion, region, domicilio, cp, ambito, web, email_inst, nombre, tel, cue_anexo)
 	VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
@@ -317,13 +373,24 @@ function modificar_oferta (id, nivel, modalidad){
                     WHERE id_institucion = $1;  
             `, [id, nivel, modalidad])
     })
+}*/
+
+function solicitud_borrar(accion,id,dato_anterior,dato_nuevo,user) {
+    return db.none(`INSERT INTO public.propuesta_cambio (tipo_cambio, clave_primaria, dato_anterior, dato_nuevo, usuario) VALUES ($1, $2, $3, $4, $5)`,[accion,id,dato_anterior,dato_nuevo,user])
 }
 
-function solicitud_modificacion (datos_nuevos, usuario, tipo_cambio, datos_anteriores) {
+function solicitud_modificacion (dato_nuevo, usuario, tipo_cambio, dato_anterior, clave_primaria) {
     db.tx (t => {
-        t.none (`INSERT INTO public.propuesta_cambio (tipo_cambio, clave_primaria, datos_anteriores, datos_nuevos, usuario) VALUES ($1, $2, $3, $4, $5)
-            `, [tipo_cambio, clave_primaria, datos_anteriores, datos_nuevos, usuario])
+        t.none (`INSERT INTO public.propuesta_cambio (tipo_cambio, clave_primaria, dato_anterior, dato_nuevo, usuario) VALUES ($1, $2, $3, $4, $5)
+            `, [tipo_cambio, clave_primaria, dato_anterior, dato_nuevo, usuario])
     })
+}
+
+function obtener_modificaciones() {
+    return db.any(`SELECT * FROM public.propuesta_cambio ORDER BY fecha_solicitud`)
+}
+function obtener_modificaciones_by_id(id) {
+    return db.any(`SELECT * FROM public.propuesta_cambio WHERE id = $1`,[id])
 }
 
 //Inicio de sesion
@@ -474,14 +541,12 @@ module.exports = {
     capa_departamentos,
     capa_prueba,
     capa_areas,
+    capa_carto,
     area_bibliotecas,
-    crear_institucion,
-    cargar_ubicacion,
-    cargar_oferta,
-    borrar_institucion,
     solicitud_modificacion,
-    modificar_institucion,
-    modificar_oferta,
+    solicitud_borrar,
+    obtener_modificaciones,
+    obtener_modificaciones_by_id,
     verificar_usuario,
     verificar_rol,
     verificar_usuario_mysql,

@@ -164,6 +164,38 @@ app.use('/abm', abmRoutes);
     });
 });*/
 
+//RUTAS GLOBALES
+app.get('/session-info', (req, res) => {
+  const token = req.cookies.authToken;
+
+  if (!token) {
+    return res.json({
+      loggedIn: false,
+      user: null,
+      role: null
+    });
+  }
+
+  try {
+    // Verifica token
+    const payload = jwt.verify(token, process.env.SECRET_KEY);
+
+    return res.json({
+      loggedIn: true,
+      user: payload.user,
+      role: payload.role
+    });
+
+  } catch (err) {
+    return res.json({
+      loggedIn: false,
+      user: null,
+      role: null
+    });
+  }
+});
+
+
 //ACCESO A MAPAS INTERACTIVOS
 
 //PROXYS
