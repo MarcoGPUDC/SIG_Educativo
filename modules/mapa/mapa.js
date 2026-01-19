@@ -1471,7 +1471,6 @@ function getCartoLayers(){
 				};
 				const layer = L.geoJSON(geoJSON, {
 				pointToLayer: function (feature, latlng) {
-					console.log(feature.properties.categoria);
 					switch (feature.properties.categoria) {
 						case "establec-educativo":
 							var marker = L.marker(latlng, {
@@ -1760,6 +1759,7 @@ function getCartoLayers(){
 						});
 							break;
 						default:
+							console.log(feature.properties.categoria, feature.properties.escuela)
 							var marker = L.marker(latlng, {
 								icon: L.icon({
 									iconUrl: `icons/common-point-azul.svg`,
