@@ -177,7 +177,7 @@ function buscar_oferta_nivel(nivel) {
 
 //Buscar por ubicaion
 function buscar_localizacion(localidad, departamento, region, domicilio) {
-    return db.any(`SELECT inst.nombre, inst.numero, inst.region, loc.localidad, depa.departamento, inst.domicilio ,niv.nombre AS nivel, moda.nombre AS modalidad, ST_AsGeoJSON(ST_transform(geo.geom,4326)) AS geom FROM padron.institucion inst JOIN padron.departamento depa ON depa.id_departamento = inst.id_departamento
+    return db.any(`SELECT inst.id_institucion, inst.nombre, inst.numero, inst.region, loc.localidad, depa.departamento, inst.domicilio ,niv.nombre AS nivel, moda.nombre AS modalidad, ST_AsGeoJSON(ST_transform(geo.geom,4326)) AS geom FROM padron.institucion inst JOIN padron.departamento depa ON depa.id_departamento = inst.id_departamento
     JOIN padron.localidad loc ON loc.id_localidad = inst.id_localidad
     JOIN padron.modalidad_nivel ofe ON ofe.id_institucion = inst.id_institucion
     JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel
@@ -187,7 +187,7 @@ function buscar_localizacion(localidad, departamento, region, domicilio) {
 }
 
 function buscar_localizacion_especifica(localidad, departamento, region, domicilio) {
-    return db.any(`SELECT inst.nombre, inst.numero, inst.region, loc.localidad, depa.departamento, inst.domicilio ,niv.nombre AS nivel, moda.nombre AS modalidad, ST_AsGeoJSON(ST_transform(geo.geom,4326)) AS geom FROM padron.institucion inst JOIN padron.departamento depa ON depa.id_departamento = inst.id_departamento
+    return db.any(`SELECT inst.id_institucion, inst.nombre, inst.numero, inst.region, loc.localidad, depa.departamento, inst.domicilio ,niv.nombre AS nivel, moda.nombre AS modalidad, ST_AsGeoJSON(ST_transform(geo.geom,4326)) AS geom FROM padron.institucion inst JOIN padron.departamento depa ON depa.id_departamento = inst.id_departamento
         JOIN padron.localidad loc ON loc.id_localidad = inst.id_localidad
         JOIN padron.modalidad_nivel ofe ON ofe.id_institucion = inst.id_institucion
         JOIN padron.nivel niv ON niv.id_nivel = ofe.id_nivel
