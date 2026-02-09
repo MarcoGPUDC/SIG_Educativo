@@ -1941,7 +1941,7 @@ async function generarTodosLayers(layerParam) {
 	
 	var i = 0;
 	if (layerParam != null) {
-		var inactivo = true;
+		var inactivo;
 		var layer;
 		establecimientos.forEach(establecimiento => {
 			if (establecimiento[1][0].url == layerParam) {	
@@ -1989,6 +1989,8 @@ async function generarTodosLayers(layerParam) {
 		todosLayersTematicos.forEach(tematico => {
 			if (tematico[1]== layerParam) {	
 				inactivo = false
+			} else {
+				inactivo = true;
 			}
 			layer = tematico[0];
 			layersConfig.push({
