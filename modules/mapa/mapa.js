@@ -2023,11 +2023,11 @@ async function generarTodosLayers(layerParam) {
 
 		todosLayerCarto.forEach(carto => {
 			layersConfig.push({
-				label: carto[1].charAt(0).toUpperCase() + otro[1].slice(1),
+				label: carto[0],
 				type: 'image',
 				url: 'icons/tematico.svg',
 				layers_type: "carto",
-				layers: otro[0],
+				layers: carto[1],
 				inactive: true
 			})
 		})
