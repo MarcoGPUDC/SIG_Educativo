@@ -75,22 +75,19 @@ function area_bibliotecas() {
 
 //busca info especifica de un establecimiento por su id
 function busqueda_simple (id) {
-    return db.one(`SELECT esc.email_inst, inst.id_institucion, inst.cue, inst.anexo, inst.cue_anexo, inst.nombre, inst.numero, inst.funcion, inst.region, inst.localidad, inst.departamento, inst.nivel, inst.modalidad, inst.domicilio, inst.cp, inst.ambito, inst.web, inst.tel, inst.gestion, inst.jornada, inst.dependencia, inst.responsable, inst.geom, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom, COALESCE(SUM(matri.varones),0) AS varones, COALESCE(SUM(matri.mujeres),0) AS mujeres, COALESCE(SUM(matri.total),0) AS total FROM padron.v_establec_educativos AS inst 
+    return db.one(`SELECT esc.email_inst, inst.id_institucion, inst.cue, inst.anexo, inst.cue_anexo, inst.nombre, inst.numero, inst.funcion, inst.region, inst.localidad, inst.departamento, inst.nivel, inst.modalidad, inst.domicilio, inst.cp, inst.ambito, inst.web, inst.tel, inst.gestion, inst.jornada, inst.dependencia, inst.responsable, inst.geom, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom, matri.total FROM padron.v_establec_educativos AS inst 
 left JOIN padron.oferta ofe ON ofe.id_institucion = inst.id_institucion
-left JOIN padron.matricula matri ON matri.id_oferta = ofe.id
+left JOIN padron.matricula matri ON matri.id_institucion = inst.id_institucion
 LEFT JOIN padron.institucion esc ON esc.cue_anexo = inst.cue_anexo
 LEFT JOIN padron.contacto cont ON cont.id_institucion = inst.id_institucion
 WHERE inst.id_institucion = $1
-GROUP BY esc.email_inst, inst.id_institucion, inst.cue, inst.anexo, inst.cue_anexo, inst.nombre, inst.numero, inst.funcion, inst.region, inst.localidad, inst.departamento, inst.nivel, inst.modalidad, inst.domicilio, inst.cp, inst.ambito, inst.web, inst.tel, inst.gestion, inst.jornada, inst.dependencia, inst.responsable, inst.geom
+GROUP BY esc.email_inst, inst.id_institucion, inst.cue, inst.anexo, inst.cue_anexo, inst.nombre, inst.numero, inst.funcion, inst.region, inst.localidad, inst.departamento, inst.nivel, inst.modalidad, inst.domicilio, inst.cp, inst.ambito, inst.web, inst.tel, inst.gestion, inst.jornada, inst.dependencia, inst.responsable, inst.geom, matri.total
 LIMIT 1;`,id);
 };
 //recuentro matricula por institucion y nivel
 function busqueda_matricula_nivel(id) {
-    return db.any(`SELECT SUM(matricula.varones) AS varones, SUM(matricula.mujeres) AS mujeres, nivel.nombre AS nivel FROM padron.matricula 
-JOIN padron.oferta ON matricula.id_oferta = oferta.id
-JOIN padron.nivel ON nivel.id_nivel = oferta.id_nivel
-WHERE oferta.id_institucion = $1
-GROUP BY nivel.nombre;`, id)
+    return db.any(`SELECT nivel, total FROM padron.matricula mat
+WHERE mat.id_institucion = $1;`, id)
 }
 
 //busca info adicional de un establecimiento por su id

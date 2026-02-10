@@ -93,35 +93,22 @@ async function completarDatosInstitucion() {
         return response.json(); // Convierte la respuesta en formato JSON
     })
     .then(data => {
-        var mujeres =0;
-        var varones = 0;
         var total = 0;
         //datos oferta
-        data.forEach(element => {
-            //Matricula
-            var matriculaNivel = document.getElementById("matriculainfonivel");
-            if (element.varones > 0 || element.mujeres > 0){
-                var ul = document.createElement("ul")
-                ul.id = "divMostrarMatricula"
-                ul.textContent = element.nivel;
-                var liV = document.createElement("li")
-                liV.textContent = "Varones: " + element.varones;
-                var liM = document.createElement("li")
-                liM.textContent = "Mujeres: " + element.mujeres;
-                matriculaNivel.appendChild(ul);
-                ul.appendChild(liM);
-                ul.appendChild(liV);
-            }
-            mujeres += parseInt(element.mujeres)
-            varones += parseInt(element.varones)
-            total += parseInt(element.mujeres)
-            total += parseInt(element.varones)
-            
-            });
-            document.getElementById('matriculamujeres').innerHTML += `${mujeres}`;
-            document.getElementById('matriculavarones').innerHTML += `${varones}`;
-            document.getElementById('matriculatotal').innerHTML += `${total}`;
+        const matriculaNivel = document.getElementById("matriculainfonivel");
+        matriculaNivel.innerHTML = ""; // limpiar antes
 
+        const ul = document.createElement("ul");
+
+        data.forEach(element => {
+
+            const li = document.createElement("li");
+            li.textContent = `${element.nivel}: ${parseInt(element.total)}`;
+
+            ul.appendChild(li);
+        });
+
+        matriculaNivel.appendChild(ul);
 
     })
     
