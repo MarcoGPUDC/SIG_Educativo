@@ -799,7 +799,7 @@ function popup_cooperadoras (feature, layer) {
 function popup_designacion (feature, layer) {
 	layer.bindPopup(	
 		"<div class='p-3'>"+
-		"<h6 style='color:#0d6efd'>"+ ("Designacion "+feature.properties.nivel+" de "+feature.properties.localidad) + "</h6>" +
+		"<h6 style='color:#0d6efd'>"+ ("Designaciones "+feature.properties.nivel+" de "+feature.properties.localidad) + "</h6>" +
 		"<h6> Información General</h6>" + 
 	 	"<table>"+
 		"<tr><td><b>Región:</b> "+ (feature.properties.region?convertirARomano(feature.properties.region):"No se registra") + "</td></tr>" +
