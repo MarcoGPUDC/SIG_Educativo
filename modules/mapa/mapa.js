@@ -1,8 +1,6 @@
 // mapa interactivo ------------------------------------------------------------------------------
 //espera 3 segundos antes de mostrar la pantalla
 
-
-
 function hideLoadingScreen() {
 	document.getElementById('loading-screen').style.display = 'none';
 }
@@ -798,6 +796,23 @@ function popup_cooperadoras (feature, layer) {
 		{minWidth: 270, maxWidth: 270}
 	};
 
+function popup_designacion (feature, layer) {
+	layer.bindPopup(	
+		"<div class='p-3'>"+
+		"<h6 style='color:#0d6efd'>"+ ("Designacion "+feature.properties.nivel+" de "+feature.properties.localidad) + "</h6>" +
+		"<h6> Información General</h6>" + 
+	 	"<table>"+
+		"<tr><td><b>Región:</b> "+ (feature.properties.region?convertirARomano(feature.properties.region):"No se registra") + "</td></tr>" +
+		"<tr><td><b>Localidad:</b> "+ (feature.properties.localidad?formatoNombre(feature.properties.localidad):"No se registra") + "</td></tr>" +
+		"<tr><td><b>Dirección:</b> "+ (feature.properties.direccion?feature.properties.direccion:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Lugar:</b> "+ (feature.properties.lugar?feature.properties.lugar:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Horarios:</b> "+ (feature.properties.horario?feature.properties.horario:"No se registra") + "</td></tr>" +
+		"</table>" +
+		"</div>", {minWidth: 270, maxWidth: 270}
+		);
+}
+	
+
 
 function formatoNombre(cadena) {
 	if (cadena) {
@@ -1168,7 +1183,7 @@ function createLayer(data, tipo, nivel) {
 			cluster.addLayer(marker);
 			return marker;
 		},
-		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas : (tipo === 'biblioteca') ? popup_bib_pedagogicas : (tipo === 'establec') ? onEachFeatureEst : (tipo === 'biblioteca_pop') ? popup_bib_populares : (tipo === 'equiInfra') ? popup_equip_infra : (tipo === 'netbooks') ? popup_ed_digital_netbooks : (tipo === 'adm') ? popup_ed_digital_adm : (tipo === 'robotica') ? popup_ed_digital_robo : (tipo === 'edDigital') ? popup_ed_digital: (tipo === 'salasTec') ? popup_ed_digital_salasTec:  (tipo === 'cooperadoras') ? popup_cooperadoras:  onEachFeatureL
+		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas : (tipo === 'biblioteca') ? popup_bib_pedagogicas : (tipo === 'establec') ? onEachFeatureEst : (tipo === 'biblioteca_pop') ? popup_bib_populares : (tipo === 'equiInfra') ? popup_equip_infra : (tipo === 'netbooks') ? popup_ed_digital_netbooks : (tipo === 'adm') ? popup_ed_digital_adm : (tipo === 'robotica') ? popup_ed_digital_robo : (tipo === 'edDigital') ? popup_ed_digital: (tipo === 'salasTec') ? popup_ed_digital_salasTec:  (tipo === 'cooperadoras') ? popup_cooperadoras:  (tipo === 'designacion') ? popup_designacion :onEachFeatureL
 		});
 	return cluster;
 }
@@ -1823,6 +1838,40 @@ function getBibliotecaLayer(){
 	return biLayer
 }
 
+function getDesignacionesLayer(){
+	var desigLayer = fetch ('mapa/setDesignacionesMarkers')
+	.then (response => response.json())
+	.then (data =>{
+		var designacionesLayer = [];
+		let desigLayerPri = {
+            "type": "FeatureCollection",
+            "features": [
+            ]
+          };
+		let desigLayerSec = {
+			"type": "FeatureCollection",
+			"features": [
+			]
+		}; 
+		data.features.forEach(desig => {
+			if (desig.properties.nivel == 'Primaria') {
+				desigLayerPri.features.push(desig);
+			} else {
+				desigLayerSec.features.push(desig);
+			}
+		})
+		designacionesLayer.push(createLayer(desigLayerPri,'designacion','primaria'));
+		designacionesLayer.push(createLayer(desigLayerSec, 'designacion', 'secundaria'));
+		return designacionesLayer
+	})
+	.catch(error => {
+		console.log('Error fetching data:', error);
+		return null
+	})
+	return desigLayer
+}
+
+
 function getAreasLayer() {
 	var area;
 	checks = document.querySelectorAll('#areaInstMarker');
@@ -1933,6 +1982,7 @@ async function generarTodosLayers(layerParam) {
 	const delegaciones = await getDelegacionLayers();
 	const supervision = await getSupervisionLayers();
 	const bibliotecas = await getBibliotecaLayer();
+	const designaciones = await getDesignacionesLayer();
 	capaRegiones = await getRegiones();
 	capaDepartamentos = await getDepartamentos();
 	await getCartoLayers();
@@ -1976,6 +2026,24 @@ async function generarTodosLayers(layerParam) {
 			layers: delegaciones,
 			inactive: true
 		})
+
+		layersConfig.push({
+				label: 'Designacion Primaria',
+				type: 'image',
+				url: 'icons/designacion_primaria.svg',
+				layers_type: "organizacion",
+				layers: designaciones[0],
+				inactive: true
+			})
+			
+		layersConfig.push({
+				label: 'Designacion Secundaria',
+				type: 'image',
+				url: 'icons/designacion_secundaria.svg',
+				layers_type: "organizacion",
+				layers: designaciones[1],
+				inactive: true
+			})
 
 		layersConfig.push({
 			label: 'Bibliotecas Pedagógicas',
@@ -2072,6 +2140,7 @@ async function generarTodosLayers(layerParam) {
 				inactive: true,
 			});
 		});
+
 
 		if (layerParam == 'infra') {
 			//fetch('https://sistemas2.chubut.edu.ar/sigeducativo/getCookie',{credentials:'include'})
@@ -2216,6 +2285,23 @@ async function generarTodosLayers(layerParam) {
 					inactive: false,
 				});
 			});
+			layersConfig.push({
+				label: 'Designacion Primaria',
+				type: 'image',
+				url: 'icons/designacion_primaria.svg',
+				layers_type: "organizacion",
+				layers: designaciones[0],
+				inactive: true
+			})
+
+			layersConfig.push({
+				label: 'Designacion Secundaria',
+				type: 'image',
+				url: 'icons/designacion_secundaria.svg',
+				layers_type: "organizacion",
+				layers: designaciones[1],
+				inactive: true
+			})
 		}
 		
 		return layersConfig;

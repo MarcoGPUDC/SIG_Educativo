@@ -136,6 +136,42 @@ router.get('/mapa/setDelegMarkers', async (req,res) => {
     } 
 });
 
+router.get('/mapa/setDesignacionesMarkers', async (req,res) => {
+    try {
+        const result = await consultar.buscar_info_designaciones();
+        let geoJSON = {
+            "type": "FeatureCollection",
+            "features": [
+            ]
+          };
+        
+        result.forEach(row => {
+            const geom = JSON.parse(row.geom);
+            var newFeature = {
+                type: "Feature",
+                geometry: geom,
+                properties: {
+                    id: row.id,
+                    direccion: row.direccion,
+                    lugar: row.lugar,
+                    horario: row.horario,
+                    region: row.region,
+                    localidad: row.localidad,
+                    tel: row.telefono,
+                    email: row.correo,
+                    web: row.sitio_web,
+                    nivel: row.nivel
+                }
+            };
+           geoJSON.features.push(newFeature) 
+        })
+        res.json(geoJSON);
+    } catch (err) {
+        console.error('Error al obtener los datos', err);
+        res.status(500).json({ error: 'Database error' });
+    } 
+});
+
 router.get('/mapa/setBiblioMarkers', async (req,res) => {
     try {
         const result = await consultar.buscar_todos_biblioteca();

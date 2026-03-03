@@ -150,6 +150,13 @@ function buscar_info_delegacion(){
         FROM padron.delegacion del JOIN padron.localidad loc ON del.id_localidad = loc.id_localidad`)
 }
 
+//info designaciones
+function buscar_info_designaciones(){
+    return db.any (`SELECT pri.id,ST_AsGeoJSON(ST_Transform(pri.geom, 4326)) AS geom,pri.region,pri.localidad,pri.direccion,pri.correo,pri.telefono,pri.lugar, 'No informa' AS horario,pri.sitio_web, 'Primaria' AS nivel FROM public.designaciones_primario pri
+                    UNION ALL
+                    SELECT sec.id,ST_AsGeoJSON(ST_Transform(sec.geom, 4326)) AS geom,sec.region,sec.localidad,sec.direccion,sec.correo,sec.telefono,'No informa' AS lugar,sec.horario, sec.sitio_web, 'Secundaria' AS nivel FROM public.designaciones_secundario sec`)
+    }
+
 //funcion para buscar por oferta educativa
 function buscar_oferta(modalidad, nivel) {
     return db.any(`SELECT inst.id_institucion, inst.nombre, inst.numero, niv.nombre AS nivel, moda.nombre AS modalidad,  ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.institucion inst JOIN padron.modalidad_nivel ofe ON inst.id_institucion = ofe.id_institucion
@@ -552,6 +559,7 @@ module.exports = {
     buscar_info_equi_infra,
     buscar_porcentaje_equi_infra,
     buscar_info_region,
+    buscar_info_designaciones,
     getDataEtp,
     CSAC,
 };
