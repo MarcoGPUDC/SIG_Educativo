@@ -1,24 +1,17 @@
 require('dotenv').config();
 const pgp = require('pg-promise')();
+function conectarDB() {
+    // Configuración para la conexión a la base de datos
+    const db = pgp({
+        // Aquí puedes proporcionar la URL de conexión a tu base de datos
+        connectionString: process.env.DB_LOCAL,
+        //connectionString: 'postgres://postgres:sigadmin@host.docker.internal:5432/nuevo_mapa_db',
+        // Otros parámetros de configuración, si es necesario
+    });
 
-async function conectarDB() {
-
-    const conexiones = [
-        process.env.DB_LOCAL,    
-        process.env.DB_DOCKER
-    ];
-
-    for (let conn of conexiones) {
-        try {
-            const db = pgp(conn);
-            await db.one('SELECT 1');
-            return db;
-        } catch (error) {
-        }
-    }
-
-    throw new Error('No se pudo conectar a ninguna base de datos');
+    // Devuelve la instancia de la base de datos
+    return db;
 }
 
-
+// Exporta la función conectarDB para que pueda ser utilizada en otros archivos
 module.exports = conectarDB;
