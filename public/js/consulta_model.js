@@ -475,14 +475,23 @@ async function verificar_rol(id) {
 //listado info regiones
 function buscar_info_region(region){
     return db.any(`
-           SELECT 
-                COALESCE(modalidad_nivel, 'TOTAL') AS modalidad_nivel,
-                COUNT(*) AS cantidad
-            FROM (
-                SELECT
-                    CASE
-
-                        -- Nacional (empieza con z o Z)
+        WITH categorias AS (
+            SELECT unnest(ARRAY[
+                'nacional',
+                'otros servicios educativos',
+                'primario',
+                'hospitalarias',
+                'inicial',
+                'especial',
+                'cfp',
+                'secundaria',
+                'superior'
+            ]) AS categoria
+        ),
+        conteo AS (
+            SELECT
+                CASE
+                    -- Nacional (empieza con z o Z)
                         WHEN numero ILIKE 'z%' THEN 'nacional'
 
                         -- Otros servicios educativos
@@ -528,13 +537,22 @@ function buscar_info_region(region){
                         WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 800 AND 899 THEN 'superior'
                         WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 1800 AND 1899 THEN 'superior'
 
-                        ELSE 'sin clasificar'
+                    ELSE 'sin clasificar'
+                END AS categoria
+            FROM padron.institucion WHERE institucion.region = $1 AND institucion.funcion = 'Activo'
+        )
+        SELECT 
+            c.categoria,
+            COALESCE(COUNT(ct.categoria), 0) AS cantidad
+        FROM categorias c
+        LEFT JOIN conteo ct ON ct.categoria = c.categoria
+        GROUP BY c.categoria
 
-                    END AS modalidad_nivel
-                FROM padron.institucion WHERE institucion.region = $1 AND funcion = 'Activo'
-            ) sub
-            GROUP BY ROLLUP(modalidad_nivel)
-            ORDER BY modalidad_nivel
+        UNION ALL
+
+        SELECT 'TOTAL', COUNT(*) FROM conteo 
+
+        ORDER BY categoria;
 
             `, [region])
 }
