@@ -1,9 +1,24 @@
 require('dotenv').config();
 const pgp = require('pg-promise')();
 
-function conectarDB() {
-    const connectionString = process.env.DB_DOCKER || process.env.DB_LOCAL;
-    return pgp(connectionString);
+async function conectarDB() {
+
+    const conexiones = [
+        process.env.DB_LOCAL,    
+        process.env.DB_DOCKER
+    ];
+
+    for (let conn of conexiones) {
+        try {
+            const db = pgp(conn);
+            await db.one('SELECT 1');
+            return db;
+        } catch (error) {
+        }
+    }
+
+    throw new Error('No se pudo conectar a ninguna base de datos');
 }
+
 
 module.exports = conectarDB;
