@@ -475,32 +475,66 @@ async function verificar_rol(id) {
 //listado info regiones
 function buscar_info_region(region){
     return db.any(`
-            SELECT niv.nombre AS modalidad_nivel, COUNT(niv.nombre) AS cantidad FROM padron.modalidad_nivel mn
-            JOIN padron.nivel niv ON niv.id_nivel = mn.id_nivel
-            JOIN padron.institucion inst ON inst.id_institucion = mn.id_institucion
-            WHERE inst.funcion = 'Activo' AND inst.region = $1
-            GROUP BY modalidad_nivel 
+           SELECT 
+                COALESCE(modalidad_nivel, 'TOTAL') AS modalidad_nivel,
+                COUNT(*) AS cantidad
+            FROM (
+                SELECT
+                    CASE
 
-            UNION ALL
+                        -- Nacional (empieza con z o Z)
+                        WHEN numero ILIKE 'z%' THEN 'nacional'
 
-            SELECT moda.nombre AS modalidad, COALESCE(COUNT(mn.id_modalidad) FILTER (WHERE inst.funcion = 'Activo' AND inst.region = $1),0) AS cant_modalidad FROM padron.modalidades_educativas moda
-          	LEFT JOIN padron.modalidad_nivel mn ON moda.id_modalidad = mn.id_modalidad
-			LEFT JOIN padron.nivel niv ON niv.id_nivel = mn.id_nivel
-            LEFT JOIN padron.institucion inst ON inst.id_institucion = mn.id_institucion
-            GROUP BY moda.nombre
+                        -- Otros servicios educativos
+                        WHEN numero = 'CEF' THEN 'otros servicios educativos'
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 550 AND 599 THEN 'otros servicios educativos'
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 1600 AND 1649 THEN 'otros servicios educativos'
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 3000 AND 3049 THEN 'otros servicios educativos'
+                        WHEN numero ~ '^[0-9]+$' AND numero::int = 5009 THEN 'otros servicios educativos'
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 6000 AND 6548 THEN 'otros servicios educativos'
+                        WHEN numero ~ '^[0-9]+$' AND numero::int = 6549 THEN 'otros servicios educativos'
 
-            UNION ALL
+                        -- Primario
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 1 AND 224 THEN 'primario'
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 1000 AND 1299 THEN 'primario'
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 2000 AND 2299 THEN 'primario'
+                        -- EPJA primaria
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 600 AND 649 THEN 'primario'
+                        
+                        -- Hospitalarias
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 300 AND 399 THEN 'hospitalarias'
 
-            SELECT 'Sedes' AS tipo, COUNT(anexo) FILTER (WHERE anexo = '00') AS cantidad FROM padron.institucion inst WHERE funcion = 'Activo' AND inst.region = $1 GROUP BY tipo
+                        -- Inicial
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 400 AND 499 THEN 'inicial'
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 1400 AND 1499 THEN 'inicial'
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 2400 AND 2499 THEN 'inicial'
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 4400 AND 4499 THEN 'inicial'
+                        
+                        -- Especial
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 500 AND 549 THEN 'especial'
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 1500 AND 1549 THEN 'especial'
 
-            UNION ALL
+                        -- CFP
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 650 AND 699 THEN 'cfp'
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 1650 AND 1699 THEN 'cfp'
 
-            SELECT 'Anexos' AS tipo, COUNT(anexo) FILTER (WHERE anexo <> '00') AS cantidad FROM padron.institucion inst WHERE funcion = 'Activo' AND inst.region = $1 GROUP BY tipo
-            
-            UNION ALL
+                        -- Secundaria
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 700 AND 799 THEN 'secundaria'
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 1700 AND 1799 THEN 'secundaria'
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 2700 AND 2799 THEN 'secundaria'
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 7700 AND 7750 THEN 'secundaria'
 
-			SELECT 'Edificios' AS tipo, COUNT(anexo) AS cantidad FROM padron.institucion inst WHERE funcion = 'Activo' AND inst.region = $1 GROUP BY tipo
-			ORDER BY modalidad_nivel
+                        -- Superior
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 800 AND 899 THEN 'superior'
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 1800 AND 1899 THEN 'superior'
+
+                        ELSE 'sin clasificar'
+
+                    END AS modalidad_nivel
+                FROM padron.institucion WHERE institucion.region = $1 AND funcion = 'Activo'
+            ) sub
+            GROUP BY ROLLUP(modalidad_nivel)
+            ORDER BY modalidad_nivel
 
             `, [region])
 }
