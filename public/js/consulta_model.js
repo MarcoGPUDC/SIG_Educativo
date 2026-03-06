@@ -224,13 +224,13 @@ function filtro_establecimiento_ambito() {
 
 function filtro_matricula_ambito(){
     return db.any(`
-        SELECT ct."region" AS "Región",  COALESCE(ct."Rural", 0) AS "Rural", COALESCE(ct."Rural Aglomerado",0) AS "Rural Aglomerado", COALESCE(ct."Rural Disperso",0) AS "Rural Disperso", COALESCE(ct."Urbano",0) AS "Urbano", COALESCE(ct."Sin Especificar", 0) AS "Sin Especificar" FROM crosstab(
+        SELECT ct."region" AS "Región",  COALESCE(ct."Rural", 0) AS "Rural", COALESCE(ct."Rural Aglomerado",0) AS "Rural Aglomerado", COALESCE(ct."Rural Disperso",0) AS "Rural Disperso", COALESCE(ct."Urbano",0) AS "Urbano" FROM crosstab(
             'SELECT inst.region, inst.ambito, SUM(matri.total) as matricula FROM padron.matricula matri 
 			JOIN padron.institucion inst ON matri.id_institucion = inst.id_institucion
 			WHERE inst.funcion = ''Activo''
 			GROUP BY inst.region, inst.ambito
 			ORDER BY inst.region, inst.ambito ASC'
-            ) AS ct(region TEXT, "Rural" BIGINT, "Rural Aglomerado" BIGINT, "Rural Disperso" BIGINT, "Urbano" BIGINT, "Sin Especificar" BIGINT)       
+            ) AS ct(region TEXT, "Rural" BIGINT, "Rural Aglomerado" BIGINT, "Rural Disperso" BIGINT, "Urbano" BIGINT)       
     `)
 }
 
