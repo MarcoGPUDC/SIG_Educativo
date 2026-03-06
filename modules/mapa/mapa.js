@@ -303,7 +303,7 @@ info.update = function(props){
 								//"</td></tr><tr><td><b>Escuela Intercultural Bilingüe:</b> "+ (props.cantidades[5]?props.cantidades[5].cantidad:"Sin Localizaciones")+
 								//"</td></tr><tr><td><b>Contexto de Encierro:</b> "+ (props.cantidades[2]?props.cantidades[2].cantidad:"Sin Localizaciones")+
                             	"</td></tr><tr><td><b>Otros Servicios Educativos:</b> "+ (props.cantidades[5]?props.cantidades[5].cantidad:"Sin Localizaciones")+
-								"</td></tr><tr><td><b>Nacionales:</b> "+ (props.cantidades[4]?props.cantidades[4].cantidad:"Sin Localizaciones")+
+								(esCero(props.cantidades[4].cantidad)?" ":"</td></tr><tr><td><b>Nacionales:</b> "+ props.cantidades[4].cantidad)+
 								//"</td></tr><tr><td><b>No corresponde modalidad:</b> "+ (props.cantidades[9]?props.cantidades[9].cantidad:"Sin Localizaciones")+
 								//"</td></tr><tr><td><b>No corresponde nivel:</b> "+ (props.cantidades[10]?props.cantidades[10].cantidad:"Sin Localizaciones")+	
 								//"</td></tr><tr><td><b>Edificios:</b> "+ ()+
@@ -319,7 +319,6 @@ info.update = function(props){
 // Agregar panel a mapa despues del legend
 
 info.addTo(mymap); 
-
 
 // Funcion de interaccion del puntero con la capa para resaltar el la region
 
@@ -3542,6 +3541,14 @@ function convertirARomano(numero){
 		}
 	}
 	return romano;
+}
+
+function esCero(int){
+	if (int === '0') {
+		return true
+	} else{
+		return false
+	}
 }
 
 
