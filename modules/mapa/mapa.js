@@ -2716,8 +2716,7 @@ function itemsearchselected(selected){
 							});
 
 							return marker
-						},	
-						
+						},		
 					onEachFeature: onEachFeatureS
 			}));
 			instSelected.forEach(marker => {
@@ -2880,30 +2879,36 @@ function buscarPorUbicacion(){
     var departamento = document.getElementById("buscadordepartamento").value.length > 0 ? document.getElementById("buscadordepartamento").value: null;
     var region = document.getElementById("buscadorregion").value.length > 0 ? document.getElementById("buscadorregion").value: null;
 	var domicilio = document.getElementById("buscadordomicilio").value.length > 0 ? document.getElementById("buscadordomicilio").value: null;
-	var cluster = createCluster("establecimientos", "consulta")
+	var cluster = createCluster("establecimientos", "consulta");
     fetch(`mapa/localizar?localidad=${localidad}&departamento=${departamento}&region=${region}&domicilio=${domicilio}`)
     .then(response => response.json())
     .then((escuelas) => {
 		var geoLayer = L.geoJSON(escuelas, {
 		pointToLayer: function (feature, latlng) {
-			var marker = L.marker(latlng, {
-				icon: L.icon({
-					iconUrl: "icons/establecimientos_consulta.svg",
-					iconSize:     [22, 22], 
-					iconAnchor:   [11, 0], 
-					popupAnchor:  [0, 0] 
-				}),
-				riseOnHover: true
-			});
-			cluster.addLayer(marker);
-			return marker;
-			
+				var marker = L.marker(latlng, {
+					icon: L.icon({
+						iconUrl: "icons/establecimientos_consulta.svg",
+						iconSize:     [22, 22], 
+						iconAnchor:   [11, 0], 
+						popupAnchor:  [0, 0] 
+					}),
+					riseOnHover: true
+				})
+				cluster.addLayer(marker);
+				return marker;			
 		},
 		onEachFeature: onEachFeatureS
-		})
-		return cluster
-    })
-	mymap.addLayer(cluster);	
+		});
+		updateButtonInLegend("consulta",{label: "busqueda por localización",
+				type: "image",
+				url:  "icons/establecimientos_consulta.svg",
+				layers_type: "consulta",
+				layers: cluster,
+				inactive: false,
+				});
+		cluster.addTo(mymap);
+		return geoLayer;
+	})		
 }
 
 //actualiza los botones que debe mostrar la botonera

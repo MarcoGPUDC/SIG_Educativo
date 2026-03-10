@@ -151,10 +151,9 @@ router.get("/mapa/localizar", async (req, res) => {
             delete params[clave]
         }
       })
-      if(Object.keys(params).length == 1){
+      if(Object.keys(params).length == 1){  
         result = await consultar.buscar_localizacion(localidad, departamento, region, domicilio);
       } else {
-        console.log("busqueda especifica");
         result = await consultar.buscar_localizacion_especifica(localidad, departamento, region, domicilio);
       }
       
