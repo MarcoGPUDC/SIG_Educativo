@@ -152,9 +152,9 @@ function buscar_info_delegacion(){
 
 //info designaciones
 function buscar_info_designaciones(){
-    return db.any (`SELECT pri.id,ST_AsGeoJSON(ST_Transform(pri.geom, 4326)) AS geom,pri.region,pri.localidad,pri.direccion,pri.correo,pri.telefono,pri.lugar, 'No informa' AS horario,pri.sitio_web, 'Primaria' AS nivel FROM public.designaciones_primario pri
+    return db.any (`SELECT pri.id,ST_AsGeoJSON(ST_Transform(pri.geom, 4326)) AS geom,pri.region,pri.localidad,pri.direccion,pri.correo,pri.telefono, pri.lugar, pri.horario,pri.sitio_web, 'Primaria' AS nivel FROM public.designaciones_primario pri
                     UNION ALL
-                    SELECT sec.id,ST_AsGeoJSON(ST_Transform(sec.geom, 4326)) AS geom,sec.region,sec.localidad,sec.direccion,sec.correo,sec.telefono,'No informa' AS lugar,sec.horario, sec.sitio_web, 'Secundaria' AS nivel FROM public.designaciones_secundario sec`)
+                    SELECT sec.id,ST_AsGeoJSON(ST_Transform(sec.geom, 4326)) AS geom,sec.region,sec.localidad,sec.direccion,sec.correo,sec.telefono, sec.lugar,sec.horario, sec.sitio_web, 'Secundaria' AS nivel FROM public.designaciones_secundario sec`)
     }
 
 //funcion para buscar por oferta educativa
