@@ -2494,7 +2494,7 @@ function addFullmapPrint(){
 		a.textContent = 'Descargar Mapa de Establecimientos'
 		a.classList = 'descarga'
 		a.setAttribute('download','EstablecimientosEducativosChubut.pdf')
-		a.setAttribute('href', 'public/img/MapaEstablecimientosEducativosChubut.pdf')
+		a.setAttribute('href', 'public/pdf/MapaEstablecimientosEducativosChubut.pdf')
 		li.append(a)
 		ul.append(li)
 
@@ -2523,7 +2523,7 @@ function addGuideCartoPrint(){
 		a.textContent = 'Descargar Manual Taller Cartografia'
 		a.classList = 'descarga'
 		a.setAttribute('download','Taller de Cartografia Participativa.pdf')
-		a.setAttribute('href', 'public/img/tallerCartoParticipativa.pdf')
+		a.setAttribute('href', 'public/pdf/tallerCartoParticipativa.pdf')
 		li.append(a)
 		ul.append(li)
 
