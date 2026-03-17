@@ -812,6 +812,36 @@ function popup_designacion (feature, layer) {
 		"</div>", {minWidth: 270, maxWidth: 270}
 		);
 }
+
+function popup_junta (feature, layer) {
+	layer.bindPopup(	
+		"<div class='p-3'>"+
+		"<h6 style='color:#0d6efd'>"+ ("Junta de Clasificación Docente de Nivel "+feature.properties.nivel+" "+feature.properties.nombre) + "</h6>" +
+		"<h6> Información General</h6>" + 
+	 	"<table>"+
+		"<tr><td><b>Región:</b> "+ (feature.properties.region?convertirARomano(feature.properties.region):"No se registra") + "</td></tr>" +
+		"<tr><td><b>Dirección:</b> "+ (feature.properties.direccion?feature.properties.direccion:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Telefono:</b> "+ (feature.properties.telefono?feature.properties.telefono:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Correo:</b> "+ (feature.properties.correo?feature.properties.correo:"No se registra") + "</td></tr>" +
+		"</table>" +
+		"</div>", {minWidth: 270, maxWidth: 270}
+		);
+}
+
+function popup_oficinas (feature, layer) {
+	layer.bindPopup(	
+		"<div class='p-3'>"+
+		"<h6 style='color:#0d6efd'>"+ (feature.properties.oficina) + "</h6>" +
+		"<h6> Información General</h6>" + 
+	 	"<table>"+
+		"<tr><td><b>Dirección:</b> "+ (feature.properties.direccion?feature.properties.direccion:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Telefono:</b> "+ (feature.properties.telefono?feature.properties.telefono:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Correo:</b> "+ (feature.properties.correo?feature.properties.correo:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Web:</b> "+ (feature.properties.web?feature.properties.web:"No se registra") + "</td></tr>" +
+		"</table>" +
+		"</div>", {minWidth: 270, maxWidth: 270}
+		);
+}
 	
 
 
@@ -1184,7 +1214,7 @@ function createLayer(data, tipo, nivel) {
 			cluster.addLayer(marker);
 			return marker;
 		},
-		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas : (tipo === 'biblioteca') ? popup_bib_pedagogicas : (tipo === 'establec') ? onEachFeatureEst : (tipo === 'biblioteca_pop') ? popup_bib_populares : (tipo === 'equiInfra') ? popup_equip_infra : (tipo === 'netbooks') ? popup_ed_digital_netbooks : (tipo === 'adm') ? popup_ed_digital_adm : (tipo === 'robotica') ? popup_ed_digital_robo : (tipo === 'edDigital') ? popup_ed_digital: (tipo === 'salasTec') ? popup_ed_digital_salasTec:  (tipo === 'cooperadoras') ? popup_cooperadoras:  (tipo === 'designacion') ? popup_designacion :onEachFeatureL
+		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas : (tipo === 'biblioteca') ? popup_bib_pedagogicas : (tipo === 'establec') ? onEachFeatureEst : (tipo === 'biblioteca_pop') ? popup_bib_populares : (tipo === 'equiInfra') ? popup_equip_infra : (tipo === 'netbooks') ? popup_ed_digital_netbooks : (tipo === 'adm') ? popup_ed_digital_adm : (tipo === 'robotica') ? popup_ed_digital_robo : (tipo === 'edDigital') ? popup_ed_digital: (tipo === 'salasTec') ? popup_ed_digital_salasTec:  (tipo === 'cooperadoras') ? popup_cooperadoras:  (tipo === 'designacion') ? popup_designacion : (tipo === 'junta') ? popup_junta: (tipo === 'oficinas') ? popup_oficinas : onEachFeatureL
 		});
 	return cluster;
 }
@@ -1872,6 +1902,55 @@ function getDesignacionesLayer(){
 	return desigLayer
 }
 
+function getJuntaClasificacionLayer(){
+	var juntaLayer = fetch ('mapa/setJuntaMarkers')
+	.then (response => response.json())
+	.then (data =>{
+		var juntaLayer = [];
+		let juntaLayerPri = {
+            "type": "FeatureCollection",
+            "features": [
+            ]
+          };
+		let juntaLayerSec = {
+			"type": "FeatureCollection",
+			"features": [
+			]
+		}; 
+		data.features.forEach(junta => {
+			if (junta.properties.nivel == 'primario') {
+				juntaLayerPri.features.push(junta);
+			} else {
+				juntaLayerSec.features.push(junta);
+			}
+		})
+		juntaLayer.push(createLayer(juntaLayerPri,'junta','primaria'));
+		juntaLayer.push(createLayer(juntaLayerSec, 'junta', 'secundaria'));
+		return juntaLayer
+	})
+	.catch(error => {
+		console.log('Error fetching data:', error);
+		return null
+	})
+	return juntaLayer
+}
+
+
+function getOficinasLayer(){
+	var oficinasLayer = fetch ('mapa/setOficinasMarkers')
+	.then (response => response.json())
+	.then (data =>{
+		let oficinasLayer;
+		oficinasLayer = createLayer(data,'oficinas','');
+		return oficinasLayer
+	})
+	.catch(error => {
+		console.log('Error fetching data:', error);
+		return null
+	})
+	return oficinasLayer
+}
+
 
 function getAreasLayer() {
 	var area;
@@ -1984,6 +2063,8 @@ async function generarTodosLayers(layerParam) {
 	const supervision = await getSupervisionLayers();
 	const bibliotecas = await getBibliotecaLayer();
 	const designaciones = await getDesignacionesLayer();
+	const junta = await getJuntaClasificacionLayer();
+	const oficinas = await getOficinasLayer();
 	capaRegiones = await getRegiones();
 	capaDepartamentos = await getDepartamentos();
 	await getCartoLayers();
@@ -2043,6 +2124,33 @@ async function generarTodosLayers(layerParam) {
 				url: 'icons/designacion_secundaria.svg',
 				layers_type: "organizacion",
 				layers: designaciones[1],
+				inactive: true
+			})
+
+		layersConfig.push({
+				label: 'Junta Primaria',
+				type: 'image',
+				url: 'icons/junta_primaria.svg',
+				layers_type: "organizacion",
+				layers: junta[0],
+				inactive: true
+			})
+			
+		layersConfig.push({
+				label: 'Junta Secundaria',
+				type: 'image',
+				url: 'icons/junta_secundaria.svg',
+				layers_type: "organizacion",
+				layers: junta[1],
+				inactive: true
+			})
+
+		layersConfig.push({
+				label: 'Oficinas Externas',
+				type: 'image',
+				url: 'icons/oficinas_externas.svg',
+				layers_type: "organizacion",
+				layers: oficinas,
 				inactive: true
 			})
 
@@ -2301,6 +2409,33 @@ async function generarTodosLayers(layerParam) {
 				url: 'icons/designacion_secundaria.svg',
 				layers_type: "organizacion",
 				layers: designaciones[1],
+				inactive: true
+			})
+
+			layersConfig.push({
+				label: 'Junta Primaria',
+				type: 'image',
+				url: 'icons/junta_primaria.svg',
+				layers_type: "organizacion",
+				layers: junta[0],
+				inactive: true
+			})
+
+			layersConfig.push({
+				label: 'Junta Secundaria',
+				type: 'image',
+				url: 'icons/junta_secundaria.svg',
+				layers_type: "organizacion",
+				layers: junta[1],
+				inactive: true
+			})
+
+			layersConfig.push({
+				label: 'Oficinas Externas',
+				type: 'image',
+				url: 'icons/oficinas_externas.svg',
+				layers_type: "organizacion",
+				layers: oficinas,
 				inactive: true
 			})
 		}

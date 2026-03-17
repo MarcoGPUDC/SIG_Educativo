@@ -157,6 +157,22 @@ function buscar_info_designaciones(){
                     SELECT sec.id,ST_AsGeoJSON(ST_Transform(sec.geom, 4326)) AS geom,sec.region,sec.localidad,sec.direccion,sec.correo,sec.telefono, sec.lugar,sec.horario, sec.sitio_web, 'Secundaria' AS nivel FROM public.designaciones_secundario sec`)
     }
 
+function buscar_info_junta(){
+    return db.any (`
+            SELECT id, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom, region, nombre, direccion, telefono, correo, 'secundario' AS nivel FROM public.junta_clasificacion_secundario sec
+            UNION ALL
+            SELECT id, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom, region, nombre, direccion, telefono, correo, 'inicial/primario' AS nivel FROM public.junta_clasificacion_inicial_primario pri
+            ORDER BY id ASC 
+            `)
+}    
+
+function buscar_info_oficinas(){
+    return db.any (`
+            SELECT id, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom, oficina, direccion, telefono, correo, web FROM public.oficinas_externas
+            ORDER BY id ASC 
+            `)
+}
+
 //funcion para buscar por oferta educativa
 function buscar_oferta(modalidad, nivel) {
     return db.any(`SELECT inst.id_institucion, inst.nombre, inst.numero, niv.nombre AS nivel, moda.nombre AS modalidad,  ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.institucion inst JOIN padron.modalidad_nivel ofe ON inst.id_institucion = ofe.id_institucion
@@ -604,6 +620,8 @@ module.exports = {
     buscar_porcentaje_equi_infra,
     buscar_info_region,
     buscar_info_designaciones,
+    buscar_info_junta,
+    buscar_info_oficinas,
     getDataEtp,
     CSAC,
 };

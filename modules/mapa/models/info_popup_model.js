@@ -172,6 +172,72 @@ router.get('/mapa/setDesignacionesMarkers', async (req,res) => {
     } 
 });
 
+router.get('/mapa/setJuntaMarkers', async (req,res) => {
+    try {
+        const result = await consultar.buscar_info_junta();
+        let geoJSON = {
+            "type": "FeatureCollection",
+            "features": [
+            ]
+          };
+        
+        result.forEach(row => {
+            const geom = JSON.parse(row.geom);
+            var newFeature = {
+                type: "Feature",
+                geometry: geom,
+                properties: {
+                    id: row.id,
+                    direccion: row.direccion,
+                    nombre: row.nombre,
+                    region: row.region,
+                    localidad: row.localidad,
+                    telefono: row.telefono,
+                    correo: row.correo,
+                    nivel: row.nivel
+                }
+            };
+           geoJSON.features.push(newFeature) 
+        })
+        res.json(geoJSON);
+    } catch (err) {
+        console.error('Error al obtener los datos', err);
+        res.status(500).json({ error: 'Database error' });
+    } 
+});
+
+router.get('/mapa/setOficinasMarkers', async (req,res) => {
+    try {
+        const result = await consultar.buscar_info_oficinas();
+        let geoJSON = {
+            "type": "FeatureCollection",
+            "features": [
+            ]
+          };
+        
+        result.forEach(row => {
+            const geom = JSON.parse(row.geom);
+            var newFeature = {
+                type: "Feature",
+                geometry: geom,
+                properties: {
+                    id: row.id,
+                    oficina: row.oficina,
+                    direccion: row.direccion,
+                    telefono: row.telefono,
+                    correo: row.correo,
+                    nivel: row.nivel
+                }
+            };
+           geoJSON.features.push(newFeature) 
+        })
+        res.json(geoJSON);
+    } catch (err) {
+        console.error('Error al obtener los datos', err);
+        res.status(500).json({ error: 'Database error' });
+    } 
+});
+
 router.get('/mapa/setBiblioMarkers', async (req,res) => {
     try {
         const result = await consultar.buscar_todos_biblioteca();
