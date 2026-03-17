@@ -2128,7 +2128,7 @@ async function generarTodosLayers(layerParam) {
 			})
 
 		layersConfig.push({
-				label: 'Junta Primaria',
+				label: 'Junta Inicial/Primaria',
 				type: 'image',
 				url: 'icons/junta_primaria.svg',
 				layers_type: "organizacion",
@@ -2413,7 +2413,7 @@ async function generarTodosLayers(layerParam) {
 			})
 
 			layersConfig.push({
-				label: 'Junta Primaria',
+				label: 'Junta Inicial/Primaria',
 				type: 'image',
 				url: 'icons/junta_primaria.svg',
 				layers_type: "organizacion",
