@@ -1918,13 +1918,13 @@ function getJuntaClasificacionLayer(){
 			]
 		}; 
 		data.features.forEach(junta => {
-			if (junta.properties.nivel == 'primario') {
+			if (junta.properties.nivel == 'inicial/primario') {
 				juntaLayerPri.features.push(junta);
 			} else {
 				juntaLayerSec.features.push(junta);
 			}
 		})
-		juntaLayer.push(createLayer(juntaLayerPri,'junta','inicial/primario'));
+		juntaLayer.push(createLayer(juntaLayerPri,'junta','primaria'));
 		juntaLayer.push(createLayer(juntaLayerSec, 'junta', 'secundaria'));
 		return juntaLayer
 	})
