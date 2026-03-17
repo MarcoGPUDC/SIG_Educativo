@@ -1924,7 +1924,7 @@ function getJuntaClasificacionLayer(){
 				juntaLayerSec.features.push(junta);
 			}
 		})
-		juntaLayer.push(createLayer(juntaLayerPri,'junta','primaria'));
+		juntaLayer.push(createLayer(juntaLayerPri,'junta','inicial/primario'));
 		juntaLayer.push(createLayer(juntaLayerSec, 'junta', 'secundaria'));
 		return juntaLayer
 	})
