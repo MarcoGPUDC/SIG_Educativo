@@ -151,7 +151,8 @@ body {
     padding-right: 0.5rem !important;
     display: inline-block;
     overflow-y: auto;
-    max-height: 190px;
+    height: auto;
+    max-height: 140px;
 }
 
 .imagecustom {
