@@ -43,7 +43,11 @@ function buscar_todos_ambito () {
 };
 
 function busqueda_simple_todo () {
-    return db.any(`SELECT inst.*, esc.email_inst, COALESCE(inst.responsable, 'Sin Informacion') AS responsable, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.v_establec_educativos AS inst JOIN padron.institucion esc ON esc.cue_anexo = inst.cue_anexo WHERE esc.funcion ='Activo'`);
+    return db.any(` 
+            SELECT esc.id,
+    esc.id_institucion, esc.cue,
+    esc.anexo, esc.cue_anexo, esc.nombre, esc.numero, esc.funcion, esc.region, esc.localidad, esc.departamento, esc.nivel, esc.modalidad, esc.domicilio, esc.cp, esc.ambito, esc.web, esc.tel, esc.gestion, esc.jornada, esc.dependencia, esc.responsable, ST_AsGeoJSON(ST_Transform(esc.geom, 4326)) AS geom FROM public.establec_educativos AS esc
+        `);
 };
 
 function buscar_ubicacion(id) {
