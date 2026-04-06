@@ -13,6 +13,10 @@ html(lang="en")
 
         <div id="overlay"></div>
         div(id="draw-modal")
+            select(id="select-categoria-carto")
+            <button id="save-drawing" class="btn btn-success">Save</button>
+            <button id="close-drawing" class="btn btn-danger">Cancel</button>
+        //
             <h5>Dibujá tu ícono</h5>
             <canvas id="draw-canvas" width="800px" height="350px"></canvas>
             <br>
@@ -41,8 +45,6 @@ html(lang="en")
                         <span class="info">0</span>
                     </p><input type="range" min="0" max="50" value='0' id="drawing-shadow-offset">
                 </label>
-                <button id="save-drawing" class="btn btn-success">Save</button>
-                <button id="close-drawing" class="btn btn-danger">Cancel</button>
             </div>
     <script src="../public/js/leaflet.js"></script>
     <script src="./models/dibujo.js"></script>

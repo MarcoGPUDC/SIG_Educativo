@@ -295,6 +295,22 @@ function capa_carto () {
     ORDER BY escuela ASC `)
 }
 
+function categorias_carto () {
+    return db.any (`SELECT row_number() OVER () AS id, REPLACE(LOWER(categoria), ' ', '_') || '.png' AS icon, 
+                    CASE 
+                            WHEN categoria = 'establec-educativo' THEN 'Establecimiento Educativo'
+                            WHEN categoria = 'estacion de servicio' THEN 'Estación De Servicio'
+                            WHEN categoria = 'geografia' THEN 'Geografía'
+                            WHEN categoria = 'religion' THEN 'Religión'
+                            WHEN categoria = 'religion' THEN 'Organismo Público'
+                            ELSE INITCAP(categoria)
+                        END AS categoria
+                    FROM public.tallercarto
+                    GROUP BY categoria
+                    ORDER BY categoria ASC `
+    )
+}
+
 //CONSULTAS PARA ABM
 async function marcar_solicitud(id_solicitud, usuario_revisor, estado) {
     const query = `
@@ -610,6 +626,7 @@ module.exports = {
     capa_prueba,
     capa_areas,
     capa_carto,
+    categorias_carto,
     area_bibliotecas,
     solicitud_modificacion,
     solicitud_borrar,

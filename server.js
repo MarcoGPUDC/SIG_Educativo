@@ -14,7 +14,7 @@ app.use(express.static(path.join(__dirname,'modules')));
 app.use(express.static(path.join(__dirname,'modules','buscador')));
 app.use(express.static(path.join(__dirname,'modules','mapa')));
 app.use(express.static(path.join(__dirname,'modules','ABM')));
-app.use(express.static(path.join(__dirname,'node_modules')));
+//app.use(express.static(path.join(__dirname,'node_modules')));
 app.use(express.static(__dirname));
 app.use(express.json());
 app.use(bodyParser.json());
@@ -84,13 +84,13 @@ app.use('/dibujarmapa', express.static(path.join(__dirname, 'modules', 'dibujado
   }
 }));
 
-app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), {
+/*app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), {
   setHeaders: (res, path) => {
     if (path.endsWith('.js')) {
       res.setHeader('Content-Type', 'application/javascript');
     }
   }
-}));
+}));*/
 
 // Configura Pug como motor de plantillas
 app.set('view engine', 'pug');

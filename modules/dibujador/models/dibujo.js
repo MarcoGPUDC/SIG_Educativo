@@ -1,4 +1,3 @@
-
 var osmUrl ='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 var osmAttrib ='Map data &copy;  <a href="http://www.osm.org/copyright" target="_blank">OpenStreetMap</a> contributors';
 var mymap = L.map('map', {
@@ -16,12 +15,23 @@ mymap.on('dblclick', (e) => {
 var canvas = null;
 function openDrawingModal(latlng) {
   document.getElementById('draw-modal').style.display = 'block';
-
+  const categorias = fetch('./categorias')
+    .then(response => response.json())
+    .then( data => {
+      const select = document.getElementById('select-categoria-carto');
+      select.innerHTML = " ";
+      data.forEach(item => {
+        const option = document.createElement("option");
+        option.value = item.icon;
+        option.textContent = categorias[item.categoria] || item.categoria;
+        select.appendChild(option);
+      });
+    })
   const modal = document.getElementById('draw-modal');
   modal.dataset.lat = latlng.lat;
   modal.dataset.lng = latlng.lng;
 
-  // ⚠️ destruí el canvas anterior si existe
+  /* ⚠️ destruí el canvas anterior si existe
   if (canvas != null) {
     canvas.dispose();
   }
@@ -220,7 +230,7 @@ function openDrawingModal(latlng) {
     }
   };*/
 
-  drawingColorEl.onchange = function () {
+  /*drawingColorEl.onchange = function () {
     canvas.freeDrawingBrush.color = this.value;
   };
   drawingShadowColorEl.onchange = function () {
@@ -250,21 +260,21 @@ function openDrawingModal(latlng) {
       affectStroke: true,
       color: drawingShadowColorEl.value,
     });
-  }
+  }*/
   
 }
 var marcadores = [];
 document.getElementById('save-drawing').addEventListener('click', () => {
-    const imgData = canvas.toDataURL({ format: 'png' }); // Base64 PNG
-
+    //const imgData = canvas.toDataURL({ format: 'png' }); // Base64 PNG
+    const imgData = document.getElementById('select-categoria-carto').value;
     const lat = document.getElementById('draw-modal').dataset.lat;
     const lng = document.getElementById('draw-modal').dataset.lng;
 
     // Crear icono personalizado
     const icon = L.icon({
-      iconUrl: imgData,
-      iconSize: [150],
-      iconAnchor: [23,54],
+      iconUrl: "../modules/mapa/icons/"+imgData,
+      iconSize: [20],
+      iconAnchor: [10,10],
       className: 'custom-icon'   // para asegurar que sea interactivo
     });
     const marker = L.marker([lat, lng], { icon });
@@ -273,7 +283,6 @@ document.getElementById('save-drawing').addEventListener('click', () => {
     marker.on('contextmenu', () => {
       if (confirm('¿Querés borrar este dibujo del mapa?')) {
         mymap.removeLayer(marker); // lo saca del mapa
-
         // También lo eliminamos del array de marcadores
         const index = marcadores.indexOf(marker);
         if (index > -1) {
@@ -380,7 +389,8 @@ window.addEventListener('load', () => {
   data.forEach(o => {
     const icon = L.icon({
       iconUrl: o.icon,
-      iconSize: [150],
+      iconSize: [20],
+      iconAnchor: [10,10],
       className: 'custom-icon'   // para asegurar que sea interactivo
     });
     const marker = L.marker([o.lat, o.lng], { icon });
@@ -388,7 +398,7 @@ window.addEventListener('load', () => {
     marker.on('contextmenu', function(ev) {
       if (confirm('¿Querés borrar este dibujo del mapa?')) {
         mymap.removeLayer(marker); // lo saca del mapa
-
+        console.log(marker._latlng);
         // También lo eliminamos del array de marcadores
         const index = marcadores.indexOf(marker);
         if (index > -1) {
