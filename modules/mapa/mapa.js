@@ -1805,7 +1805,6 @@ function getCartoLayers(){
 						});
 							break;
 						default:
-							console.log(feature.properties.categoria, feature.properties.escuela)
 							var marker = L.marker(latlng, {
 								icon: L.icon({
 									iconUrl: `icons/common-point-azul.svg`,
