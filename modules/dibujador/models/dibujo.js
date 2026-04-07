@@ -1,4 +1,4 @@
-var osmUrl ='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+var osmUrl ='http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}';
 var osmAttrib ='Map data &copy;  <a href="http://www.osm.org/copyright" target="_blank">OpenStreetMap</a> contributors';
 var mymap = L.map('map', {
   markerZoomAnimation: false
