@@ -1,11 +1,11 @@
-var osmUrl ='http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}';
+var osmUrl ='https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png';
 var osmAttrib ='Map data &copy;  <a href="http://www.osm.org/copyright" target="_blank">OpenStreetMap</a> contributors';
 var mymap = L.map('map', {
   markerZoomAnimation: false
 }).setView([-44.0, -68.41215], 7);
 mymap.doubleClickZoom.disable();
 
-L.tileLayer(osmUrl, {minZoom: 6, maxZoom: 19, attribution: osmAttrib}).addTo(mymap);
+L.tileLayer(osmUrl, {minZoom: 6, maxZoom: 19, opacity: 1, attribution: osmAttrib}).addTo(mymap);
 
 mymap.on('dblclick', (e) => {
     openDrawingModal(e.latlng);
