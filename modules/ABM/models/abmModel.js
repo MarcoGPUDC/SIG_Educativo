@@ -30,14 +30,11 @@ async function datosAbmForm() {
 async function cargarAbmForm(){
     datosForm = await datosAbmForm();
     datosForm.forEach(data => {
-        console.log(data);
         var filtro = data['clave']; //obtiene el nombre de la clave para indicar en que formulario agregar las opciones
         if (filtro == 'modalidad' || filtro == 'localidad' || filtro == 'departamento'||filtro == 'ambito'){
-            console.log(filtro);
             data["valor"].forEach(datos =>{
                 var select = document.getElementById(`form-select-${filtro}`); //se inyecta la clave para seleccionar el formulario
                 var selectModificar = document.getElementById(`form-select-modificar-${filtro}`);
-                console.log(selectModificar);
                 const option = document.createElement('option');
                 option.value = datos['id'] ? datos['id'] : datos[filtro];
                 option.text = datos[filtro];
@@ -218,16 +215,11 @@ async function buscarInstitucion (cue, accion) {
                 document.getElementById('telFormModificar').value = data.tel;
                 document.getElementById('form-select-modificar-modalidad').value = buscarDato('modalidad', data.modalidad);
                 data.nivel = data.nivel.replace(" ", "");
-                if (data.nivel.split(",").length == 0){
-                    console.log(`form-checkbox-modificar-nivel-${nivel}`)
-                    document.getElementById(`form-checkbox-modificar-nivel-${data.nivel}`).setAttribute("checked","");
-                } else {
+                if (data.nivel.split(",").length != 0){
                     data.nivel.split(',').forEach(nivel => {
-                        console.log(`form-checkbox-modificar-nivel-${nivel}`)
                         document.getElementById(`form-checkbox-modificar-nivel-${nivel}`).setAttribute("checked","");
                     })
                 }
-                
             } else {
                 divDatos = document.getElementById('datosInstitucionBorrar')
                             divDatos.innerHTML = `
@@ -405,10 +397,10 @@ function createLayer () {
                     }
                     return response.json();
                 })
-                .then(responseData => console.log('Respuesta del servidor:', responseData))
+                .then(responseData => console.info('Respuesta del servidor:', responseData))
                 .catch(error => console.error('Error:', error));
             } else {
-                console.log('El registro ya existe');
+                console.error('El registro ya existe');
             }
         })
         .catch(error => {
@@ -482,10 +474,7 @@ async function updateLayer() {
             }
         };
 
-        const datosModificados = await compararRegistros(data, datosNuevos)
-        console.log(data);
-        
-        console.log(datosModificados);
+        //const datosModificados = await compararRegistros(data, datosNuevos)
 
         // Construir lo que va al backend
         const dataCambios = {
