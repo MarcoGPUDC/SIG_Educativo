@@ -30,11 +30,14 @@ async function datosAbmForm() {
 async function cargarAbmForm(){
     datosForm = await datosAbmForm();
     datosForm.forEach(data => {
+        console.log(data);
         var filtro = data['clave']; //obtiene el nombre de la clave para indicar en que formulario agregar las opciones
-        if (filtro == 'modalidad' || filtro == 'localidad' || filtro == 'nivel' || filtro == 'departamento'||filtro == 'ambito'){
+        if (filtro == 'modalidad' || filtro == 'localidad' || filtro == 'departamento'||filtro == 'ambito'){
+            console.log(filtro);
             data["valor"].forEach(datos =>{
                 var select = document.getElementById(`form-select-${filtro}`); //se inyecta la clave para seleccionar el formulario
                 var selectModificar = document.getElementById(`form-select-modificar-${filtro}`);
+                console.log(selectModificar);
                 const option = document.createElement('option');
                 option.value = datos['id'] ? datos['id'] : datos[filtro];
                 option.text = datos[filtro];
@@ -52,6 +55,21 @@ async function cargarAbmForm(){
                 option.text = datos.cueanexo;
                 option.value = datos.cueanexo;
                 select.appendChild(option);
+            })
+        } else if (filtro == 'nivel') {
+            data["valor"].forEach(datos =>{
+                var select = document.getElementById(`form-select-${filtro}`); //se inyecta la clave para seleccionar el formulario
+                //var selectModificar = document.getElementById(`form-select-modificar-${filtro}`);
+                //console.log(selectModificar);
+                const option = document.createElement('option');
+                option.value = datos['id'] ? datos['id'] : datos[filtro];
+                option.text = datos[filtro];
+                //const optionMod = document.createElement('option');
+                //optionMod.value = datos['id'] ? datos['id'] : datos[filtro];
+                //optionMod.text = datos[filtro];
+                select.appendChild(option);
+                //selectModificar.appendChild(optionMod)
+            
             })
         }
     })
