@@ -6,7 +6,7 @@ async function datosAbmForm() {
     if (datosForm) {
         return Promise.resolve(datosForm);
     } else {
-        return fetch('/abm/cargaDatosABM')
+        return fetch('./cargaDatosABM')
             .then(response => {
                 // Maneja la respuesta recibida del servidor
                 if (!response.ok) {
@@ -578,7 +578,7 @@ function logOut(){
     });
 }
 
-fetch('/session-info')
+fetch('./session-info')
   .then(res => res.json())
   .then(info => {
     if (info.loggedIn && info.role === 'admin') {
