@@ -578,7 +578,7 @@ function logOut(){
     });
 }
 
-fetch('session-info')
+fetch('../session-info')
   .then(res => res.json())
   .then(info => {
     if (info.loggedIn && info.role === 'admin') {
@@ -741,7 +741,7 @@ function rechazarCambio(id) {
 }
 
 function obtenerModificaciones() {
-    fetch('modificaciones')
+    fetch('./modificaciones')
     .then(res => res.json())
     .then(info => {
         info.forEach(cambio => {
