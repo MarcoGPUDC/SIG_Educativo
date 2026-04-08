@@ -550,7 +550,7 @@ function deleteLayer () {
 }
 
 function logOut(){
-    fetch(`http://localhost:3005/logout`,{
+    fetch(`../logout`,{
         method: 'POST',
         credentials: 'include'
     })
