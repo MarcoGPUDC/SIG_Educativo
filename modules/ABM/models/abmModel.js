@@ -578,7 +578,7 @@ function logOut(){
     });
 }
 
-fetch('./session-info')
+fetch('session-info')
   .then(res => res.json())
   .then(info => {
     if (info.loggedIn && info.role === 'admin') {
