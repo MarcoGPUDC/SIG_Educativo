@@ -559,7 +559,7 @@ function logOut(){
         if (!response.ok) {
             throw new Error('Error al obtener los datos');
         } else {
-            window.location.href = '/auth'
+            window.location.href = '../auth'
         }
     })
     .catch(error => {
