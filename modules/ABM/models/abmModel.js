@@ -6,7 +6,7 @@ async function datosAbmForm() {
     if (datosForm) {
         return Promise.resolve(datosForm);
     } else {
-        return fetch('/abm/cargaDatosABM')
+        return fetch('./cargaDatosABM')
             .then(response => {
                 // Maneja la respuesta recibida del servidor
                 if (!response.ok) {
@@ -31,7 +31,7 @@ async function cargarAbmForm(){
     datosForm = await datosAbmForm();
     datosForm.forEach(data => {
         var filtro = data['clave']; //obtiene el nombre de la clave para indicar en que formulario agregar las opciones
-        if (filtro == 'modalidad' || filtro == 'localidad' || filtro == 'nivel' || filtro == 'departamento'||filtro == 'ambito'){
+        if (filtro == 'modalidad' || filtro == 'localidad' || filtro == 'departamento'||filtro == 'ambito'){
             data["valor"].forEach(datos =>{
                 var select = document.getElementById(`form-select-${filtro}`); //se inyecta la clave para seleccionar el formulario
                 var selectModificar = document.getElementById(`form-select-modificar-${filtro}`);
@@ -52,6 +52,21 @@ async function cargarAbmForm(){
                 option.text = datos.cueanexo;
                 option.value = datos.cueanexo;
                 select.appendChild(option);
+            })
+        } else if (filtro == 'nivel') {
+            data["valor"].forEach(datos =>{
+                var select = document.getElementById(`form-select-${filtro}`); //se inyecta la clave para seleccionar el formulario
+                //var selectModificar = document.getElementById(`form-select-modificar-${filtro}`);
+                //console.log(selectModificar);
+                const option = document.createElement('option');
+                option.value = datos['id'] ? datos['id'] : datos[filtro];
+                option.text = datos[filtro];
+                //const optionMod = document.createElement('option');
+                //optionMod.value = datos['id'] ? datos['id'] : datos[filtro];
+                //optionMod.text = datos[filtro];
+                select.appendChild(option);
+                //selectModificar.appendChild(optionMod)
+            
             })
         }
     })
@@ -200,16 +215,11 @@ async function buscarInstitucion (cue, accion) {
                 document.getElementById('telFormModificar').value = data.tel;
                 document.getElementById('form-select-modificar-modalidad').value = buscarDato('modalidad', data.modalidad);
                 data.nivel = data.nivel.replace(" ", "");
-                if (data.nivel.split(",").length == 0){
-                    console.log(`form-checkbox-modificar-nivel-${nivel}`)
-                    document.getElementById(`form-checkbox-modificar-nivel-${data.nivel}`).setAttribute("checked","");
-                } else {
+                if (data.nivel.split(",").length != 0){
                     data.nivel.split(',').forEach(nivel => {
-                        console.log(`form-checkbox-modificar-nivel-${nivel}`)
                         document.getElementById(`form-checkbox-modificar-nivel-${nivel}`).setAttribute("checked","");
                     })
                 }
-                
             } else {
                 divDatos = document.getElementById('datosInstitucionBorrar')
                             divDatos.innerHTML = `
@@ -387,10 +397,10 @@ function createLayer () {
                     }
                     return response.json();
                 })
-                .then(responseData => console.log('Respuesta del servidor:', responseData))
+                .then(responseData => console.info('Respuesta del servidor:', responseData))
                 .catch(error => console.error('Error:', error));
             } else {
-                console.log('El registro ya existe');
+                console.error('El registro ya existe');
             }
         })
         .catch(error => {
@@ -464,10 +474,7 @@ async function updateLayer() {
             }
         };
 
-        const datosModificados = await compararRegistros(data, datosNuevos)
-        console.log(data);
-        
-        console.log(datosModificados);
+        //const datosModificados = await compararRegistros(data, datosNuevos)
 
         // Construir lo que va al backend
         const dataCambios = {
@@ -543,7 +550,7 @@ function deleteLayer () {
 }
 
 function logOut(){
-    fetch(`http://localhost:3005/logout`,{
+    fetch(`../logout`,{
         method: 'POST',
         credentials: 'include'
     })
@@ -552,7 +559,7 @@ function logOut(){
         if (!response.ok) {
             throw new Error('Error al obtener los datos');
         } else {
-            window.location.href = '/auth'
+            window.location.href = '../auth'
         }
     })
     .catch(error => {
@@ -560,7 +567,7 @@ function logOut(){
     });
 }
 
-fetch('/session-info')
+fetch('../session-info')
   .then(res => res.json())
   .then(info => {
     if (info.loggedIn && info.role === 'admin') {
@@ -723,7 +730,7 @@ function rechazarCambio(id) {
 }
 
 function obtenerModificaciones() {
-    fetch('modificaciones')
+    fetch('./modificaciones')
     .then(res => res.json())
     .then(info => {
         info.forEach(cambio => {

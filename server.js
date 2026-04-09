@@ -5,6 +5,7 @@ var app = express();
 const path = require('path');
 var https = require('https');
 var fs = require('fs');
+var RateLimit = require('express-rate-limit');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
@@ -14,7 +15,7 @@ app.use(express.static(path.join(__dirname,'modules')));
 app.use(express.static(path.join(__dirname,'modules','buscador')));
 app.use(express.static(path.join(__dirname,'modules','mapa')));
 app.use(express.static(path.join(__dirname,'modules','ABM')));
-app.use(express.static(path.join(__dirname,'node_modules')));
+//app.use(express.static(path.join(__dirname,'node_modules')));
 app.use(express.static(__dirname));
 app.use(express.json());
 app.use(bodyParser.json());
@@ -31,6 +32,15 @@ const options = {
 app.locals.paths = {
   abm: '/sigeducativo/abm'
 };
+
+// set up rate limiter: maximum of five requests per minute
+var limiter = RateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // max 100 requests per windowMs
+});
+
+// apply rate limiter to all requests
+app.use(limiter);
 
 
 // Middleware para servir archivos estáticos con tipo MIME correcto
@@ -84,13 +94,13 @@ app.use('/dibujarmapa', express.static(path.join(__dirname, 'modules', 'dibujado
   }
 }));
 
-app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), {
+/*app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), {
   setHeaders: (res, path) => {
     if (path.endsWith('.js')) {
       res.setHeader('Content-Type', 'application/javascript');
     }
   }
-}));
+}));*/
 
 // Configura Pug como motor de plantillas
 app.set('view engine', 'pug');

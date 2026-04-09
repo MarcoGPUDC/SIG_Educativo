@@ -92,7 +92,7 @@ function nroSelect(){
         .then(response => response.json())
         .then((escuelas) => {
             escuelas.forEach(data => {
-                if (data.numero == miSelect) {
+                if (data.numero == miSelect && data.geom != null) {
                     // Cadena JSON
                     let jsonString = data.geom;
                     // Convertir la cadena JSON a un objeto JavaScript
@@ -145,7 +145,7 @@ function nombreSelect() {
         .then(response => response.json())
         .then((escuelas) => {
             escuelas.forEach(data => {
-                if (data.nombre == miSelect) {
+                if (data.nombre == miSelect && data.geom != null) {
                      // Cadena JSON
                      let jsonString = data.geom;
                      // Convertir la cadena JSON a un objeto JavaScript
@@ -205,7 +205,7 @@ function cueAnexoSelect() {
         .then(response => response.json())
         .then((escuelas) => {
             escuelas.forEach(data => {
-                if (data.cue_anexo == miSelect) {
+                if (data.cue_anexo == miSelect && data.geom != null) {
                     coincidencias += 1;
                     // Cadena JSON
                     let jsonString = data.geom;

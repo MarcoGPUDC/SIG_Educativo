@@ -43,7 +43,11 @@ function buscar_todos_ambito () {
 };
 
 function busqueda_simple_todo () {
-    return db.any(`SELECT inst.*, esc.email_inst, COALESCE(inst.responsable, 'Sin Informacion') AS responsable, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom FROM padron.v_establec_educativos AS inst JOIN padron.institucion esc ON esc.cue_anexo = inst.cue_anexo WHERE esc.funcion ='Activo'`);
+    return db.any(` 
+            SELECT esc.id,
+    esc.id_institucion, esc.cue,
+    esc.anexo, esc.cue_anexo, esc.nombre, esc.numero, esc.funcion, esc.region, esc.localidad, esc.departamento, esc.nivel, esc.modalidad, esc.domicilio, esc.cp, esc.ambito, esc.web, esc.tel, esc.gestion, esc.jornada, esc.dependencia, esc.responsable, ST_AsGeoJSON(ST_Transform(esc.geom, 4326)) AS geom FROM public.establec_educativos AS esc
+        `);
 };
 
 function buscar_ubicacion(id) {
@@ -289,6 +293,22 @@ function capa_areas () {
 function capa_carto () {
     return db.any(`SELECT id, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom, puntos_int, localidad, escuela, grupo, anio, curso, categoria FROM public.tallercarto    
     ORDER BY escuela ASC `)
+}
+
+function categorias_carto () {
+    return db.any (`SELECT row_number() OVER () AS id, REPLACE(LOWER(categoria), ' ', '_') || '.png' AS icon, 
+                    CASE 
+                            WHEN categoria = 'establec-educativo' THEN 'Establecimiento Educativo'
+                            WHEN categoria = 'estacion de servicio' THEN 'Estación De Servicio'
+                            WHEN categoria = 'geografia' THEN 'Geografía'
+                            WHEN categoria = 'religion' THEN 'Religión'
+                            WHEN categoria = 'religion' THEN 'Organismo Público'
+                            ELSE INITCAP(categoria)
+                        END AS categoria
+                    FROM public.tallercarto
+                    GROUP BY categoria
+                    ORDER BY categoria ASC `
+    )
 }
 
 //CONSULTAS PARA ABM
@@ -606,6 +626,7 @@ module.exports = {
     capa_prueba,
     capa_areas,
     capa_carto,
+    categorias_carto,
     area_bibliotecas,
     solicitud_modificacion,
     solicitud_borrar,

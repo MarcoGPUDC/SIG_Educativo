@@ -3,16 +3,21 @@ html(lang="en")
     head
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Document
+        title Mapa Participativo
         <link type="text/css" rel="stylesheet" href="../public/css/leaflet.css" />
         <link type="text/css" rel="stylesheet" href="./css/dibujo.css" />
         <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" />
+        <link rel="shortcut icon" type="image/x-icon"  href="../modules/mapa/icons/logo_pestaña.png">
     body
         button(id="exportarCapaDibujo", class="btn btn-primary float-end me-4") Exportar
         div(id="map")
 
         <div id="overlay"></div>
         div(id="draw-modal")
+            select(id="select-categoria-carto")
+            <button id="save-drawing" class="btn btn-success">Save</button>
+            <button id="close-drawing" class="btn btn-danger">Cancel</button>
+        //
             <h5>Dibujá tu ícono</h5>
             <canvas id="draw-canvas" width="800px" height="350px"></canvas>
             <br>
@@ -41,8 +46,6 @@ html(lang="en")
                         <span class="info">0</span>
                     </p><input type="range" min="0" max="50" value='0' id="drawing-shadow-offset">
                 </label>
-                <button id="save-drawing" class="btn btn-success">Save</button>
-                <button id="close-drawing" class="btn btn-danger">Cancel</button>
             </div>
     <script src="../public/js/leaflet.js"></script>
     <script src="./models/dibujo.js"></script>
