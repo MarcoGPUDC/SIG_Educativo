@@ -9,24 +9,25 @@ var RateLimit = require('express-rate-limit');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
+var csrf = require('lusca').csrf;
 require('dotenv').config();
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.static(path.join(__dirname,'modules')));
 app.use(express.static(path.join(__dirname,'modules','buscador')));
 app.use(express.static(path.join(__dirname,'modules','mapa')));
 app.use(express.static(path.join(__dirname,'modules','ABM')));
-//app.use(express.static(path.join(__dirname,'node_modules')));
 app.use(express.static(__dirname));
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(csrf());
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const keyPath = path.join(__dirname, 'server.key');
 const certPath = path.join(__dirname, 'server.cert');
 const options = {
     key: fs.readFileSync(keyPath),
     cert: fs.readFileSync(certPath)
-}
+};
 
 //enlaces publicos
 app.locals.paths = {
@@ -93,14 +94,6 @@ app.use('/dibujarmapa', express.static(path.join(__dirname, 'modules', 'dibujado
     }
   }
 }));
-
-/*app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), {
-  setHeaders: (res, path) => {
-    if (path.endsWith('.js')) {
-      res.setHeader('Content-Type', 'application/javascript');
-    }
-  }
-}));*/
 
 // Configura Pug como motor de plantillas
 app.set('view engine', 'pug');
@@ -213,32 +206,39 @@ app.get('/proxyimg', async (req, res) => {
   try {
     const { url } = req.query;
 
+    const allowedHosts = [
+      'drive.google.com',
+      'lh3.googleusercontent.com',
+      'drive.usercontent.google.com'
+    ];
+
     if (!url) {
       return res.status(400).send('Falta el parámetro "url"');
     }
 
-    // Validación básica: solo permitir URLs de Google Drive
-    if (!url.startsWith('https://drive.google.com')) {
+    // Parsear URL
+    const parsed = new URL(url);
+    const host = parsed.hostname;
+
+    // Validar host permitido
+    if (!allowedHosts.includes(host)) {
       return res.status(403).send('URL no permitida');
     }
 
-    // Descargar la imagen desde Google Drive
+    // Descargar imagen
     const response = await fetch(url, {
-      headers: {'User-Agent':'Mozilla/5.0'}
+      headers: { 'User-Agent': 'Mozilla/5.0' }
     });
 
     if (!response.ok) {
       return res.status(502).send('Error al obtener la imagen');
     }
 
-    // Detectar tipo MIME
     const contentType = response.headers.get('content-type') || 'image/jpeg';
 
-    // Establecer encabezados correctos
     res.setHeader('Content-Type', contentType);
-    res.setHeader('Cache-Control', 'public, max-age=3600');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
 
-    // Enviar la imagen directamente al cliente
     const buffer = await response.arrayBuffer();
     res.send(Buffer.from(buffer));
 
