@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 var esc = 0;
 document.addEventListener('DOMContentLoaded', (event) => {
 });
@@ -241,7 +239,8 @@ function downloadAsExcelD(filename, data){
 
 //funcion para cargar las imagenes y cuadros informativos a la pestaña info institucion
 function obtenerImagenes (){
-    fetch(`${process.env.GOOGLE_SCRIPT_URL}`)
+    const GOOGLE_URL = process.env.GOOGLE_SCRIPT_URL;
+    fetch(`${GOOGLE_URL}`)
     .then(response => {
         // Maneja la respuesta recibida del servidor
         if (!response.ok) {
