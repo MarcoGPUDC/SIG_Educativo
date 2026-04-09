@@ -19,7 +19,7 @@ fetch('./getCookie',{credentials:'include'})
 
 });
 
-function logIn() {
+async function logIn() {
     
     let user = document.getElementById("email").value;
     let pass = document.getElementById("password").value;
@@ -32,7 +32,7 @@ function logIn() {
 
     const data = { username: user, password: pass };
 
-    const csrf = fetch('./csrf-token', {
+    const csrf = await fetch('./csrf-token', {
         credentials: 'include'
     }).then(res => res.json());
 
@@ -66,8 +66,8 @@ function logIn() {
     });
 }
 
-function logOut(){
-    const csrf = fetch('/csrf-token', {
+async function logOut(){
+    const csrf = await fetch('/csrf-token', {
     credentials: 'include'
     }).then(res => res.json());
     fetch(`./logout`,{
