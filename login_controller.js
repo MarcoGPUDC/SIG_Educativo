@@ -18,7 +18,6 @@ router.get('/', async (req, res) => {
 
 
 router.post('/login', lusca.csrf(), async (req, res) => {
-  console.log("session-login", req.sessionID);
   // 🔥 BYPASS SOLO EN DESARROLLO
   if (process.env.NODE_ENV === "development") {
     const fakeUser = {
