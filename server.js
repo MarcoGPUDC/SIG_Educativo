@@ -5,6 +5,7 @@ var app = express();
 const path = require('path');
 var https = require('https');
 var fs = require('fs');
+var RateLimit = require('express-rate-limit');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
@@ -31,6 +32,15 @@ const options = {
 app.locals.paths = {
   abm: '/sigeducativo/abm'
 };
+
+// set up rate limiter: maximum of five requests per minute
+var limiter = RateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // max 100 requests per windowMs
+});
+
+// apply rate limiter to all requests
+app.use(limiter);
 
 
 // Middleware para servir archivos estáticos con tipo MIME correcto
