@@ -252,15 +252,17 @@ app.get('/proxyimg', async (req, res) => {
 });
 
 //ENDSPOINTS
-app.post('/logout',lusca.csrf(), (req, res) => {
-  res.clearCookie('authToken',{
-    path: "/",
-    httpOnly: true,
-    secure: true,
-    sameSite: 'none',
+app.post('/logout', lusca.csrf(), (req, res) => {
+  req.session.destroy(() => {
+    res.clearCookie('authToken', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax'
+    });
+
+    res.status(200).json({ message: 'Sesion cerrada' });
   });
-  return res.status(200).json({message:'Sesion cerrada'})
-})
+});
 
 app.get("/getCookie", (req,res) => {
   const cookie = req.cookies.authToken || null
