@@ -51,7 +51,7 @@ app.use(session({
   cookie: {
     httpOnly: true,
     sameSite: 'lax',
-    secure: process.env.SECURE
+    secure: process.env.NODE_ENV
   }
 }));
 
@@ -255,10 +255,11 @@ app.get('/proxyimg', async (req, res) => {
 app.post('/logout', (req, res) => {
   req.session.destroy(() => {
     res.clearCookie('authToken', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax'
-    });
+  httpOnly: true,
+  secure: process.env.NODE_ENV,
+  sameSite: 'lax',
+  path: '/'
+});
 
     res.status(200).json({ message: 'Sesion cerrada' });
   });
