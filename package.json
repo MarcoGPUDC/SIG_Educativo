@@ -19,7 +19,7 @@
     "crypto-js": "^4.2.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "fabric": "^6.7.0",
+    "fabric": "^7.2.0",
     "highcharts": "^12.2.0",
     "http-proxy-middleware": "^3.0.2",
     "jsonwebtoken": "^9.0.2",
