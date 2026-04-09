@@ -32,33 +32,27 @@ async function logIn() {
 
     const data = { username: user, password: pass };
 
-    const csrf = await fetch('./csrf-token', {
+    const csrf = await fetch('./authcsrf-token', {
         credentials: 'include'
     }).then(res => res.json());
-
+    console.log(csrf);
     fetch('./auth/login', {
-        method: 'POST',
-        headers: { 
-            'Content-Type': 'application/json',
-            'CSRF-Token': csrf.csrfToken
-        },
-        credentials:'include',
-        body: JSON.stringify(data)
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'CSRF-Token': csrf.csrfToken
+    },
+    credentials: 'include',
+    body: JSON.stringify(data)
     })
-    .then(response => {
-        if (!response.ok) {
-            // Si la respuesta no es exitosa, muestra el error
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();  // Procesa la respuesta como JSON
-    })
+    .then(response => response.json())
     .then(data => {
         if (data) {
-            localStorage.setItem('token', data.token);
-            window.open('./auth','_self');  // Si el login es exitoso, redirige
-        } else {
-            document.getElementById("message").textContent = "Error al iniciar sesión.";
-        }
+                localStorage.setItem('token', data.token);
+                window.open('./auth','_self');  // Si el login es exitoso, redirige
+            } else {
+                document.getElementById("message").textContent = "Error al iniciar sesión.";
+            }
     })
     .catch(error => {
         console.error('Error:', error);
@@ -73,7 +67,7 @@ async function logOut(){
     fetch(`./logout`,{
         method: 'POST',
         headers: {
-            'CSRF-Token': csrf.csrfToken
+            'x-csrf-token': csrf.csrfToken
         },
         credentials: 'include'
     })
