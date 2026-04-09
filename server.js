@@ -162,23 +162,6 @@ app.use('/abmservices', servicios);
 const abmRoutes = require('./modules/ABM/controllers/abmController.js');
 app.use('/abm', abmRoutes);
 
-/*app.get('/login', (req, res) => {
-    const token = req.query.token
-    var secretKey = 'miClaveSecreta'
-    jwt.verify(token, secretKey, (err, decoded) => {
-        if (err) {
-            return res.status(401).json({ message: 'Token no válido' });
-        }
-        // Aquí puedes trabajar con los datos del token
-        const userData = {
-            userId: decoded.userId,
-            roles: decoded.roles,
-        };
-
-        // Enviar la información relevante al frontend
-        res.render('index',{user: userData });
-    });
-});*/
 
 //RUTAS GLOBALES
 app.get('/session-info', (req, res) => {
@@ -211,6 +194,9 @@ app.get('/session-info', (req, res) => {
   }
 });
 
+app.get('/csrf-token', (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
+});
 
 //ACCESO A MAPAS INTERACTIVOS
 

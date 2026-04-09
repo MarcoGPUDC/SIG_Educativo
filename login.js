@@ -32,9 +32,16 @@ function logIn() {
 
     const data = { username: user, password: pass };
 
+    const csrf = fetch('./csrf-token', {
+        credentials: 'include'
+    }).then(res => res.json());
+
     fetch('./auth/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            'CSRF-Token': csrf.csrfToken
+        },
         credentials:'include',
         body: JSON.stringify(data)
     })
@@ -60,9 +67,15 @@ function logIn() {
 }
 
 function logOut(){
+    const csrf = fetch('/csrf-token', {
+    credentials: 'include'
+    }).then(res => res.json());
     fetch(`./logout`,{
-        method:"POST",
-        credentials: "include"
+        method: 'POST',
+        headers: {
+            'CSRF-Token': csrf.csrfToken
+        },
+        credentials: 'include'
     })
         .then(response => {
             // Maneja la respuesta recibida del servidor
