@@ -48,7 +48,7 @@ async function logIn() {
     .then(response => response.json())
     .then(data => {
         if (data) {
-                localStorage.setItem('token', data.token);
+                //localStorage.setItem('token', data.token);
                 window.open('./auth','_self');  // Si el login es exitoso, redirige
             } else {
                 document.getElementById("message").textContent = "Error al iniciar sesión.";
