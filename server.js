@@ -252,7 +252,7 @@ app.get('/proxyimg', async (req, res) => {
 });
 
 //ENDSPOINTS
-app.post('/logout', lusca.csrf(), (req, res) => {
+app.post('/logout', (req, res) => {
   req.session.destroy(() => {
     res.clearCookie('authToken', {
       httpOnly: true,
