@@ -9,7 +9,8 @@ var RateLimit = require('express-rate-limit');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
-var csrf = require('lusca').csrf;
+const session = require('express-session');
+const csrf = require('lusca').csrf;
 require('dotenv').config();
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.static(path.join(__dirname,'modules')));
@@ -43,6 +44,19 @@ var limiter = RateLimit({
 // apply rate limiter to all requests
 app.use(limiter);
 
+//generar sesion para usuario no logueado
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true } // true si usas HTTPS
+}));
+
+app.use(lusca({
+  csrf: true,
+  xframe: 'SAMEORIGIN',
+  xssProtection: true
+}));
 
 // Middleware para servir archivos estáticos con tipo MIME correcto
 app.use('/modules/buscador', express.static(path.join(__dirname, 'modules/buscador'), {
