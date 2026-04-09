@@ -60,7 +60,7 @@ async function logIn() {
 }
 
 async function logOut(){
-    const csrf = await fetch('/csrf-token', {
+    const csrf = await fetch('./csrf-token', {
     credentials: 'include'
     }).then(res => res.json());
     fetch(`./logout`,{
