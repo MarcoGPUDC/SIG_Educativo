@@ -55,6 +55,12 @@ router.get('/obtenerDatosInfra', async (req, res) => {
     try {
       var anexo = req.query.anexo
       const data = await informacion.busqueda_adicional_sedeAnexo(req.query.cue);
+      data.forEach(element => {
+        if (element.cue != anexo) {
+            res.send("No se encontraron sedes o anexos.");
+            return;    
+        }
+      });
       res.send([data, anexo]);
     } catch (error) {
       console.error('Error al obtener los datos:', error);
@@ -62,9 +68,9 @@ router.get('/obtenerDatosInfra', async (req, res) => {
     }
   });
 
-  router.get('/obtenerDirImagen', async (req,res) => {
+  /*router.get('/obtenerDirImagen', async (req,res) => {
     try {
-      const directoryPath = path.join('public/img/portada/');
+      const directoryPath = path.join('dir de las imagenes');
       fs.readdir(directoryPath,(err, archivos) => {
         if (err) {
             console.log(err)
@@ -77,7 +83,7 @@ router.get('/obtenerDatosInfra', async (req, res) => {
       res.status(500).send('Error al obtener los datos.');
     }
     
-  });
+  });*/
  
   router.get('/busqueda_matricula_nivel', async (req,res) => {
     try {

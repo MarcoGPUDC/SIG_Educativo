@@ -9,13 +9,14 @@ var RateLimit = require('express-rate-limit');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
+const session = require('express-session');
+const lusca = require('lusca').csrf;
 require('dotenv').config();
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.static(path.join(__dirname,'modules')));
 app.use(express.static(path.join(__dirname,'modules','buscador')));
 app.use(express.static(path.join(__dirname,'modules','mapa')));
 app.use(express.static(path.join(__dirname,'modules','ABM')));
-//app.use(express.static(path.join(__dirname,'node_modules')));
 app.use(express.static(__dirname));
 app.use(express.json());
 app.use(bodyParser.json());
@@ -26,7 +27,7 @@ const certPath = path.join(__dirname, 'server.cert');
 const options = {
     key: fs.readFileSync(keyPath),
     cert: fs.readFileSync(certPath)
-}
+};
 
 //enlaces publicos
 app.locals.paths = {
@@ -42,6 +43,23 @@ var limiter = RateLimit({
 // apply rate limiter to all requests
 app.use(limiter);
 
+//generar sesion para usuario no logueado
+app.use(session({
+  secret: process.env.SECRET_KEY,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: false
+  }
+}));
+
+app.use(lusca({
+  csrf: true,
+  xframe: 'SAMEORIGIN',
+  xssProtection: true
+}));
 
 // Middleware para servir archivos estáticos con tipo MIME correcto
 app.use('/modules/buscador', express.static(path.join(__dirname, 'modules/buscador'), {
@@ -93,14 +111,6 @@ app.use('/dibujarmapa', express.static(path.join(__dirname, 'modules', 'dibujado
     }
   }
 }));
-
-/*app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), {
-  setHeaders: (res, path) => {
-    if (path.endsWith('.js')) {
-      res.setHeader('Content-Type', 'application/javascript');
-    }
-  }
-}));*/
 
 // Configura Pug como motor de plantillas
 app.set('view engine', 'pug');
@@ -156,23 +166,6 @@ app.use('/abmservices', servicios);
 const abmRoutes = require('./modules/ABM/controllers/abmController.js');
 app.use('/abm', abmRoutes);
 
-/*app.get('/login', (req, res) => {
-    const token = req.query.token
-    var secretKey = 'miClaveSecreta'
-    jwt.verify(token, secretKey, (err, decoded) => {
-        if (err) {
-            return res.status(401).json({ message: 'Token no válido' });
-        }
-        // Aquí puedes trabajar con los datos del token
-        const userData = {
-            userId: decoded.userId,
-            roles: decoded.roles,
-        };
-
-        // Enviar la información relevante al frontend
-        res.render('index',{user: userData });
-    });
-});*/
 
 //RUTAS GLOBALES
 app.get('/session-info', (req, res) => {
@@ -205,6 +198,9 @@ app.get('/session-info', (req, res) => {
   }
 });
 
+app.get('/csrf-token', (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
+});
 
 //ACCESO A MAPAS INTERACTIVOS
 
@@ -213,32 +209,39 @@ app.get('/proxyimg', async (req, res) => {
   try {
     const { url } = req.query;
 
+    const allowedHosts = [
+      'drive.google.com',
+      'lh3.googleusercontent.com',
+      'drive.usercontent.google.com'
+    ];
+
     if (!url) {
       return res.status(400).send('Falta el parámetro "url"');
     }
 
-    // Validación básica: solo permitir URLs de Google Drive
-    if (!url.startsWith('https://drive.google.com')) {
+    // Parsear URL
+    const parsed = new URL(url);
+    const host = parsed.hostname;
+
+    // Validar host permitido
+    if (!allowedHosts.includes(host)) {
       return res.status(403).send('URL no permitida');
     }
 
-    // Descargar la imagen desde Google Drive
+    // Descargar imagen
     const response = await fetch(url, {
-      headers: {'User-Agent':'Mozilla/5.0'}
+      headers: { 'User-Agent': 'Mozilla/5.0' }
     });
 
     if (!response.ok) {
       return res.status(502).send('Error al obtener la imagen');
     }
 
-    // Detectar tipo MIME
     const contentType = response.headers.get('content-type') || 'image/jpeg';
 
-    // Establecer encabezados correctos
     res.setHeader('Content-Type', contentType);
-    res.setHeader('Cache-Control', 'public, max-age=3600');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
 
-    // Enviar la imagen directamente al cliente
     const buffer = await response.arrayBuffer();
     res.send(Buffer.from(buffer));
 

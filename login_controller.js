@@ -4,6 +4,7 @@ const router = express.Router();
 const consulta = require('./public/js/consulta_model');
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = process.env.SECRET_KEY;
+const lusca = require('lusca');
 
 router.get('/', async (req, res) => {
   try {
@@ -16,8 +17,8 @@ router.get('/', async (req, res) => {
 });
 
 
-router.post('/login', async (req, res) => {
-
+router.post('/login', lusca.csrf(), async (req, res) => {
+  console.log("session-login", req.sessionID);
   // 🔥 BYPASS SOLO EN DESARROLLO
   if (process.env.NODE_ENV === "development") {
     const fakeUser = {
@@ -55,12 +56,12 @@ router.post('/login', async (req, res) => {
                       user: username
         }
         const token = jwt.sign(user, SECRET_KEY, {expiresIn: '1h'})
-        res.cookie('authToken', token,{
-          httpOnly: false,
-          secure: false,
-          sameSite: false,
+        res.cookie('authToken', token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
           maxAge: 3600000
-        })
+        });
         res.send(result)
     } else {
         // Passwords don't match, authentication failed
