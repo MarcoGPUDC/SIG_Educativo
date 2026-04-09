@@ -239,8 +239,7 @@ function downloadAsExcelD(filename, data){
 
 //funcion para cargar las imagenes y cuadros informativos a la pestaña info institucion
 function obtenerImagenes (){
-    const GOOGLE_URL = process.env.GOOGLE_SCRIPT_URL;
-    fetch(`${GOOGLE_URL}`)
+    fetch(`https://script.google.com/macros/s/AKfycbwtiZWbiwZjn3_exp5ONv0ZrI_Uw9kOk9WPFn9mng5OjSYd3zISosR8kE5KPFuLqtxcGw/exec`)
     .then(response => {
         // Maneja la respuesta recibida del servidor
         if (!response.ok) {
