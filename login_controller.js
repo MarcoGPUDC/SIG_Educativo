@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 });
 
 
-router.post('/login', async (req, res) => {
+router.post('/login', lusca.csrf(), async (req, res) => {
 
   // 🔥 BYPASS SOLO EN DESARROLLO
   if (process.env.NODE_ENV === "development") {
@@ -29,9 +29,9 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign(fakeUser, SECRET_KEY, { expiresIn: '8h' });
 
     res.cookie('authToken', token, {
-      httpOnly: false,
-      secure: false,
-      sameSite: false,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
       maxAge: 3600000
     });
 
