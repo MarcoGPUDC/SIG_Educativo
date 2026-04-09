@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const session = require('express-session');
-const csrf = require('lusca').csrf;
+const lusca = require('lusca').csrf;
 require('dotenv').config();
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.static(path.join(__dirname,'modules')));
@@ -21,7 +21,6 @@ app.use(express.static(__dirname));
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(csrf());
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const keyPath = path.join(__dirname, 'server.key');
 const certPath = path.join(__dirname, 'server.cert');
