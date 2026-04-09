@@ -45,10 +45,14 @@ app.use(limiter);
 
 //generar sesion para usuario no logueado
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SECRET_KEY,
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: true } // true si usas HTTPS
+  cookie: {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: false
+  }
 }));
 
 app.use(lusca({
