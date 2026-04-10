@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const session = require('express-session');
 const lusca = require('lusca').csrf;
+app.set('trust proxy', 1);
 require('dotenv').config();
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.static(path.join(__dirname,'modules')));
