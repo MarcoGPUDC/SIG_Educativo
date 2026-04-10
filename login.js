@@ -32,7 +32,7 @@ async function logIn() {
 
     const data = { username: user, password: pass };
 
-    const csrf = await fetch('/csrf-token', {
+    const csrf = await fetch('./csrf-token', {
         credentials: 'include'
     }).then(res => res.json());
     fetch('./auth/login', {
