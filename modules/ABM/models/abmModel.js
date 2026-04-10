@@ -549,24 +549,6 @@ function deleteLayer () {
     }
 }
 
-function logOut(){
-    fetch(`../logout`,{
-        method: 'POST',
-        credentials: 'include'
-    })
-    .then(response => {
-        // Maneja la respuesta recibida del servidor
-        if (!response.ok) {
-            throw new Error('Error al obtener los datos');
-        } else {
-            window.location.href = '../auth'
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
-
 fetch('../session-info')
   .then(res => res.json())
   .then(info => {
