@@ -57,7 +57,7 @@ router.post('/login', lusca.csrf(), async (req, res) => {
         const token = jwt.sign(user, SECRET_KEY, {expiresIn: '1h'})
         res.cookie('authToken', token, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
+          secure: process.env.NODE_ENV,
           sameSite: 'lax',
           maxAge: 3600000
         });

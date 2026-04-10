@@ -29,10 +29,7 @@ const options = {
     cert: fs.readFileSync(certPath)
 };
 
-//enlaces publicos
-app.locals.paths = {
-  abm: '/sigeducativo/abm'
-};
+
 
 // set up rate limiter: maximum of five requests per minute
 var limiter = RateLimit({
@@ -51,7 +48,7 @@ app.use(session({
   cookie: {
     httpOnly: true,
     sameSite: 'lax',
-    secure: process.env.NODE_ENV
+    secure: false
   }
 }));
 
@@ -255,12 +252,11 @@ app.get('/proxyimg', async (req, res) => {
 app.post('/logout', (req, res) => {
   req.session.destroy(() => {
     res.clearCookie('authToken', {
-  httpOnly: true,
-  secure: process.env.NODE_ENV,
-  sameSite: 'lax',
-  path: '/'
-});
-
+      httpOnly: true,
+      secure: process.env.NODE_ENV,
+      sameSite: 'lax',
+      path: '/'
+    });
     res.status(200).json({ message: 'Sesion cerrada' });
   });
 });
