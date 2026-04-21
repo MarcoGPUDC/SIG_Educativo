@@ -59,8 +59,7 @@ app.use(lusca({
   xssProtection: true
 }));
 
-//librerias
-app.use('/libs', express.static('node_modules'));
+
 
 // Middleware para servir archivos estáticos con tipo MIME correcto
 app.use('/modules/buscador', express.static(path.join(__dirname, 'modules/buscador'), {
