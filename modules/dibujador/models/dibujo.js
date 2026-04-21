@@ -99,7 +99,7 @@ document.getElementById('save-drawing').addEventListener('click', () => {
     }
   };
 
-  marker.bindPopup(`Categoría: ${imgData}`);
+  marker.bindPopup(`Categoría: ` + imgData.split('.')[0]);
 
   marker.addTo(map);
   marcadores.push(marker);
@@ -120,10 +120,187 @@ function normalizarIconUrl(url) {
   return a.href;
 }
 
+
+// =========================
+// 💾 Generar KML
+// =========================
+function generarKML(features) {
+
+  let placemarks = '';
+
+  features.forEach(f => {
+
+    const props = f.properties || {};
+    const name = props.categoria || props.tipo || 'Elemento';
+
+    // 📍 POINT
+    if (f.geometry.type === 'Point') {
+      const [lng, lat] = f.geometry.coordinates;
+
+      placemarks += `
+        <Placemark>
+          <name>${name}</name>
+          <Point>
+            <coordinates>${lng},${lat}</coordinates>
+          </Point>
+        </Placemark>
+      `;
+    }
+
+    // 🔷 POLYGON
+    if (f.geometry.type === 'Polygon') {
+      const coords = f.geometry.coordinates[0]
+        .map(c => `${c[0]},${c[1]}`)
+        .join(' ');
+
+      placemarks += `
+        <Placemark>
+          <name>${name}</name>
+          <Polygon>
+            <outerBoundaryIs>
+              <LinearRing>
+                <coordinates>${coords}</coordinates>
+              </LinearRing>
+            </outerBoundaryIs>
+          </Polygon>
+        </Placemark>
+      `;
+    }
+
+    // 📏 LINESTRING
+    if (f.geometry.type === 'LineString') {
+      const coords = f.geometry.coordinates
+        .map(c => `${c[0]},${c[1]}`)
+        .join(' ');
+
+      placemarks += `
+        <Placemark>
+          <name>${name}</name>
+          <LineString>
+            <coordinates>${coords}</coordinates>
+          </LineString>
+        </Placemark>
+      `;
+    }
+
+  });
+
+  return `
+    <kml xmlns="http://www.opengis.net/kml/2.2">
+      <Document>
+        ${placemarks}
+      </Document>
+    </kml>
+  `;
+}
+
+// =========================
+// 📦 EXPORTAR KML
+// =========================
+document.getElementById('exportarKML').addEventListener('click', async () => {
+
+    const features = [];
+
+    const iconMap = new Map();
+    let iconIndex = 1;
+
+    const promises = [];
+
+    map.eachLayer(layer => {
+      if (
+        layer instanceof L.Marker &&
+        layer.options.icon?.options?.iconUrl?.includes('marker-icon.png')
+      ) {
+        return;
+      }
+      promises.push(procesarLayer(layer));
+    });
+
+    await Promise.all(promises);
+
+    const geojsonFinal = {
+      type: 'FeatureCollection',
+      features
+    };
+
+    const kml = generarKML(features);
+
+    const blob = new Blob([kml], {
+      type: 'application/vnd.google-earth.kml+xml'
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'capa.kml';
+    link.click();
+
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+    async function procesarLayer(layer) {
+      if (layer.options.icon?.options?.iconUrl?.includes('marker-icon.png')) return;
+
+      // 🚫 ignorar capas sin geometría válida
+      if (typeof layer.toGeoJSON !== 'function') return;
+
+      let geojson;
+      try {
+        geojson = layer.toGeoJSON();
+      } catch (e) {
+        console.warn("Layer inválido:", layer);
+        return;
+      }
+
+      if (!geojson || !geojson.geometry) return;
+
+      // 📍 MARKERS
+      if (geojson.geometry.type === 'Point') {
+
+        const iconOptions = layer.options.icon?.options || {};
+        const iconUrl = iconOptions.iconUrl;
+
+        const categoria = layer.feature?.properties?.categoria;
+        const iconKey = categoria || normalizarIconUrl(iconUrl);
+
+        let iconName = null;
+
+        features.push({
+          type: 'Feature',
+          geometry: geojson.geometry,
+          properties: {
+            tipo: 'marcador',
+            icon: iconName,
+            categoria: categoria,
+            popup: layer.getPopup()?.getContent() || null
+          }
+        });
+    }
+
+    // 🔷 POLÍGONOS / LÍNEAS
+    else {
+      features.push({
+        type: 'Feature',
+        geometry: geojson.geometry,
+        properties: {
+          tipo: geojson.geometry.type,
+          style: {
+            color: layer.options.color || null,
+            weight: layer.options.weight || null,
+            fillColor: layer.options.fillColor || null,
+            fillOpacity: layer.options.fillOpacity || null
+          },
+          popup: layer.getPopup()?.getContent() || null
+        }
+      });
+    }
+  }
+  });
+
 // =========================
 // 📦 EXPORTAR ZIP
 // =========================
-document.getElementById('exportarCapaDibujo').addEventListener('click', async () => {
+document.getElementById('exportarZip').addEventListener('click', async () => {
 
   const zip = new JSZip();
   const features = [];
@@ -149,6 +326,7 @@ document.getElementById('exportarCapaDibujo').addEventListener('click', async ()
     type: 'FeatureCollection',
     features
   };
+
 
   zip.file('capa_completa.geojson', JSON.stringify(geojsonFinal, null, 2));
 
@@ -360,7 +538,7 @@ window.addEventListener('load', () => {
     pointToLayer: (feature, latlng) => {
 
       const p = feature.properties;
-
+      console.log(p);
       if (!p.icon) return null; // 🚫 evita marker fantasma
 
       const icon = L.icon({
