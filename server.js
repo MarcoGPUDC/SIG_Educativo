@@ -34,8 +34,8 @@ const options = {
 
 // set up rate limiter: maximum of five requests per minute
 var limiter = RateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // max 100 requests per windowMs
+  windowMs: 40 * 60 * 1000, // 15 minutes
+  max: 500, // max 500 requests per windowMs
 });
 
 // apply rate limiter to all requests
@@ -58,6 +58,9 @@ app.use(lusca({
   xframe: 'SAMEORIGIN',
   xssProtection: true
 }));
+
+//librerias
+app.use('/libs', express.static('node_modules'));
 
 // Middleware para servir archivos estáticos con tipo MIME correcto
 app.use('/modules/buscador', express.static(path.join(__dirname, 'modules/buscador'), {
