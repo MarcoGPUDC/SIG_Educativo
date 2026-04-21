@@ -78,7 +78,7 @@ document.getElementById('save-drawing').addEventListener('click', () => {
   const lat = parseFloat(document.getElementById('draw-modal').dataset.lat);
   const lng = parseFloat(document.getElementById('draw-modal').dataset.lng);
 
-  const iconUrl = `./modules/mapa/icons/${imgData}`;
+  const iconUrl = `../modules/mapa/icons/${imgData}`;
 
   const icon = L.icon({
     iconUrl: iconUrl,
