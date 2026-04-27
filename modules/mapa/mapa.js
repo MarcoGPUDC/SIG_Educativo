@@ -302,7 +302,7 @@ info.update = function(props){
                             	//"</td></tr><tr><td><b>Escuela Permanente para Jovenes y Adultos:</b> "+ (props.cantidades[6]?props.cantidades[6].cantidad:"Sin Localizaciones")+
 								//"</td></tr><tr><td><b>Escuela Intercultural Bilingüe:</b> "+ (props.cantidades[5]?props.cantidades[5].cantidad:"Sin Localizaciones")+
 								//"</td></tr><tr><td><b>Contexto de Encierro:</b> "+ (props.cantidades[2]?props.cantidades[2].cantidad:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Otros Servicios Educativos:</b> "+ (props.cantidades[5]?props.cantidades[5].cantidad:"Sin Localizaciones")+
+								(esCero(props.cantidades[5].cantidad)?" ":"</td></tr><tr><td><b>Otros Servicios Educativos:</b> "+ props.cantidades[5].cantidad)+
 								"</td></tr><tr><td><b>Servicios Alternativos y Complementarios:</b> "+ (props.cantidades[8]?props.cantidades[8].cantidad:"Sin Localizaciones")+
 								(esCero(props.cantidades[4].cantidad)?" ":"</td></tr><tr><td><b>Nacionales:</b> "+ props.cantidades[4].cantidad)+
 								//"</td></tr><tr><td><b>No corresponde modalidad:</b> "+ (props.cantidades[9]?props.cantidades[9].cantidad:"Sin Localizaciones")+
