@@ -520,7 +520,7 @@ function buscar_info_region(region){
         conteo AS (
             SELECT
                 CASE
-                    -- Nacional (empieza con z o Z)
+                        --Nacional (empieza con z o Z)
                         WHEN numero ILIKE 'z%' THEN 'nacional'
 
                         -- Otros servicios educativos
@@ -568,7 +568,7 @@ function buscar_info_region(region){
 
                     ELSE 'sin clasificar'
                 END AS categoria
-            FROM padron.institucion WHERE institucion.region = $1 AND institucion.funcion = 'Activo'
+            FROM padron.institucion WHERE institucion.region = $1::text AND institucion.funcion = 'Activo'
         )
         SELECT 
             c.categoria,

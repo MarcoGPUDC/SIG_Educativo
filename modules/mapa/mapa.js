@@ -287,7 +287,6 @@ info.onAdd = function(map){
 // Metodo que actualiza el control segun el puntero vaya pasando
 
 info.update = function(props){
-	console.log(props)
     this._div.innerHTML = "<b>Información de la Región</h7></b>" + 
                             (props ? 
                             	"<table><tr><td><b>Región:</b> " + props.numreg + " (" + props.nombrereg + ")"+ 
@@ -295,7 +294,7 @@ info.update = function(props){
                             	"</td></tr><tr><td><b>Educación Inicial:</b> "+ (props.cantidades[3]?props.cantidades[3].cantidad:"Sin Localizaciones")+
                             	"</td></tr><tr><td><b>Educación Primaria:</b> "+ (props.cantidades[6].cantidad?props.cantidades[6].cantidad:"Sin Localizaciones")+
                             	"</td></tr><tr><td><b>Educación Secundaria:</b> "+ (props.cantidades[7]?props.cantidades[7].cantidad:"Sin Localizaciones")+
-                            	"</td></tr><tr><td><b>Educación Superior:</b> "+ (props.cantidades[9]?props.cantidades[8].cantidad:"Sin Localizaciones")+
+                            	"</td></tr><tr><td><b>Educación Superior:</b> "+ (props.cantidades[9]?props.cantidades[9].cantidad:"Sin Localizaciones")+
                             	"</td></tr><tr><td><b>Centros de Formación Profesional:</b> "+ (props.cantidades[0]?props.cantidades[0].cantidad:"Sin Localizaciones")+
                             	"</td></tr><tr><td><b>Educación Domiciliaria y Hospitalaria:</b> "+(props.cantidades[2]?props.cantidades[2].cantidad:"Sin Localizaciones")+
                             	"</td></tr><tr><td><b>Educación Especial:</b> "+ (props.cantidades[1]?props.cantidades[1].cantidad:"Sin Localizaciones")+
@@ -312,7 +311,7 @@ info.update = function(props){
 								//"</td></tr><tr><td><b>Sedes:</b> "+ (props.cantidades[16]?props.cantidades[16].cantidad:"Sin Localizaciones")+
 								//"</td></tr><tr><td><b>Anexos:</b> "+ (props.cantidades[0]?props.cantidades[0].cantidad:"Sin Localizaciones")+
                             	//"</td></tr><tr><td><b>Población:</b> "+ (props.poblacion?props.poblacion:"Sin Localizaciones")+
-								"</td></tr><tr><td><b>TOTAL:</b> "+ (props.cantidades[10]?props.cantidades[9].cantidad:"Sin Localizaciones")+
+								"</td></tr><tr><td><b>TOTAL:</b> "+ (props.cantidades[10]?props.cantidades[10].cantidad:"Sin Localizaciones")+
                             	"</td></tr><tr><td><b>Superficie:</b> "+ (props.superficie?props.superficie:"Sin Información")+
                             	"</td></tr></table>"
                             : "<br>Haga click en una región");
@@ -571,6 +570,7 @@ async function getRegiones() {
 	return fetch('mapa/regiones')
 	.then(response => response.json())
 	.then(regiones => {
+		console.log("Regiones recibidas: ", regiones);
 		const capaRegiones = L.geoJSON(regiones, {
 			style: estilo_region,
 			onEachFeature: onEachFeature
