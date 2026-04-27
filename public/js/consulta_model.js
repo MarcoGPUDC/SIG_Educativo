@@ -506,6 +506,7 @@ function buscar_info_region(region){
         WITH categorias AS (
             SELECT unnest(ARRAY[
                 'nacional',
+                'servicios alternativos y complementarios',
                 'otros servicios educativos',
                 'primario',
                 'hospitalarias',
@@ -524,7 +525,7 @@ function buscar_info_region(region){
 
                         -- Otros servicios educativos
                         WHEN numero = 'CEF' THEN 'otros servicios educativos'
-                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 550 AND 599 THEN 'otros servicios educativos'
+                        WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 550 AND 599 THEN 'servicios alternativos y complementarios'
                         WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 1600 AND 1649 THEN 'otros servicios educativos'
                         WHEN numero ~ '^[0-9]+$' AND numero::int BETWEEN 3000 AND 3049 THEN 'otros servicios educativos'
                         WHEN numero ~ '^[0-9]+$' AND numero::int = 5009 THEN 'otros servicios educativos'
