@@ -284,6 +284,7 @@ info.onAdd = function(map){
     return this._div;
 };
 
+
 // Metodo que actualiza el control segun el puntero vaya pasando
 
 info.update = function(props){
@@ -570,7 +571,6 @@ async function getRegiones() {
 	return fetch('mapa/regiones')
 	.then(response => response.json())
 	.then(regiones => {
-		console.log("Regiones recibidas: ", regiones);
 		const capaRegiones = L.geoJSON(regiones, {
 			style: estilo_region,
 			onEachFeature: onEachFeature
@@ -2444,6 +2444,183 @@ async function generarTodosLayers(layerParam) {
 		return layersConfig;
 	}
 
+function agruparLayers(layersConfig) {
+  const grupos = {};
+
+  layersConfig.forEach(item => {
+    const tipo = item.layers_type || "otros";
+
+    if (!grupos[tipo]) {
+      grupos[tipo] = [];
+    }
+
+    grupos[tipo].push(item);
+  });
+
+  return grupos;
+}
+
+const gruposMeta = {
+  organizacion: { label: "🏢 Dependencias", icon: "🏢" },
+  nivel: { label: "🎓 Nivel", icon: "🎓" },
+  modalidad: { label: "🔀 Modalidad", icon: "🔀" },
+  tema: { label: "🌱 Temáticos", icon: "🌱" },
+  otro: { label: "📦 Otros", icon: "📦" },
+  carto: { label: "🧭 Carto Participativa", icon: "🧭" },
+  general: { label: "🗺️ Límites", icon: "🗺️" }
+};
+
+function renderSidebarDesdeConfig(layersConfig) {
+  const container = document.getElementById("capas");
+  container.innerHTML = "<h2>🗺️ Mapa Educativo Interactivo</h2>";
+
+  const grupos = agruparLayers(layersConfig);
+
+  Object.entries(grupos).forEach(([tipo, items]) => {
+    const meta = gruposMeta[tipo] || { label: tipo, icon: "📁" };
+
+    const div = document.createElement("div");
+    div.className = "grupo";
+    div.dataset.group = tipo;
+
+    let html = `
+		<h4 class="group-header">
+			<span class="toggle-icon">▸</span>
+			<input type="checkbox" class="group-toggle">
+			${meta.label}
+		</h4>
+		<div class="group-content">
+		`;
+
+    items.forEach(item => {
+		const layerId = generarId(item.label);
+
+		html += `
+			<label>
+			<input type="checkbox" data-layer="${layerId}" ${item.inactive ? "" : "checked"}>
+			${item.label}
+			</label><br>
+		`;
+	});
+
+	html += `</div>`;
+	
+	if (items.every(i => i.inactive)) {
+		div.classList.add("collapsed");
+	}
+
+    div.innerHTML = html;
+    container.appendChild(div);
+  });
+}
+
+function generarId(label) {
+  return label
+    .toLowerCase()
+    .replace(/\s+/g, "_")
+    .replace(/[^\w]/g, "");
+}
+
+function normalizarLayers(l) {
+  return Array.isArray(l) ? l : [l];
+}
+
+function buildLayersRegistry(layersConfig) {
+  const layers = {};
+  
+  layersConfig.forEach(item => {
+    const id = generarId(item.label);
+    layers[id] = normalizarLayers(item.layers);
+  });
+
+  return layers;
+}
+
+function toggleLayerGroup(layerArray, enabled) {
+  layerArray.forEach(layer => {
+    if (enabled) {
+      if (!mymap.hasLayer(layer)) {
+        mymap.addLayer(layer);
+      }
+    } else {
+      if (mymap.hasLayer(layer)) {
+        mymap.removeLayer(layer);
+      }
+    }
+  });
+}
+
+function initSidebarEvents(layers) {
+
+	// 🔹 Toggle individual
+	document.querySelectorAll("[data-layer]").forEach(input => {
+	input.addEventListener("change", (e) => {
+		const id = e.target.dataset.layer;
+		const layerGroup = layers[id];
+
+		if (!layerGroup) return;
+
+		toggleLayerGroup(layerGroup, e.target.checked);
+
+		updateGroupState(e.target);
+		saveState();
+	});
+	});
+
+
+	// 🔹 Toggle por grupo (categoría)
+	document.querySelectorAll(".grupo").forEach(group => {
+	const groupToggle = group.querySelector(".group-toggle");
+	const inputs = group.querySelectorAll("[data-layer]");
+
+	groupToggle.addEventListener("change", () => {
+		inputs.forEach(input => {
+		input.checked = groupToggle.checked;
+
+		const id = input.dataset.layer;
+		const layerGroup = layers[id];
+
+		if (!layerGroup) return;
+
+		toggleLayerGroup(layerGroup, groupToggle.checked);
+		});
+
+		saveState();
+	});
+	});
+
+	document.querySelectorAll(".group-header").forEach(header => {
+		header.addEventListener("click", (e) => {
+
+			// evitar que el click en el checkbox dispare el colapso
+			if (e.target.classList.contains("group-toggle")) return;
+
+			const group = header.closest(".grupo");
+			group.classList.toggle("collapsed");
+		});
+	});
+
+}
+
+function updateGroupState(childInput) {
+  const group = childInput.closest(".grupo");
+  const groupToggle = group.querySelector(".group-toggle");
+  const inputs = group.querySelectorAll("[data-layer]");
+
+  const allChecked = [...inputs].every(i => i.checked);
+  const noneChecked = [...inputs].every(i => !i.checked);
+
+  if (allChecked) {
+    groupToggle.checked = true;
+    groupToggle.indeterminate = false;
+  } else if (noneChecked) {
+    groupToggle.checked = false;
+    groupToggle.indeterminate = false;
+  } else {
+    groupToggle.indeterminate = true;
+  }
+}
+
 function otrosAccesosCapas(){
 	const urlParams = new URLSearchParams(window.location.search);
 	const layerParam = urlParams.get('capa');
@@ -2458,15 +2635,58 @@ function otrosAccesosCapas(){
 	}
 }
 
+const STORAGE_KEY = "map_layers_state";
+
+function saveState() {
+  const state = {};
+
+  document.querySelectorAll("[data-layer]").forEach(input => {
+    state[input.dataset.layer] = input.checked;
+  });
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function loadState() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  return saved ? JSON.parse(saved) : {};
+}
+
+function applyInitialState(layers) {
+  const state = loadState();
+
+  document.querySelectorAll("[data-layer]").forEach(input => {
+    const id = input.dataset.layer;
+
+    if (state[id]) {
+      input.checked = true;
+      toggleLayerGroup(layers[id], true);
+    }
+
+    updateGroupState(input);
+  });
+}
+
+const sidebar = document.getElementById("sidebar");
+const btn = document.getElementById("toggleSidebar");
+
+btn.addEventListener("click", () => {
+	sidebar.classList.toggle("open");
+	btn.innerHTML = sidebar.classList.contains("open") ? "✖" : `<i class="bi bi-layers"></i>`;
+	btn.classList.toggle("open");
+	// mover controles del mapa
+	document.body.classList.toggle("sidebar-open");
+});
 
 var legends;
 var legend;
 //agrega la botonera de capas
-async function initMap() {
+/*async function initMap() {
     // Generar y añadir leyendas
 	const urlParams = new URLSearchParams(window.location.search);
 	const layerParam = urlParams.get('capa');
 	legends = await generarTodosLayers(layerParam);
+	console.log(legends)
 	try {
 		legend = new L.control.Legend({
 			position: "topleft",
@@ -2481,6 +2701,18 @@ async function initMap() {
 	} catch (error) {
 		console.error('Error al cargar las capas:', error);
 	}
+}*/
+
+async function initMap() {
+	const config = await generarTodosLayers();
+
+	renderSidebarDesdeConfig(config);
+
+	const layers = buildLayersRegistry(config);
+
+	initSidebarEvents(layers);
+
+	applyInitialState(layers);
 }
 
 
@@ -2770,13 +3002,13 @@ function agregarNuevaLegend(){
 		removeButtonById("idPrintButton");
 	}
 	legend = new L.control.Legend({
-	position: "topleft",
-	title: "Capas",
-	collapsed: true,
-	symbolWidth: 17,
-	opacity: 1,
-	column: 1,
-	legends: legends
+		position: "topleft",
+		title: "Capas",
+		collapsed: true,
+		symbolWidth: 17,
+		opacity: 1,
+		column: 1,
+		legends: legends
     })
     .addTo(mymap);
 	mostrarConsultaButton.addTo(mymap);

@@ -35,7 +35,7 @@ const options = {
 // set up rate limiter: maximum of five requests per minute
 var limiter = RateLimit({
   windowMs: 40 * 60 * 1000, // 15 minutes
-  max: 500, // max 500 requests per windowMs
+  max: 1000, // max 500 requests per windowMs
 });
 
 // apply rate limiter to all requests
