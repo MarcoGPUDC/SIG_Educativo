@@ -271,7 +271,7 @@ const apiRoutes = require('./apiController');
 app.use('/api', apiRoutes);
 
 // Iniciar el servidor
-const port = 3005;
+const port = process.env.PORT || 3005;
 app.listen(port, () => {
     console.log(`Servidor Express escuchando en el puerto ${port}`);
 });
