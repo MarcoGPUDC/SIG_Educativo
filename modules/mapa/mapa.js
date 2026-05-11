@@ -393,7 +393,7 @@ var uriGeo = "";
 async function getGeoserverDatastoreLayers(workspace, datastore){
 
     const response = await fetch(
-        `/api/geoserver/layers/${workspace}/${datastore}`
+        `./api/geoserver/layers/${workspace}/${datastore}`
     );
 
     if (!response.ok){
@@ -445,7 +445,7 @@ async function getGeoserverDatastoreLayers(workspace, datastore){
 
 
 async function getGeoserverLayer(workspace, layer) {
-	const viewLayer = L.tileLayer.wms(`/geoserver/geoserver/ows`, {
+	const viewLayer = L.tileLayer.wms(`./geoserver/geoserver/ows`, {
 		layers: `${workspace}:${layer}`,
 		format: 'image/png',
 		transparent: true,	
@@ -457,7 +457,7 @@ async function getGeoserverLayer(workspace, layer) {
 	let tipoIcon;
 	let dataLayer;
 	try {
-		const geoResponse = await fetch(`/geoserver/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${workspace}%3A${layer}&maxFeatures=300&outputFormat=application%2Fjson&srsname=EPSG:4326`);
+		const geoResponse = await fetch(`./geoserver/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${workspace}%3A${layer}&maxFeatures=300&outputFormat=application%2Fjson&srsname=EPSG:4326`);
 		if (!geoResponse.ok) {
 
 			const errorText = await geoResponse.text();
