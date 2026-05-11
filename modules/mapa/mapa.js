@@ -3047,6 +3047,8 @@ async function iniciarMapa() {
 	} else if(url == '/otro') {
 
 	}*/
+	await getGeoserverDatastoreLayers('sigeducativo','temáticos')
+	await getGeoserverDatastoreLayers('sigeducativo','otros')
 	await initMap();
 	await cargarBotonesMapa();
 	
@@ -4234,8 +4236,6 @@ mymap.on('zoomend', function() {
 	  
 }*/
 
-getGeoserverDatastoreLayers('sigeducativo','temáticos')
-getGeoserverDatastoreLayers('sigeducativo','otros')
 
 setTimeout(function(){
     iniciarMapa();
