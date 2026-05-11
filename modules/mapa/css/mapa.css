@@ -570,7 +570,6 @@ body {
 }
 
 .grupo .group-content {
-  max-height: 200px;
   transition: max-height 0.3s ease;
 }
 
@@ -622,6 +621,7 @@ body {
 .grupo.collapsed .group-content {
   max-height: 0;
   padding-bottom: 0;
+  overflow: hidden;
 }
 
 /* rotación icono */
@@ -668,6 +668,10 @@ body {
   transition: max-height 0.3s ease;
 }
 
+.subgrupo.collapsed .subgroup-content {
+  max-height: 0;
+  padding-bottom: 0;
+}
 
 .subgrupo.collapsed .toggle-icon {
   transform: rotate(-90deg);
@@ -716,8 +720,4 @@ body {
 
 #info-content {
   text-align: justify;
-}
-
-[data-group=tema].grupo .group-content{
-    overflow-y: visible !important;
 }
