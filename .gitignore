@@ -1,4 +1,4 @@
 .env
-node_modules/canvas/
+node_modules/
 nohup.out
 logfile

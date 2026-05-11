@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const consultar = require('../../../public/js/consulta_model');
+const fetch = require('node-fetch');
 
 router.get('/mapa/ubicacion', async (req, res) => {
     try {
