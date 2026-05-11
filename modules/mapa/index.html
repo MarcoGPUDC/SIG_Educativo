@@ -16,7 +16,6 @@
 	<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
 	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 	<link type="text/css" rel="stylesheet" href="css/leaflet.measure.css"/>
-	<link type="text/css" rel="stylesheet" href="public/css/leaflet-sidebar.css" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"> </script>
 	<script src="js/xlsx.full.min.js"></script>
 	<script src="js/filesaver.js"></script>
@@ -44,13 +43,13 @@
 <!-- head -->	
 	<!--<img src="utilities/img/top-bar-top-2024.png" class="w-100" height="10px" alt=""/>-->
 	<div class="row float-left header">
-		<div class="col-9 title-mapa-container ml-5">
+		<!--<div class="col-9 title-mapa-container ml-5">
 			<h1 class="title-mapa d-inline">Mapa Educativo Interactivo</h1>
+		</div>-->
+		<div class="col-8">
+			<a href="./dibujarmapa/"><button class="btn btn-primary mt-4">Cartografía Participativa</button></a>
 		</div>
-		<div class="col-2">
-			<a href="./dibujarmapa/"><button class="btn btn-primary mt-4">Cartografia Participativa</button></a>
-		</div>
-		<div class="dropdown dropstart float-right col-1" style="width: 20px; height: 20px; margin-top: 15px;">
+		<div class="dropdown dropstart col-4" style="width: 20px; height: 20px; margin-top: 17px;">
 			<button class="btn dropdown-toggle" type="button" id="menuboton" data-bs-toggle="dropdown" aria-expanded="false">
 				<img src="mapoteca/utilities/img/030-menu.png" width="20" height="20" alt=""/>
 			</button>
@@ -75,10 +74,15 @@
 	</div>-->
 	<!-- Navegador lateral-->
 
-	<button id="toggleSidebar" class="collapsed open"><i class="bi bi-layers"></i></button>
+	<button id="toggleSidebar" class="collapsed open"><i>✖</i></button>
 
 	<div id="sidebar" class="collapsed open">
 		<div id="capas"></div>
+		<div id="info-panel" class="info-panel hidden">
+			<h3 id="info-title" class="d-inline-block"></h3>
+			<button id="info-close" class="btn-close d-inline-block float-end"></button>
+			<div id="info-content"></div>
+		</div>
 	</div>
 
 	<!-- mapa -->
@@ -94,7 +98,15 @@
 						<div class="carousel-inner">
 							<div class="carousel-item active">
 								<!--<img src="icons/ministerio_educacion.png" class="img-fluid imagecustom d-inline" alt="Logo del Ministerio de Educación del Gobierno del Chubut">-->
-								<p class="text-center fst-italic fs-5 lh-1 text-break user-select-none mt-1 mb-2 d-inline">Mapa Educativo Interactivo de la Provincia del Chubut</p>
+								<p class="fst-italic fs-5 lh-1 text-break user-select-none mt-1 mb-2 align-middle" >Mapa Educativo Interactivo de la Provincia del Chubut</p>
+								<div class="d-flex justify-content-center" style="width: auto; height: 50vh;">
+									<img src="icons/Solapa0.jpg" class="d-block" style="object-fit: contain;" alt="Mapa interactivo Educación Chubut">
+								</div>
+								<div class="d-block">
+									<p class="custommodalbody user-select-none text-center lh-sm text-break fst-italic mt-1">El Proyecto SIG Educativo tiene como eje central poner en práctica las potencialidades de los Sistemas de Información Geográfica al servicio del Ministerio de Educación entrecruzando datos estadísticos, y con ello confeccionar cartografías de todo tipo que propicien una eficiente implementación y evaluación de las políticas públicas. <br> El objetivo general es mantener actualizadas las localizaciones educativas  georreferenciadas, los datos correspondientes a las mismas obtenidos del padrón de establecimientos educativos y relevamientos, su posterior integración y organización posibilitando así la generación de distintas salidas cartográficas y la actualización del mapa interactivo.</p>
+								</div>
+							</div>
+							<div class="carousel-item">
 								<img src="icons/Solapa1.png" class="d-block w-100" alt="Mapa interactivo Educación Chubut">
 								<p class="custommodalbody user-select-none text-center lh-sm text-break fst-italic mt-1">Esta es una herramienta de visualización, gestión y análisis de información georreferenciada con el fin de planificar y contribuir al fortalecimiento del sistema educativo a nivel local, regional y provincial.</p>
 							</div>
@@ -470,7 +482,6 @@
 	<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
 	<script src="models/graficos_crear_model.js"></script>
 	<script src="public/js/leaflet-timeline-slider.min.js"></script>
-	<script src="public/js/leaflet-sidebar.js"></script>
 	<script src="mapa.js"></script>
 	
 </body>

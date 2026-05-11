@@ -366,8 +366,9 @@ body {
 }
 
 .header {
-    position: absolute;
-    width: 101%;
+    position: relative;
+    float: right;
+    width: 30%;
     background-color: rgba(255, 255, 255, 0.5); /* Fondo semitransparente */
     z-index: 999; /* Asegura que esté sobre el mapa */
     height:87px
@@ -470,10 +471,10 @@ body {
 /* 🔹 Sidebar base */
 #sidebar {
   position: absolute;
-  top: 15%;              /* deja espacio para header */
+  /*top: 15%;              /* deja espacio para header */
   left: 0;
   width: 320px;
-  height: 85%;          /* resto de la pantalla */
+  height: 100%;          /* resto de la pantalla */
   background: #ffffff;
   box-shadow: 2px 0 10px rgba(0,0,0,0.2);
   border-radius: 0 10px 10px 0;
@@ -508,15 +509,14 @@ body {
 /* 🔹 Botón flotante */
 #toggleSidebar {
   position: absolute;
-  top: 15%;   /* alineado con sidebar */
+  top: 1%;   /* alineado con sidebar */
   left: 9px;
   z-index: 1001;
-
   background: #ffffff;
   color: rgb(0, 0, 0);
   border: #ccc4bb solid 2px;
   border-width: 2px;
-  padding: 4px 9px;
+  padding: 4px 5.5px;
   border-radius: 4px;
   cursor: pointer;
   box-shadow: 0 1px 4px rgba(0,0,0,0.2);
@@ -549,6 +549,10 @@ body {
     padding: 4px 5.5px;
 }
 
+.bi.bi-layers {
+    padding: 4px 3px;
+}
+
 #toggleSidebar.collapsed {
     transition: margin-left 0.3s ease;
 }
@@ -562,17 +566,18 @@ body {
 }
 
 .leaflet-top.leaflet-left {
-  top: 20%!important;
+  top: 6%!important;
 }
 
 .grupo .group-content {
-  max-height: 500px;
-  overflow: hidden;
+  max-height: 200px;
   transition: max-height 0.3s ease;
 }
 
+
 .grupo.collapsed .group-content {
   max-height: 0;
+  overflow: hidden;
 }
 
 .group-header {
@@ -609,8 +614,6 @@ body {
 /* 🔶 Contenido */
 .group-content {
   padding: 5px 10px 10px 10px;
-  max-height: 500px;
-  overflow: hidden;
   transition: max-height 0.3s ease;
 }
 
@@ -631,4 +634,90 @@ body {
   display: block;
   font-size: 13px;
   cursor: pointer;
+}
+
+.sidebar-title{
+    background: #cc5500; /* naranja oscuro */
+    color: white;
+    border-radius: 6px;
+    font-size: 16px;
+    text-align: center;
+    padding: 8px 0;
+}
+
+.subgrupo {
+  margin-top: 6px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 4px;
+  margin-bottom: 25px;
+}
+
+.subgroup-header {
+  cursor: pointer;
+  padding: 5px;
+  font-weight: bold;
+  font-size: 13px;
+  display: flex;
+  gap: 5px;
+}
+
+.subgroup-content {
+  padding-left: 10px;
+  max-height: 500px;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+
+.subgrupo.collapsed .toggle-icon {
+  transform: rotate(-90deg);
+}
+
+.info-panel {
+  margin-top: 10px;
+  padding: 10px;
+  background: #fff3e0;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.info-panel.hidden {
+  display: none;
+}
+
+.info-panel h3 {
+  margin: 0 0 5px 0;
+  font-size: 14px;
+}
+
+.info-btn{
+    position: relative;
+    float: inline-end;
+    bottom: 45px;
+    cursor: pointer;
+}
+
+.info-header-btn{
+    position: relative;
+    float: inline-end;
+    bottom: 29px;
+    right: 25px;
+    cursor: pointer;
+}
+
+.info-panel {
+  transition: opacity 0.2s ease;
+}
+
+.info-panel.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#info-content {
+  text-align: justify;
+}
+
+[data-group=tema].grupo .group-content{
+    overflow-y: visible !important;
 }

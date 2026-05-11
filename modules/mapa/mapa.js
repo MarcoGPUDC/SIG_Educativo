@@ -4,7 +4,7 @@
 function hideLoadingScreen() {
 	document.getElementById('loading-screen').style.display = 'none';
 }
-setTimeout(hideLoadingScreen,2500);
+setTimeout(hideLoadingScreen,3500);
 
 //setea el mapa
 
@@ -389,53 +389,63 @@ function estilo_region (feature) {
 
 var todosLayersTematicos = []
 var todosLayersOtros = []
+var uriGeo = "";
 async function getGeoserverDatastoreLayers(workspace, datastore){
-	const geoUrl = `https://sistemas2.chubut.edu.ar/geoserver/rest/workspaces/${workspace}/datastores/${datastore}/featuretypes.json`
-	var username = '';
-	var password = '';
-	await fetch('./config')
-	.then(response => response.json())
-	.then(data => {
-		username = data.geoUser;
-		password = data.geoPass;
-	})
-	const response = await fetch(geoUrl,{
-		method: 'GET',
-		headers: {
-			'SeARuth':'admin',
-			'Authorization': 'Basic ' + btoa(`${username}:${password}`),	
-			'Accept': 'application/json'
-		}
-	})
-	if (!response.ok){
-		throw new Error(Error `${response.status}:${response.statusText}`);
-	}
-	const data = await response.json()
-	const layers = data.featureTypes.featureType.map(layer => layer.name);
-	switch (datastore) {
-		case 'temáticos':
-			layers.forEach(layer => {
-				if ( layer.split('_')[0] == 'establec' || layer.split('_')[0] == 'bibliotecas' || layer.split('_')[0] == 'ed-digital' || layer.split('_') == 'taller-carto') {
-					getGeoserverLayer(workspace, layer).then(data => {
-						todosLayersTematicos.push([data,layer.split('_')[1]])
-					})
-				}
-			})
-			break;
-		case 'otros':
-			layers.forEach(layer => {
-				getGeoserverLayer(workspace, layer).then(data => {
-					todosLayersOtros.push([data,layer])
-				})	
-			})
-			break;
-	}
+
+    const response = await fetch(
+        `/api/geoserver/layers/${workspace}/${datastore}`
+    );
+
+    if (!response.ok){
+        throw new Error('Error obteniendo capas');
+    }
+
+    const data = await response.json();
 	
+	console.log(data);
+
+    switch (datastore) {
+
+        case 'temáticos':
+
+            for (const layer of data){
+
+                if (
+                    layer.split('_')[0] == 'establec' ||
+                    layer.split('_')[0] == 'bibliotecas' ||
+                    layer.split('_')[0] == 'ed-digital' ||
+                    layer.split('_')[0] == 'taller-carto'
+                ){
+
+                    const data =
+                        await getGeoserverLayer(workspace, layer);
+
+                    todosLayersTematicos.push([
+                        data,
+                        layer.split('_')[1]
+                    ]);
+                }
+            }
+
+            break;
+
+        case 'otros':
+
+            for (const layer of data){
+
+                const data =
+                    await getGeoserverLayer(workspace, layer);
+
+                todosLayersOtros.push([data, layer]);
+            }
+
+            break;
+    }
 }
 
 
 async function getGeoserverLayer(workspace, layer) {
-	const viewLayer = L.tileLayer.wms("https://sistemas2.chubut.edu.ar/geoserver/ows", {
+	const viewLayer = L.tileLayer.wms(`/geoserver/geoserver/ows`, {
 		layers: `${workspace}:${layer}`,
 		format: 'image/png',
 		transparent: true,	
@@ -447,7 +457,16 @@ async function getGeoserverLayer(workspace, layer) {
 	let tipoIcon;
 	let dataLayer;
 	try {
-		const geoResponse = await fetch(`https://sistemas2.chubut.edu.ar/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${workspace}%3A${layer}&maxFeatures=300&outputFormat=application%2Fjson&srsname=EPSG:4326`);
+		const geoResponse = await fetch(`/geoserver/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${workspace}%3A${layer}&maxFeatures=300&outputFormat=application%2Fjson&srsname=EPSG:4326`);
+		if (!geoResponse.ok) {
+
+			const errorText = await geoResponse.text();
+
+			throw new Error(
+				`HTTP ${geoResponse.status}: ${errorText}`
+			);
+		}
+		
 		const dataGeoJSON = await geoResponse.json();
 		switch (tipoCapa) {
 			case "regiones":
@@ -518,8 +537,8 @@ async function getGeoserverLayer(workspace, layer) {
 				break;
 		}
 
-	} catch (error) {
-		console.error("Error al cargar la capa: ", error);
+	} catch (e) {
+		console.error("Error al cargar la capa: ", e);
         return;
 	}
 	return dataLayer;
@@ -527,46 +546,6 @@ async function getGeoserverLayer(workspace, layer) {
 
 
 // Agregar regiones a mapa
-
-/*node async function getRegiones() {
-	const viewRegionLayer = L.tileLayer.wms("/geoserver/sigeducativo/ows", {
-		layers: 'sigeducativo:regiones_educativas',
-		format: 'image/png',
-		transparent: true,
-		version: '1.1.1',
-		styles: 'regiones_educativas',
-		attribution: "SIG Educativo"
-	})
-	let dataRegionLayer;
-    try {
-        const response = await fetch('/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=sigeducativo%3Aregiones_educativas&maxFeatures=50&outputFormat=application%2Fjson&srsname=EPSG:4326');
-        const regiones = await response.json();
-        // Crear la capa GeoJSON con los datos recibidos
-        dataRegionLayer = L.geoJSON(regiones, {
-            onEachFeature: function (feature, layer) {
-				// Configurar eventos de interacción con cada feature
-				layer.on({mouseover: highlightFeature});
-	
-				// Resetear el estilo cuando el mouse sale de la feature
-				layer.on('mouseout', function (e) {
-					dataRegionLayer.resetStyle(e.target);
-					info.update();
-				});
-			
-			},
-			style: function() {
-				return { color: 'transparent' }; // Hacer la capa invisible
-			}
-		})
-    } catch (error) {
-        console.error("Error al cargar la capa WFS: ", error);
-        return;
-    }
-	var combinedLayer = L.layerGroup([viewRegionLayer, dataRegionLayer]);
-	combinedLayer.addTo(mymap);
-	return combinedLayer
-}*/
-
 async function getRegiones() {
 	return fetch('mapa/regiones')
 	.then(response => response.json())
@@ -1855,7 +1834,7 @@ function getDelegacionLayers(){
 	});
 	return layerDel
 }
-//(`/geoserver/sigeducativo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=sigeducativo%3Abibliotecas_pedagogicas&maxFeatures=50&outputFormat=application%2Fjson&srsname=EPSG:4326`)
+//Bibliotecas Pedagógicas
 function getBibliotecaLayer(){
 	var biLayer = fetch ('mapa/setBiblioMarkers')
 	.then (response => response.json())
@@ -2074,22 +2053,31 @@ async function generarTodosLayers(layerParam) {
 	
 	var i = 0;
 	if (layerParam != null) {
-		var inactivo;
 		var layer;
 		establecimientos.forEach(establecimiento => {
-			if (establecimiento[1][0].url == layerParam) {	
-				inactivo = false
-			}
 			layer = establecimiento[0][0];
-			layersConfig.push({
-				label: `${establecimiento[1][0].label}`,
-				type: "image",
-				url: `icons/establecimientos_${establecimiento[1][0].url}.svg`,
-				layers_type: establecimiento[1][0].legend,
-				layers: layer,
-				inactive: inactivo,
-			});
-			(establecimiento[1][0].url == layerParam?layer.addTo(mymap):i+=1);
+			if (establecimiento[1][0].url === layerParam) {
+				layersConfig.push({
+					label: `${establecimiento[1][0].label}`,
+					type: "image",
+					url: `icons/establecimientos_${establecimiento[1][0].url}.svg`,
+					layers_type: establecimiento[1][0].legend,
+					layers: layer,
+					inactive: false,
+				});
+			} else {
+				layersConfig.push({
+					label: `${establecimiento[1][0].label}`,
+					type: "image",
+					url: `icons/establecimientos_${establecimiento[1][0].url}.svg`,
+					layers_type: establecimiento[1][0].legend,
+					layers: layer,
+					inactive: true,
+				});
+			}
+			
+			
+			establecimiento[1][0].url === layerParam?layer.addTo(mymap):"";
 		});
 
 		layersConfig.push({
@@ -2147,7 +2135,7 @@ async function generarTodosLayers(layerParam) {
 			})
 
 		layersConfig.push({
-				label: 'Oficinas Externas',
+				label: 'Otras dependencias',
 				type: 'image',
 				url: 'icons/oficinas_externas.svg',
 				layers_type: "organizacion",
@@ -2352,7 +2340,7 @@ async function generarTodosLayers(layerParam) {
 			})
 
 			layersConfig.push({
-				label: 'Bibliotecas Pedagogicas',
+				label: 'Bibliotecas Pedagógicas',
 				type: 'image',
 				url: 'icons/biblioteca_.svg',
 				layers_type: "organizacion",
@@ -2385,14 +2373,13 @@ async function generarTodosLayers(layerParam) {
 
 			supervision.forEach(supervision => {
 				var layer = supervision[0][0];
-				layer.addTo(mymap);
 				layersConfig.push({
 					label: `Supervisíón ${supervision[1][0].label}`,
 					type: "image",
 					url: `icons/supervision_${supervision[1][0].url}.svg`,
 					layers_type: "organizacion",
 					layers: layer,
-					inactive: false,
+					inactive: true,
 				});
 			});
 			layersConfig.push({
@@ -2432,7 +2419,7 @@ async function generarTodosLayers(layerParam) {
 			})
 
 			layersConfig.push({
-				label: 'Oficinas Externas',
+				label: 'Otras Dependencias',
 				type: 'image',
 				url: 'icons/oficinas_externas.svg',
 				layers_type: "organizacion",
@@ -2472,7 +2459,7 @@ const gruposMeta = {
 
 function renderSidebarDesdeConfig(layersConfig) {
   const container = document.getElementById("capas");
-  container.innerHTML = "<h2>🗺️ Mapa Educativo Interactivo</h2>";
+  container.innerHTML = `<h2 class="sidebar-title">🗺️ Mapa Educativo Interactivo</h2>`;
 
   const grupos = agruparLayers(layersConfig);
 
@@ -2483,25 +2470,96 @@ function renderSidebarDesdeConfig(layersConfig) {
     div.className = "grupo";
     div.dataset.group = tipo;
 
+	let normales = items;
+	let supervisiones = [];
+	let otras = [];
+
+	//Para aquellas capas que son de tipo organización, hacemos una clasificación adicional para separar supervisiones y oficinas externas del resto de las capas organizativas
+	if (tipo === "organizacion") {
+	normales = [];
+	items.forEach(item => {
+		if (item.label.toLowerCase().includes("supervis")) {
+			supervisiones.push(item);
+		} else if (item.label.toLowerCase().includes("designacion") || item.label.toLowerCase().includes("junta") || item.label.toLowerCase().includes("otras")) {
+			otras.push(item);
+		} else {
+			normales.push(item);
+		}
+	});
+	}
+	//titulos de las clasificaciones
     let html = `
 		<h4 class="group-header">
 			<span class="toggle-icon">▸</span>
 			<input type="checkbox" class="group-toggle">
 			${meta.label}
 		</h4>
+		<span class="info-header-btn" data-info="${meta.label}">❓</span>
 		<div class="group-content">
 		`;
 
-    items.forEach(item => {
+    normales.forEach(item => {
 		const layerId = generarId(item.label);
-
 		html += `
 			<label>
-			<input type="checkbox" data-layer="${layerId}" ${item.inactive ? "" : "checked"}>
-			${item.label}
+			<input type="checkbox"data-layer="${layerId}" ${item.inactive ? "" : "checked"}>
+			${item.label.length < 4 ? item.label.toUpperCase() : item.label}
 			</label><br>
+			<span class="info-btn" data-info="${item.label}">ℹ️</span>
 		`;
 	});
+
+	 // 🔹 subgrupo Supervisiones
+    if (supervisiones.length) {
+      html += `
+        <div class="subgrupo collapsed">
+          <div class="subgroup-header">
+            <span class="toggle-icon">▸</span>
+            👁️ Supervisiones
+          </div>
+		  <span class="info-header-btn" data-info="Supervisiones">❓</span>
+          <div class="subgroup-content">
+      `;
+
+      supervisiones.forEach(item => {
+        const layerId = generarId(item.label);
+
+        html += `
+          <label>
+            <input type="checkbox" data-layer="${layerId}" ${item.inactive ? "" : "checked"}>
+            ${item.label}
+          </label><br>
+		  <span class="info-btn" data-info="${item.label}">ℹ️</span>
+        `;
+      });
+
+      html += `</div></div>`;
+    }
+
+	if (otras.length) {
+      html += `
+        <div class="subgrupo collapsed">
+          <div class="subgroup-header">
+            <span class="toggle-icon">▸</span>
+            🏬 Oficinas Externas
+          </div>
+          <span class="info-header-btn" data-info="Oficinas Externas">❓</span>
+          <div class="subgroup-content">
+      `;
+
+      otras.forEach(item => {
+        const layerId = generarId(item.label);
+        html += `
+          <label>
+            <input type="checkbox" data-layer="${layerId}" ${item.inactive ? "" : "checked"}>
+            ${item.label}
+          </label><br>
+		  <span class="info-btn" data-info="${item.label}">ℹ️</span>
+        `;
+      });
+
+      html += `</div></div>`;
+    }
 
 	html += `</div>`;
 	
@@ -2513,6 +2571,8 @@ function renderSidebarDesdeConfig(layersConfig) {
     container.appendChild(div);
   });
 }
+
+
 
 function generarId(label) {
   return label
@@ -2548,6 +2608,20 @@ function toggleLayerGroup(layerArray, enabled) {
       }
     }
   });
+}
+
+function mostrarInfoSidebar(nombre) {
+	const panel = document.getElementById("info-panel");
+	const title = document.getElementById("info-title");
+	const content = document.getElementById("info-content");
+
+	title.innerText = nombre;
+	content.innerText = getLayerInfo(nombre);
+
+	panel.classList.remove("hidden");
+	document.getElementById("info-close").addEventListener("click", () => {
+		document.getElementById("info-panel").classList.add("hidden");
+	});
 }
 
 function initSidebarEvents(layers) {
@@ -2597,6 +2671,27 @@ function initSidebarEvents(layers) {
 
 			const group = header.closest(".grupo");
 			group.classList.toggle("collapsed");
+		});
+	});
+
+	// subgrupos
+	document.querySelectorAll(".subgroup-header").forEach(header => {
+		header.addEventListener("click", () => {
+			header.closest(".subgrupo").classList.toggle("collapsed");
+		});
+	});
+
+	document.querySelectorAll(".info-btn").forEach(btn => {
+		btn.addEventListener("click", (e) => {
+			e.stopPropagation();
+			mostrarInfoSidebar(e.target.dataset.info);
+		});
+	});
+
+	document.querySelectorAll(".info-header-btn").forEach(btn => {
+		btn.addEventListener("click", (e) => {
+			e.stopPropagation();
+			mostrarInfoSidebar(e.target.dataset.info);
 		});
 	});
 
@@ -2680,31 +2775,10 @@ btn.addEventListener("click", () => {
 
 var legends;
 var legend;
-//agrega la botonera de capas
-/*async function initMap() {
-    // Generar y añadir leyendas
+async function initMap() {
 	const urlParams = new URLSearchParams(window.location.search);
 	const layerParam = urlParams.get('capa');
-	legends = await generarTodosLayers(layerParam);
-	console.log(legends)
-	try {
-		legend = new L.control.Legend({
-			position: "topleft",
-			title: "Capas",
-			collapsed: true,
-			symbolWidth: 17, 
-			opacity: 1,
-			column: false,
-			legends: legends
-		}).addTo(mymap);
-		
-	} catch (error) {
-		console.error('Error al cargar las capas:', error);
-	}
-}*/
-
-async function initMap() {
-	const config = await generarTodosLayers();
+	const config = await generarTodosLayers(layerParam);
 
 	renderSidebarDesdeConfig(config);
 
@@ -3347,68 +3421,70 @@ function actualizarLegends(label, inactive){
 
 
 
-// Mostrar poput info layer de legend
-function mostrarpoputinfo(namelayer){
-	document.getElementById("staticBackdropLabelleyend").innerHTML= namelayer;
-	var staticBMBL = document.getElementById("staticBMBL");
-	staticBMBL.innerHTML = "";
-	switch (namelayer) {
-		case "Regiones Educativas":
-			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3 text-danger">No esta la info de la capa!</p>`;
-			break;
-		case "Ministerio de Educación":
-			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3 text-danger">No esta la info de la capa!</p>`;
-			break;
-		case "Supervision Inicial":
-			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">Se encargan de ejercer en primer término y en forma directa el control y supervisión de los aspectos que hacen a la parte operativa de servicios administrativa y financiera de los establecimientos educativos del nivel inicial.</p>`;
-			break;
-		case "Supervisión Primaria":
-			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3 ">Se encargan de ejercer en primer término y en forma directa el control y supervisión de los aspectos que hacen a la parte operativa de servicios administrativa y financiera de los establecimientos educativos del nivel primario.</p>`;
-			break;
-		case "Supervisión Secundaria":
-			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">Se encargan de ejercer en primer término y en forma directa el control y supervisión de los aspectos que hacen a la parte operativa de servicios administrativa y financiera de los establecimientos educativos del nivel secundario.</p>`;
-			break;
-		case "Supervisión Privada":
-			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">Se encargan de ejercer en primer término y en forma directa el control y supervisión de los aspectos que hacen a la parte operativa de servicios administrativa y financiera de los establecimientos educativos de gestión privada.</p>`;
-			break;
-		case "Delegaciones Administrativas":
-			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3 text-danger">No esta la info de la capa!</p>`;
-			break;
-		case "Bibliotecas Pedagógicas":
-			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3 text-danger">No esta la info de la capa!</p>`;
-			break;
-		case "Domiciliaria/Hospitalaria":
-			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">Es la modalidad del sistema educativo en los niveles de Educación Inicial, Primaria y Secundaria, destinada a garantizar el derecho a la educación de los/ as estudiantes que, por razones de salud, se ven imposibilitados/as de asistir con regularidad a una institución educativa en los niveles de la educación obligatoria, por períodos de quince (15) días corridos o más.</p>`;
-			break;
-		case "Especial":
-			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">Es la modalidad del Sistema Educativo destinada a asegurar el derecho a la educación de las personas con discapacidades, temporales o permanentes, en todos los niveles y modalidades del Sistema Educativo.</p>`;
-			break;
-		case "Inicial":
-			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">La educación inicial constituye una unidad pedagógica que brinda educación a los/as niños/as desde los cuarenta y cinco (45) días hasta los cinco (5) años de edad inclusive, siendo obligatoria la sala de cinco (5) años.</p>`;
-			break;
-		case "Primaria":
-			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">La educación primaria es obligatoria y constituye una unidad pedagógica que tiene por finalidad brindar una enseñanza común, integral y básica que asegure a los/as niños/as las condiciones para el acceso, tránsito, permanencia y egreso del nivel. Tiene una duración de seis (6) años, organizada en dos ciclos de tres (3) años cada uno.</p>`;
-			break;
-		case "Secundaria":
-			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">La educación secundaria es obligatoria, constituye una unidad pedagógica y organizativa destinada a los/as adolescentes, jóvenes y adultos que hayan cumplido con el nivel de educación primaria.</p>`;
-			break;
-		case "Superior no universitaria":
-			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">Está constituida por los Institutos de Educación Superior, sean éstos de formación docente, humanística, social, técnico-profesional o artística y por instituciones nacionales y provinciales de educación no universitaria.</p>`;
-			break;
-		case "EPJA":
-			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">Es la modalidad educativa destinada a garantizar la alfabetización y el cumplimiento de la obligatoriedad escolar, a quienes no la hayan completado en la edad establecida reglamentariamente, y a brindar posibilidades de educación a lo largo de toda la vida.</p>`;
-			break;
-		case "ETP":
-			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">Es la modalidad de la Educación Secundaria y la Educación Superior, responsable de la formación de Técnicos Medios y Técnicos Superiores, en áreas ocupacionales específicas y de la formación profesional, introduciendo a los/as estudiantes, jóvenes y adultos, en un recorrido de profesionalización a partir del acceso a una base de conocimientos y de habilidades profesionales que les permita su inserción en áreas ocupacionales cuya complejidad exige haber adquirido una formación general, una cultura científico tecnológica de base a la par de una formación técnica específica de carácter profesional, así como continuar aprendiendo durante toda su vida.</p>`;
-			break;
-		case "Otros servicios educativos":
-			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3">Esta capa no tiene descripción</p>`;
-			break;
+// descripcion sobre las capas
+function getLayerInfo(namelayer) {
+  switch (namelayer) {
+    case "Supervision Inicial":
+      return "Se encargan de ejercer en primer término y en forma directa el control y supervisión de los aspectos que hacen a la parte operativa de servicios administrativa y financiera de los establecimientos educativos del nivel inicial";
+    case "Supervisión Primaria":
+      return "Se encargan de ejercer en primer término y en forma directa el control y supervisión de los aspectos que hacen a la parte operativa de servicios administrativa y financiera de los establecimientos educativos del nivel primario";
+	case "Supervisión Secundaria":
+		return "Se encargan de ejercer en primer término y en forma directa el control y supervisión de los aspectos que hacen a la parte operativa de servicios administrativa y financiera de los establecimientos educativos del nivel secundario."; 
+    case "Supervisión Privada":
+	  return "Se encargan de ejercer en primer término y en forma directa el control y supervisión de los aspectos que hacen a la parte operativa de servicios administrativa y financiera de los establecimientos educativos de gestión privada.";
+	case "Domiciliaria/Hospitalaria":
+		return "Es la modalidad del sistema educativo en los niveles de Educación Inicial, Primaria y Secundaria, destinada a garantizar el derecho a la educación de los/ as estudiantes que, por razones de salud, se ven imposibilitados/as de asistir con regularidad a una institución educativa en los niveles de la educación obligatoria, por períodos de quince (15) días corridos o más.";
+	case "Especial":
+		return "Es la modalidad del Sistema Educativo destinada a asegurar el derecho a la educación de las personas con discapacidades, temporales o permanentes, en todos los niveles y modalidades del Sistema Educativo.";
+	case "Inicial":
+		return "La educación inicial constituye una unidad pedagógica que brinda educación a los/as niños/as desde los cuarenta y cinco (45) días hasta los cinco (5) años de edad inclusive, siendo obligatoria la sala de cinco (5) años.";
+	case "Primaria":
+		return "La educación primaria es obligatoria y constituye una unidad pedagógica que tiene por finalidad brindar una enseñanza común, integral y básica que asegure a los/as niños/as las condiciones para el acceso, tránsito, permanencia y egreso del nivel. Tiene una duración de seis (6) años, organizada en dos ciclos de tres (3) años cada uno.";	
+	case "secundaria":
+		return "La educación secundaria es obligatoria, constituye una unidad pedagógica y organizativa destinada a los/as adolescentes, jóvenes y adultos que hayan cumplido con el nivel de educación primaria.";	
+	case "Superior no universitaria":
+		return "Está constituida por los Institutos de Educación Superior, sean éstos de formación docente, humanística, social, técnico-profesional o artística y por instituciones nacionales y provinciales de educación no universitaria.";	
+	case "EPJA":
+		return "Es la modalidad educativa destinada a garantizar la alfabetización y el cumplimiento de la obligatoriedad escolar, a quienes no la hayan completado en la edad establecida reglamentariamente, y a brindar posibilidades de educación a lo largo de toda la vida.";
+	case "ETP":
+		return "Es la modalidad de la Educación Secundaria y la Educación Superior, responsable de la formación de Técnicos Medios y Técnicos Superiores, en áreas ocupacionales específicas y de la formación profesional, introduciendo a los/as estudiantes, jóvenes y adultos, en un recorrido de profesionalización a partir del acceso a una base de conocimientos y de habilidades profesionales que les permita su inserción en áreas ocupacionales cuya complejidad exige haber adquirido una formación general, una cultura científico tecnológica de base a la par de una formación técnica específica de carácter profesional, así como continuar aprendiendo durante toda su vida.";
+	case "Artística":
+		return "Es una modalidad presente en todos los niveles de la educación obligatoria (Inicial, Primaria y Secundaria), y también como formación específica en instituciones destinadas a niñas, niños, adolescentes, jóvenes y adultos. Promueve el arte como derecho y campo de conocimiento, contribuyendo a la formación ciudadana, laboral y cultural."
+	case "Contexto de Encierro":
+		return "Es una modalidad destinada a garantizar el derecho a la educación de personas privadas de libertad, promoviendo su formación integral y desarrollo pleno. Abarca instituciones como cárceles, centros socioeducativos para jóvenes infractores y centros de tratamiento de adicciones. Su objetivo es asegurar la escolaridad obligatoria, ofrecer formación técnica y superior, facilitar la educación a distancia, promover actividades culturales y deportivas, e impulsar la inclusión social mediante el acceso a la educación y la vida cultural."	
+	case "Rural":
+		return "Todas los establecimientos educativos ubicados en el amanzanado de una localidad censal de menos de 2000 habitantes y/o las que se ubican en campo abierto"
+	case "EIB":
+		return "Es una modalidad presente en los niveles Inicial, Primario y Secundario que garantiza el derecho de los pueblos indígenas a recibir una educación que preserve y fortalezca su cultura, lengua, cosmovisión e identidad. Busca incorporar progresivamente esta modalidad en las políticas curriculares. Promueve la participación indígena en la gestión educativa, el desarrollo de materiales pertinentes, el fortalecimiento de trayectorias escolares, el aprendizaje de la lengua indígena y del español, y la inclusión de contenidos culturales indígenas en los currículos nacionales y provinciales."	
+	case "CFP":
+		return "Es un establecimiento educativo destinado específicamente a la formación y perfeccionamiento laboral, desarrolla sus actividades respondiendo a las necesidades socio-económicas y los requerimientos del mercado laboral de su zona de influencia."	
+	case "Regiones Educativas":
+		return "Definida por decisión de una autoridad en relación con la conducción, planeamiento y administración de la política educativa. Delimita unidades espaciales de acuerdo con un programa de acción. La provincia cuenta con seis regiones educativas."	
+	case "Departamentos":
+		return "División territorial administrativa de la Provincia. Chubut está dividida por 15 departamentos"
+	case "Urbano":
+		return "Todas los establecimientos educativos ubicados en localidades censales de 2000 habitantes y más y/o todas las escuelas ubicadas en localidades censales de menos de 2000 habitantes pero que, según el INDEC, se encuentran “comprendidas” dentro de otra localidad censal de más de 2000 habitantes."
+	case "Rural-aglomerado":
+		return "Escuelas en ámbito rural aglomerado: todas las escuelas que se ubican en el amanzanado de una localidad censal de menos de 2000 habitantes."	
+	case "Rural-disperso":
+		return "Escuelas en ámbito rural disperso: todas las escuelas que se ubican en campo abierto."
+	case "Sedes":
+		return "localización donde cumplen sus funciones la máxima autoridad pedagógica administrativa del establecimiento. "
+	case "Anexos":
+		return "Es la localización donde funciona una sección o grupo de secciones que dependen pedagógica y administrativamente de una localización sede y funciona en otro lugar geográfico."
+	case "Carto Participativa":
+		return "alleres destinados a estudiantes y docentes con el objetivo de relevar información geográfica, desde distintas perspectivas y realidades que habitan los jóvenes estudiantes en la provincia y visibilizar la construcción de la información colectiva dentro del mapa interactivo."	
+	case "temáticos":
+		return "capas en las que se visualizan temáticas específicas"
+	case "Oficinas Externas":
+		return "Oficinas dependientes del Ministerio de Educación que no estan ubicadas geográficamente en la sede."
+	case "Nivel":
+		return "Son los tramos en que se estructura el sistema educativo. Se corresponden con las necesidades individuales de las etapas del proceso psico-físico-evolutivo articulado con el desarrollo psico-físico-social y cultural. Supone articulación, coordinación y la definición de objetivos educacionales comunes sean cuales fueren los elementos, condiciones y operaciones que lo componen. Los niveles son: Inicial, Primario, Secundario y  Superior."
+	case "Modalidad":
+		return "Son Modalidades del Sistema Educativo aquellos enfoques educativos, organizativos y/o curriculares, constitutivos o complementarios de la Educación Común, de carácter permanente o temporal, que dan respuesta a requerimientos específicos de formación articulando con cada Nivel, con el propósito de garantizar los derechos educativos de igualdad, inclusión, calidad y justicia social de todos los niños, jóvenes, adolescentes, adultos y adultos mayores de la Provincia."
 		default:
-			staticBMBL.innerHTML = `<p class="text-center text-break fs-6 fst-italic lh-sm user-select-none pt-3 text-danger text-danger">No esta la info de la capa!</p>`;	
-	}
-	var modalFiltro = new bootstrap.Modal(document.getElementById('staticBackdropleyend'), {});
-	modalFiltro.toggle();
+      return "No está la info de la capa.";
+  }
 }
 
 // Mostrar poput question de legend

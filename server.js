@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const session = require('express-session');
 const lusca = require('lusca').csrf;
+const { createProxyMiddleware } = require('http-proxy-middleware');
 app.set('trust proxy', 1);
 require('dotenv').config();
 app.use(express.static(path.join(__dirname,'public')));
@@ -22,7 +23,6 @@ app.use(express.static(__dirname));
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser());
-const { createProxyMiddleware } = require('http-proxy-middleware');
 const keyPath = path.join(__dirname, 'server.key');
 const certPath = path.join(__dirname, 'server.cert');
 const options = {
@@ -60,6 +60,13 @@ app.use(lusca({
 }));
 
 
+app.use(
+    '/geoserver',
+    createProxyMiddleware({
+        target: process.env.GEOSERVER_URL,
+        changeOrigin: true
+    })
+);
 
 // Middleware para servir archivos estáticos con tipo MIME correcto
 app.use('/modules/buscador', express.static(path.join(__dirname, 'modules/buscador'), {
@@ -71,15 +78,6 @@ app.use('/modules/buscador', express.static(path.join(__dirname, 'modules/buscad
 }));
 
 app.use(cors());
-
-app.use('/geoserver', createProxyMiddleware({
-  target: 'http://localhost:8585/geoserver/',
-  changeOrigin: true,
-  onError: (err, req, res) => {
-    console.error('Error en el proxy:', err.message);
-    res.status(500).send('Error al conectar con el servidor destino.');
-},
-}));
 
 
 app.use('/public', express.static(path.join(__dirname, 'public'), {
@@ -267,12 +265,6 @@ app.post('/logout', (req, res) => {
 app.get("/getCookie", (req,res) => {
   const cookie = req.cookies.authToken || null
   res.json({cookie})
-})
-
-app.get('/config', (req,res) => {
-  res.json({geoUser: process.env.USERNAME_GEO,
-            geoPass: process.env.PASSWORD_GEO
-  })
 })
 
 const apiRoutes = require('./apiController');

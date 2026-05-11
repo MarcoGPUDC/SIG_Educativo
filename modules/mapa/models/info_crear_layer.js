@@ -227,7 +227,52 @@ router.get("/mapa/localizar", async (req, res) => {
     }
 });
 
+router.get('/api/geoserver/layers/:workspace/:datastore', async (req, res) => {
 
+    try {
+
+        const { workspace, datastore } = req.params;
+
+        const geoUrl =
+            `${process.env.GEOSERVER_URL}/geoserver/rest/workspaces/${workspace}/datastores/${encodeURIComponent(datastore)}/featuretypes.json`;
+
+        const response = await fetch(geoUrl, {
+            method: 'GET',
+            headers: {
+                'Authorization':
+                    'Basic ' +
+                    Buffer.from(
+                        `${process.env.USERNAME_GEO}:${process.env.PASSWORD_GEO}`
+                    ).toString('base64'),
+
+                'Accept': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+
+            return res.status(response.status).json({
+                error: response.statusText
+            });
+        }
+
+        const data = await response.json();
+
+        const layers =
+            data.featureTypes.featureType.map(layer => layer.name);
+
+
+        res.json(layers);
+
+    } catch (err) {
+
+        console.error(err);
+
+        res.status(500).json({
+            error: err.message
+        });
+    }
+});
 
 
 module.exports = router;
