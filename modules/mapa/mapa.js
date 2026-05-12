@@ -2452,30 +2452,41 @@ function renderSidebarDesdeConfig(layersConfig) {
   container.innerHTML = `<h2 class="sidebar-title">🗺️ Mapa Educativo Interactivo</h2>`;
 
   const grupos = agruparLayers(layersConfig);
+  Object.keys(gruposMeta).forEach(tipo => {
+    if (!grupos[tipo]) return;
 
-  Object.entries(grupos).forEach(([tipo, items]) => {
-    const meta = gruposMeta[tipo] || { label: tipo, icon: "📁" };
+    items = grupos[tipo];
 
-    const div = document.createElement("div");
+
+    const meta =
+        gruposMeta[tipo] || {
+            label: tipo,
+            icon: "📁"
+        };
+
+    const div =
+        document.createElement("div");
+
     div.className = "grupo";
+
     div.dataset.group = tipo;
 
-	let normales = items;
-	let supervisiones = [];
-	let otras = [];
+    let normales = items;
+    let supervisiones = [];
+    let otras = [];
 
 	//Para aquellas capas que son de tipo organización, hacemos una clasificación adicional para separar supervisiones y oficinas externas del resto de las capas organizativas
 	if (tipo === "organizacion") {
-	normales = [];
-	items.forEach(item => {
-		if (item.label.toLowerCase().includes("supervis")) {
-			supervisiones.push(item);
-		} else if (item.label.toLowerCase().includes("designacion") || item.label.toLowerCase().includes("junta") || item.label.toLowerCase().includes("otras")) {
-			otras.push(item);
-		} else {
-			normales.push(item);
-		}
-	});
+		normales = [];
+		items.forEach(item => {
+			if (item.label.toLowerCase().includes("supervis")) {
+				supervisiones.push(item);
+			} else if (item.label.toLowerCase().includes("designacion") || item.label.toLowerCase().includes("junta") || item.label.toLowerCase().includes("otras")) {
+				otras.push(item);
+			} else {
+				normales.push(item);
+			}
+		});
 	}
 	//titulos de las clasificaciones
     let html = `
