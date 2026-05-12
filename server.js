@@ -204,48 +204,133 @@ app.get('/csrf-token', (req, res) => {
 
 //PROXYS
 app.get('/proxyimg', async (req, res) => {
+
   try {
+
     const { url } = req.query;
 
+    // Hosts permitidos
     const allowedHosts = [
       'drive.google.com',
-      'lh3.googleusercontent.com',
+      'googleusercontent.com',
       'drive.usercontent.google.com'
     ];
 
+    // Validar parámetro
     if (!url) {
-      return res.status(400).send('Falta el parámetro "url"');
+      return res.status(400).send(
+        'Falta el parámetro "url"'
+      );
     }
 
     // Parsear URL
     const parsed = new URL(url);
+
     const host = parsed.hostname;
 
-    // Validar host permitido
-    if (!allowedHosts.includes(host)) {
-      return res.status(403).send('URL no permitida');
+    // Validar host
+    const isAllowed = allowedHosts.some(
+      allowed => host.endsWith(allowed)
+    );
+
+    if (!isAllowed) {
+      return res.status(403).send(
+        'URL no permitida'
+      );
     }
+
+    // =========================
+    // CORRECCIÓN GOOGLE DRIVE
+    // =========================
+
+    // Extraer ID del archivo
+    const fileId =
+      parsed.searchParams.get('id');
+
+    // URL final
+    let finalUrl = url;
+
+    // Convertir URLs /uc?export=view
+    // a thumbnail directa
+    if (fileId) {
+
+      finalUrl =
+        `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
+    }
+
+    console.log('Proxy IMG:', finalUrl);
 
     // Descargar imagen
-    const response = await fetch(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0' }
+    const response = await fetch(finalUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0'
+      }
     });
 
+    console.log(
+      'Status IMG:',
+      response.status
+    );
+
     if (!response.ok) {
-      return res.status(502).send('Error al obtener la imagen');
+
+      return res.status(502).send(
+        'Error al obtener la imagen'
+      );
     }
 
-    const contentType = response.headers.get('content-type') || 'image/jpeg';
+    // Tipo de contenido
+    const contentType =
+      response.headers.get('content-type')
+      || 'image/jpeg';
 
-    res.setHeader('Content-Type', contentType);
-    res.setHeader('Cache-Control', 'public, max-age=86400');
+    console.log(
+      'Content-Type:',
+      contentType
+    );
 
-    const buffer = await response.arrayBuffer();
-    res.send(Buffer.from(buffer));
+    // Validar imagen real
+    if (!contentType.startsWith('image/')) {
+
+      console.error(
+        'La URL no devolvió una imagen válida'
+      );
+
+      return res.status(502).send(
+        'Contenido inválido'
+      );
+    }
+
+    // Descargar buffer
+    const buffer =
+      await response.arrayBuffer();
+
+    // Headers
+    res.setHeader(
+      'Content-Type',
+      contentType
+    );
+
+    res.setHeader(
+      'Cache-Control',
+      'public, max-age=86400'
+    );
+
+    // Enviar imagen
+    return res.send(
+      Buffer.from(buffer)
+    );
 
   } catch (error) {
-    console.error('Error en proxy:', error);
-    res.status(500).send('Error interno del servidor');
+
+    console.error(
+      'Error en proxy:',
+      error
+    );
+
+    return res.status(500).send(
+      'Error interno del servidor'
+    );
   }
 });
 

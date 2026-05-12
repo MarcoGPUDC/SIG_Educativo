@@ -52,21 +52,42 @@ router.get('/obtenerDatosInfra', async (req, res) => {
   });
 
   router.get('/obtenerDatosSedeAnexo', async (req,res) => {
+
     try {
-      var anexo = req.query.anexo
-      const data = await informacion.busqueda_adicional_sedeAnexo(req.query.cue);
-      data.forEach(element => {
-        if (element.cue != anexo) {
-            res.send("No se encontraron sedes o anexos.");
-            return;    
-        }
+
+      const anexo = req.query.anexo;
+
+      const data =
+        await informacion.busqueda_adicional_sedeAnexo(
+          req.query.cue
+        );
+
+      const existe = data.some(
+        element => element.cue == anexo
+      );
+
+      if (!existe) {
+
+      return res.status(404).json({
+        success: false,
+        message: "No se encontraron sedes o anexos."
       });
-      res.send([data, anexo]);
-    } catch (error) {
-      console.error('Error al obtener los datos:', error);
-      res.status(500).send('Error al obtener los datos.');
     }
-  });
+
+      return res.send([data, anexo]);
+
+    } catch (error) {
+
+      console.error(
+        'Error al obtener los datos:',
+        error
+      );
+
+      return res.status(500).send(
+        'Error al obtener los datos.'
+      );
+    }
+});
 
   /*router.get('/obtenerDirImagen', async (req,res) => {
     try {

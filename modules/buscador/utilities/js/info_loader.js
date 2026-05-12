@@ -7,7 +7,7 @@ function descifrarDato(datoCifrado, clave) {
   return bytes.toString(CryptoJS.enc.Utf8);
 }
 obtenerImagenes()
-async function completarDatosInstitucion() {
+/*async function completarDatosInstitucion() {
     const parametros = new URLSearchParams(window.location.search);
     //var id = descifrarDato(parametros.get('num') , 'SIGE2024');
     var id = parametros.get('num')
@@ -206,16 +206,415 @@ async function completarDatosInstitucion() {
         var persJuridica = document.getElementById('persJuridica');
         var presidente = document.getElementById('presidente');
         var tesorero = document.getElementById('tesorero');
-        (datos.n_reso != null) ? numeroReso.innerHTML = datos.n_reso : numeroReso.innerHTML = 'No indica';
-        (datos.fecha_reso != null) ? fechaReso.innerHTML = datos.fecha_reso : fechaReso.innerHTML = 'No indica';
-        (datos.pers_juridica != null) ? persJuridica.innerHTML = datos.pers_juridica : persJuridica.innerHTML = 'No indica';
-        (datos.presidente != null) ? presidente.innerHTML = datos.presidente : presidente.innerHTML = 'No indica';
-        (datos.tesorero != null) ? tesorero.innerHTML = datos.tesorero : tesorero.innerHTML = 'No indica';
+        if (datos === undefined) {
+            numeroReso.innerHTML = 'No indica';
+            fechaReso.innerHTML = 'No indica';
+            persJuridica.innerHTML = 'No indica';
+            presidente.innerHTML = 'No indica';
+            tesorero.innerHTML = 'No indica';
+        } else {
+            (datos.n_reso != null) ? numeroReso.innerHTML = datos.n_reso : numeroReso.innerHTML = 'No indica';
+            (datos.fecha_reso != null) ? fechaReso.innerHTML = datos.fecha_reso : fechaReso.innerHTML = 'No indica';
+            (datos.pers_juridica != null) ? persJuridica.innerHTML = datos.pers_juridica : persJuridica.innerHTML = 'No indica';
+            (datos.presidente != null) ? presidente.innerHTML = datos.presidente : presidente.innerHTML = 'No indica';
+            (datos.tesorero != null) ? tesorero.innerHTML = datos.tesorero : tesorero.innerHTML = 'No indica';
+        }
         })
     .catch(error => {
         console.error('Error:', error);
     });
-};
+};*/
+
+async function completarDatosInstitucion() {
+
+    const $ = id => document.getElementById(id);
+
+    function appendUnique(id, value) {
+
+        if (!value) return;
+
+        const el = $(id);
+
+        if (!el.innerHTML.includes(value)) {
+
+            el.innerHTML +=
+                el.innerHTML === ''
+                    ? value
+                    : ` / ${value}`;
+        }
+    }
+
+    async function fetchJSON(url) {
+
+        const response = await fetch(url);
+
+        let data = null;
+
+        try {
+            data = await response.json();
+        } catch {}
+
+        if (!response.ok) {
+
+            throw new Error(
+                data?.message ||
+                'Error del servidor'
+            );
+        }
+
+        return data;
+    }
+
+    try {
+
+        const parametros =
+            new URLSearchParams(window.location.search);
+
+        const id = parametros.get('num');
+
+        // =========================
+        // FETCHES PARALELOS
+        // =========================
+
+        const [
+            institucion,
+            matriculas,
+            adicionales,
+            infraData,
+            cooperadoraData
+        ] = await Promise.all([
+
+            fetchJSON(
+                `info/obtenerDatos?num=${id}`
+            ),
+
+            fetchJSON(
+                `info/busqueda_matricula_nivel?num=${id}`
+            ),
+
+            fetchJSON(
+                `info/obtenerDatosAdc?num=${id}`
+            ),
+
+            fetchJSON(
+                `info/obtenerDatosInfra?num=${id}`
+            ),
+
+            fetchJSON(
+                `info/obtenerDatosCooperadoras?num=${id}`
+            )
+        ]);
+
+        // =========================
+        // DATOS INSTITUCIÓN
+        // =========================
+
+        esc = institucion.numero;
+
+        $('cabecera').innerText +=
+            ` ${institucion.numero}`;
+
+        $('cueanexoinfoadicional').innerHTML =
+            institucion.cue_anexo || '-';
+
+        $('regioninfoadicional').innerHTML =
+            institucion.region || '-';
+
+        $('departamentoinfoadicional').innerHTML =
+            institucion.departamento || '-';
+
+        $('Localidadinfoadicional').innerHTML =
+            institucion.localidad || '-';
+
+        $('calleinfoadicional').innerHTML =
+            institucion.domicilio || '-';
+
+        $('cod_postalinfoadicional').innerHTML =
+            institucion.cp || '-';
+
+        $('amginfoadicional').innerHTML =
+            institucion.ambito || '-';
+
+        $('resp_respnsableinfoadicional').innerHTML =
+            institucion.responsable || '-';
+
+        $('telefonoinfoadicional').innerHTML =
+            institucion.tel || '-';
+
+        $('emailinfoadicional').innerHTML =
+            institucion.email_inst || '-';
+
+        $('sitio_webinfoadicional').innerHTML =
+            institucion.web || '-';
+
+        // =========================
+        // SEDE / ANEXO
+        // =========================
+
+        try {
+
+            const sedeData =
+                await fetchJSON(
+                    `info/obtenerDatosSedeAnexo?cue=${institucion.cue}&anexo=${institucion.anexo}`
+                );
+
+            const data = sedeData.data;
+
+            const anexoActu =
+                parseInt(sedeData.anexo, 10);
+
+            const sede = $('sedeinfoadicional');
+
+            const siguiente = $('siguiente');
+
+            const anterior = $('anterior');
+
+            if (data.length > 1) {
+
+                if (anexoActu === 0) {
+                    sede.innerHTML = "SI";
+
+                } else {
+
+                    $('anexoinfoadicional')
+                        .style.display = 'block';
+
+                    $('anexoinfoadicionallabel')
+                        .style.display = 'block';
+
+                    sede.innerHTML = "NO";
+
+                    $('anexoinfoadicional')
+                        .innerHTML = anexoActu;
+                }
+
+                for (let i = 0; i < data.length; i++) {
+
+                    if (
+                        data[i].anexo == anexoActu &&
+                        data[i + 1]
+                    ) {
+
+                        siguiente.onclick = () => {
+
+                            window.location.href =
+                                `./info?num=${data[i + 1].id_institucion}`;
+                        };
+                    }
+
+                    if (
+                        data[i].anexo == anexoActu &&
+                        data[i - 1]
+                    ) {
+
+                        anterior.onclick = () => {
+
+                            window.location.href =
+                                `./info?num=${data[i - 1].id_institucion}`;
+                        };
+                    }
+                }
+
+            } else {
+
+                sede.innerHTML = "SI";
+
+                anterior.style.display = 'none';
+
+                siguiente.style.display = 'none';
+            }
+
+        } catch(error) {
+
+            console.warn(
+                'Sin sedes/anexos:',
+                error.message
+            );
+
+            $('sedeinfoadicional').innerHTML = "SI";
+
+            $('anterior').style.display = 'none';
+
+            $('siguiente').style.display = 'none';
+        }
+
+        // =========================
+        // MATRÍCULA
+        // =========================
+
+        const matriculaNivel =
+            $('matriculainfonivel');
+
+        matriculaNivel.innerHTML = '';
+
+        const ul = document.createElement('ul');
+
+        matriculas.forEach(element => {
+
+            const li =
+                document.createElement('li');
+
+            li.textContent =
+                `${element.nivel}: ${parseInt(element.total)}`;
+
+            ul.appendChild(li);
+        });
+
+        matriculaNivel.appendChild(ul);
+
+        // =========================
+        // DATOS ADICIONALES
+        // =========================
+
+        adicionales.forEach(element => {
+
+            appendUnique(
+                'turnoinfoadicional',
+                element.turno
+            );
+
+            appendUnique(
+                'jornadainfoadicional',
+                element.jornada
+            );
+
+            appendUnique(
+                'modalidadinfoadicional',
+                element.modalidad
+            );
+
+            appendUnique(
+                'nivelesinfoadicional',
+                element.nivel
+            );
+        });
+
+        // =========================
+        // INFRAESTRUCTURA
+        // =========================
+
+        const data = infraData[0];
+
+        function setInfraIcon(
+            elementId,
+            condition,
+            iconOk,
+            iconNo,
+            titleOk,
+            extra = ''
+        ) {
+
+            const el = $(elementId);
+
+            el.innerHTML += condition
+                ? `<img src="${iconOk}" title="${titleOk}"> ${extra}`
+                : `<img src="${iconNo}">`;
+        }
+
+        setInfraIcon(
+            'bibliotecainfoadicional',
+            data?.biblioteca,
+            './icons/biblioteca.svg',
+            './icons/bibliotecaNo.png',
+            'Biblioteca'
+        );
+
+        setInfraIcon(
+            'laboratorioinfoadicional',
+            data?.laboratorio,
+            './icons/laboratorio.svg',
+            './icons/laboratorioNo.png',
+            'Laboratorio'
+        );
+
+        setInfraIcon(
+            'informaticainfoadicional',
+            data?.informatica,
+            './icons/informatica.svg',
+            './icons/informaticaNo.png',
+            'Informática'
+        );
+
+        setInfraIcon(
+            'artisticainfoadicional',
+            data?.artistica,
+            './icons/artistica.svg',
+            './icons/artisticaNo.png',
+            'Artística'
+        );
+
+        setInfraIcon(
+            'tallerinfoadicional',
+            data?.taller,
+            './icons/taller.svg',
+            './icons/tallerNo.png',
+            'Taller'
+        );
+
+        setInfraIcon(
+            'aguainfoadicional',
+            data?.agua,
+            './icons/agua.svg',
+            './icons/aguaNo.svg',
+            'Agua'
+        );
+
+        setInfraIcon(
+            'energiainfoadicional',
+            data?.energia,
+            './icons/energia.png',
+            './icons/energiaNo.png',
+            'Energía',
+            `Fuente: ${data?.fuente_energia || ''}`
+        );
+
+        setInfraIcon(
+            'internetinfoadicional',
+            data?.internet,
+            './icons/internet.svg',
+            './icons/internetNo.svg',
+            'Internet',
+            `Fuente: ${data?.fuente_internet || ''}`
+        );
+
+        setInfraIcon(
+            'calefaccioninfoadicional',
+            data?.calefaccion,
+            './icons/calefaccion.svg',
+            './icons/calefaccionNo.png',
+            'Calefacción'
+        );
+
+        // =========================
+        // COOPERADORA
+        // =========================
+
+        const coop =
+            cooperadoraData[0];
+
+        $('numeroReso').innerHTML =
+            coop?.n_reso || 'No indica';
+
+        $('fechaReso').innerHTML =
+            coop?.fecha_reso || 'No indica';
+
+        $('persJuridica').innerHTML =
+            coop?.pers_juridica || 'No indica';
+
+        $('presidente').innerHTML =
+            coop?.presidente || 'No indica';
+
+        $('tesorero').innerHTML =
+            coop?.tesorero || 'No indica';
+
+    } catch(error) {
+
+        console.error(
+            'Error general:',
+            error
+        );
+    }
+}
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
