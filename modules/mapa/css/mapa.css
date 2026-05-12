@@ -721,3 +721,10 @@ body {
 #info-content {
   text-align: justify;
 }
+
+
+.borrar-consulta-btn {
+    position: relative;
+    float: inline-end;
+    cursor: pointer;
+}

@@ -2443,7 +2443,8 @@ const gruposMeta = {
   tema: { label: "🌱 Temáticos", icon: "🌱" },
   otro: { label: "📦 Otros", icon: "📦" },
   carto: { label: "🧭 Carto Participativa", icon: "🧭" },
-  general: { label: "🗺️ Límites", icon: "🗺️" }
+  general: { label: "🗺️ Límites", icon: "🗺️" },
+  consultas: { label: "🔍 Consultas", icon: "🔍" },
 };
 
 function renderSidebarDesdeConfig(layersConfig) {
@@ -2489,6 +2490,7 @@ function renderSidebarDesdeConfig(layersConfig) {
 
     normales.forEach(item => {
 		const layerId = generarId(item.label);
+		layersRegistry[layerId] = item.layers;
 		html += `
 			<label>
 			<input type="checkbox"data-layer="${layerId}" ${item.inactive ? "" : "checked"}>
@@ -2512,6 +2514,7 @@ function renderSidebarDesdeConfig(layersConfig) {
 
       supervisiones.forEach(item => {
         const layerId = generarId(item.label);
+		layersRegistry[layerId] = item.layers;
 
         html += `
           <label>
@@ -2538,6 +2541,8 @@ function renderSidebarDesdeConfig(layersConfig) {
 
       otras.forEach(item => {
         const layerId = generarId(item.label);
+		layersRegistry[layerId] = item.layers;
+
         html += `
           <label>
             <input type="checkbox" data-layer="${layerId}" ${item.inactive ? "" : "checked"}>
@@ -2562,12 +2567,15 @@ function renderSidebarDesdeConfig(layersConfig) {
 }
 
 
+const layersRegistry = {};
 
 function generarId(label) {
-  return label
+  const id = label
     .toLowerCase()
     .replace(/\s+/g, "_")
     .replace(/[^\w]/g, "");
+
+  return id;
 }
 
 function normalizarLayers(l) {
@@ -2579,6 +2587,7 @@ function buildLayersRegistry(layersConfig) {
   
   layersConfig.forEach(item => {
     const id = generarId(item.label);
+	layersRegistry[id] = item.layers;
     layers[id] = normalizarLayers(item.layers);
   });
 
@@ -2779,8 +2788,99 @@ async function initMap() {
 	applyInitialState(layers);
 }
 
+//agrega apartado consultas
+function ensureConsultaGroup() {
 
+  let group = document.querySelector(
+    '.grupo[data-group="consulta"]'
+  );
 
+  if (group) return group;
+
+  const container = document.getElementById("capas");
+
+  const div = document.createElement("div");
+
+  div.className = "grupo";
+  div.dataset.group = "consulta";
+
+  div.innerHTML = `
+    <h4 class="group-header">
+      <span class="toggle-icon">▸</span>
+      🔍 Consultas
+    </h4>
+
+    <div class="group-content"></div>
+  `;
+
+  container.appendChild(div);
+
+  // evento colapsable
+  div.querySelector(".group-header")
+    .addEventListener("click", () => {
+      div.classList.toggle("collapsed");
+    });
+
+  return div;
+}
+
+//añadir capa de consulta al sidebar
+function addConsultaLayer(config) {
+
+  const group = ensureConsultaGroup();
+
+  const content = group.querySelector(".group-content");
+
+  const layerId = generarId(config.label);
+
+  // evitar duplicados
+  if (document.querySelector(`[data-layer="${layerId}"]`)) {
+    return;
+  }
+
+  // registry
+  layersRegistry[layerId] = {
+    label: config.label,
+    layers: config.layers,
+    tipo: "consulta",
+    active: true
+  };
+
+  // item html
+  const label = document.createElement("label");
+
+  label.innerHTML = `
+    <input type="checkbox"
+           data-layer="${layerId}"
+           checked>
+    ${config.label}
+	<span class="borrar-consulta-btn" data-info="${config.label}">❌</span>
+  `;
+
+  content.appendChild(label);
+  content.appendChild(document.createElement("br"));
+
+  // evento
+  label.querySelector("input")
+    .addEventListener("change", (e) => {
+
+      toggleLayerGroup(
+        config.layers,
+        e.target.checked
+      );
+
+      saveState();
+    });
+
+  borrarBtns = document.querySelectorAll(".borrar-consulta-btn");
+  borrarBtns.forEach(btn => {
+	btn.addEventListener("click", (e) => {
+	  const layerId = e.target.previousElementSibling.dataset.layer;
+	  const layerConfig = layersRegistry[layerId];
+	  eliminarLayer(layerConfig.label);
+	});
+  });
+}
 
 // Agregar boton consulta
 var myModal = new bootstrap.Modal(document.getElementById('exampleModalBusqueda'));
@@ -3055,14 +3155,8 @@ async function iniciarMapa() {
 
 // existe layer
 
-function layerNoExiste(layer){
-    var existe=true;
-    for (i=0; i < legend.options.legends.length; i++) {
-        if(legends[i].label == layer ){
-            existe = false;
-        }
-    }
-    return existe;
+function layerNoExiste(layerId) {
+  return !layersRegistry[layerId];
 }
 
 // Agrega o refresca la botonera
@@ -3161,14 +3255,10 @@ function itemsearchselected(selected){
 			instSelected.forEach(marker => {
 				baselayer.addLayer(marker)
 			})
-			updateButtonInLegend(name,{label: name,
-				type: "image",
-				url:  "icons/establecimientos_consulta.svg",
-				layers_type: "consulta",
-				layers: instSelected,
-				inactive: false,
-				});
-			
+			addConsultaLayer({
+				label: name,
+				layers: instSelected
+			});
 		} else if (!layerNoExiste(name)){
 			legend.options.legends.forEach(capa => {
 				if (capa.label == name) {
@@ -3272,13 +3362,10 @@ function ofertaSelect(){
 						cluster.addTo(mymap);
 						clusterOferta[`${name}`] = cluster
 					})
-					updateButtonInLegend(name,{label: name,
-						type: "image",
-						url:  "icons/establecimientos_consulta.svg",
-						layers_type: "consulta",
-						layers: cluster,
-						inactive: false,
-						});
+					addConsultaLayer({
+						label: name,
+						layers: cluster
+					});
 				} else {
 					Object.keys(clusterOferta).forEach( nameLayer => {
 						if (nameLayer == name) {
@@ -3338,13 +3425,10 @@ function buscarPorUbicacion(){
 		},
 		onEachFeature: onEachFeatureS
 		});
-		updateButtonInLegend("consulta",{label: "busqueda por localización",
-				type: "image",
-				url:  "icons/establecimientos_consulta.svg",
-				layers_type: "consulta",
-				layers: cluster,
-				inactive: false,
-				});
+		addConsultaLayer({
+			label: "Búsqueda por localización",
+			layers: cluster
+		});
 		cluster.addTo(mymap);
 		return geoLayer;
 	})		
@@ -3399,12 +3483,40 @@ function limpiarItemsNroEsc(){
 	infoNumNombreRepetidoFormControlSelect.style.display= "none";
 }
 
-// Quitar capas  desde legend
-function eliminarlayer(namelayer){
-	legends = legends.filter(function(value, index, arr){ 
-        return value.label != namelayer;
-    });
-	agregarNuevaLegend();
+//eliminar capas consultas
+function eliminarLayer(layerName) {
+
+  const layerId = generarId(layerName);
+
+  // 🔹 obtener layer del registry
+  const layerData = layersRegistry[layerId];
+
+  if (!layerData) return;
+
+  // 🔹 quitar del mapa
+  toggleLayerGroup(layerData.layers, false);
+
+  // 🔹 eliminar del DOM
+  const checkbox = document.querySelector(
+    `[data-layer="${layerId}"]`
+  );
+
+  if (checkbox) {
+
+    const label = checkbox.closest("label");
+
+    // eliminar <br> siguiente
+    if (label.nextSibling?.tagName === "BR") {
+      label.nextSibling.remove();
+    }
+
+    label.remove();
+  }
+
+  // 🔹 eliminar del registry
+  delete layersRegistry[layerId];
+
+  removeConsultaGroupIfEmpty()
 }
 
 // actualiza legends desde legend
@@ -3416,6 +3528,23 @@ function actualizarLegends(label, inactive){
     }
 }
 
+//limpia el apartado de consultas si no tiene capas
+function removeConsultaGroupIfEmpty() {
+
+  const group = document.querySelector(
+    '.grupo[data-group="consulta"]'
+  );
+
+  if (!group) return;
+
+  const content = group.querySelector(".group-content");
+
+  const hasLayers = content.querySelector("label");
+
+  if (!hasLayers) {
+    group.remove();
+  }
+}
 
 
 // descripcion sobre las capas
