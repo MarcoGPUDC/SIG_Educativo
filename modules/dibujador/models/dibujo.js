@@ -9,6 +9,8 @@ var map = L.map('map', {
   pmIgnore: false
 }).setView([-44.0, -68.41215], 7);
 
+map.pm.setLang('es');
+
 map.pm.addControls();
 
 map.pm.setGlobalOptions({

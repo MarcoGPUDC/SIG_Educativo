@@ -312,7 +312,8 @@ async function completarDatosInstitucion() {
         esc = institucion.numero;
 
         $('cabecera').innerText +=
-            ` ${institucion.numero}`;
+            ` ${institucion.numero}
+            `+`${institucion.nombre}`;
 
         $('cueanexoinfoadicional').innerHTML =
             institucion.cue_anexo || '-';
