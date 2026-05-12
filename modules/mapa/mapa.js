@@ -4,8 +4,6 @@
 function hideLoadingScreen() {
 	document.getElementById('loading-screen').style.display = 'none';
 }
-setTimeout(hideLoadingScreen,3500);
-
 //setea el mapa
 
 var mymap = new L.map('map', {
@@ -442,7 +440,20 @@ async function getGeoserverDatastoreLayers(workspace, datastore){
             break;
     }
 }
-
+async function cargarCapasGeoserver() {
+	await obtenerCapasGeoserver();
+	
+	todosLayersOtros.forEach(otro => {
+				layersConfig.push({
+					label: otro[1].charAt(0).toUpperCase() + otro[1].slice(1),
+					type: 'image',
+					url: 'icons/tematico.svg',
+					layers_type: "otro",
+					layers: otro[0],
+					inactive: true
+				})
+			})
+}
 
 async function getGeoserverLayer(workspace, layer) {
 	const viewLayer = L.tileLayer.wms(`./geoserver/geoserver/ows`, {
@@ -2035,8 +2046,8 @@ async function getAreasEscolares () {
 }
 
 //funcion que finalmente crea las capas y las agrega al mapa
+var layersConfig = [];
 async function generarTodosLayers(layerParam) {
-    var layersConfig = [];
 	var emptyLayer = L.layerGroup()
 	const establecimientos = await getEstablecimientosLayers();
 	const delegaciones = await getDelegacionLayers();
@@ -2178,16 +2189,6 @@ async function generarTodosLayers(layerParam) {
 			inactive: true
 		})
 
-		todosLayersOtros.forEach(otro => {
-			layersConfig.push({
-				label: otro[1].charAt(0).toUpperCase() + otro[1].slice(1),
-				type: 'image',
-				url: 'icons/tematico.svg',
-				layers_type: "otro",
-				layers: otro[0],
-				inactive: true
-			})
-		})
 
 		todosLayerCarto.forEach(carto => {
 			layersConfig.push({
@@ -2328,16 +2329,6 @@ async function generarTodosLayers(layerParam) {
 			})
 
 
-			todosLayersOtros.forEach(otro => {
-				layersConfig.push({
-					label: otro[1].charAt(0).toUpperCase() + otro[1].slice(1),
-					type: 'image',
-					url: 'icons/tematico.svg',
-					layers_type: "otro",
-					layers: otro[0],
-					inactive: true
-				})
-			})
 
 			layersConfig.push({
 				label: 'Bibliotecas Pedagógicas',
@@ -2776,10 +2767,11 @@ btn.addEventListener("click", () => {
 var legends;
 var legend;
 async function initMap() {
+	await cargarCapasGeoserver();
 	const urlParams = new URLSearchParams(window.location.search);
 	const layerParam = urlParams.get('capa');
 	const config = await generarTodosLayers(layerParam);
-
+	
 	renderSidebarDesdeConfig(config);
 
 	const layers = buildLayersRegistry(config);
@@ -3039,21 +3031,26 @@ async function cargarBotonesMapa() {
 		addGuidePrint();		
 }
 
-async function iniciarMapa() {
-	/*const url = window.location.pathname;
-	if (url == '/'){
-		await initMap();
-		await cargarBotonesMapa()
-	} else if(url == '/otro') {
+async function obtenerCapasGeoserver() {
+    await Promise.allSettled([
+        getGeoserverDatastoreLayers('sigeducativo','temáticos'),
+        getGeoserverDatastoreLayers('sigeducativo','otros')
+    ]);
+	
+}
 
-	}*/
-	await getGeoserverDatastoreLayers('sigeducativo','temáticos')
-	await getGeoserverDatastoreLayers('sigeducativo','otros')
+async function iniciarMapa() {
+    // 1. crear mapa primero
 	await initMap();
-	await cargarBotonesMapa();
 	
-	
-	
+    // 2. ocultar loader YA
+    hideLoadingScreen();
+
+    // 3. botones
+    cargarBotonesMapa();
+
+    // 5. otros accesos
+    otrosAccesosCapas();
 }
 
 
@@ -4224,20 +4221,5 @@ mymap.on('zoomend', function() {
 	}	
    
 });
-//descomentar y cambiar url y token para pruebas
-/*function pruebaEnd () {
-	fetch('./api/enlacePrueba', {
-		headers: {
-		  'Authorization': 'Bearer token_prueba'
-		}
-	  })
-	  .then(res => res.json())
-	  .then(data => console.log(data));
-	  
-}*/
 
-
-setTimeout(function(){
-    iniciarMapa();
-	otrosAccesosCapas()
-}, 4000);
+iniciarMapa();
