@@ -399,8 +399,6 @@ async function getGeoserverDatastoreLayers(workspace, datastore){
     }
 
     const data = await response.json();
-	
-	console.log(data);
 
     switch (datastore) {
 
