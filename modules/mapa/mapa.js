@@ -2506,7 +2506,7 @@ function renderSidebarDesdeConfig(layersConfig) {
 			<label>
 			<input type="checkbox"data-layer="${layerId}" ${item.inactive ? "" : "checked"}>
 			${item.label.length < 4 ? item.label.toUpperCase() : item.label}
-			${item.layers_type === "tema" ? "" : item.layers_type === "carto" ? "" : item.layers_type === "general"? "" : `<img src="${item.url}" alt="${item.label}" class="sidebar-layer-icon">`}
+			${item.layers_type === "tema" ? "" : item.layers_type === "carto" ? "" : item.layers_type === "general"? "" : item.layers_type === "otro"? "" : `<img src="${item.url}" alt="${item.label}" class="sidebar-layer-icon">`}
 			</label><br>
 			<span class="info-btn" data-info="${item.label}">ℹ️</span>
 		`;
@@ -2577,7 +2577,6 @@ function renderSidebarDesdeConfig(layersConfig) {
 
     div.innerHTML = html;
     container.appendChild(div);
-	console.log("capas:", items);
 });
 }
 
