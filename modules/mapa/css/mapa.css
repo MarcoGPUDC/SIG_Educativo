@@ -732,3 +732,9 @@ body.body-info-institucion{
     float: inline-end;
     cursor: pointer;
 }
+
+.sidebar-layer-icon{
+    position: relative;
+    width: 20px;
+    height: 20px;
+}
