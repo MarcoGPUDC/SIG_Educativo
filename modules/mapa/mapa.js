@@ -215,7 +215,6 @@ var textLabelR1 = L.marker(posRegiones[0], {
     zIndexOffset: -1,
 	interactive: false
 });
-baselayer.addLayer(textLabelR1);
 var textLatLngR2 = [-42.340042, -65.70081];  
 var textLabelR2 = L.marker(posRegiones[1], {
     icon: L.divIcon({
@@ -225,7 +224,6 @@ var textLabelR2 = L.marker(posRegiones[1], {
     zIndexOffset: -1,
 	interactive: false
 });
-baselayer.addLayer(textLabelR2);
 var textLatLngR3 = [-43.678353, -70.742548];  
 var textLabelR3 = L.marker(posRegiones[2], {
     icon: L.divIcon({
@@ -235,7 +233,6 @@ var textLabelR3 = L.marker(posRegiones[2], {
     zIndexOffset: -1,
 	interactive: false
 });
-baselayer.addLayer(textLabelR3);
 var textLatLngR4 = [-43.533583, -67.91289];  
 var textLabelR4 = L.marker(posRegiones[3], {
     icon: L.divIcon({
@@ -245,7 +242,6 @@ var textLabelR4 = L.marker(posRegiones[3], {
     zIndexOffset: -1,
 	interactive: false
 });
-baselayer.addLayer(textLabelR4);
 var textLatLngR5 = [-45.32692, -70.31852];  
 var textLabelR5 = L.marker(posRegiones[4], {
     icon: L.divIcon({
@@ -255,7 +251,6 @@ var textLabelR5 = L.marker(posRegiones[4], {
     zIndexOffset: -1,
 	interactive: false
 });
-baselayer.addLayer(textLabelR5);
 var textLatLngR6 = [-45.339412, -67.964911];  
 var textLabelR6 = L.marker(posRegiones[5], {
     icon: L.divIcon({
@@ -265,7 +260,6 @@ var textLabelR6 = L.marker(posRegiones[5], {
     zIndexOffset: -1,
 	interactive: false
 });
-baselayer.addLayer(textLabelR6);
 
 
 // Agregar regiones a mapa 
@@ -2055,6 +2049,15 @@ async function generarTodosLayers(layerParam) {
 	const junta = await getJuntaClasificacionLayer();
 	const oficinas = await getOficinasLayer();
 	capaRegiones = await getRegiones();
+	const regiones = L.layerGroup([
+		capaRegiones,
+		textLabelR1,
+		textLabelR2,
+		textLabelR3,
+		textLabelR4,
+		textLabelR5,
+		textLabelR6
+	]);
 	capaDepartamentos = await getDepartamentos();
 	await getCartoLayers();
 	await getCsacLayer();
@@ -2208,7 +2211,7 @@ async function generarTodosLayers(layerParam) {
 			fillColor: "#FF0000",
 			weight: 1,
 			layers_type: "general",
-			layers: [capaRegiones, textLabelR1, textLabelR2 ,textLabelR3, textLabelR4, textLabelR5, textLabelR6],
+			layers: [regiones],
 			inactive: true
 			})
 
@@ -2300,7 +2303,7 @@ async function generarTodosLayers(layerParam) {
 				fillColor: "#FF0000",
 				weight: 1,
 				layers_type: "general",
-				layers: [capaRegiones, textLabelR1, textLabelR2 ,textLabelR3, textLabelR4, textLabelR5, textLabelR6],
+				layers: [regiones],
 				inactive: false,
 				})
 
@@ -2441,9 +2444,9 @@ const gruposMeta = {
   nivel: { label: "🎓 Nivel", icon: "🎓" },
   modalidad: { label: "🔀 Modalidad", icon: "🔀" },
   tema: { label: "🌱 Temáticos", icon: "🌱" },
+  general: { label: "🗺️ Límites", icon: "🗺️" },
   otro: { label: "📦 Otros", icon: "📦" },
   carto: { label: "🧭 Carto Participativa", icon: "🧭" },
-  general: { label: "🗺️ Límites", icon: "🗺️" },
   consultas: { label: "🔍 Consultas", icon: "🔍" },
 };
 
@@ -2474,16 +2477,17 @@ function renderSidebarDesdeConfig(layersConfig) {
     let normales = items;
     let supervisiones = [];
     let otras = [];
+	let limites = [];
 
 	//Para aquellas capas que son de tipo organización, hacemos una clasificación adicional para separar supervisiones y oficinas externas del resto de las capas organizativas
-	if (tipo === "organizacion") {
+	if (tipo === "organizacion" || tipo === "general") {
 		normales = [];
 		items.forEach(item => {
 			if (item.label.toLowerCase().includes("supervis")) {
 				supervisiones.push(item);
 			} else if (item.label.toLowerCase().includes("designacion") || item.label.toLowerCase().includes("junta") || item.label.toLowerCase().includes("otras")) {
 				otras.push(item);
-			} else {
+			}  else {
 				normales.push(item);
 			}
 		});
@@ -2492,7 +2496,10 @@ function renderSidebarDesdeConfig(layersConfig) {
     let html = `
 		<h4 class="group-header">
 			<span class="toggle-icon">▸</span>
-			<input type="checkbox" class="group-toggle">
+			${tipo !== "general"
+				? '<input type="checkbox" class="group-toggle">'
+				: ''
+			}
 			${meta.label}
 		</h4>
 		<span class="info-header-btn" data-info="${meta.label}">❓</span>
@@ -2656,23 +2663,24 @@ function initSidebarEvents(layers) {
 
 	// 🔹 Toggle por grupo (categoría)
 	document.querySelectorAll(".grupo").forEach(group => {
-	const groupToggle = group.querySelector(".group-toggle");
-	const inputs = group.querySelectorAll("[data-layer]");
 
-	groupToggle.addEventListener("change", () => {
-		inputs.forEach(input => {
-		input.checked = groupToggle.checked;
+		const groupToggle = group.querySelector(".group-toggle");
+		const inputs = group.querySelectorAll("[data-layer]");
+		if (!groupToggle) return;
+		groupToggle.addEventListener("change", () => {
+			inputs.forEach(input => {
+			input.checked = groupToggle.checked;
 
-		const id = input.dataset.layer;
-		const layerGroup = layers[id];
+			const id = input.dataset.layer;
+			const layerGroup = layers[id];
 
-		if (!layerGroup) return;
+			if (!layerGroup) return;
 
-		toggleLayerGroup(layerGroup, groupToggle.checked);
+			toggleLayerGroup(layerGroup, groupToggle.checked);
+			});
+
+			saveState();
 		});
-
-		saveState();
-	});
 	});
 
 	document.querySelectorAll(".group-header").forEach(header => {
@@ -2707,11 +2715,96 @@ function initSidebarEvents(layers) {
 		});
 	});
 
+	document.querySelectorAll(".group-content").forEach(group => {
+
+		const inputs = group.querySelectorAll("[data-layer]");
+
+		inputs.forEach(input => {
+
+			input.addEventListener("change", () => {
+
+				const id = input.dataset.layer;
+				const layerGroup = layers[id];
+
+				if (!layerGroup) return;
+
+				// =========================
+				// DEPARTAMENTOS
+				// =========================
+
+				if (id === "departamentos" && input.checked) {
+					// quitar regiones
+					mymap.removeLayer(
+						layers["regiones_educativas"][0]
+					);
+
+					// descheckear regiones
+					const regionesCheckbox =
+						document.querySelector(
+							'[data-layer="regiones_educativas"]'
+						);
+
+					if (regionesCheckbox) {
+						regionesCheckbox.checked = false;
+					}
+
+					// cambiar leyenda
+					document.getElementsByClassName(
+						"info leaflet-control"
+					)[0].style.display = "none";
+
+					document.getElementsByClassName(
+						"infoD leaflet-control"
+					)[0].style.display = "block";
+				}
+
+				// =========================
+				// REGIONES
+				// =========================
+
+				if (
+					id === "regiones_educativas"
+					&& input.checked
+				) {
+					console.log("quitando regiones");
+					// quitar departamentos
+					mymap.removeLayer(
+						layers["departamentos"][0]
+					);
+
+					// descheckear departamentos
+					const deptosCheckbox =
+						document.querySelector(
+							'[data-layer="departamentos"]'
+						);
+
+					if (deptosCheckbox) {
+						deptosCheckbox.checked = false;
+					}
+
+					// cambiar leyenda
+					document.getElementsByClassName(
+						"infoD leaflet-control"
+					)[0].style.display = "none";
+
+					document.getElementsByClassName(
+						"info leaflet-control"
+					)[0].style.display = "block";
+				}
+
+			});
+
+		});
+
+	});
+
+	
 }
 
 function updateGroupState(childInput) {
   const group = childInput.closest(".grupo");
   const groupToggle = group.querySelector(".group-toggle");
+  if (!groupToggle) return;
   const inputs = group.querySelectorAll("[data-layer]");
 
   const allChecked = [...inputs].every(i => i.checked);
