@@ -1393,8 +1393,8 @@ function getEstablecimientosLayers() {
 			var eibLayer = createLayer(dataEIB, 'establecimientos', 'eib')
 			// agrega las capas a un array de capas para guardar las referencias
 			todosLayers.push([[inicialLayer],[{label: 'Inicial', url: 'inicial', legend:'nivel'}]]);//0
-			todosLayers.push([[primariaLayer],[{label: 'Primaria', url: 'primaria', legend:'nivel'}]]);//1
-			todosLayers.push([[secundariaLayer],[{label: 'Secundaria', url: 'sec', legend:'nivel'}]]);//2
+			todosLayers.push([[primariaLayer],[{label: 'Primario', url: 'primaria', legend:'nivel'}]]);//1
+			todosLayers.push([[secundariaLayer],[{label: 'Secundario', url: 'sec', legend:'nivel'}]]);//2
 			todosLayers.push([[SNULayer],[{label: 'Superior No Universitario', url: 'superior', legend:'nivel'}]]);//3
 			todosLayers.push([[especialLayer],[{label: 'Especial', url: 'especial', legend:'modalidad'}]]);//4
 			todosLayers.push([[formProfLayer],[{label: 'ETP', url: 'form_prof', legend:'modalidad'}]]);//5

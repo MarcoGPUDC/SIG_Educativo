@@ -361,8 +361,35 @@ document.getElementById('exportarZip').addEventListener('click', async () => {
 
       if (!geojson || !geojson.geometry) return;
 
+      if (layer instanceof L.Circle) {
+
+        const center = layer.getLatLng();
+
+        features.push({
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [center.lng, center.lat]
+          },
+          properties: {
+            tipo: 'circulo',
+            radius: layer.getRadius(),
+
+            style: {
+              color: layer.options.color || null,
+              weight: layer.options.weight || null,
+              fillColor: layer.options.fillColor || null,
+              fillOpacity: layer.options.fillOpacity || null
+            },
+
+            popup: layer.getPopup()?.getContent() || null
+          }
+        });
+
+        return;
+      }     
       // 📍 MARKERS
-      if (geojson.geometry.type === 'Point') {
+      else if (geojson.geometry.type === 'Point') {
 
         const iconOptions = layer.options.icon?.options || {};
         const iconUrl = iconOptions.iconUrl;
@@ -419,25 +446,24 @@ document.getElementById('exportarZip').addEventListener('click', async () => {
             popup: layer.getPopup()?.getContent() || null
           }
         });
-    }
-
-    // 🔷 POLÍGONOS / LÍNEAS
-    else {
-      features.push({
-        type: 'Feature',
-        geometry: geojson.geometry,
-        properties: {
-          tipo: geojson.geometry.type,
-          style: {
-            color: layer.options.color || null,
-            weight: layer.options.weight || null,
-            fillColor: layer.options.fillColor || null,
-            fillOpacity: layer.options.fillOpacity || null
-          },
-          popup: layer.getPopup()?.getContent() || null
-        }
-      });
-    }
+      }
+      // 🔷 POLÍGONOS / LÍNEAS
+      else {
+        features.push({
+          type: 'Feature',
+          geometry: geojson.geometry,
+          properties: {
+            tipo: geojson.geometry.type,
+            style: {
+              color: layer.options.color || null,
+              weight: layer.options.weight || null,
+              fillColor: layer.options.fillColor || null,
+              fillOpacity: layer.options.fillOpacity || null
+            },
+            popup: layer.getPopup()?.getContent() || null
+          }
+        });
+      }
   }
 });
 
@@ -483,7 +509,60 @@ function saveLayersLocal(map) {
   const props = {};
 
   // 📍 Marker
-  if (geojson.geometry.type === 'Point') {
+    if (layer instanceof L.Circle) {
+      console.log("Guardando círculo...");
+      const center = layer.getLatLng();
+      console.log("radio:", layer.getRadius());
+      features.push({
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [center.lng, center.lat]
+        },
+        properties: {
+          tipo: 'circulo',
+          radius: layer.getRadius(),
+
+          style: {
+            color: layer.options.color || null,
+            weight: layer.options.weight || null,
+            fillColor: layer.options.fillColor || null,
+            fillOpacity: layer.options.fillOpacity || null
+          },
+
+          popup: layer.getPopup()?.getContent() || null
+        }
+      });
+
+      return;
+    }  else if (
+      layer instanceof L.CircleMarker &&
+      !(layer instanceof L.Circle)
+    ){
+      const center = layer.getLatLng();
+
+      features.push({
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [center.lng, center.lat]
+        },
+        properties: {
+          tipo: 'circlemarker',
+
+          radius: layer.getRadius(),
+
+          style: {
+            color: layer.options.color || null,
+            fillColor: layer.options.fillColor || null,
+            fillOpacity: layer.options.fillOpacity || null,
+            weight: layer.options.weight || null
+          }
+        }
+      });
+
+      return;
+    } else if (geojson.geometry.type === 'Point') {
 
       const iconOptions = layer.options.icon?.options || {};
 
@@ -491,7 +570,8 @@ function saveLayersLocal(map) {
       props.icon = iconOptions.iconUrl || null;
       props.categoria = layer.feature?.properties?.categoria || null;
 
-    } else {
+    }
+    else {
 
       props.tipo = geojson.geometry.type;
       props.style = {
@@ -541,18 +621,40 @@ window.addEventListener('load', () => {
 
       const p = feature.properties;
       console.log(p);
-      if (!p.icon) return null; // 🚫 evita marker fantasma
+      // 🔵 CÍRCULO
+      if (p.tipo === 'circulo') {
+          console.log(p.radius);
+          const circle = L.circle(latlng, {
+            radius: p.radius,
+            ...(p.style || {})
+          });
 
+          if (p.popup) {
+            circle.bindPopup(p.popup);
+          }
+
+          circle.feature = {
+            type: "Feature",
+            properties: p
+          };
+
+          return circle;
+        } else if (p.tipo === 'circlemarker') {
+            return L.circleMarker(latlng, {
+              radius: p.radius || 8,
+              ...(p.style || {})
+            });
+      } else if (!p.icon) return null;
+      // 📍 MARKERS
       const icon = L.icon({
         iconUrl: p.icon,
-        iconSize: [20],
+        iconSize: [20, 20],
         iconAnchor: [10, 10],
         className: 'custom-icon'
       });
 
       const marker = L.marker(latlng, { icon });
 
-      // 🧠 restaurar metadata
       marker.feature = {
         type: "Feature",
         properties: p
