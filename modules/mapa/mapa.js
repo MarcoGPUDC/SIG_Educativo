@@ -3099,7 +3099,6 @@ var controlbrowserPrint = L.control.browserPrint({
             	enabled: true,
             	text: `<div style="height: 99%; border: 8px solid transparent; border-image: linear-gradient(100deg, #fcc419 , #f59f00 , #e8590c, #4d7ad4, #3a55a5) 1;">
 							<div style="background-color: white;">
-								<img class='m-3 mb-1' src='icons/ministerio_educacion_w2.png' style='margin-top: -15px; max-height: 60px; height: auto;'>
 								<img class='m-3 mb-0' src='icons/ministerio_educacion.png' style='padding-left: 65%; padding-top: 8px; max-height: 60px; height: auto; display:inline;'>
 							</div>
 						</div>`,
