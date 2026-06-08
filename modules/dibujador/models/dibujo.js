@@ -360,8 +360,19 @@ document.getElementById('exportarZip').addEventListener('click', async () => {
       }
 
       if (!geojson || !geojson.geometry) return;
+      if (layer.pm?.getShape?.() === 'Text') {
 
-      if (layer instanceof L.Circle) {
+          features.push({
+              type: 'Feature',
+              geometry: geojson.geometry,
+              properties: {
+                  tipo: 'texto',
+                  texto: layer.options.text
+              }
+          });
+
+          return;
+      }else if (layer instanceof L.Circle) {
 
         const center = layer.getLatLng();
 
@@ -510,9 +521,7 @@ function saveLayersLocal(map) {
 
   // 📍 Marker
     if (layer instanceof L.Circle) {
-      console.log("Guardando círculo...");
       const center = layer.getLatLng();
-      console.log("radio:", layer.getRadius());
       features.push({
         type: 'Feature',
         geometry: {
@@ -562,6 +571,21 @@ function saveLayersLocal(map) {
       });
 
       return;
+    } else if (layer.pm?.getShape?.() === 'Text') {
+      var text='';
+      const textarea = layer.options.icon.options.html;
+      textarea.addEventListener('input', () => {
+          text = textarea.value;
+      });
+      features.push({
+          type: 'Feature',
+          geometry: geojson.geometry,
+          properties: {
+              tipo: 'texto',
+              texto: text,
+          }
+      });
+      return;
     } else if (geojson.geometry.type === 'Point') {
 
       const iconOptions = layer.options.icon?.options || {};
@@ -598,6 +622,7 @@ function saveLayersLocal(map) {
       features
     }
   }));
+  
 }
 
 // =========================
@@ -620,10 +645,28 @@ window.addEventListener('load', () => {
     pointToLayer: (feature, latlng) => {
 
       const p = feature.properties;
-      console.log(p);
       // 🔵 CÍRCULO
-      if (p.tipo === 'circulo') {
-          console.log(p.radius);
+      if (p.tipo === 'texto') {
+        console.log("Restaurando texto:", p);
+        const coords = feature.geometry.coordinates;
+
+        const latlng = [
+            coords[1],
+            coords[0]
+        ];
+
+        const textarea =
+            map.pm.Draw.Text._createTextArea();
+
+        textarea.value = p.texto;
+
+        const icono =
+            map.pm.Draw.Text._createTextIcon(textarea);
+        console.log("Icono creado:", icono);
+        console.log(icono);
+        console.log(icono instanceof L.Icon);
+        console.log(icono instanceof L.DivIcon);
+      } else if (p.tipo === 'circulo') {
           const circle = L.circle(latlng, {
             radius: p.radius,
             ...(p.style || {})
@@ -646,25 +689,29 @@ window.addEventListener('load', () => {
             });
       } else if (!p.icon) return null;
       // 📍 MARKERS
-      const icon = L.icon({
-        iconUrl: p.icon,
-        iconSize: [20, 20],
-        iconAnchor: [10, 10],
-        className: 'custom-icon'
-      });
+      if (p.icon !== 'texto') {
+        const icon = L.icon({
+          iconUrl: p.icon,
+          iconSize: [20, 20],
+          iconAnchor: [10, 10],
+          className: 'custom-icon'
+        });
 
-      const marker = L.marker(latlng, { icon });
+        const marker = L.marker(latlng, { icon });
+        
+        marker.feature = {
+          type: "Feature",
+          properties: p
+        };
 
-      marker.feature = {
-        type: "Feature",
-        properties: p
-      };
+        if (p.popup) marker.bindPopup(p.popup);
 
-      if (p.popup) marker.bindPopup(p.popup);
+        marcadores.push(marker);
 
-      marcadores.push(marker);
-
-      return marker;
+        return marker;
+      }else {
+        return null;
+      }
     },
 
     style: (feature) => {
@@ -685,4 +732,107 @@ window.addEventListener('load', () => {
     }
 
   }).addTo(map);
+});
+
+
+//===================
+// IMPORTAR ZIP
+//===================
+inputFile = document.getElementById('importarZip');
+inputFile.addEventListener('change', async (e) => {
+    
+    const file = e.target.files[0];
+
+    const zip = await JSZip.loadAsync(file);
+
+    // 1. cargar iconos
+    const iconos = {};
+    Object.values(iconos).forEach(url => {
+        URL.revokeObjectURL(url);
+    });
+    for (const filename in zip.files) {
+
+        if (!filename.endsWith('.png')) continue;
+
+        const blob = await zip.file(filename).async('blob');
+
+        iconos[filename] = URL.createObjectURL(blob);
+    }
+
+    // 2. cargar geojson
+    const geojsonText = await zip
+        .file('capa_completa.geojson')
+        .async('string');
+
+    const geojson = JSON.parse(geojsonText);
+
+    L.geoJSON(geojson, {
+
+      pointToLayer: (feature, latlng) => {
+
+        const p = feature.properties;
+        // 🔵 CÍRCULO
+        if (p.tipo === 'circulo') {
+            const circle = L.circle(latlng, {
+              radius: p.radius,
+              ...(p.style || {})
+            });
+
+            if (p.popup) {
+              circle.bindPopup(p.popup);
+            }
+
+            circle.feature = {
+              type: "Feature",
+              properties: p
+            };
+
+            return circle;
+          } else if (p.tipo === 'circlemarker') {
+              return L.circleMarker(latlng, {
+                radius: p.radius || 8,
+                ...(p.style || {})
+              });
+        } else if (!p.icon) return null;
+        // 📍 MARKERS
+        const icon = L.icon({
+          iconUrl: iconos[p.icon],
+          iconSize: [20, 20],
+          iconAnchor: [10, 10],
+          className: 'custom-icon'
+        });
+
+        const marker = L.marker(latlng, { icon });
+
+        marker.feature = {
+          type: "Feature",
+          properties: p
+        };
+
+        if (p.popup) marker.bindPopup(p.popup);
+
+        marcadores.push(marker);
+
+        return marker;
+      },
+
+      style: (feature) => {
+        return feature.properties.style || {};
+      },
+
+      onEachFeature: (feature, layer) => {
+
+        const p = feature.properties;
+
+        if (p.popup && feature.geometry.type !== 'Point') {
+          layer.bindPopup(p.popup);
+        }
+
+        if (layer.pm) {
+          layer.pm.enable();
+        }
+      }
+
+    }).addTo(map);
+
 });

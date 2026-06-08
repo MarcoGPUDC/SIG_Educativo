@@ -2039,7 +2039,7 @@ async function getAreasEscolares () {
 
 //funcion que finalmente crea las capas y las agrega al mapa
 var layersConfig = [];
-async function generarTodosLayers(layerParam) {
+async function generarTodosLayers(layerParam, escParam) {
 	var emptyLayer = L.layerGroup()
 	const establecimientos = await getEstablecimientosLayers();
 	const delegaciones = await getDelegacionLayers();
@@ -2261,9 +2261,23 @@ async function generarTodosLayers(layerParam) {
 
 	} else if (layerParam == 'planeamiento') {}
 	else {
+			var soloBusqueda = false;
+			var busqueda=[];
 			// Obtener establecimientos y crear configuraciones de capas
 			establecimientos.forEach(establecimiento => {
 				var layer = establecimiento[0][0];
+				if (escParam != null) {
+					escParam.split('-').forEach(esc => {
+						layer.eachLayer(layer => {
+							if (layer.feature.properties.numero == esc && !busqueda.includes(layer.feature.properties.cue_anexo)) {
+								layer.addTo(mymap);
+								busqueda.push(layer.feature.properties.cue_anexo);
+							}
+
+						})
+					});
+					soloBusqueda = true;
+				};
 				layersConfig.push({
 					label: `${establecimiento[1][0].label}`,
 					type: "image",
@@ -2274,25 +2288,22 @@ async function generarTodosLayers(layerParam) {
 				});
 					
 			});
-
-			min_educacion.addTo(mymap);
+			console.log("busqueda: ", soloBusqueda);
 			layersConfig.push({
 				label: "Ministerio de Educación",
 				type: "image",
 				url: "icons/ministerio.svg",
 				layers_type: "organizacion",
 				layers: [min_educacion],
-				inactive: false,
+				inactive: soloBusqueda,
 				})
-
-			delegaciones.addTo(mymap);
 			layersConfig.push({
 				label: 'Delegaciones Administrativas',
 				type: 'image',
 				url: 'icons/delegacion_.svg',
 				layers_type: "organizacion",
 				layers: delegaciones,
-				inactive: false
+				inactive: soloBusqueda,
 			})
 
 			layersConfig.push ({
@@ -2304,7 +2315,7 @@ async function generarTodosLayers(layerParam) {
 				weight: 1,
 				layers_type: "general",
 				layers: [regiones],
-				inactive: false,
+				inactive: soloBusqueda,
 				})
 
 			
@@ -2884,7 +2895,8 @@ async function initMap() {
 	await cargarCapasGeoserver();
 	const urlParams = new URLSearchParams(window.location.search);
 	const layerParam = urlParams.get('capa');
-	const config = await generarTodosLayers(layerParam);
+	const escParam = urlParams.get('escuela');
+	const config = await generarTodosLayers(layerParam, escParam);
 	
 	renderSidebarDesdeConfig(config);
 
