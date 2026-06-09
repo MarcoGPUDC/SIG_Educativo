@@ -495,7 +495,7 @@ async function completarDatosInstitucion() {
         // =========================
 
         const data = infraData[0];
-
+        console.log('Infraestructura:', data);
         function setInfraIcon(
             elementId,
             condition,
@@ -514,7 +514,7 @@ async function completarDatosInstitucion() {
 
         setInfraIcon(
             'bibliotecainfoadicional',
-            data?.biblioteca,
+            data?.biblioteca == 'SI',
             './icons/biblioteca.svg',
             './icons/bibliotecaNo.png',
             'Biblioteca'
@@ -522,7 +522,7 @@ async function completarDatosInstitucion() {
 
         setInfraIcon(
             'laboratorioinfoadicional',
-            data?.laboratorio,
+            data?.laboratorio == 'SI',
             './icons/laboratorio.svg',
             './icons/laboratorioNo.png',
             'Laboratorio'
@@ -530,7 +530,7 @@ async function completarDatosInstitucion() {
 
         setInfraIcon(
             'informaticainfoadicional',
-            data?.informatica,
+            data?.informatica == 'SI',
             './icons/informatica.svg',
             './icons/informaticaNo.png',
             'Informática'
@@ -538,7 +538,7 @@ async function completarDatosInstitucion() {
 
         setInfraIcon(
             'artisticainfoadicional',
-            data?.artistica,
+            data?.artistica == 'SI',
             './icons/artistica.svg',
             './icons/artisticaNo.png',
             'Artística'
@@ -546,7 +546,7 @@ async function completarDatosInstitucion() {
 
         setInfraIcon(
             'tallerinfoadicional',
-            data?.taller,
+            data?.taller == 'SI',
             './icons/taller.svg',
             './icons/tallerNo.png',
             'Taller'
@@ -554,7 +554,7 @@ async function completarDatosInstitucion() {
 
         setInfraIcon(
             'aguainfoadicional',
-            data?.agua,
+            data?.agua == 'SI',
             './icons/agua.svg',
             './icons/aguaNo.svg',
             'Agua'
@@ -562,7 +562,7 @@ async function completarDatosInstitucion() {
 
         setInfraIcon(
             'energiainfoadicional',
-            data?.energia,
+            data?.energia == 'SI',
             './icons/energia.png',
             './icons/energiaNo.png',
             'Energía',
@@ -571,7 +571,7 @@ async function completarDatosInstitucion() {
 
         setInfraIcon(
             'internetinfoadicional',
-            data?.internet,
+            data?.internet == 'SI',
             './icons/internet.svg',
             './icons/internetNo.svg',
             'Internet',
@@ -580,7 +580,7 @@ async function completarDatosInstitucion() {
 
         setInfraIcon(
             'calefaccioninfoadicional',
-            data?.calefaccion,
+            data?.calefaccion == 'SI',
             './icons/calefaccion.svg',
             './icons/calefaccionNo.png',
             'Calefacción'

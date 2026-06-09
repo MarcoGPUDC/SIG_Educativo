@@ -2263,20 +2263,39 @@ async function generarTodosLayers(layerParam, escParam) {
 	else {
 			var soloBusqueda = false;
 			var busqueda=[];
+			const bounds = L.latLngBounds();
 			// Obtener establecimientos y crear configuraciones de capas
 			establecimientos.forEach(establecimiento => {
 				var layer = establecimiento[0][0];
 				if (escParam != null) {
-					escParam.split('-').forEach(esc => {
-						layer.eachLayer(layer => {
-							if (layer.feature.properties.numero == esc && !busqueda.includes(layer.feature.properties.cue_anexo)) {
-								layer.addTo(mymap);
-								busqueda.push(layer.feature.properties.cue_anexo);
-							}
+					const escs = escParam.split('-');
+					if (escs.length > 1) {
+						escs.forEach(esc => {
+							layer.eachLayer(layer => {
+								if (layer.feature.properties.numero == esc && !busqueda.includes(layer.feature.properties.cue_anexo)) {
+									layer.addTo(mymap);
+									bounds.extend(layer.getLatLng());
+									busqueda.push(layer.feature.properties.cue_anexo);
+								}
 
-						})
-					});
+							})
+						});
+					} else {
+						escs.forEach(esc => {
+							layer.eachLayer(layer => {
+								if (layer.feature.properties.numero == esc && !busqueda.includes(layer.feature.properties.cue_anexo)) {
+									layer.addTo(mymap);
+									mymap.setView(layer.getLatLng(), 13);
+									busqueda.push(layer.feature.properties.cue_anexo);
+								}
+
+							})
+						});
+					}
 					soloBusqueda = true;
+					if (escs.length > 1) {
+						mymap.fitBounds(bounds);
+					}
 				};
 				layersConfig.push({
 					label: `${establecimiento[1][0].label}`,
@@ -2288,7 +2307,6 @@ async function generarTodosLayers(layerParam, escParam) {
 				});
 					
 			});
-			console.log("busqueda: ", soloBusqueda);
 			layersConfig.push({
 				label: "Ministerio de Educación",
 				type: "image",
@@ -2777,7 +2795,6 @@ function initSidebarEvents(layers) {
 					id === "regiones_educativas"
 					&& input.checked
 				) {
-					console.log("quitando regiones");
 					// quitar departamentos
 					mymap.removeLayer(
 						layers["departamentos"][0]
