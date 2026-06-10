@@ -281,7 +281,8 @@ async function completarDatosInstitucion() {
             matriculas,
             adicionales,
             infraData,
-            cooperadoraData
+            cooperadoraData,
+            edTecnologicaData
         ] = await Promise.all([
 
             fetchJSON(
@@ -302,6 +303,10 @@ async function completarDatosInstitucion() {
 
             fetchJSON(
                 `info/obtenerDatosCooperadoras?num=${id}`
+            ),
+
+            fetchJSON(
+                `info/obtenerDatosEdTecnologica?num=${id}`
             )
         ]);
 
@@ -495,7 +500,6 @@ async function completarDatosInstitucion() {
         // =========================
 
         const data = infraData[0];
-        console.log('Infraestructura:', data);
         function setInfraIcon(
             elementId,
             condition,
@@ -555,8 +559,8 @@ async function completarDatosInstitucion() {
         setInfraIcon(
             'aguainfoadicional',
             data?.agua == 'SI',
-            './icons/agua.svg',
-            './icons/aguaNo.svg',
+            './icons/agua.png',
+            './icons/aguaNo.png',
             'Agua'
         );
 
@@ -575,7 +579,7 @@ async function completarDatosInstitucion() {
             './icons/internet.svg',
             './icons/internetNo.svg',
             'Internet',
-            `Fuente: ${data?.fuente_internet || ''}`
+            `Fuente: ${data.fuente_internet !== 'Sin info' ? data?.fuente_internet + " - " + data?.ISP : data?.ISP || data.fuente_internet}`
         );
 
         setInfraIcon(
@@ -584,6 +588,38 @@ async function completarDatosInstitucion() {
             './icons/calefaccion.svg',
             './icons/calefaccionNo.png',
             'Calefacción'
+        );
+
+        //==========================
+        //Educacion tecnologica
+        //==========================
+        const edTec = edTecnologicaData[0];
+        console.log(edTec)
+        setInfraIcon(
+            'carroinfoadicional',
+            edTec?.carro === 0 ? false : true,
+            './icons/carro.svg',
+            './icons/carroNo.png',
+            'Carro de robótica',
+            edTec?.carro == 0 ? 'No posee carro tecnológico' : `Posee carro tecnológico`
+        );
+
+        setInfraIcon(
+            'netbooksinfoadicional',
+            edTec?.netbooks === 0 ? false : true,
+            './icons/netbooks.svg',
+            './icons/netbooksNo.png',
+            'Netbooks',
+            edTec?.netbooks == 0 ? 'No posee netbooks' : `${edTec.netbooks} netbooks`
+        );
+
+        setInfraIcon(
+            'kitsinfoadicional',
+            edTec?.kits === 0 ? false : true,
+            './icons/kits.svg',
+            './icons/kitsNo.png',
+            'Kits de Robotica',
+            edTec?.kits == 0 ? 'No posee kits' : `${edTec.kits} kits`
         );
 
         // =========================

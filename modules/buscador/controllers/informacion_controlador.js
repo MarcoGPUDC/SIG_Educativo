@@ -130,4 +130,15 @@ router.get('/obtenerDatosInfra', async (req, res) => {
     
   })
 
+  router.get('/obtenerDatosEdTecnologica', async (req,res) => {
+    try {
+      var escuela = req.query.num;
+      const data = await informacion.busqueda_ed_tecnologica(escuela)
+      res.send(data);
+    } catch (error) {
+      console.error('Error al obtener los datos de educación tecnológica:', error);
+      res.status(500).send('Error al obtener los datos.');
+    }
+  });
+
 module.exports = router;

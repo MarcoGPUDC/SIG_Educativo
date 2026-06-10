@@ -106,13 +106,20 @@ function busqueda_adicional (id) {
 
 //busca info infraestructura y equipamiento
 function busqueda_adicional_infra (id) {
-    return db.any (`SELECT inst.id_institucion, inst.cue_anexo, equi.biblioteca, equi.laboratorio, equi.informatica, equi.artistica, equi.taller, infra.agua, infra.internet, infra.fuente_internet, infra.energia, infra.fuente_energia, infra.calefaccion FROM padron.institucion inst
+    return db.any (`SELECT inst.id_institucion, inst.cue_anexo, equi.biblioteca, equi.laboratorio, equi.informatica, equi.artistica, equi.taller, infra.agua, infra.internet, infra.fuente_internet, infra.energia, infra.fuente_energia, infra.calefaccion, con."ISP", con.comparte FROM padron.institucion inst
         LEFT JOIN padron.equipamiento equi ON equi.id_institucion = inst.id_institucion
-        LEFT JOIN padron.infraestructura infra ON infra.id_institucion = inst. id_institucion 
+        LEFT JOIN padron.infraestructura infra ON infra.id_institucion = inst. id_institucion
+        LEFT JOIN public."ed-digital_conectividad" con ON con.id_institucion = inst.id_institucion
         WHERE inst.id_institucion = $1;
         `,id
     )
 }
+
+function busqueda_ed_tecnologica (id) {
+    return db.any(`SELECT inst.id_institucion, ed.numero, carro, netbooks, kit_robo_mblock + kit_arduino + placa_microbit + placa_raspberry AS kits FROM public."ed-digital_hacemos-futuro" ed
+        JOIN padron.institucion inst ON ed.cue::TEXT = inst.cue_anexo
+        WHERE inst.id_institucion = $1`, [id]);
+        }
 
 //busca sede o anexos de una institucion
 function busqueda_adicional_sedeAnexo(cue) {
@@ -646,4 +653,5 @@ module.exports = {
     buscar_info_oficinas,
     getDataEtp,
     CSAC,
+    busqueda_ed_tecnologica
 };
