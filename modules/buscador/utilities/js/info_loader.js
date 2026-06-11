@@ -598,8 +598,8 @@ async function completarDatosInstitucion() {
         setInfraIcon(
             'carroinfoadicional',
             edTec?.carro === 0 ? false : true,
-            './icons/carro.svg',
-            './icons/carroNo.png',
+            './icons/adm_.svg',
+            './icons/admSin_.svg',
             'Carro de robótica',
             edTec?.carro == 0 ? 'No posee carro tecnológico' : `Posee carro tecnológico`
         );
@@ -607,8 +607,8 @@ async function completarDatosInstitucion() {
         setInfraIcon(
             'netbooksinfoadicional',
             edTec?.netbooks === 0 ? false : true,
-            './icons/netbooks.svg',
-            './icons/netbooksNo.png',
+            './icons/netbooks_.svg',
+            './icons/netbooksNo_.png',
             'Netbooks',
             edTec?.netbooks == 0 ? 'No posee netbooks' : `${edTec.netbooks} netbooks`
         );
@@ -616,8 +616,8 @@ async function completarDatosInstitucion() {
         setInfraIcon(
             'kitsinfoadicional',
             edTec?.kits === 0 ? false : true,
-            './icons/kits.svg',
-            './icons/kitsNo.png',
+            './icons/robotica_.svg',
+            './icons/roboticaNo_.png',
             'Kits de Robotica',
             edTec?.kits == 0 ? 'No posee kits' : `${edTec.kits} kits`
         );
