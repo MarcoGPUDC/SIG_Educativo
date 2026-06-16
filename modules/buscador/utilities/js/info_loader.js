@@ -608,7 +608,7 @@ async function completarDatosInstitucion() {
             'netbooksinfoadicional',
             edTec?.netbooks === 0 ? false : true,
             './icons/netbooks_.svg',
-            './icons/netbooksNo_.png',
+            './icons/netbooksNo_.svg',
             'Netbooks',
             edTec?.netbooks == 0 ? 'No posee netbooks' : `${edTec.netbooks} netbooks`
         );
@@ -617,7 +617,7 @@ async function completarDatosInstitucion() {
             'kitsinfoadicional',
             edTec?.kits === 0 ? false : true,
             './icons/robotica_.svg',
-            './icons/roboticaNo_.png',
+            './icons/roboticaNo_.svg',
             'Kits de Robotica',
             edTec?.kits == 0 ? 'No posee kits' : `${edTec.kits} kits`
         );
