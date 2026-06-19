@@ -387,7 +387,7 @@ async function getGeoserverDatastoreLayers(workspace, datastore){
     const response = await fetch(
         `./api/geoserver/layers/${workspace}/${datastore}`
     );
-
+	console.log(response);
     if (!response.ok){
         throw new Error('Error obteniendo capas');
     }
@@ -500,6 +500,7 @@ async function getGeoserverLayer(workspace, layer) {
 								tipoIcon = 'equiInfra'
 							break;
 						case 'ed-digital':
+								console.log(subTipoCapa);
 								switch (subTipoCapa) {
 									case 'netbooks':
 											tipoIcon = 'netbooks'
@@ -515,6 +516,8 @@ async function getGeoserverLayer(workspace, layer) {
 										break;
 									case 'salas-tecnologia-2025':
 											tipoIcon = 'salasTec'
+									case 'Starlink':
+											tipoIcon = 'starlink'
 										break;	
 									default:
 										tipoIcon = 'edDigital'
@@ -748,6 +751,18 @@ function popup_ed_digital (feature, layer) {
 		(feature.properties.placa_microbit?"</td></tr><tr><td><b>Placa Microbit:</b> "+feature.properties.placa_microbit:"")+
 		(feature.properties.placa_raspberry?"</td></tr><tr><td><b>Placa Raspberry:</b> "+feature.properties.placa_raspberry:"")+
 		(feature.properties.carro?"</td></tr><tr><td><b>ADM:</b> "+feature.properties.carro:"") +
+		"</td></tr></table></div>"),
+		{minWidth: 270, maxWidth: 270}
+	};
+
+function popup_ed_digital_starlink (feature, layer) {
+	layer.bindPopup(
+		"<div class='p-3'><h6 style='color:#0d6efd'>Conexión STARLINK" +
+		"</h6><table>" + 
+		"</td></tr><tr><td><b>Numero:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") +
+		"</td></tr><tr><td><b>Ámbito:</b> "+ (feature.properties.ambito?feature.properties.ambito:"No se registra") +
+		"</td></tr><tr><td><b>Proveedor:</b> "+ (feature.properties.ISP?feature.properties.ISP:"No se registra") +
+		"</td></tr><tr><td><b>Comparte con:</b> "+ (feature.properties.comparte === "NO"?feature.properties.comparte:"No se registra") +
 		"</td></tr></table></div>"),
 		{minWidth: 270, maxWidth: 270}
 	};
@@ -1198,7 +1213,7 @@ function createLayer(data, tipo, nivel) {
 			cluster.addLayer(marker);
 			return marker;
 		},
-		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas : (tipo === 'biblioteca') ? popup_bib_pedagogicas : (tipo === 'establec') ? onEachFeatureEst : (tipo === 'biblioteca_pop') ? popup_bib_populares : (tipo === 'equiInfra') ? popup_equip_infra : (tipo === 'netbooks') ? popup_ed_digital_netbooks : (tipo === 'adm') ? popup_ed_digital_adm : (tipo === 'robotica') ? popup_ed_digital_robo : (tipo === 'edDigital') ? popup_ed_digital: (tipo === 'salasTec') ? popup_ed_digital_salasTec:  (tipo === 'cooperadoras') ? popup_cooperadoras:  (tipo === 'designacion') ? popup_designacion : (tipo === 'junta') ? popup_junta: (tipo === 'oficinas') ? popup_oficinas : onEachFeatureL
+		onEachFeature: (tipo === 'supervision') ? popup_supervision : (tipo === 'delegacion') ? popup_del_admnistrativas : (tipo === 'biblioteca') ? popup_bib_pedagogicas : (tipo === 'establec') ? onEachFeatureEst : (tipo === 'biblioteca_pop') ? popup_bib_populares : (tipo === 'equiInfra') ? popup_equip_infra : (tipo === 'netbooks') ? popup_ed_digital_netbooks : (tipo === 'adm') ? popup_ed_digital_adm : (tipo === 'robotica') ? popup_ed_digital_robo : (tipo === 'edDigital') ? popup_ed_digital: (tipo === 'salasTec') ? popup_ed_digital_salasTec:  (tipo === 'cooperadoras') ? popup_cooperadoras:  (tipo === 'designacion') ? popup_designacion : (tipo === 'junta') ? popup_junta: (tipo === 'oficinas') ? popup_oficinas : (tipo === 'starlink') ? popup_ed_digital_starlink : onEachFeatureL
 		});
 	return cluster;
 }
@@ -3147,7 +3162,8 @@ var controlbrowserPrint = L.control.browserPrint({
 //añade impresion del mapa completo
 function addFullmapPrint(){
 	let print = document.getElementsByClassName('leaflet-control-browser-print')[0]
-
+	print.style.display = 'block';
+	print.style.background = '#919187';
 		let ul = document.createElement('UL')
 		ul.classList = 'browser-print-holder'
 		let li = document.createElement('LI')
@@ -3165,7 +3181,7 @@ function addFullmapPrint(){
 		print.append(ul)
 
 		print.addEventListener('mouseover', () =>{
-			li.style.display = 'inline-block'
+			li.style.display = 'block'
 		})
 
 		print.addEventListener('mouseout', () =>{
@@ -3183,6 +3199,7 @@ function addGuideCartoPrint(){
 		li.classList = 'browser-print-mode'
 		li.style.display = 'none'
 		let a = document.createElement('A')
+		a.style.display = 'block'
 		a.textContent = 'Descargar Manual Taller Cartografia'
 		a.classList = 'descarga'
 		a.setAttribute('download','Taller de Cartografia Participativa.pdf')
@@ -3194,7 +3211,36 @@ function addGuideCartoPrint(){
 		print.append(ul)
 
 		print.addEventListener('mouseover', () =>{
-			li.style.display = 'inline-block'
+			li.style.display = 'block'
+		})
+
+		print.addEventListener('mouseout', () =>{
+			li.style.display = 'none'
+		})
+}
+
+//añade impresion de la guia de cartografia participativa digital
+function addGuideCartoDigitalPrint(){
+	let print = document.getElementsByClassName('leaflet-control-browser-print')[0]
+
+		let ul = document.createElement('UL')
+		ul.classList = 'browser-print-holder'
+		let li = document.createElement('LI')
+		li.classList = 'browser-print-mode'
+		li.style.display = 'none'
+		let a = document.createElement('A')
+		a.textContent = 'Descargar Manual Taller Cartografia Digital'
+		a.classList = 'descarga'
+		a.setAttribute('download','Taller de Cartografia Participativa.pdf')
+		a.setAttribute('href', 'public/pdf/tallerCartoParticipativaDigital.pdf')
+		li.append(a)
+		ul.append(li)
+
+
+		print.append(ul)
+
+		print.addEventListener('mouseover', () =>{
+			li.style.display = 'block'
 		})
 
 		print.addEventListener('mouseout', () =>{
@@ -3223,7 +3269,7 @@ function addGuidePrint(){
 		print.append(ul)
 
 		print.addEventListener('mouseover', () =>{
-			li.style.display = 'inline-block'
+			li.style.display = 'block'
 		})
 
 		print.addEventListener('mouseout', () =>{
@@ -3256,6 +3302,7 @@ async function cargarBotonesMapa() {
 		controlbrowserPrint.addTo(mymap);
 		addFullmapPrint();
 		addGuideCartoPrint();
+		addGuideCartoDigitalPrint();
 		//downloadButton.addTo(mymap);
 		addGuidePrint();		
 }
