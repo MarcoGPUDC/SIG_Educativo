@@ -624,7 +624,7 @@ async function completarDatosInstitucion() {
 
         setInfraIcon(
             'imp_3Dinfoadicional',
-            edTec?.imp_3D === 0 ? false : true,
+            edTec?.imp_3D === null ? false : true,
             './icons/impresora3D.svg',
             './icons/impresora3DNo.svg',
             'Impresora 3D',
