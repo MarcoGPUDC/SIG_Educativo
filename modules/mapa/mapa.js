@@ -761,7 +761,7 @@ function popup_ed_digital_starlink (feature, layer) {
 		"</td></tr><tr><td><b>Numero:</b> "+ (feature.properties.numero?feature.properties.numero:"No se registra") +
 		"</td></tr><tr><td><b>Ámbito:</b> "+ (feature.properties.ambito?feature.properties.ambito:"No se registra") +
 		"</td></tr><tr><td><b>Proveedor:</b> "+ (feature.properties.ISP?feature.properties.ISP:"No se registra") +
-		"</td></tr><tr><td><b>Comparte con:</b> "+ (feature.properties.comparte === "NO"?feature.properties.comparte:"No se registra") +
+		"</td></tr><tr><td><b>Comparte con:</b> "+ (feature.properties.comparte === "NO"?feature.properties.comparte:"NO") +
 		"</td></tr></table></div>"),
 		{minWidth: 270, maxWidth: 270}
 	};
