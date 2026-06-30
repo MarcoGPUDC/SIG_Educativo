@@ -622,6 +622,15 @@ async function completarDatosInstitucion() {
             edTec?.kits == 0 ? 'No posee kits' : `${edTec.kits} kits`
         );
 
+        setInfraIcon(
+            'imp_3Dinfoadicional',
+            edTec?.imp_3D === 0 ? false : true,
+            './icons/impresora3D.svg',
+            './icons/impresora3DNo.svg',
+            'Impresora 3D',
+            edTec?.imp_3D? 'No posee' : `${edTec.imp_3D} impresora/s 3D`
+        );
+
         // =========================
         // COOPERADORA
         // =========================

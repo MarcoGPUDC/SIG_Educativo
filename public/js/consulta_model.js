@@ -116,7 +116,7 @@ function busqueda_adicional_infra (id) {
 }
 
 function busqueda_ed_tecnologica (id) {
-    return db.any(`SELECT inst.id_institucion, ed.numero, carro, netbooks, kit_robo_mblock + kit_arduino + placa_microbit + placa_raspberry AS kits FROM public."ed-digital_hacemos-futuro" ed
+    return db.any(`SELECT inst.id_institucion, ed.numero, carro, netbooks, kit_robo_mblock + kit_arduino + placa_microbit + placa_raspberry AS kits, ed.imp_3D FROM public."ed-digital_hacemos-futuro" ed
         JOIN padron.institucion inst ON ed.cue::TEXT = inst.cue_anexo
         WHERE inst.id_institucion = $1`, [id]);
         }
