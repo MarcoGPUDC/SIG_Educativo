@@ -500,7 +500,6 @@ async function getGeoserverLayer(workspace, layer) {
 								tipoIcon = 'equiInfra'
 							break;
 						case 'ed-digital':
-								console.log(subTipoCapa);
 								switch (subTipoCapa) {
 									case 'netbooks':
 											tipoIcon = 'netbooks'
@@ -516,7 +515,7 @@ async function getGeoserverLayer(workspace, layer) {
 										break;
 									case 'salas-tecnologia-2025':
 											tipoIcon = 'salasTec'
-									case 'Starlink':
+									case 'starlink':
 											tipoIcon = 'starlink'
 										break;	
 									default:
