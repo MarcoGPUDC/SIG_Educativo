@@ -12,7 +12,6 @@ var mymap = new L.map('map', {
 		unitLabel: 'km',
 		unitFactor: 1000
 	},*/
-	fullscreenControl: true,
 	fullscreenControlOptions: {
 		position: 'topleft',
 		forceSeparateButton: true
@@ -3081,15 +3080,13 @@ var mostrarFiltroButton = L.easyButton({
 //agrega boton de pantalla completa
 function mostrarFullscreenButton() {
 	const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-
 	if (!isiOS) {
 		L.control.fullscreen({
-		position: 'topleft',
-		title: 'Pantalla Completa',
-		titleCancel: 'Salir de Pantalla Completa'
+			position: 'topleft',
+			title: 'Pantalla Completa',
+			titleCancel: 'Salir de Pantalla Completa'
 		}).addTo(mymap);
 	}
-	
   }
 
 
