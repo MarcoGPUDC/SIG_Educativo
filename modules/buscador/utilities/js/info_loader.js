@@ -628,7 +628,7 @@ async function completarDatosInstitucion() {
             './icons/impresora3D.svg',
             './icons/impresora3DNo.svg',
             'Impresora 3D',
-            edTec?.imp_3D? 'No posee' : `${edTec.imp_3D} impresora/s 3D`
+            edTec?.imp_3D? `${edTec.imp_3D} impresora/s 3D` : 'No posee'
         );
 
         // =========================
