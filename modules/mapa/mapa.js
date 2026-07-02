@@ -379,6 +379,11 @@ function estilo_region (feature) {
 			
 	};
 
+function filtrarArreglo(origen, excluir) {
+    const excluirSet = new Set(excluir);
+    return origen.filter(item => !excluirSet.has(item));
+}
+
 var todosLayersTematicos = []
 var todosLayersOtros = []
 var uriGeo = "";
@@ -387,13 +392,14 @@ async function getGeoserverDatastoreLayers(workspace, datastore){
     const response = await fetch(
         `./api/geoserver/layers/${workspace}/${datastore}`
     );
-	console.log(response);
+
     if (!response.ok){
         throw new Error('Error obteniendo capas');
     }
 
-    const data = await response.json();
-
+    var data = await response.json();
+	const filtroCapa = ["ed-digital_salas-tecnologia-2024", "ed-digital_salas-tecnologia-2025"]
+	data = filtrarArreglo(data, filtroCapa);
     switch (datastore) {
 
         case 'temáticos':
