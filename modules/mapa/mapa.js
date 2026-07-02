@@ -3080,11 +3080,16 @@ var mostrarFiltroButton = L.easyButton({
 
 //agrega boton de pantalla completa
 function mostrarFullscreenButton() {
-	L.control.fullscreen({
-	  position: 'topleft',
-	  title: 'Pantalla Completa',
-	  titleCancel: 'Salir de Pantalla Completa'
-	}).addTo(mymap);
+	const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+	if (!isiOS) {
+		L.control.fullscreen({
+		position: 'topleft',
+		title: 'Pantalla Completa',
+		titleCancel: 'Salir de Pantalla Completa'
+		}).addTo(mymap);
+	}
+	
   }
 
 
