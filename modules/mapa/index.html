@@ -33,8 +33,11 @@
 
 	<script type="text/javascript">
 		function buttonclick(){
-			var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {});
-			myModal.toggle()}
+			const mediaMovil = window.matchMedia("(max-width: 768px)");
+			if (!mediaMovil.matches) {
+				var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {});
+				myModal.toggle()}
+			};			
 	</script> 
 	
 </head>

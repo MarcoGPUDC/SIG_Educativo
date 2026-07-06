@@ -2868,6 +2868,31 @@ function updateGroupState(childInput) {
   }
 }
 
+const mediaMovil = window.matchMedia("(max-width: 768px)");
+
+function adaptarSidebar() {
+
+    const sidebar = document.getElementById("sidebar");
+    const toggle = document.getElementById("toggleSidebar");
+
+    if (mediaMovil.matches) {
+        // 📱 Móvil: iniciar cerrado
+        sidebar.classList.remove("open");
+        document.body.classList.add("sidebar-open");
+        toggle.classList.remove("open");
+
+    } else {
+        // 💻 Escritorio: iniciar abierto
+        sidebar.classList.add("open");
+        document.body.classList.remove("sidebar-open");
+        toggle.classList.add("open");
+    }
+
+}
+
+mediaMovil.addEventListener("change", adaptarSidebar);
+
+
 function otrosAccesosCapas(){
 	const urlParams = new URLSearchParams(window.location.search);
 	const layerParam = urlParams.get('capa');
@@ -3323,9 +3348,12 @@ async function obtenerCapasGeoserver() {
 }
 
 async function iniciarMapa() {
+	// 0. adaptar sidebar segun tamaño de pantalla
+	adaptarSidebar();
+	
     // 1. crear mapa primero
 	await initMap();
-	
+
     // 2. ocultar loader YA
     hideLoadingScreen();
 
@@ -3334,6 +3362,8 @@ async function iniciarMapa() {
 
     // 5. otros accesos
     otrosAccesosCapas();
+
+	
 }
 
 
