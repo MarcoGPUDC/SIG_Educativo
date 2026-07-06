@@ -2878,6 +2878,7 @@ function adaptarSidebar() {
     if (mediaMovil.matches) {
         // 📱 Móvil: iniciar cerrado
         sidebar.classList.remove("open");
+		toggle.innerHTML = sidebar.classList.contains("open") ? "✖" : `<i class="bi bi-layers"></i>`;
         document.body.classList.add("sidebar-open");
         toggle.classList.remove("open");
 
