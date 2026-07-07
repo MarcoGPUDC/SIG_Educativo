@@ -2874,6 +2874,10 @@ function adaptarSidebar() {
 
     const sidebar = document.getElementById("sidebar");
     const toggle = document.getElementById("toggleSidebar");
+	const cartografiaBtn = document.getElementById("cartografiaBtn");
+	const menuContainter = document.getElementById("headerBtn");
+	const regDepBtn = document.getElementsByClassName("leaflet-top leaflet-right")[0];
+	console.log(menuContainter);
 
     if (mediaMovil.matches) {
         // 📱 Móvil: iniciar cerrado
@@ -2881,12 +2885,18 @@ function adaptarSidebar() {
 		toggle.innerHTML = sidebar.classList.contains("open") ? "✖" : `<i class="bi bi-layers"></i>`;
         document.body.classList.add("sidebar-open");
         toggle.classList.remove("open");
+		cartografiaBtn.style.display = "none";
+		menuContainter.style.display = "none";
+		regDepBtn.style.top = "0px";
 
     } else {
         // 💻 Escritorio: iniciar abierto
         sidebar.classList.add("open");
         document.body.classList.remove("sidebar-open");
         toggle.classList.add("open");
+		cartografiaBtn.style.display = "flex";
+		menuContainter.style.display = "flex";
+		regDepBtn.style.top = "13%";
     }
 
 }
