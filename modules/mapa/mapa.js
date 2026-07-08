@@ -412,7 +412,6 @@ async function getGeoserverDatastoreLayers(workspace, datastore){
                     layer.split('_')[0] == 'taller-carto' ||
 					layer.split('_')[0] == 'pedido'
                 ){
-
                     const data =
                         await getGeoserverLayer(workspace, layer);
 
@@ -528,6 +527,9 @@ async function getGeoserverLayer(workspace, layer) {
 										tipoIcon = 'edDigital'
 										break;
 								}
+							break;
+						case 'pedido':
+								tipoIcon = 'pedido'
 							break;
 						default:
 							switch (subTipoCapa) {
@@ -842,6 +844,20 @@ function popup_oficinas (feature, layer) {
 		"<tr><td><b>Telefono:</b> "+ (feature.properties.telefono?feature.properties.telefono:"No se registra") + "</td></tr>" +
 		"<tr><td><b>Correo:</b> "+ (feature.properties.correo?feature.properties.correo:"No se registra") + "</td></tr>" +
 		"<tr><td><b>Web:</b> "+ (feature.properties.web?feature.properties.web:"No se registra") + "</td></tr>" +
+		"</table>" +
+		"</div>", {minWidth: 270, maxWidth: 270}
+		);
+}
+
+function popup_pedido (feature, layer) {
+	layer.bindPopup(	
+		"<div class='p-3'>"+
+	 	"<table>"+
+		"<tr><td><b>Nombre:</b> "+ (feature.properties.nombre_geo?feature.properties.nombre_geo:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Tipo de asentamiento:</b> "+ (feature.properties.tipo_asent?feature.properties.tipo_asent:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Departamento:</b> "+ (feature.properties.nombre_dep?feature.properties.nombre_dep:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Actividad:</b> "+ (feature.properties.actividade?feature.properties.actividade:"No se registra") + "</td></tr>" +
+		"<tr><td><b>Informacion adicional:</b> "+ (feature.properties.info?feature.properties.info:"No se registra") + "</td></tr>" +
 		"</table>" +
 		"</div>", {minWidth: 270, maxWidth: 270}
 		);
@@ -1215,6 +1231,11 @@ function createLayer(data, tipo, nivel) {
 					})
 				}
 			});
+
+			if (feature.geometry.type === "MultiPoint") {
+				popup_pedido(feature, marker);
+			}
+
 			cluster.addLayer(marker);
 			return marker;
 		},
