@@ -409,7 +409,8 @@ async function getGeoserverDatastoreLayers(workspace, datastore){
                     layer.split('_')[0] == 'establec' ||
                     layer.split('_')[0] == 'bibliotecas' ||
                     layer.split('_')[0] == 'ed-digital' ||
-                    layer.split('_')[0] == 'taller-carto'
+                    layer.split('_')[0] == 'taller-carto' ||
+					layer.split('_')[0] == 'pedido'
                 ){
 
                     const data =
@@ -2877,7 +2878,7 @@ function adaptarSidebar() {
 	const cartografiaBtn = document.getElementById("cartografiaBtn");
 	const menuContainter = document.getElementById("headerBtn");
 	const regDepBtn = document.getElementsByClassName("leaflet-top leaflet-right")[0];
-	console.log(menuContainter);
+	
 
     if (mediaMovil.matches) {
         // 📱 Móvil: iniciar cerrado
