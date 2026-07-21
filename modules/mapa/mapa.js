@@ -2589,6 +2589,7 @@ function renderSidebarDesdeConfig(layersConfig) {
 			} else if (edDigitalCapas.includes(item.label)) {
 				subTemaEdDigital.push(item);
 			} else if (subEstablec.includes(item.label)) {
+				console.log(item)
 				subTemaEstablec.push(item);
 			} else if (subPedidos.includes(item.label)) {
 				subTemaPedidos.push(item);
@@ -2643,7 +2644,6 @@ function renderSidebarDesdeConfig(layersConfig) {
 				<label>
 					<input type="checkbox" data-layer="${layerId}" ${item.inactive ? "" : "checked"}>
 					${item.label}
-					<img src="${item.url}" alt="${item.label}" class="sidebar-layer-icon">
 				</label><br>
 				<span class="info-btn" data-info="${item.label}">ℹ️</span>
 			`;
@@ -2670,7 +2670,6 @@ function renderSidebarDesdeConfig(layersConfig) {
 				<label>
 					<input type="checkbox" data-layer="${layerId}" ${item.inactive ? "" : "checked"}>
 					${item.label}
-					<img src="${item.url}" alt="${item.label}" class="sidebar-layer-icon">
 				</label><br>
 				<span class="info-btn" data-info="${item.label}">ℹ️</span>
 			`;
@@ -2697,7 +2696,6 @@ function renderSidebarDesdeConfig(layersConfig) {
 				<label>
 					<input type="checkbox" data-layer="${layerId}" ${item.inactive ? "" : "checked"}>
 					${item.label}
-					<img src="${item.url}" alt="${item.label}" class="sidebar-layer-icon">
 				</label><br>
 				<span class="info-btn" data-info="${item.label}">ℹ️</span>
 			`;
