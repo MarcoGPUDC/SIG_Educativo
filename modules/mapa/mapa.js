@@ -2543,21 +2543,57 @@ function renderSidebarDesdeConfig(layersConfig) {
     div.className = "grupo";
 
     div.dataset.group = tipo;
-
+	
     let normales = items;
     let supervisiones = [];
     let otras = [];
 	let limites = [];
-
+	let tematicos = [];
+	var subTemaEdDigital = [];
+	let edDigitalCapas = [
+		"Adm",
+		"Hacemos-futuro",
+		"Netbooks",
+		"Robotica",
+		"Salas-tecnologia",
+		"Starlink"
+	];
+	var subTemaEstablec = [];
+	let subEstablec = [
+		"Bibliotecas-populares-trelew",
+		"Anexos",
+		"Estatal",
+		"Privada",
+		"Rural-aglomerado",
+		"Rural-disperso",
+		"Rural",
+		"Sedes",
+		"Socialcooperativa",
+		"Uem",
+		"Urbano",
+		"Cooperadoras"
+	]
+	var subTemaPedidos = [];
+	let subPedidos = [
+		"Localidades-produccion",
+		"CSAyC"
+	];
 	//Para aquellas capas que son de tipo organización, hacemos una clasificación adicional para separar supervisiones y oficinas externas del resto de las capas organizativas
-	if (tipo === "organizacion" || tipo === "general") {
+	if (tipo === "organizacion" || tipo === "general" || tipo === "tema") {
 		normales = [];
 		items.forEach(item => {
 			if (item.label.toLowerCase().includes("supervis")) {
 				supervisiones.push(item);
 			} else if (item.label.toLowerCase().includes("designacion") || item.label.toLowerCase().includes("junta") || item.label.toLowerCase().includes("otras")) {
 				otras.push(item);
-			}  else {
+			} else if (edDigitalCapas.includes(item.label)) {
+				subTemaEdDigital.push(item);
+			} else if (subEstablec.includes(item.label)) {
+				subTemaEstablec.push(item);
+			} else if (subPedidos.includes(item.label)) {
+				subTemaPedidos.push(item);
+			} 
+			else {
 				normales.push(item);
 			}
 		});
@@ -2588,6 +2624,87 @@ function renderSidebarDesdeConfig(layersConfig) {
 			<span class="info-btn" data-info="${item.label}">ℹ️</span>
 		`;
 	});
+
+	 // Subgrupo educación digital
+	if (subTemaEdDigital.length) {
+		html += `
+			<div class="subgrupo collapsed">
+				<div class="subgroup-header">
+					<span class="toggle-icon">▸</span>
+					💻 Educación Digital
+				</div>
+			<span class="info-header-btn" data-info="Educación Digital">❓</span>
+			<div class="subgroup-content">
+		`;
+		subTemaEdDigital.forEach(item => {
+			const layerId = generarId(item.label);
+			layersRegistry[layerId] = item.layers;
+			html += `
+				<label>
+					<input type="checkbox" data-layer="${layerId}" ${item.inactive ? "" : "checked"}>
+					${item.label}
+					<img src="${item.url}" alt="${item.label}" class="sidebar-layer-icon">
+				</label><br>
+				<span class="info-btn" data-info="${item.label}">ℹ️</span>
+			`;
+			
+		});
+		html += `</div></div>`;
+	}
+
+	 //subgrupo Establecimientos
+	if (subTemaEstablec.length) {
+		html += `
+			<div class="subgrupo collapsed">
+				<div class="subgroup-header">
+					<span class="toggle-icon">▸</span>
+					🏠 Establecimientos
+				</div>
+			<span class="info-header-btn" data-info="Establecimientos">❓</span>
+			<div class="subgroup-content">
+		`;
+		subTemaEstablec.forEach(item => {
+			const layerId = generarId(item.label);
+			layersRegistry[layerId] = item.layers;
+			html += `
+				<label>
+					<input type="checkbox" data-layer="${layerId}" ${item.inactive ? "" : "checked"}>
+					${item.label}
+					<img src="${item.url}" alt="${item.label}" class="sidebar-layer-icon">
+				</label><br>
+				<span class="info-btn" data-info="${item.label}">ℹ️</span>
+			`;
+			
+		});
+		html += `</div></div>`;
+	}
+
+	 //subgrupo Pedidos
+	if (subTemaPedidos.length) {
+		html += `
+			<div class="subgrupo collapsed">
+				<div class="subgroup-header">
+					<span class="toggle-icon">▸</span>
+					📨 Pedidos
+				</div>
+			<span class="info-header-btn" data-info="Pedidos">❓</span>
+			<div class="subgroup-content">
+		`;
+		subTemaPedidos.forEach(item => {
+			const layerId = generarId(item.label);
+			layersRegistry[layerId] = item.layers;
+			html += `
+				<label>
+					<input type="checkbox" data-layer="${layerId}" ${item.inactive ? "" : "checked"}>
+					${item.label}
+					<img src="${item.url}" alt="${item.label}" class="sidebar-layer-icon">
+				</label><br>
+				<span class="info-btn" data-info="${item.label}">ℹ️</span>
+			`;
+			
+		});
+		html += `</div></div>`;
+	}
 
 	 // 🔹 subgrupo Supervisiones
     if (supervisiones.length) {
