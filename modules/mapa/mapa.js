@@ -2589,7 +2589,6 @@ function renderSidebarDesdeConfig(layersConfig) {
 			} else if (edDigitalCapas.includes(item.label)) {
 				subTemaEdDigital.push(item);
 			} else if (subEstablec.includes(item.label)) {
-				console.log(item)
 				subTemaEstablec.push(item);
 			} else if (subPedidos.includes(item.label)) {
 				subTemaPedidos.push(item);
