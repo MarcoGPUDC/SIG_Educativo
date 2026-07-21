@@ -577,7 +577,7 @@ async function completarDatosInstitucion() {
             'internetinfoadicional',
             data?.internet == 'SI',
             './icons/internet.svg',
-            './icons/internetNo.svg',
+            './icons/internetNo.png',
             'Internet',
             `Fuente: ${data.fuente_internet !== 'Sin info' ? data?.fuente_internet + " - " + data?.ISP : data?.ISP || data.fuente_internet}`
         );
