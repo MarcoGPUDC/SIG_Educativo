@@ -698,7 +698,7 @@ body.body-info-institucion{
   font-size: 14px;
 }
 
-.info-btn{
+.info-btn, .download-btn {
     position: relative;
     float: inline-end;
     bottom: 45px;

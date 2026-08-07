@@ -2622,6 +2622,7 @@ function renderSidebarDesdeConfig(layersConfig) {
 			${item.layers_type === "tema" ? "" : item.layers_type === "carto" ? "" : item.layers_type === "general"? "" : item.layers_type === "otro"? "" : `<img src="${item.url}" alt="${item.label}" class="sidebar-layer-icon">`}
 			</label><br>
 			<span class="info-btn" data-info="${item.label}">ℹ️</span>
+			<span class="download-btn" onclick="downloadAsExcel('${item.label}')">⬇️</span>
 		`;
 	});
 
@@ -3111,9 +3112,9 @@ async function initMap() {
 	const layers = buildLayersRegistry(config);
 
 	initSidebarEvents(layers);
-
 	applyInitialState(layers);
 }
+
 
 //agrega apartado consultas
 function ensureConsultaGroup() {
@@ -4037,7 +4038,7 @@ async function downloadAsExcel(namelayer){
 	var datosObj = [];
 	var tipo;
 	var capa;
-	legend.options.legends.forEach(data => {
+	layersConfig.forEach(data => {
 		if (data.label == namelayer){
 			tipo = data.layers_type;
 			capa = data;
