@@ -513,7 +513,7 @@ async function completarDatosInstitucion() {
 
             el.innerHTML += condition
                 ? `<img src="${iconOk}" title="${titleOk}"> ${extra}`
-                : `<img src="${iconNo}">`;
+                : `<img src="${iconNo}" title="${titleOk}">`;
         }
 
         setInfraIcon(

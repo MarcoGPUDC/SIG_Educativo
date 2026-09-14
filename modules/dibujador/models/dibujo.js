@@ -1,7 +1,7 @@
 // =========================
 // 🗺️ MAPA BASE
 // =========================
-var osmUrl ='https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png';
+var osmUrl ='https://api.maptiler.com/maps/01a09146-b0bd-7483-aedd-4a6fef4c7333/style.json?key=wmatp1q0zJOcL0rciQAY';
 var osmAttrib ='Map data © OpenStreetMap contributors';
 
 var map = L.map('map', {
