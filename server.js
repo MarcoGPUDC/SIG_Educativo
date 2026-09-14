@@ -226,16 +226,39 @@ app.get('/proxyimg', async (req, res) => {
     // Parsear URL
     const parsed = new URL(url);
 
-    const host = parsed.hostname;
+    // Validar protocolo
+    if (
+      parsed.protocol !== 'https:'
+      && parsed.protocol !== 'http:'
+    ) {
+      return res.status(403).send(
+        'Protocolo no permitido'
+      );
+    }
 
-    // Validar host
+    const host = parsed.hostname.toLowerCase();
+
+    // Validar host (exacto o subdominio real)
     const isAllowed = allowedHosts.some(
-      allowed => host.endsWith(allowed)
+      allowed =>
+        host === allowed
+        || host.endsWith(`.${allowed}`)
     );
 
     if (!isAllowed) {
       return res.status(403).send(
         'URL no permitida'
+      );
+    }
+
+    // Validar puerto
+    if (
+      parsed.port
+      && parsed.port !== '80'
+      && parsed.port !== '443'
+    ) {
+      return res.status(403).send(
+        'Puerto no permitido'
       );
     }
 
@@ -247,21 +270,22 @@ app.get('/proxyimg', async (req, res) => {
     const fileId =
       parsed.searchParams.get('id');
 
-    // URL final
-    let finalUrl = url;
+    // URL final controlada por el servidor
+    let finalUrl = parsed.toString();
 
     // Convertir URLs /uc?export=view
     // a thumbnail directa
     if (fileId) {
 
       finalUrl =
-        `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
+        `https://drive.google.com/thumbnail?id=${encodeURIComponent(fileId)}&sz=w1000`;
     }
 
     console.log('Proxy IMG:', finalUrl);
 
     // Descargar imagen
     const response = await fetch(finalUrl, {
+      redirect: 'error',
       headers: {
         'User-Agent': 'Mozilla/5.0'
       }
