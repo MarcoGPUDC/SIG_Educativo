@@ -404,7 +404,6 @@ async function getGeoserverDatastoreLayers(workspace, datastore){
         case 'temáticos':
 
             for (const layer of data){
-
                 if (
                     layer.split('_')[0] == 'establec' ||
                     layer.split('_')[0] == 'bibliotecas' ||
@@ -423,11 +422,21 @@ async function getGeoserverDatastoreLayers(workspace, datastore){
             }
 
             break;
+		
+		case 'modalidad':
+			for (const layer of data){
+                if (layer.split('_')[1] == 'cfp'){
+					const data =
+						await getGeoserverLayer(workspace, layer);
+
+					todosLayersTematicos.push([data, layer.split('_')[1]]);
+				}
+            }
+		break
 
         case 'otros':
 
             for (const layer of data){
-
                 const data =
                     await getGeoserverLayer(workspace, layer);
 
@@ -2206,6 +2215,7 @@ async function generarTodosLayers(layerParam, escParam) {
 		})
 
 		todosLayersTematicos.forEach(tematico => {
+			console.log(tematico)
 			if (tematico[1]== layerParam) {	
 				inactivo = false
 			} else {
@@ -2571,7 +2581,8 @@ function renderSidebarDesdeConfig(layersConfig) {
 		"Socialcooperativa",
 		"Uem",
 		"Urbano",
-		"Cooperadoras"
+		"Cooperadoras",
+		"Cfp"
 	]
 	var subTemaPedidos = [];
 	let subPedidos = [
@@ -2669,7 +2680,7 @@ function renderSidebarDesdeConfig(layersConfig) {
 			html += `
 				<label>
 					<input type="checkbox" data-layer="${layerId}" ${item.inactive ? "" : "checked"}>
-					${item.label}
+					${item.label.length < 4 ? item.label.toUpperCase() : item.label}
 				</label><br>
 				<span class="info-btn" data-info="${item.label}">ℹ️</span>
 			`;
@@ -3490,7 +3501,8 @@ async function cargarBotonesMapa() {
 async function obtenerCapasGeoserver() {
     await Promise.allSettled([
         getGeoserverDatastoreLayers('sigeducativo','temáticos'),
-        getGeoserverDatastoreLayers('sigeducativo','otros')
+		getGeoserverDatastoreLayers('sigeducativo','modalidad'),
+        getGeoserverDatastoreLayers('sigeducativo','otros'),
     ]);
 	
 }
