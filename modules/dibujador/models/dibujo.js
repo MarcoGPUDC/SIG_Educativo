@@ -1,13 +1,25 @@
 // =========================
 // 🗺️ MAPA BASE
 // =========================
-var osmUrl ='https://api.maptiler.com/maps/01a09146-b0bd-7483-aedd-4a6fef4c7333/style.json?key=wmatp1q0zJOcL0rciQAY';
-var osmAttrib ='Map data © OpenStreetMap contributors';
-
+const apiKey = 'wmatp1q0zJOcL0rciQAY';
+    
+// Inicializar mapa (centrado en coordenadas lat, lng y nivel de zoom)
 var map = L.map('map', {
   markerZoomAnimation: false,
   pmIgnore: false
 }).setView([-44.0, -68.41215], 7);
+
+map.invalidateSize();
+
+// Cargar capa base raster de MapTiler (ejemplo: estilo 'streets-v2')
+L.tileLayer(`https://api.maptiler.com/maps/01a09146-b0bd-7483-aedd-4a6fef4c7333/?key=${apiKey}#5.7/-43.83233/-68.58584`, {
+  tileSize: 512,
+  zoomOffset: -1,
+  minZoom: 1,
+  attribution: '\x3ca href="https://www.maptiler.com/copyright/" target="_blank"\x3e\x26copy; MapTiler\x3c/a\x3e \x3ca href="https://www.openstreetmap.org/copyright" target="_blank"\x3e\x26copy; OpenStreetMap contributors\x3c/a\x3e',
+  crossOrigin: true
+}).addTo(map);
+
 
 map.pm.setLang('es');
 
@@ -18,13 +30,6 @@ map.pm.setGlobalOptions({
     opacity: 0 // hace invisible el default
   }
 });
-
-L.tileLayer(osmUrl, {
-  minZoom: 6,
-  maxZoom: 19,
-  opacity: 1,
-  attribution: osmAttrib
-}).addTo(map);
 
 // 🔥 autosave SIEMPRE activo
 map.on('pm:create pm:edit pm:remove', () => {

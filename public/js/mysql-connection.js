@@ -1,11 +1,11 @@
 const mysql = require ('mysql2');
-
+require('dotenv').config();
 
 const conexion = mysql.createPool ({
-    host: '172.16.0.15',
-    user: 'sigeducativo',
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
     //user: 'marco',
-    password: 'sigadmin',
+    password: process.env.MYSQL_PASSWORD,
     database: 'ddjj_production',
     port: 3306,
     waitForConnections: true,
